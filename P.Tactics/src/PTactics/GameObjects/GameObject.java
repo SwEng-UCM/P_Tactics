@@ -29,4 +29,5 @@ public abstract class GameObject {
 	{
 		return this.pos;
 	}
+	public abstract void Update();
 }

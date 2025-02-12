@@ -41,4 +41,8 @@ public class Troop extends GameObject{
 			}
 		}
 	}
+	@Override
+	public void Update() {
+		
+	}
 }
