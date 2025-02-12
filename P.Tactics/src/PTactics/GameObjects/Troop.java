@@ -14,6 +14,7 @@ public class Troop extends GameObject{
 	    super(pos);
 	    this.MoveQueue = new ArrayList<>();  // Initialize the lists
         this.CurrentMove = new ArrayList<>();
+        this.solid=false;
 	}
 	public void AddToMove(Position pos) 
 	{
