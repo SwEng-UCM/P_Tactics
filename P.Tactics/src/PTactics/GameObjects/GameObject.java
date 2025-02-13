@@ -15,19 +15,19 @@ public abstract class GameObject {
 		this.pos = setter;
 	}
 
-	public void Disable() {
+	public void disable() {
 		this.enabled = false;
 	}
 
-	public void Enable() {
+	public void enable() {
 		this.enabled = true;
 	}
 
-	public boolean GetCheckStatus() {
+	public boolean getCheckStatus() {
 		return enabled;
 	}
 
-	public Position GetPos() {
+	public Position getPos() {
 		return this.pos;
 	}
 
@@ -35,5 +35,5 @@ public abstract class GameObject {
 		return this.solid;
 	}
 
-	public abstract void Update();
+	public abstract void update();
 }

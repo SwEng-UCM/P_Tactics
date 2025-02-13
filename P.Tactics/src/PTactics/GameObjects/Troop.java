@@ -6,6 +6,7 @@ import java.util.List;
 import PTactics.Utils.Position;
 
 public class Troop extends GameObject{
+	private String icon = "🪖";
 	List<Position> MoveQueue;
 	List<Position> CurrentMove;
 	
@@ -44,7 +45,11 @@ public class Troop extends GameObject{
 	}
 	
 	@Override
-	public void Update() {
+	public String toString() {
+		return "▲";
+	}
+	@Override
+	public void update() {
 		
 	}
 }

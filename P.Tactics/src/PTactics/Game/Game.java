@@ -47,4 +47,11 @@ public class Game {
 	void eraseGameObject(Position pos) {
 		_GameObjectList[pos.getY()][pos.getX()] = null;
 	}
+	
+	// TODO: why are we doing this??? why are we using a position class on a 2d array?
+	// refactoring without position might prove useful in the long run
+	public String positionToString(Position pos) {		
+		if (_GameObjectList[pos.getX()][pos.getY()] == null) return " ";
+		return _GameObjectList[pos.getX()][pos.getY()].toString();
+	}
 }

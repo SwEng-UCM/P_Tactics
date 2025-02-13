@@ -14,4 +14,12 @@ public class StringUtils {
 		
 		return rs;
 	}
+	
+	public static String leftPad(int number, int space) {
+		String rs = String.valueOf(number);
+		while (rs.length() < space) {
+			rs = " " + rs;
+		}
+		return rs;
+	}
 }

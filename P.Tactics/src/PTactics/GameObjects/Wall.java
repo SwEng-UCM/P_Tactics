@@ -10,7 +10,7 @@ public class Wall extends GameObject  {
 	}
 
 	@Override
-	public void Update() {
+	public void update() {
 		
 	}
 

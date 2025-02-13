@@ -1,20 +1,35 @@
 package PTactics.View;
 
 import PTactics.Game.Game;
+import PTactics.GameObjects.Troop;
+import PTactics.Utils.Position;
 import PTactics.Utils.StringUtils;
 
 public class GameView {
 	private final String _SPACE = " ";
-	private final String _UPPER_COORD = " %s ";
+	private final String _CELL_SIZED_VALUE = " %s "; //TODO: make it change with the _CELL_SIZE attribute
 	private final String _VERTICAL_LINE = "┃";
 	private final String _HORIZONTAL_LINE = "━";
+	private static final String UPPER_LEFT_CORNER = "┌";
+	private static final String UPPER_RIGHT_CORNER = "┐";
+	private static final String LOWER_LEFT_CORNER = "└";
+	private static final String LOWER_RIGHT_CORNER = "┘";
 	private final int _CELL_SIZE = 3;
 	private final int _INITIAL_SPACE = 3;
 	
-	private Game game;
+	
+	private Game _game;
 	
 	public GameView() {
-		game = new Game(30, 30);
+		_game = new Game(30, 30);
+	}
+	
+	public GameView(Game game) {
+		_game = game;
+	}
+	
+	public GameView(int width, int length) {
+		_game = new Game(width, length);
 	}
 	
 	private void newLine() {
@@ -22,16 +37,43 @@ public class GameView {
 	}
 	private void showTop() {
 		
-		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE));
-		for (int i = 0; i < game.getWidth(); i++) {
-			System.out.print(_UPPER_COORD.formatted(i + 1));
+		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE + 1));
+		if (_game.getWidth() >= 10) {
+			for (int i = 0; i < _game.getWidth(); i++) {
+				if (((i + 1) / 10) != 0) System.out.print(_CELL_SIZED_VALUE.formatted(((i + 1) / 10)));
+				else System.out.print(StringUtils.repeat(_SPACE, _CELL_SIZE));
+			}
 		}
 		newLine();
-		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + StringUtils.repeat(_HORIZONTAL_LINE, game.getWidth() * _CELL_SIZE));
+		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE + 1));
+		for (int i = 0; i < _game.getWidth(); i++) {
+			System.out.print(_CELL_SIZED_VALUE.formatted((i + 1) % 10));
+		}
+		newLine();
+		System.out.println(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + UPPER_LEFT_CORNER + 
+						 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + UPPER_RIGHT_CORNER);
+	}
+	
+	private void showMiddle() {
+		for (int i = 0; i < _game.getLength(); i++) {
+			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
+			for (int j = 0; j < _game.getWidth(); j++) {
+				Position pos = new Position(i, j);
+				System.out.print(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos)));
+			}
+			System.out.println(_VERTICAL_LINE);
+		}
 	}
 	
 	public void showGame() {
-		//game.posToString();
+		showTop();
+		showMiddle();
+		showBottom();	
+	}
+	
+	private void showBottom() {
+		System.out.println(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + LOWER_LEFT_CORNER + 
+				 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + LOWER_RIGHT_CORNER);
 	}
 	
 	public void showEndMessage() {
@@ -48,7 +90,10 @@ public class GameView {
 	}
 	
 	public static void main(String[] args) {
-		GameView view = new GameView();
-		view.showTop();
+		Game game = new Game(100, 100);
+		Troop troop = new Troop(new Position(2, 2));
+		game.addNewElement(troop, troop.getPos());
+		GameView view = new GameView(game);
+		view.showGame();
 	}
 }
