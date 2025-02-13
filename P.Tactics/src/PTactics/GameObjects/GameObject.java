@@ -6,33 +6,34 @@ public abstract class GameObject {
 	protected Position pos;
 	protected boolean enabled;
 	protected boolean solid;
-	public GameObject(Position pos) 
-	{
-		this.pos=pos;
+
+	public GameObject(Position pos) {
+		this.pos = pos;
 	}
-	public void setPosition(Position setter) 
-	{
-		this.pos=setter;
+
+	public void setPosition(Position setter) {
+		this.pos = setter;
 	}
-	public void Disable() 
-	{
-		this.enabled=false;
+
+	public void Disable() {
+		this.enabled = false;
 	}
-	public void Enable() 
-	{
-		this.enabled=true;
+
+	public void Enable() {
+		this.enabled = true;
 	}
-	public boolean GetCheckStatus() 
-	{
+
+	public boolean GetCheckStatus() {
 		return enabled;
 	}
-	public Position GetPos() 
-	{
+
+	public Position GetPos() {
 		return this.pos;
 	}
-	public boolean isSolid() 
-	{
+
+	public boolean isSolid() {
 		return this.solid;
 	}
+
 	public abstract void Update();
 }

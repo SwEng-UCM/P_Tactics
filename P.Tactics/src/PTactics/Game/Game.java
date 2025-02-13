@@ -14,7 +14,7 @@ public class Game {
 	private final int _boardWidth;				//This is the second value (x)
 	private GameObject[][] _GameObjectList;		
 	
-	Game(int lenght, int width){
+	public Game(int lenght, int width){
 		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
 		this._boardLength = lenght;
@@ -35,7 +35,7 @@ public class Game {
 		return this._boardWidth;
 	}
 	
-	public void addNewElement(GameObject g, Position pos) {
+	public void addNewElement(GameObject g, Position pos) {//la posicion tiene que venir adaptada de la vista humana a la vista maquina
 		if(Objects.isNull(g)) throw new IllegalArgumentException("A null object cannot be added to game.");
 		_GameObjectList[pos.getY()][pos.getX()] = g;
 	}
