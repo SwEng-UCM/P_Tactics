@@ -34,5 +34,8 @@ public abstract class GameObject {
 	{
 		return this.solid;
 	}
+	public void die() {
+		
+	}
 	public abstract void Update();
 }
