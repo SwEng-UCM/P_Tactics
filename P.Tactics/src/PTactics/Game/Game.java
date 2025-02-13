@@ -10,9 +10,9 @@ import PTactics.GameObjects.GameObject;
 import PTactics.Utils.Position;
 
 public class Game {
-	private int _boardLength; 	//This is the first value (y)
-	private int _boardWidth;	//This is the second value (x)
-	private GameObject[][] _GameObjectList;
+	private final int _boardLength; 			//This is the first value (y)
+	private final int _boardWidth;				//This is the second value (x)
+	private GameObject[][] _GameObjectList;		
 	
 	Game(int lenght, int width){
 		//TODO: Change exception to our own made exceptions.

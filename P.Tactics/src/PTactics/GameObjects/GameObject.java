@@ -10,7 +10,7 @@ public abstract class GameObject {
 	{
 		this.pos=pos;
 	}
-	public void  setPosition(Position setter) 
+	public void setPosition(Position setter) 
 	{
 		this.pos=setter;
 	}
@@ -33,9 +33,6 @@ public abstract class GameObject {
 	public boolean isSolid() 
 	{
 		return this.solid;
-	}
-	public void die() {
-		
 	}
 	public abstract void Update();
 }
