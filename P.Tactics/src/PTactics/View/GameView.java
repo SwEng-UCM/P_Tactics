@@ -90,7 +90,7 @@ public class GameView {
 	}
 	
 	public static void main(String[] args) {
-		Game game = new Game(100, 100);
+		Game game = new Game(10, 10);
 		Troop troop = new Troop(new Position(2, 2));
 		game.addNewElement(troop, troop.getPos());
 		GameView view = new GameView(game);

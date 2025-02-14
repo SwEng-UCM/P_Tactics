@@ -3,12 +3,14 @@ package PTactics.GameObjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
+import PTactics.Utils.Utils;
 
 public class Troop extends GameObject{
-	private String icon = "🪖";
 	List<Position> MoveQueue;
 	List<Position> CurrentMove;
+	private Direction _dir;
 	
 	public Troop (Position pos) 
 	{
@@ -16,6 +18,7 @@ public class Troop extends GameObject{
 	    this.MoveQueue = new ArrayList<>();  // Initialize the lists
         this.CurrentMove = new ArrayList<>();
         this.solid=false;
+        this._dir = null;
 	}
 	public void AddToMove(Position pos) 
 	{
@@ -46,8 +49,22 @@ public class Troop extends GameObject{
 	
 	@Override
 	public String toString() {
-		return "▲";
+		if(_dir == Direction.UP) {
+			return Utils.TroopUtils.TROOP_FACING_UP;
+		}
+		else if(_dir == Direction.DOWN) {
+			return Utils.TroopUtils.TROOP_FACING_DOWN;
+		}
+		else if(_dir == Direction.LEFT) {
+			return Utils.TroopUtils.TROOP_FACING_LEFT;
+		}
+		else if(_dir == Direction.RIGHT) {
+			return Utils.TroopUtils.TROOP_FACING_RIGHT;
+		}
+		
+		return Utils.TroopUtils.TROOP_ICON;
 	}
+	
 	@Override
 	public void update() {
 		

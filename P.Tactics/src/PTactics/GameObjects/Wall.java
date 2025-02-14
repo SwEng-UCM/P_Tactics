@@ -1,6 +1,7 @@
 package PTactics.GameObjects;
 
 import PTactics.Utils.Position;
+import PTactics.Utils.Utils;
 
 public class Wall extends GameObject  {
 
@@ -12,6 +13,11 @@ public class Wall extends GameObject  {
 	@Override
 	public void update() {
 		
+	}
+	
+	@Override
+	public String toString() {
+		return Utils.WallUtils.WALL_ICON;
 	}
 
 }
