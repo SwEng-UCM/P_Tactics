@@ -52,4 +52,12 @@ public class Game {
 		if (_GameObjectList[pos.getX()][pos.getY()] == null) return " ";
 		return _GameObjectList[pos.getX()][pos.getY()].toString();
 	}
+	
+	public void update() {
+		for (int i = 0; i < _boardLength; i++) {
+			for (int j = 0; j < _boardWidth; j++) {
+				if (_GameObjectList[i][j] != null) _GameObjectList[i][j].update();
+			}
+		}
+	}
 }

@@ -65,7 +65,7 @@ public class Troop extends GameObject{
 		return Utils.TroopUtils.TROOP_ICON;
 	}
 	
-	@Override
+	@Override // TODO: i need this // the move to be boolean and return true if there are moves left in the queue so I can paint it step by step
 	public void update() {
 		
 	}
