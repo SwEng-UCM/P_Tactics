@@ -58,7 +58,7 @@ public class GameView {
 	private void showMiddle(Player p) {
 		for (int i = 0; i < _game.getLength(); i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
-				_game.toString(p);
+			System.out.print(_game.toString(p));
 			System.out.println(_VERTICAL_LINE);
 		}
 	}
