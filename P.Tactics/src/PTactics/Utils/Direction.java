@@ -1,7 +1,7 @@
 package PTactics.Utils;
 
 public enum Direction {
-	UP, DOWN, LEFT, RIGHT;
+	UP, DOWN, LEFT, RIGHT, NONE;
 	
 	@Override
 	public String toString() {
@@ -14,7 +14,9 @@ public enum Direction {
 		else if(this == Direction.LEFT) {
 			return "LEFT";
 		}
-		
+		else if(this == Direction.NONE) {
+			return "NONE";
+		}
 		return "RIGHT";
 	}
 }
