@@ -1,6 +1,7 @@
 package PTactics.View;
 
 import PTactics.Game.Game;
+import PTactics.Game.Player;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.StringUtils;
@@ -54,20 +55,17 @@ public class GameView {
 						 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + UPPER_RIGHT_CORNER);
 	}
 	
-	private void showMiddle() {
+	private void showMiddle(Player p) {
 		for (int i = 0; i < _game.getLength(); i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
-			for (int j = 0; j < _game.getWidth(); j++) {
-				Position pos = new Position(i, j);
-				System.out.print(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos)));
-			}
+				_game.toString(p);
 			System.out.println(_VERTICAL_LINE);
 		}
 	}
 	
-	public void showGame() {
+	public void showGame(Player p) {
 		showTop();
-		showMiddle();
+		showMiddle(p);
 		showBottom();	
 	}
 	
@@ -94,6 +92,6 @@ public class GameView {
 		Troop troop = new Troop(new Position(2, 2));
 		game.addNewElement(troop, troop.getPos());
 		GameView view = new GameView(game);
-		view.showGame();
+		//view.showGame(p);
 	}
 }

@@ -46,12 +46,20 @@ public class Game {
 		board.erraseFromPos(pos);
 	}
 
-	// TODO: pensar como hacer esto 
-/*	public String positionToString(Position pos) {		
-		if (_GameObjectList[pos.getX()][pos.getY()] == null) return " ";
-		return _GameObjectList[pos.getX()][pos.getY()].toString();
+
+	public String toString(Player p) {	
+		for(int i = 0; i < _boardLength; i++) {
+			for(int j = 0; j < _boardWidth; j++) {
+				if(p.isVisible(i, j)); // tenemos que pasar de un x, y a una position que nos sirva para localizar un objeto en el board
+									   // opcion 1: funciona poniendo una new position (lo dudo) o tenemos que cambiarlo para queel mapa pueda pero es fácil
+				   					   // opcion 2: hacer una clase PosContainer que contenga un mapa con strings del tipo x_y mapeados a todas las pos del juego(mi solución)
+									   // opción 3: no usamos una clase position para Board (refactor)
+				else ;
+			}
+		}
+		return null;
 	}
-	*/
+	
 	public void update() {
 		board.update();
 	}
