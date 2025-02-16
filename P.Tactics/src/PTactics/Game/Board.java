@@ -8,8 +8,15 @@ import PTactics.GameObjects.GameObject;
 import PTactics.Utils.Position;
 
 public class Board extends LinkedHashMap <Position,GameObject>implements BoardInterface {
-
-
+	int size;
+	
+	public Board() {
+		// perhaps create an init consrtuctor to add the walls and troops 
+	}
+	
+	public void addObj(Position p, GameObject o) {
+		this.put(p, o);
+	}
 	
 	public Position getPosition(GameObject o) {
 		Set <Position> sAux = this.keySet();
@@ -26,8 +33,29 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 	}
 
 	@Override
-	public GameObject whatInPos(Position p) {	
+	public GameObject getGameObject(Position p) {
 		return this.get(p);
 	}
+	
+	public boolean isSolid(Position p) {
+		return this.get(p).isSolid();
+	}
 
+	@Override
+	public void erraseFromPos(Position p) throws IllegalArgumentException {
+		if(!this.containsKey(p)) throw new IllegalArgumentException("Position not found in board");
+		this.remove(p);
+	}
+
+	@Override
+	public void erraseFromGO(GameObject o) {
+		if(!this.containsValue(o)) throw new IllegalArgumentException("Object not found in board");
+		this.remove(this.getPosition(o));
+	}
+	public void update() {
+		Set <Position> sAux = this.keySet();
+		for(Position p: sAux) {
+			this.get(p).update();
+		}
+	}
 }

@@ -10,14 +10,14 @@ import PTactics.Utils.Position;
 public class Game {
 	private final int _boardLength; 			//This is the first value (y)
 	private final int _boardWidth;				//This is the second value (x)
-	private GameObject[][] _GameObjectList;		
+	private BoardInterface board;		
 	
 	public Game(int lenght, int width){
 		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
 		this._boardLength = lenght;
 		this._boardWidth = width;
-		this._GameObjectList = new GameObject[_boardLength][_boardWidth];
+		this.board = new Board(); // add walls here?
 	}
 	
 	//Just in case
@@ -35,29 +35,24 @@ public class Game {
 	
 	public void addNewElement(GameObject g, Position pos) {//la posicion tiene que venir adaptada de la vista humana a la vista maquina
 		if(Objects.isNull(g)) throw new IllegalArgumentException("A null object cannot be added to game.");
-		_GameObjectList[pos.getY()][pos.getX()] = g;
+		board.addObj(pos, g);
 	}
 	
 	GameObject getGameObject (Position pos) {
-		return this._GameObjectList[pos.getY()][pos.getX()];
+		return this.board.getGameObject(pos);
 	}
 	
 	void eraseGameObject(Position pos) {
-		_GameObjectList[pos.getY()][pos.getX()] = null;
+		board.erraseFromPos(pos);
 	}
-	
-	// TODO: why are we doing this??? why are we using a position class on a 2d array?
-	// refactoring without position might prove useful in the long run
-	public String positionToString(Position pos) {		
+
+	// TODO: pensar como hacer esto 
+/*	public String positionToString(Position pos) {		
 		if (_GameObjectList[pos.getX()][pos.getY()] == null) return " ";
 		return _GameObjectList[pos.getX()][pos.getY()].toString();
 	}
-	
+	*/
 	public void update() {
-		for (int i = 0; i < _boardLength; i++) {
-			for (int j = 0; j < _boardWidth; j++) {
-				if (_GameObjectList[i][j] != null) _GameObjectList[i][j].update();
-			}
-		}
+		board.update();
 	}
 }
