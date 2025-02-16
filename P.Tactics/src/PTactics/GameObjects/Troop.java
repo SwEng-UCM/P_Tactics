@@ -28,6 +28,7 @@ public class Troop extends GameObject{
 		moveQueue.add(pos);
 	}
 	// this is a weird way that you have to do this for the values of StepCount to be passed by reference
+	//RECURSIVEBACKTRACKING IMPLEMENTATATION for troop pathfinding below
 	private static class StepCount {
         int value;
     }
