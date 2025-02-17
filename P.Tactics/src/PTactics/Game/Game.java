@@ -1,5 +1,7 @@
 package PTactics.Game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -10,7 +12,8 @@ import PTactics.Utils.Position;
 public class Game {
 	private final int _boardLength; 			//This is the first value (y)
 	private final int _boardWidth;				//This is the second value (x)
-	private BoardInterface board;		
+	private BoardInterface board;
+	private List<Player> _players;
 	
 	public Game(int lenght, int width){
 		//TODO: Change exception to our own made exceptions.
@@ -18,6 +21,7 @@ public class Game {
 		this._boardLength = lenght;
 		this._boardWidth = width;
 		this.board = new Board(); // add walls here?
+		this._players = new ArrayList<>();
 	}
 	
 	//Just in case
@@ -60,6 +64,14 @@ public class Game {
 			s.concat("\n"); // may not work
 		}
 		return null;
+	}
+	
+	void addPlayer(Player p) {
+		this._players.add(p);
+	}
+	
+	Player getPlayer() {	//This should receive an index or smth.
+		return this._players.getFirst();
 	}
 	
 	public void update() {

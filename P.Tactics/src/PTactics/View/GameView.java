@@ -86,12 +86,4 @@ public class GameView {
 		//TODO: Format this message.
 		System.out.println(msg);
 	}
-	
-	public static void main(String[] args) {
-		Game game = new Game(10, 10);
-		Troop troop = new Troop(new Position(2, 2));
-		game.addNewElement(troop, troop.getPos());
-		GameView view = new GameView(game);
-		//view.showGame(p);
-	}
 }

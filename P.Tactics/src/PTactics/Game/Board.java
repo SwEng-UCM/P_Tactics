@@ -59,7 +59,7 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 		}
 	}
 	public String toString(Position p) {
-		String s = this.get(p).toString(); // or getIcon mabye?
-		return s == null? " " : s; // mabye centralize " " to messages?
+		if(this.containsKey(p)) return this.get(p).toString();
+		return " ";
 	}
 }
