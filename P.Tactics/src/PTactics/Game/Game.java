@@ -46,7 +46,6 @@ public class Game {
 		board.erraseFromPos(pos);
 	}
 
-
 	public String toString(Player p) {	
 		String s = "";
 		Position pos;
