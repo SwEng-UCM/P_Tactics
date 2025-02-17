@@ -32,6 +32,10 @@ public class Troop extends GameObject{
 	private static class StepCount {
         int value;
     }
+	private static class SolArray
+	{
+		List<Position> Sol = new ArrayList<>();
+	}
 	public void CalcNewMove(Position pos) {
 	    List<List<Integer>> Dirs = Arrays.asList(
 	        Arrays.asList(-1, 0),
@@ -40,27 +44,27 @@ public class Troop extends GameObject{
 	        Arrays.asList(0, 1)
 	    );
 
-	    List<Position> bestSol = new ArrayList<>();
-	    List<Position> curSol = new ArrayList<>();
+	    SolArray bestSol = new SolArray();
+	    SolArray curSol = new SolArray();
 	    Set<Position> marks = new HashSet<>();
 	    StepCount bestSolSteps = new StepCount();
 	    bestSolSteps.value = Integer.MAX_VALUE;
 
 	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, 0, bestSolSteps, this.pos);
-	    this.currentMove = bestSol;
+	    this.currentMove = bestSol.Sol;
 	}
 
-	private void _backTrackPathFinding(Position dest, List<Position> curSol,
-	                                   List<Position> bestSol, Set<Position> marks,
+	private void _backTrackPathFinding(Position dest, SolArray curSol,
+			                          SolArray  bestSol, Set<Position> marks,
 	                                   List<List<Integer>> Dirs, int curSolSteps,
 	                                   StepCount bestSolSteps, Position it) {
-	    curSol.add(it);
+	    curSol.Sol.add(it);
 	    marks.add(it);
 
 	    if (it.equals(dest)) {
 	        if (curSolSteps < bestSolSteps.value) {
-	            bestSol.clear();
-	            bestSol.addAll(curSol);
+	            bestSol.Sol.clear();
+	            bestSol.Sol.addAll(curSol);
 	            bestSolSteps.value = curSolSteps;
 	        }
 	    } else {
@@ -72,7 +76,7 @@ public class Troop extends GameObject{
 	        }
 	    }
 
-	    curSol.remove(curSol.size() - 1);
+	    curSol.Sol.remove(curSol.Sol.size() - 1);
 	    marks.remove(it);
 	}
 
