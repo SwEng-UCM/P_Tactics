@@ -38,17 +38,18 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 	}
 	
 	public boolean isSolid(Position p) {
-		return this.get(p).isSolid();
+		if (get(p) == null) return false;
+		return get(p).isSolid();
 	}
 
 	@Override
-	public void erraseFromPos(Position p) throws IllegalArgumentException {
+	public void eraseFromPos(Position p) throws IllegalArgumentException {
 		if(!this.containsKey(p)) throw new IllegalArgumentException("Position not found in board");
 		this.remove(p);
 	}
 
 	@Override
-	public void erraseFromGO(GameObject o) {
+	public void eraseFromGO(GameObject o) {
 		if(!this.containsValue(o)) throw new IllegalArgumentException("Object not found in board");
 		this.remove(this.getPosition(o));
 	}

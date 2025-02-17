@@ -9,8 +9,9 @@ public abstract class GameObject {
 	protected boolean solid;
 	protected BoardInterface BI;
 	protected String icon;
-	public GameObject(Position pos) {
+	public GameObject(Position pos, BoardInterface BI) {
 		this.pos = pos;
+		this.BI = BI;
 	}
 
 	public void setPosition(Position setter) {
@@ -40,5 +41,7 @@ public abstract class GameObject {
 	{
 		return icon;
 	}
+	
+	public void CalcNewMove(Position pos) {};
 	public abstract void update();
 }

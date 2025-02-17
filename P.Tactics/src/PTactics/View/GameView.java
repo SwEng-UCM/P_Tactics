@@ -47,7 +47,7 @@ public class GameView {
 		for (int i = 0; i < _game.getLength(); i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
 			for (int j = 0; j < _game.getWidth(); j++) {
-				Position pos = new Position(i, j);
+				Position pos = new Position(j, i);
 				System.out.print(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos)));
 			}
 			System.out.println(_VERTICAL_LINE);
