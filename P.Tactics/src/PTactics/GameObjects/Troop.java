@@ -46,7 +46,7 @@ public class Troop extends GameObject{
 	    StepCount bestSolSteps = new StepCount();
 	    bestSolSteps.value = Integer.MAX_VALUE;
 
-	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, 0, bestSolSteps, pos);
+	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, 0, bestSolSteps, this.pos);
 	    this.currentMove = bestSol;
 	}
 
