@@ -48,36 +48,45 @@ public class Troop extends GameObject{
 	    SolArray curSol = new SolArray();
 	    Set<Position> marks = new HashSet<>();
 	    StepCount bestSolSteps = new StepCount();
+	    StepCount curSolSteps = new StepCount();
 	    bestSolSteps.value = Integer.MAX_VALUE;
 
-	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, 0, bestSolSteps, this.pos);
+	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos);
 	    this._currentMove = bestSol.Sol;
 	}
 
 	private void _backTrackPathFinding(Position dest, SolArray curSol,
 			                          SolArray  bestSol, Set<Position> marks,
-	                                   List<List<Integer>> Dirs, int curSolSteps,
+	                                   List<List<Integer>> Dirs, StepCount curSolSteps,
 	                                   StepCount bestSolSteps, Position it) {
-	    curSol.Sol.add(it);
-	    marks.add(it);
+		
 
 	    if (it.equals(dest)) {
-	        if (curSolSteps < bestSolSteps.value) {
+	        if (curSolSteps.value < bestSolSteps.value) {
 	            bestSol.Sol.clear();
 	            bestSol.Sol.addAll(curSol.Sol);
-	            bestSolSteps.value = curSolSteps;
+	            bestSolSteps.value = curSolSteps.value;
 	        }
 	    } else {
 	        for (List<Integer> dir : Dirs) {
-	            Position movePos = new Position(it.X + dir.get(0), it.Y + dir.get(1));
-	            if (!this.BI.isSolid(movePos) && !marks.contains(movePos)) {
-	                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps + 1, bestSolSteps, movePos);
+	        	int x=it.X + dir.get(0);
+	        	int y=it.Y + dir.get(1);
+	            if(x>=0 && y>=0 && x<10 && y<10) 
+	            {
+	            	Position movePos = new Position(it.X + dir.get(0), it.Y + dir.get(1));
+		            if (!this.BI.isSolid(movePos) && !marks.contains(movePos)) {
+		            	curSolSteps.value++;
+		        	    curSol.Sol.add(movePos);
+		        	    marks.add(movePos);
+		                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos);
+		                curSolSteps.value--;
+		        	    curSol.Sol.remove(curSol.Sol.size() - 1);
+		        	    //marks.remove(movePos);
+		            }
 	            }
 	        }
 	    }
-
-	    curSol.Sol.remove(curSol.Sol.size() - 1);
-	    marks.remove(it);
+	    
 	}
 
 	public void Move() 
