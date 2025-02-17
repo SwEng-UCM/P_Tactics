@@ -10,18 +10,20 @@ import PTactics.GameObjects.GameObject;
 import PTactics.Utils.Position;
 
 public class Game {
-	private final int _boardLength; 			//This is the first value (y)
-	private final int _boardWidth;				//This is the second value (x)
+	private final int boardLength; 			//This is the first value (y)
+	private final int boardWidth;				//This is the second value (x)
 	private BoardInterface board;
-	private List<Player> _players;
+	private List<Player> players;
+	int currPlayer;
 	
 	public Game(int lenght, int width){
 		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
-		this._boardLength = lenght;
-		this._boardWidth = width;
+		this.boardLength = lenght;
+		this.boardWidth = width;
 		this.board = new Board(); // add walls here?
-		this._players = new ArrayList<>();
+		this.players = new ArrayList<>();
+		this.currPlayer = 0;
 	}
 	
 	//Just in case
@@ -30,11 +32,11 @@ public class Game {
 	}
 	
 	public int getLength() {
-		return this._boardLength;
+		return this.boardLength;
 	}
 	
 	public int getWidth() {
-		return this._boardWidth;
+		return this.boardWidth;
 	}
 	
 	public void addNewElement(GameObject g, Position pos) {//la posicion tiene que venir adaptada de la vista humana a la vista maquina
@@ -50,28 +52,17 @@ public class Game {
 		board.erraseFromPos(pos);
 	}
 
-	public String toString(Player p) {	
-		String s = "";
-		Position pos;
-		for(int i = 0; i < _boardLength; i++) {
-			for(int j = 0; j < _boardWidth; j++) {
-				if(p.isVisible(i, j)) { 
-					pos = new Position(i,j);
-					s.concat(board.toString(pos));
-				}
-				else s.concat(" ");//centralized messages?
-			}
-			s.concat("\n"); // may not work
-		}
-		return null;
+	public String positionToString(Position p) {		
+		if(players.get(currPlayer).isVisible(p.getX(), p.getY())) return board.toString(p);
+		return "X";
 	}
 	
 	void addPlayer(Player p) {
-		this._players.add(p);
+		this.players.add(p);
 	}
 	
 	Player getPlayer() {	//This should receive an index or smth.
-		return this._players.getFirst();
+		return this.players.getFirst();
 	}
 	
 	public void update() {

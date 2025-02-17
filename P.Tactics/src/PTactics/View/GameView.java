@@ -55,17 +55,20 @@ public class GameView {
 						 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + UPPER_RIGHT_CORNER);
 	}
 	
-	private void showMiddle(Player p) {
+	private void showMiddle() {
 		for (int i = 0; i < _game.getLength(); i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
-			System.out.print(_game.toString(p));
+			for (int j = 0; j < _game.getWidth(); j++) {
+				Position pos = new Position(i, j);
+				System.out.print(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos)));
+			}
 			System.out.println(_VERTICAL_LINE);
 		}
 	}
 	
-	public void showGame(Player p) {
+	public void showGame() {
 		showTop();
-		showMiddle(p);
+		showMiddle();
 		showBottom();	
 	}
 	
