@@ -64,7 +64,7 @@ public class Troop extends GameObject{
 	    if (it.equals(dest)) {
 	        if (curSolSteps < bestSolSteps.value) {
 	            bestSol.Sol.clear();
-	            bestSol.Sol.addAll(curSol);
+	            bestSol.Sol.addAll(curSol.Sol);
 	            bestSolSteps.value = curSolSteps;
 	        }
 	    } else {
