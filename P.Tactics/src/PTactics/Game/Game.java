@@ -47,11 +47,10 @@ public class Game {
 	}
 
 	// TODO: pensar como hacer esto 
-/*	public String positionToString(Position pos) {		
+   /* public String positionToString(Position pos) {		
 		if (_GameObjectList[pos.getX()][pos.getY()] == null) return " ";
 		return _GameObjectList[pos.getX()][pos.getY()].toString();
-	}
-	*/
+	}*/
 	public void update() {
 		board.update();
 	}

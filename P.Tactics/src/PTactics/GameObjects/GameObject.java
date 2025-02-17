@@ -8,7 +8,7 @@ public abstract class GameObject {
 	protected boolean enabled;
 	protected boolean solid;
 	protected BoardInterface BI;
-
+	protected String icon;
 	public GameObject(Position pos) {
 		this.pos = pos;
 	}
@@ -36,6 +36,9 @@ public abstract class GameObject {
 	public boolean isSolid() {
 		return solid;
 	}
-
+	public String toString() 
+	{
+		return icon;
+	}
 	public abstract void update();
 }
