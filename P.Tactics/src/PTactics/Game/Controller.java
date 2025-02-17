@@ -20,8 +20,8 @@ public class Controller {
 		Troop t = new Troop(new Position(2, 2));
 		game.getPlayer().addTroops(t);
 		game.addNewElement(t, t.getPos());
-		GameView view = new GameView(game);
-		view.showGame(game.getPlayer());
+		GameView view = new GameView();
+		view.showGame(game);
 	}
 	
 	/*

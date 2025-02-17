@@ -62,7 +62,7 @@ public class Game {
 	}
 	
 	Player getPlayer() {	//This should receive an index or smth.
-		return this.players.getFirst();
+		return this.players.get(currPlayer);
 	}
 	
 	public void update() {

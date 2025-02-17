@@ -18,25 +18,13 @@ public class GameView {
 	private final int _CELL_SIZE = 3;
 	private final int _INITIAL_SPACE = 3;
 	
-	
-	private Game _game;
-	
 	public GameView() {
-		_game = new Game(30, 30);
-	}
-	
-	public GameView(Game game) {
-		_game = game;
-	}
-	
-	public GameView(int width, int length) {
-		_game = new Game(width, length);
 	}
 	
 	private void newLine() {
 		showMessage("");
 	}
-	private void showTop() {
+	private void showTop(Game _game) {
 		
 		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE + 1));
 		if (_game.getWidth() >= 10) {
@@ -55,7 +43,7 @@ public class GameView {
 						 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + UPPER_RIGHT_CORNER);
 	}
 	
-	private void showMiddle() {
+	private void showMiddle(Game _game) {
 		for (int i = 0; i < _game.getLength(); i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
 			for (int j = 0; j < _game.getWidth(); j++) {
@@ -66,13 +54,13 @@ public class GameView {
 		}
 	}
 	
-	public void showGame() {
-		showTop();
-		showMiddle();
-		showBottom();	
+	public void showGame(Game _game) {
+		showTop(_game);
+		showMiddle(_game);
+		showBottom(_game);	
 	}
 	
-	private void showBottom() {
+	private void showBottom(Game _game) {
 		System.out.println(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + LOWER_LEFT_CORNER + 
 				 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + LOWER_RIGHT_CORNER);
 	}
