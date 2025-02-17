@@ -14,4 +14,5 @@ public interface BoardInterface{
 	public void erraseFromPos(Position p);// erases GO in pos false if no pos
 	public void erraseFromGO(GameObject o);// erases GO and assigned pos from map false if no GO
 	public void update();
+	public String toString(Position p);
 }

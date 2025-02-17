@@ -46,11 +46,22 @@ public class Game {
 		board.erraseFromPos(pos);
 	}
 
-	// TODO: pensar como hacer esto 
-   /* public String positionToString(Position pos) {		
-		if (_GameObjectList[pos.getX()][pos.getY()] == null) return " ";
-		return _GameObjectList[pos.getX()][pos.getY()].toString();
-	}*/
+	public String toString(Player p) {	
+		String s = "";
+		Position pos;
+		for(int i = 0; i < _boardLength; i++) {
+			for(int j = 0; j < _boardWidth; j++) {
+				if(p.isVisible(i, j)) { 
+					pos = new Position(i,j);
+					s.concat(board.toString(pos));
+				}
+				else s.concat(" ");//centralized messages?
+			}
+			s.concat("\n"); // may not work
+		}
+		return null;
+	}
+	
 	public void update() {
 		board.update();
 	}
