@@ -140,6 +140,8 @@ public class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
+			if (!BI.isValid(pos))
+				break;
 			visiblePositions.add(pos);
 		}
 		

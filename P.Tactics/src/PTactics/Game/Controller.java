@@ -25,25 +25,24 @@ public class Controller {
 		Troop t = new Troop(new Position(1, 1), game.getBoard());
 		game.addTroops(t); //also adds the troop to the real board
 		GameView view = new GameView();
-		boolean ok = true;
 		String moveStr = null;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		while (ok) { // this is an awfull hack to read the move input
-			game.update();
-			view.showGame(game);			
+		game.update();
+		view.showGame(game);			
+		while (true) { // this is an awfull hack to read the move input
 			view.showMessage("Choose where to move the troop: ");
 			try {
 				moveStr = reader.readLine();
 			} catch (IOException e) {}
 			String[] coords = moveStr.trim().split(" ");
+			if (coords[0].equals(coords[1]) && coords[0].equals(coords[2]) && coords[0].equals(coords[3]))
+				break;
 			// this next line is my greatest shame
 			GameObject movable=game.getGameObject(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1));
 			movable.setPosition(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
 			game.setPositionOnBoard(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1), new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1),movable);
 			game.update();
 			view.showGame(game);
-			if (coords[0].equals(coords[1]) && coords[0].equals(coords[2]) && coords[0].equals(coords[3]));
-				ok = false;
 		}
 	}
 	

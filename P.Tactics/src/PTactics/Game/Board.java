@@ -9,8 +9,13 @@ import PTactics.Utils.Position;
 
 public class Board extends LinkedHashMap <Position,GameObject>implements BoardInterface {
 	int size;
+	private final int _boardLength; 			//This is the first value (y)
+	private final int _boardWidth;			//This is the second value (x)
 	
-	public Board() {
+	public Board(int length, int width) {
+		_boardLength = length;
+		_boardWidth = width;
+
 		// perhaps create an init consrtuctor to add the walls and troops 
 	}
 	
@@ -62,5 +67,12 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 	public String toString(Position p) {
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
+	}
+
+	@Override
+	public boolean isValid(Position pos) {
+		if (pos.getX() < 0 || pos.getX() >= _boardWidth || pos.getY() < 0 || pos.getY() >= _boardLength)
+			return false;
+		return true;
 	}
 }

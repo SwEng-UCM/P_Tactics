@@ -19,7 +19,7 @@ public class Game {
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
 		this._boardLength = lenght;
 		this._boardWidth = width;
-		this._board = new Board(); // add walls here?
+		this._board = new Board(lenght, width); // add walls here?
 		this._players = new ArrayList<>();
 		this._currPlayer = 0;
 	}
