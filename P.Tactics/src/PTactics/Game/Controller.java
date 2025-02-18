@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.View.GameView;
@@ -36,7 +37,11 @@ public class Controller {
 			} catch (IOException e) {}
 			String[] coords = moveStr.trim().split(" ");
 			// this next line is my greatest shame
-			//game.getGameObject(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1)).CalcNewMove(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
+			GameObject movable=game.getGameObject(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1));
+			movable.setPosition(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
+			game.setPositionOnBoard(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1), new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1),movable);
+			game.update();
+			view.showGame(game);
 			if (coords[0].equals(coords[1]) && coords[0].equals(coords[2]) && coords[0].equals(coords[3]));
 				ok = false;
 		}

@@ -21,7 +21,7 @@ public class Troop extends GameObject{
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
-        this._dir = Direction.RIGHT;
+        this._dir = Direction.DOWN;
 	}
 	public void AddToMove(Position pos) 
 	{

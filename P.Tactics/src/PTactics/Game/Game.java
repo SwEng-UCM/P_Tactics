@@ -83,5 +83,8 @@ public class Game {
 	public BoardInterface getBoard() {
 		return _board;
 	}
-
+	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
+	{
+		this._board.setPosition(p1, p2, GO);
+	}
 }
