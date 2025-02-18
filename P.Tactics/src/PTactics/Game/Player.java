@@ -13,21 +13,13 @@ public class Player {
 	private boolean[][] _visibility;
 	private boolean[][] _danger;
 	private List<Troop> _troops;
-	private int _xDim;
-	private int _yDim;
-
-	public Player(String id, int xDim, int yDim) {
-		this._id = id;
-		this._turn = 0;
-		_visibility = new boolean[xDim][yDim];
-		_danger = new boolean[xDim][yDim];
-		this._troops = new ArrayList<>();
-		_xDim = xDim;
-		_yDim = yDim;
-	}
 
 	public Player(String id) {
-		this(id, 10, 10);
+		this._id = id;
+		this._turn = 0;
+		_visibility = new boolean[Game._boardWidth][Game._boardLength];
+		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		this._troops = new ArrayList<>();
 	}
 
 	public boolean isVisible(int x, int y) {
@@ -44,7 +36,7 @@ public class Player {
 	}
 	
 	public void updatePlayerVisibility() {
-		_visibility = new boolean[_xDim][_yDim];
+		_visibility = new boolean[Game._boardWidth][Game._boardLength];
 		
 		for (Troop troop : _troops) {
 			List<Position> positions = troop.visiblePositions();

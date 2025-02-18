@@ -1,6 +1,5 @@
 package PTactics.Game;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -8,14 +7,9 @@ import PTactics.GameObjects.GameObject;
 import PTactics.Utils.Position;
 
 public class Board extends LinkedHashMap <Position,GameObject>implements BoardInterface {
-	int size;
-	private final int _boardLength; 			//This is the first value (y)
-	private final int _boardWidth;			//This is the second value (x)
+	int size; //what is this???
 	
-	public Board(int length, int width) {
-		_boardLength = length;
-		_boardWidth = width;
-
+	public Board() {
 		// perhaps create an init consrtuctor to add the walls and troops 
 	}
 	
@@ -71,7 +65,7 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 
 	@Override
 	public boolean isValid(Position pos) {
-		if (pos.getX() < 0 || pos.getX() >= _boardWidth || pos.getY() < 0 || pos.getY() >= _boardLength)
+		if (pos.getX() < 0 || pos.getX() >= Game._boardWidth || pos.getY() < 0 || pos.getY() >= Game._boardLength)
 			return false;
 		return true;
 	}
