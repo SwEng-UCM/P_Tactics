@@ -21,4 +21,13 @@ public class Wall extends GameObject  {
 		return Utils.WallUtils.WALL_ICON;
 	}
 
+	@Override
+	public boolean isAlive() {
+		return false;
+	}
+
+	@Override
+	public void die() {
+	}
+
 }

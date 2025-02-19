@@ -3,7 +3,6 @@ package PTactics.Game;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
@@ -20,7 +19,7 @@ public class Controller {
 	
 	public void run() {
 		this.setup();
-		while(true) {
+		while(this.isFinish()) {
 			//Select soldier 
 			//Move soldier
 			//Attack/Aim
@@ -68,4 +67,10 @@ public class Controller {
 		scanner.close();
 	}
 	
+	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
+		for(Troop t : _currentGame.getPlayer().getTroops()) {
+			if(t.isAlive()) return false;
+		}
+		return true;
+	}
 }

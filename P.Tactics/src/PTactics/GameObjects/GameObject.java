@@ -6,12 +6,14 @@ import PTactics.Utils.Position;
 public abstract class GameObject {
 	protected Position pos;
 	protected boolean enabled;
+	protected boolean alive;
 	protected boolean solid;
 	protected BoardInterface BI;
 	protected String icon;
 	public GameObject(Position pos, BoardInterface BI) {
 		this.pos = pos;
 		this.BI = BI;
+		this.alive = true;
 	}
 
 	public void setPosition(Position setter) {
@@ -42,6 +44,8 @@ public abstract class GameObject {
 		return icon;
 	}
 	
+	public abstract boolean isAlive();
+	public abstract void die();
 	public void CalcNewMove(Position pos) {};
 	public abstract void update();
 }

@@ -147,4 +147,12 @@ public class Troop extends GameObject{
 		
 		return visiblePositions;	
 	}
+	@Override
+	public boolean isAlive() {
+		return alive;
+	}
+	@Override
+	public void die() {
+		alive = false;
+	}
 }
