@@ -27,27 +27,27 @@ public class GameView {
 	private void showTop(Game _game) {
 		
 		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE + 1));
-		if (_game.getWidth() >= 10) {
-			for (int i = 0; i < _game.getWidth(); i++) {
+		if (Game._boardLength >= 10) {
+			for (int i = 0; i < Game._boardWidth; i++) {
 				if (((i + 1) / 10) != 0) System.out.print(_CELL_SIZED_VALUE.formatted(((i + 1) / 10)));
 				else System.out.print(StringUtils.repeat(_SPACE, _CELL_SIZE));
 			}
 		}
 		newLine();
 		System.out.print(StringUtils.repeat(_SPACE, _INITIAL_SPACE + 1));
-		for (int i = 0; i < _game.getWidth(); i++) {
+		for (int i = 0; i < Game._boardWidth; i++) {
 			System.out.print(_CELL_SIZED_VALUE.formatted((i + 1) % 10));
 		}
 		newLine();
 		System.out.println(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + UPPER_LEFT_CORNER + 
-						 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + UPPER_RIGHT_CORNER);
+						 StringUtils.repeat(_HORIZONTAL_LINE, Game._boardWidth * _CELL_SIZE) + UPPER_RIGHT_CORNER);
 	}
 	
 	private void showMiddle(Game _game) {
-		for (int i = 0; i < _game.getLength(); i++) {
+		for (int i = 0; i < Game._boardWidth; i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
-			for (int j = 0; j < _game.getWidth(); j++) {
-				Position pos = new Position(i, j);
+			for (int j = 0; j < Game._boardWidth; j++) {
+				Position pos = new Position(j, i);
 				System.out.print(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos)));
 			}
 			System.out.println(_VERTICAL_LINE);
@@ -62,7 +62,7 @@ public class GameView {
 	
 	private void showBottom(Game _game) {
 		System.out.println(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + LOWER_LEFT_CORNER + 
-				 StringUtils.repeat(_HORIZONTAL_LINE, _game.getWidth() * _CELL_SIZE) + LOWER_RIGHT_CORNER);
+				 StringUtils.repeat(_HORIZONTAL_LINE, Game._boardWidth * _CELL_SIZE) + LOWER_RIGHT_CORNER);
 	}
 	
 	public void showEndMessage() {

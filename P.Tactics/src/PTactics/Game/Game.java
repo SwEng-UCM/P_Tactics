@@ -3,27 +3,25 @@ package PTactics.Game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-
-
 import PTactics.GameObjects.GameObject;
+import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 
 public class Game {
-	private final int boardLength; 			//This is the first value (y)
-	private final int boardWidth;				//This is the second value (x)
-	private BoardInterface board;
-	private List<Player> players;
-	int currPlayer;
+	public static int _boardLength; 			//This is the first value (y)
+	public static int _boardWidth;			//This is the second value (x)
+	private BoardInterface _board;
+	private List<Player> _players;
+	private int _currPlayer;
 	
 	public Game(int lenght, int width){
 		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
-		this.boardLength = lenght;
-		this.boardWidth = width;
-		this.board = new Board(); // add walls here?
-		this.players = new ArrayList<>();
-		this.currPlayer = 0;
+		Game._boardLength = lenght;
+		Game._boardWidth = width;
+		this._board = new Board(); // add walls here?
+		this._players = new ArrayList<>();
+		this._currPlayer = 0;
 	}
 	
 	//Just in case
@@ -31,41 +29,54 @@ public class Game {
 		this(10 ,10);
 	}
 	
-	public int getLength() {
-		return this.boardLength;
-	}
-	
-	public int getWidth() {
-		return this.boardWidth;
-	}
-	
 	public void addNewElement(GameObject g, Position pos) {//la posicion tiene que venir adaptada de la vista humana a la vista maquina
 		if(Objects.isNull(g)) throw new IllegalArgumentException("A null object cannot be added to game.");
-		board.addObj(pos, g);
+		_board.addObj(pos, g);
 	}
 	
 	GameObject getGameObject (Position pos) {
-		return this.board.getGameObject(pos);
+		return this._board.getGameObject(pos);
 	}
 	
 	void eraseGameObject(Position pos) {
-		board.erraseFromPos(pos);
+		_board.eraseFromPos(pos);
 	}
 
-	public String positionToString(Position p) {		
-		if(players.get(currPlayer).isVisible(p.getX(), p.getY())) return board.toString(p);
-		return "X";
+	public String positionToString(Position p) {	
+		
+		if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
+		return "*";
 	}
 	
 	void addPlayer(Player p) {
-		this.players.add(p);
+		this._players.add(p);
 	}
 	
-	Player getPlayer() {	//This should receive an index or smth.
-		return this.players.get(currPlayer);
+	Player getPlayer() {	//This should receive an index or smth. // this is illegal I feel like, make the call for a function of game and let it handle its players
+		return this._players.get(_currPlayer);
+	}
+	// try this instead
+	public void addTroops(Troop t) {
+		addNewElement(t, t.getPos());
+		_players.get(_currPlayer).addTroops(t);
+	}
+	
+	private void updateVisibility() {
+		for (Player p : _players) {
+			p.updatePlayerVisibility();
+		}
 	}
 	
 	public void update() {
-		board.update();
+		_board.update();
+		updateVisibility();
+	}
+
+	public BoardInterface getBoard() {
+		return _board;
+	}
+	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
+	{
+		this._board.setPosition(p1, p2, GO);
 	}
 }

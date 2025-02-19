@@ -9,8 +9,7 @@ public interface Utils {
 		public final String TROOP_FACING_DOWN = "▼" ;
 		public final String TROOP_FACING_LEFT = "◀" ;
 		public final String TROOP_FACING_RIGHT = "▶" ;
-		public final String TROOP_ICON = "🪖";
-		
+		public final String TROOP_ICON = "▲";
 		public final String TROOP_DEAD = "💀";
 	}
 	

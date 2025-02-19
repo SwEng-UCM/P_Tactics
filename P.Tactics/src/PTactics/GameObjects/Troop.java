@@ -6,26 +6,26 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 
+import PTactics.Game.BoardInterface;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
 public class Troop extends GameObject{
-	List<Position> moveQueue;
-	List<Position> currentMove;
+	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
+	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
 	private Direction _dir;
-	
-	public Troop (Position pos) 
-	{
-	    super(pos);
-	    this.moveQueue = new ArrayList<>();  // Initialize the lists
-        this.currentMove = new ArrayList<>();
+	private final int _visionRange = 5;
+	public Troop (Position pos, BoardInterface BI) { // all GO constructors changed to include the board
+	    super(pos, BI);
+	    this._moveQueue = new ArrayList<>();  // Initialize the lists
+        this._currentMove = new ArrayList<>();
         this.solid=false;
-        this._dir = Direction.NONE;
+        this._dir = Direction.DOWN;
 	}
 	public void AddToMove(Position pos) 
 	{
-		moveQueue.add(pos);
+		_moveQueue.add(pos);
 	}
 	// this is a weird way that you have to do this for the values of StepCount to be passed by reference
 	//RECURSIVE BACKTRACKING IMPLEMENTATATION for troop pathfinding below
@@ -48,53 +48,62 @@ public class Troop extends GameObject{
 	    SolArray curSol = new SolArray();
 	    Set<Position> marks = new HashSet<>();
 	    StepCount bestSolSteps = new StepCount();
+	    StepCount curSolSteps = new StepCount();
 	    bestSolSteps.value = Integer.MAX_VALUE;
 
-	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, 0, bestSolSteps, this.pos);
-	    this.currentMove = bestSol.Sol;
+	    _backTrackPathFinding(pos, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos);
+	    this._currentMove = bestSol.Sol;
 	}
 
 	private void _backTrackPathFinding(Position dest, SolArray curSol,
 			                          SolArray  bestSol, Set<Position> marks,
-	                                   List<List<Integer>> Dirs, int curSolSteps,
+	                                   List<List<Integer>> Dirs, StepCount curSolSteps,
 	                                   StepCount bestSolSteps, Position it) {
-	    curSol.Sol.add(it);
-	    marks.add(it);
+		
 
 	    if (it.equals(dest)) {
-	        if (curSolSteps < bestSolSteps.value) {
+	        if (curSolSteps.value < bestSolSteps.value) {
 	            bestSol.Sol.clear();
 	            bestSol.Sol.addAll(curSol.Sol);
-	            bestSolSteps.value = curSolSteps;
+	            bestSolSteps.value = curSolSteps.value;
 	        }
 	    } else {
 	        for (List<Integer> dir : Dirs) {
-	            Position movePos = new Position(it.X + dir.get(0), it.Y + dir.get(1));
-	            if (!this.BI.isSolid(movePos) && !marks.contains(movePos)) {
-	                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps + 1, bestSolSteps, movePos);
+	        	int x=it.X + dir.get(0);
+	        	int y=it.Y + dir.get(1);
+	            if(x>=0 && y>=0 && x<10 && y<10) 
+	            {
+	            	Position movePos = new Position(it.X + dir.get(0), it.Y + dir.get(1));
+		            if (!this.BI.isSolid(movePos) && !marks.contains(movePos)) {
+		            	curSolSteps.value++;
+		        	    curSol.Sol.add(movePos);
+		        	    marks.add(movePos);
+		                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos);
+		                curSolSteps.value--;
+		        	    curSol.Sol.remove(curSol.Sol.size() - 1);
+		        	    //marks.remove(movePos);
+		            }
 	            }
 	        }
 	    }
-
-	    curSol.Sol.remove(curSol.Sol.size() - 1);
-	    marks.remove(it);
+	    
 	}
 
 	public void Move() 
 	{
-		if(!moveQueue.isEmpty()) 
+		if(!_moveQueue.isEmpty()) 
 		{
-			if(!currentMove.isEmpty()) 
+			if(!_currentMove.isEmpty()) 
 			{
-				this.setPosition(this.currentMove.getFirst());
-				this.currentMove.removeFirst();
+				this.setPosition(this._currentMove.getFirst());
+				this._currentMove.removeFirst();
 			}
 			else 
 			{
-				CalcNewMove(moveQueue.getFirst());
-				moveQueue.removeFirst();
-				this.setPosition(this.currentMove.getFirst());
-				this.currentMove.removeFirst();
+				CalcNewMove(_moveQueue.getFirst());
+				_moveQueue.removeFirst();
+				this.setPosition(this._currentMove.getFirst());
+				this._currentMove.removeFirst();
 			}
 		}
 	}
@@ -119,6 +128,23 @@ public class Troop extends GameObject{
 	
 	@Override // TODO: i need this // the move to be boolean and return true if there are moves left in the queue so I can paint it step by step
 	public void update() {
+		Move();
+	}
+	
+	public List<Position> visiblePositions() {
+		List<Position> visiblePositions = new ArrayList<>();
 		
+		visiblePositions.add(getPos());
+		Position pos = new Position(getPos().getX(), getPos().getY());
+		
+		
+		for (int i = 0; i < _visionRange; i++) {
+			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
+			if (!BI.isValid(pos))
+				break;
+			visiblePositions.add(pos);
+		}
+		
+		return visiblePositions;	
 	}
 }

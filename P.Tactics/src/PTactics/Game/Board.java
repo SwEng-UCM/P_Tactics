@@ -1,6 +1,5 @@
 package PTactics.Game;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -8,7 +7,7 @@ import PTactics.GameObjects.GameObject;
 import PTactics.Utils.Position;
 
 public class Board extends LinkedHashMap <Position,GameObject>implements BoardInterface {
-	int size;
+	int size; //what is this???
 	
 	public Board() {
 		// perhaps create an init consrtuctor to add the walls and troops 
@@ -38,17 +37,18 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 	}
 	
 	public boolean isSolid(Position p) {
-		return this.get(p).isSolid();
+		if (get(p) == null) return false;
+		return get(p).isSolid();
 	}
 
 	@Override
-	public void erraseFromPos(Position p) throws IllegalArgumentException {
+	public void eraseFromPos(Position p) throws IllegalArgumentException {
 		if(!this.containsKey(p)) throw new IllegalArgumentException("Position not found in board");
 		this.remove(p);
 	}
 
 	@Override
-	public void erraseFromGO(GameObject o) {
+	public void eraseFromGO(GameObject o) {
 		if(!this.containsValue(o)) throw new IllegalArgumentException("Object not found in board");
 		this.remove(this.getPosition(o));
 	}
@@ -61,5 +61,12 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 	public String toString(Position p) {
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
+	}
+
+	@Override
+	public boolean isValid(Position pos) {
+		if (pos.getX() < 0 || pos.getX() >= Game._boardWidth || pos.getY() < 0 || pos.getY() >= Game._boardLength)
+			return false;
+		return true;
 	}
 }

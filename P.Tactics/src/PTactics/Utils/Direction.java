@@ -1,7 +1,23 @@
 package PTactics.Utils;
 
 public enum Direction {
-	UP, DOWN, LEFT, RIGHT, NONE;
+	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), NONE(0,0);
+	
+	int _x;
+	int _y;
+	
+	private Direction(int x, int y) {
+		_x = x;
+		_y = y;
+	}
+	
+	public int getX() {
+		return _x;
+	}
+	
+	public int getY() {
+		return _y;
+	}
 	
 	@Override
 	public String toString() {

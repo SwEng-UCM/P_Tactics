@@ -11,8 +11,9 @@ public interface BoardInterface{
 	public GameObject getGameObject(Position p);
 	public boolean isSolid(Position p);
 	public void addObj(Position p, GameObject o);
-	public void erraseFromPos(Position p);// erases GO in pos false if no pos
-	public void erraseFromGO(GameObject o);// erases GO and assigned pos from map false if no GO
+	public void eraseFromPos(Position p);// erases GO in pos false if no pos
+	public void eraseFromGO(GameObject o);// erases GO and assigned pos from map false if no GO
+	public boolean isValid(Position pos);
 	public void update();
 	public String toString(Position p);
 }
