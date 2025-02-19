@@ -45,4 +45,15 @@ public class Player {
 			}
 		}
 	}
+	
+	public void updatePlayerDangerTiles() {
+		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		
+		for (Troop troop : _troops) {
+			List<Position> positions = troop.dangerPositions();
+			for (Position pos : positions) {
+				_danger[pos.getX()][pos.getY()] = true;
+			}
+		}
+	}
 }

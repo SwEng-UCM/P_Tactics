@@ -15,13 +15,17 @@ public class Troop extends GameObject{
 	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
 	private Direction _dir;
+	private boolean _aiming;
 	private final int _visionRange = 5;
+	
+	
 	public Troop (Position pos, BoardInterface BI) { // all GO constructors changed to include the board
 	    super(pos, BI);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
         this._dir = Direction.DOWN;
+        this._aiming = false;
 	}
 	public void AddToMove(Position pos) 
 	{
@@ -147,6 +151,32 @@ public class Troop extends GameObject{
 		
 		return visiblePositions;	
 	}
+	
+	public List<Position> dangerPositions() {
+		List<Position> dangerPositions = new ArrayList<>();
+		
+		if (!_aiming) {
+			return dangerPositions;
+		}
+		
+		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
+			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
+			if (!BI.isValid(pos))
+				break;
+			dangerPositions.add(pos);
+		}
+		
+		return dangerPositions;	
+	}
+	
+	public void takeAim() {
+		_aiming = true;
+	}
+	
+	public void stopAiming() {
+		_aiming = false;
+	}
+	
 	@Override
 	public boolean isAlive() {
 		return alive;
