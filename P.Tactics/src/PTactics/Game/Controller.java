@@ -89,7 +89,7 @@ public class Controller {
 			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
 			
 			//Search if troop is on board and is from the player
-			Troop g = (Troop) _currentGame.getBoard().getGameObject(pos);
+			Troop g = (Troop) _currentGame.getGameObject(pos);	
 			if (Objects.isNull(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								//Have to check if it exists (is a GO)
 			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
 			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)

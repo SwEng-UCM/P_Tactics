@@ -1,6 +1,7 @@
 package PTactics.Game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import PTactics.GameObjects.GameObject;
@@ -72,9 +73,14 @@ public class Game {
 		updateVisibility();
 	}
 
+	public GameObject objectInPos(Position pos ) {
+		return _board.getGameObject(pos);
+	}
+	
 	public BoardInterface getBoard() {
 		return _board;
 	}
+	
 	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
 	{
 		this._board.setPosition(p1, p2, GO);
