@@ -40,7 +40,7 @@ public class Controller {
 			// this next line is my greatest shame
 			GameObject movable=game.getGameObject(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1));
 			movable.setPosition(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
-			game.setPositionOnBoard(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1), new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1),movable);
+			//game.setPositionOnBoard(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1), new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1),movable);
 			game.update();
 			view.showGame(game);
 		}

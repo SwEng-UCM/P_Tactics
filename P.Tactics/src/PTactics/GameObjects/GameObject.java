@@ -17,6 +17,7 @@ public abstract class GameObject {
 	}
 
 	public void setPosition(Position setter) {
+		BI.setPosition(pos, setter, this);
 		pos = setter;
 	}
 
