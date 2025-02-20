@@ -35,6 +35,10 @@ public class Player {
 		this._troops.add(t);
 	}
 	
+	public boolean hasTroop(Troop t) {
+		return _troops.contains(t);
+	}
+	
 	public void updatePlayerVisibility() {
 		_visibility = new boolean[Game._boardWidth][Game._boardLength];
 		

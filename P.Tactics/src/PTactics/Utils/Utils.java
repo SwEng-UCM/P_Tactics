@@ -22,12 +22,15 @@ public interface Utils {
 	public static interface MessageUtils {
 		public final String WELCOME_MSG = "Welcome to P.Tactics!";
 		public final String ASK_NUMBER_PLAYERS = "Please input the number of players: ";
+		public final String ASK_SELECT_SOLDIER = "Select a troop: ";
 	}
 	
 	//Dedicated to messages when errors occur
 	public static interface MsgErrors {
 		public final String INVALID_NUM_PLAYERS = "That is a invalid number of players";
 		public final String INVALID_INPUT = "Incorrect input";
+		public final String INVALID_COORDINATES = "Invalid coordinates";
+		public final String INVALID_SELECTION = "Invalid troop selection";
 	}
 	
 	public static interface Data {

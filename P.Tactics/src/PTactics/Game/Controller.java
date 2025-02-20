@@ -1,8 +1,10 @@
 package PTactics.Game;
 
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
+import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
@@ -20,7 +22,7 @@ public class Controller {
 	public void run() {
 		this.setup();
 		while(this.isFinish()) {
-			//Select soldier 
+			Troop t = this.selectSoldier();
 			//Move soldier
 			//Attack/Aim
 			//Special action
@@ -72,5 +74,36 @@ public class Controller {
 			if(t.isAlive()) return false;
 		}
 		return true;
+	}
+	
+	private Troop selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
+		Scanner scanner = new Scanner(System.in);								//Setting the scanner
+		int posX = 0; int posY = 0;
+
+		while(true) {		//I am not afraid of consequences
+			try {
+			//Get the coordinates of user
+			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
+			posX = scanner.nextInt(); posY = scanner.nextInt();
+			Position pos = new Position(posX,posY);
+			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
+			
+			//Search if troop is on board and is from the player
+			Troop g = (Troop) _currentGame.getBoard().getGameObject(pos);
+			if (Objects.isNull(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								//Have to check if it exists (is a GO)
+			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
+			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)
+			return g;
+			} 
+			catch(InputMismatchException inputError) {
+				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
+			}
+			catch(ClassCastException wrongObject) {
+				_currentGameView.showMessage(Utils.MsgErrors.INVALID_SELECTION);
+			}
+			catch(Exception wrongCoords) {
+				_currentGameView.showMessage(wrongCoords.getMessage());
+			}
+		}
 	}
 }
