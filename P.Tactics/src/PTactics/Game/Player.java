@@ -6,13 +6,14 @@ import java.util.List;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 
-public class Player {
+public class Player implements DangerObject{
 	// all of this stuff really should be private
 	private String _id;
 	private int _turn;
 	private boolean[][] _visibility;
 	private boolean[][] _danger;
 	private List<Troop> _troops;
+	private DangerMediator _dangerMediator;
 
 	public Player(String id) {
 		this._id = id;
@@ -33,6 +34,7 @@ public class Player {
 
 	public void addTroops(Troop t) {
 		this._troops.add(t);
+		t.addPlayer(this);
 	}
 	
 	public void updatePlayerVisibility() {
@@ -55,5 +57,19 @@ public class Player {
 				_danger[pos.getX()][pos.getY()] = true;
 			}
 		}
+	}
+
+	@Override
+	public boolean isInDanger(Position pos) {
+		return _danger[pos.getX()][pos.getY()];
+	}
+	
+	public boolean getDanger(Position pos) {
+		return _dangerMediator.isInDanger(this, pos);
+	}
+
+	@Override
+	public String getId() {
+		return _id;
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.List;
 
 import PTactics.Game.BoardInterface;
+import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
@@ -16,8 +17,8 @@ public class Troop extends GameObject{
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
 	private Direction _dir;
 	private boolean _aiming;
+	private Player _player;
 	private final int _visionRange = 5;
-	
 	
 	public Troop (Position pos, BoardInterface BI) { // all GO constructors changed to include the board
 	    super(pos, BI);
@@ -95,6 +96,9 @@ public class Troop extends GameObject{
 
 	public void Move() 
 	{
+		// player has a function getDanger(Position pos) that returns if a troop is in 
+		// in danger when stepping in the tile, should be called in each step.
+		
 		if(!_moveQueue.isEmpty()) 
 		{
 			if(!_currentMove.isEmpty()) 
@@ -150,6 +154,10 @@ public class Troop extends GameObject{
 		}
 		
 		return visiblePositions;	
+	}
+	
+	public void addPlayer(Player p) {
+		_player = p;
 	}
 	
 	public List<Position> dangerPositions() {

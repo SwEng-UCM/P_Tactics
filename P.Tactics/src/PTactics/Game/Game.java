@@ -47,6 +47,7 @@ public class Game {
 	}
 
 	public String positionToString(Position p) {	
+		if (_board.getGameObject(p).isSolid()) return _board.toString(p);
 		
 		if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
 		return "*";
