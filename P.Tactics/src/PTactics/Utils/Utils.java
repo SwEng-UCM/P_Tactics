@@ -23,6 +23,7 @@ public interface Utils {
 		public final String WELCOME_MSG = "Welcome to P.Tactics!";
 		public final String ASK_NUMBER_PLAYERS = "Please input the number of players: ";
 		public final String ASK_SELECT_SOLDIER = "Select a troop: ";
+		public final String START_TURN = "Press \"ENTER\" to start the turn";
 	}
 	
 	//Dedicated to messages when errors occur

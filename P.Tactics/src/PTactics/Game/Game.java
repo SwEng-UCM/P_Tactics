@@ -85,4 +85,8 @@ public class Game {
 	{
 		this._board.setPosition(p1, p2, GO);
 	}
+	
+	public int getNumPlayer() { //Human view
+		return this._currPlayer + 1;
+	}
 }
