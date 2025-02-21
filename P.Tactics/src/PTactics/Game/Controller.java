@@ -1,5 +1,7 @@
 package PTactics.Game;
 
+import java.io.Console;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -24,7 +26,7 @@ public class Controller {
 		this.setup();
 		while(!this.isFinish()) {
 			startOfTurn();
-			Troop t = this.selectSoldier();
+			//Troop t = this.selectSoldier();
 			//Move soldier
 			//Attack/Aim
 			//Special action
@@ -79,13 +81,15 @@ public class Controller {
 	}
 	
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
-	private void startOfTurn() {	//Not safe, very probably explodes
-		Scanner scanner = new Scanner(System.in);
+	private void startOfTurn() {	//Not safe, very probably explodes, tried with console, buffer, scanner and system.in, all throw internally a IOException and close the Stream
+		Console c = System.console();
 		System.out.print("\033[H\033[2J");  
 	    System.out.flush();
 	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    scanner.nextLine();
-	    _currentGameView.showGame(_currentGame);
+	    c.flush();
+		c.readLine();
+		c.flush();
+		_currentGameView.showGame(_currentGame);
 	}
 	
 	private Troop selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
