@@ -144,7 +144,7 @@ public class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!BI.isValid(pos))
+			if (!BI.isValid(pos) || BI.isSolid(pos))
 				break;
 			visiblePositions.add(pos);
 		}
@@ -161,7 +161,7 @@ public class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!BI.isValid(pos))
+			if (!BI.isValid(pos) || BI.isSolid(pos))
 				break;
 			dangerPositions.add(pos);
 		}

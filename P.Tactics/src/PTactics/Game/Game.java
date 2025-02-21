@@ -34,6 +34,10 @@ public class Game {
 		_board.addObj(pos, g);
 	}
 	
+	public BoardInterface getBoard() {
+		return _board;
+	}
+	
 	GameObject getGameObject (Position pos) {
 		return this._board.getGameObject(pos);
 	}
@@ -72,9 +76,10 @@ public class Game {
 		updateVisibility();
 	}
 
-	public BoardInterface getBoard() {
-		return _board;
+	public GameObject objectInPos(Position pos ) {
+		return _board.getGameObject(pos);
 	}
+	
 	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
 	{
 		this._board.setPosition(p1, p2, GO);
