@@ -60,7 +60,7 @@ public class Controller {
 		}
 		
 		//TODO: Give troops to each player:
-		for(Integer i = 0; i < numPlayers; ++i) {
+		for(Integer i = 1; i <= numPlayers; ++i) {
 			Player p = new Player(i.toString());
 			for(int i1 = 0; i1 < Utils.Data.STARTING_SOLDIERS; ++i1) {					//TODO: This is just a demo
 				Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
@@ -70,6 +70,7 @@ public class Controller {
 			_currentGame.addPlayer(p);
 		}
 		
+		scanner.reset();
 		scanner.close();
 	}
 	
@@ -82,14 +83,14 @@ public class Controller {
 	
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {	//Not safe, very probably explodes, tried with console, buffer, scanner and system.in, all throw internally a IOException and close the Stream
-		Console c = System.console();
+		Scanner c = new Scanner(System.in);
 		System.out.print("\033[H\033[2J");  
 	    System.out.flush();
 	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    c.flush();
-		c.readLine();
-		c.flush();
-		_currentGameView.showGame(_currentGame);
+	    c.nextLine();
+	    _currentGameView.showGame(_currentGame);
+	    c.reset();
+	    c.close();
 	}
 	
 	private Troop selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
