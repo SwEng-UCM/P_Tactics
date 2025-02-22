@@ -35,4 +35,20 @@ public enum Direction {
 		}
 		return "RIGHT";
 	}
+	
+	public static Direction toDir(String direction) {
+		if(direction == "UP") {
+			return Direction.UP;
+		}
+		else if(direction == "DOWN") {
+			return Direction.DOWN;
+		}
+		else if(direction == "LEFT") {
+			return Direction.LEFT;
+		}
+		else if(direction == "RIGHT") {
+			return Direction.RIGHT;
+		}
+		return Direction.NONE;
+	}
 }

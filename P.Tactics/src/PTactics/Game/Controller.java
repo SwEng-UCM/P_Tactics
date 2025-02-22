@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 
+import PTactics.Commands.Command;
+import PTactics.Commands.CommandGenerator;
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
@@ -25,8 +27,31 @@ public class Controller {
 	public void run() {
 		this.setup();
 		while(!this.isFinish()) {
+			//TODO: I believe that select soldier should be a command so the flow goes like:
+			/*
+			 * startOfTurn();
+			 * Command command = new SelectTroopCommand();
+			 * while(!exit){
+				 * 	if (command != null) { 
+			        	command.execute(_currentGame, _currentGameView);	//TODO: need an interface to protect game, probably will receive troop t too
+				 	} else {
+					 	_currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
+				 	}
+				 	String[] userCommand = _currentGameView.getPrompt();
+					Command command = CommandGenerator.parse(userCommand);
+			 *	}
+			 * 	*/
 			startOfTurn();
-			//Troop t = this.selectSoldier();
+			Troop t = this.selectSoldier();
+			String[] userCommand = _currentGameView.getPrompt();
+			Command command = CommandGenerator.parse(userCommand);
+			
+			 if (command != null) { 
+		        command.execute(_currentGame, _currentGameView);	//TODO: need an interface to protect game, probably will receive troop t too
+			 } else {
+				 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
+			 }
+			 
 			//Move soldier
 			//Attack/Aim
 			//Special action
