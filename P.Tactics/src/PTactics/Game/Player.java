@@ -58,6 +58,12 @@ public class Player implements DangerObject{
 			}
 		}
 	}
+	
+	public void update() {
+		//if no more checks are to be done it maybe would be a good idea to merge this two into one function
+		updatePlayerVisibility();
+		updatePlayerDangerTiles();
+	}
 
 	@Override
 	public boolean isInDanger(Position pos) {

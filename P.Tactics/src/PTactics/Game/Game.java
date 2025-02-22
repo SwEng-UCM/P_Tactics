@@ -66,15 +66,15 @@ public class Game {
 		_players.get(_currPlayer).addTroops(t);
 	}
 	
-	private void updateVisibility() {
+	private void updatePlayers() {
 		for (Player p : _players) {
-			p.updatePlayerVisibility();
+			p.update();
 		}
 	}
 	
 	public void update() {
 		_board.update();
-		updateVisibility();
+		updatePlayers();
 	}
 
 	public GameObject objectInPos(Position pos ) {
