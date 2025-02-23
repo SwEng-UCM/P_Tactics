@@ -1,5 +1,8 @@
 package PTactics.Commands;
 
+import PTactics.Game.ControllerInterface;
+import PTactics.GameObjects.Troop;
+
 public abstract class Command {
 	private String name, shortcut,details,help;
 	public Command(String name,String sc, String d, String h ) 
@@ -29,6 +32,6 @@ public abstract class Command {
 	{
 		return c.equalsIgnoreCase(this.GetName()) || c.equalsIgnoreCase(this.GetShortCut()); 
 	} 
-	protected abstract void execute();
+	public abstract void execute(ControllerInterface CI, Troop _currTroop);
 	protected abstract Command parse(String[] sa);
 }

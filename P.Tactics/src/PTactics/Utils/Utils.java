@@ -60,5 +60,15 @@ public interface Utils {
 		public static final String COMMAND_AIM_SHORTCUT = "a";
 		public static final String COMMAND_AIM_DETAILS = "[a]im";
 		public static final String COMMAND_AIM_HELP = "given a valid direction, the troop will aim in that direction";
+		//Exit command (end the turn)
+		public static final String COMMAND_EXIT_NAME = "exit";
+		public static final String COMMAND_EXIT_SHORTCUT = "e";
+		public static final String COMMAND_EXIT_DETAILS = "[e]xit";
+		public static final String COMMAND_EXIT_HELP = "ends the turn";
+		//Select command
+		public static final String COMMAND_SELECT_NAME = "select";
+		public static final String COMMAND_SELECT_SHORTCUT = "s";
+		public static final String COMMAND_SELECT_DETAILS = "[s]elect";
+		public static final String COMMAND_SELECT_HELP = "selects a soldier to move, aim or do special action";
 	}
 }

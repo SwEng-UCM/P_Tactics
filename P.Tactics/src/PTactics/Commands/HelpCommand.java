@@ -1,5 +1,7 @@
 package PTactics.Commands;
 
+import PTactics.Game.ControllerInterface;
+import PTactics.GameObjects.Troop;
 import PTactics.Utils.Utils;
 
 public class HelpCommand extends Command {
@@ -13,7 +15,7 @@ public class HelpCommand extends Command {
 	}
 
 	@Override
-	protected void execute() {
+	public void execute(ControllerInterface CI, Troop _currTroop) {
 		System.out.println(CommandGenerator.commandHelp());
 	}
 

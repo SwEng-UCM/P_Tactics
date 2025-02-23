@@ -1,5 +1,7 @@
 package PTactics.Commands;
 
+import PTactics.Game.ControllerInterface;
+import PTactics.GameObjects.Troop;
 import PTactics.Utils.Utils;
 
 public class MoveCommand extends Command {
@@ -15,7 +17,7 @@ public class MoveCommand extends Command {
 	}
 
 	@Override
-	protected void execute() {
+	public void execute(ControllerInterface CI, Troop _currTroop) {
 		//TODO: Need to ask Tim what to do
 	}
 

@@ -2,6 +2,8 @@ package PTactics.Commands;
 
 import java.util.zip.DataFormatException;
 
+import PTactics.Game.ControllerInterface;
+import PTactics.GameObjects.Troop;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Utils;
 
@@ -16,7 +18,7 @@ public class AimCommand extends Command {
 	}
 
 	@Override
-	protected void execute() {
+	public void execute(ControllerInterface CI, Troop _currTroop) {
 		//TODO: Ask Javi what to do
 	}
 

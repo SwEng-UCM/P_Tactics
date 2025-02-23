@@ -1,60 +1,45 @@
 package PTactics.Game;
 
-import java.io.Console;
-import java.io.IOException;
 import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 
 import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
-import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 import PTactics.View.GameView;
 
-public class Controller {
+public class Controller implements ControllerInterface{
 	private Game _currentGame;
 	private GameView _currentGameView;
+	private boolean _endTurn;
+	private Troop _currTroop;
 	
 	public Controller() {
 		this._currentGameView = new GameView();
 	}
 	
+	@Override
+	public void endTurn() {
+		_endTurn = false;
+	}
 	
 	public void run() {
 		this.setup();
 		while(!this.isFinish()) {
-			//TODO: I believe that select soldier should be a command so the flow goes like:
-			/*
-			 * startOfTurn();
-			 * Command command = new SelectTroopCommand();
-			 * while(!exit){
-				 * 	if (command != null) { 
-			        	command.execute(_currentGame, _currentGameView);	//TODO: need an interface to protect game, probably will receive troop t too
-				 	} else {
-					 	_currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
-				 	}
-				 	String[] userCommand = _currentGameView.getPrompt();
-					Command command = CommandGenerator.parse(userCommand);
-			 *	}
-			 * 	*/
 			startOfTurn();
-			Troop t = this.selectSoldier();
-			String[] userCommand = _currentGameView.getPrompt();
-			Command command = CommandGenerator.parse(userCommand);
-			
-			 if (command != null) { 
-		        command.execute(_currentGame, _currentGameView);	//TODO: need an interface to protect game, probably will receive troop t too
-			 } else {
-				 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
-			 }
-			 
-			//Move soldier
-			//Attack/Aim
-			//Special action
+			while(!_endTurn) {
+				String[] userCommand = _currentGameView.getPrompt();
+				Command command = CommandGenerator.parse(userCommand);
+				
+				 if (command != null) { 
+			        command.execute(this, _currTroop);	//TODO: need an interface to protect game, probably will receive troop t too
+				 } else {
+					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
+				 }
+			}
 		}
 	}
 	
@@ -118,7 +103,8 @@ public class Controller {
 	    c.close();
 	}
 	
-	private Troop selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
+	@Override
+	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
 		Scanner scanner = new Scanner(System.in);								//Setting the scanner
 		int posX = 0; int posY = 0;
 
@@ -136,7 +122,7 @@ public class Controller {
 			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
 			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)
 			scanner.close();
-			return g;
+			_currTroop = g;
 			} 
 			catch(InputMismatchException inputError) {
 				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
