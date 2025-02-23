@@ -46,8 +46,8 @@ public class Game {
 		_board.eraseFromPos(pos);
 	}
 
-	public String positionToString(Position p) {	
-		if (_board.getGameObject(p).isSolid()) return _board.toString(p);
+	public String positionToString(Position p) {	//without  the not  null check the game breaks.
+		if (_board.getGameObject(p)!=null&&_board.getGameObject(p).isSolid()) return _board.toString(p);
 		
 		if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
 		return "*";

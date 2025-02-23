@@ -18,6 +18,7 @@ public abstract class GameObject {
 
 	public void setPosition(Position setter) {
 		pos = setter;
+		this.BI.setPosition(this.pos, setter, this);
 	}
 
 	public void disable() {
