@@ -35,14 +35,14 @@ public class Controller {
 				moveStr = reader.readLine();
 			} catch (IOException e) {}
 			String[] coords = moveStr.trim().split(" ");
-			if (coords[0].equals(coords[1]) && coords[0].equals(coords[2]) && coords[0].equals(coords[3]))
-				break;
-			// this next line is my greatest shame
 			GameObject movable=game.getGameObject(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1));
-			movable.setPosition(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
-			//game.setPositionOnBoard(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1), new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1),movable);
-			game.update();
-			view.showGame(game);
+			movable.AddToMove(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
+			while(!(movable.getPos().X == (Integer.parseInt(coords[2]) - 1)) || !(movable.getPos().Y == (Integer.parseInt(coords[3]) - 1))) 
+			{
+				
+				game.update();
+				view.showGame(game);
+			}
 		}
 	}
 	

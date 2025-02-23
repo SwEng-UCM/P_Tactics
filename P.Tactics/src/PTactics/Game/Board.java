@@ -52,7 +52,7 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 		if(!this.containsValue(o)) throw new IllegalArgumentException("Object not found in board");
 		this.remove(this.getPosition(o));
 	}
-	public void update() {
+	public void update() {//this needs to be rewritten as an iterator.
 		Set <Position> sAux = this.keySet();
 		for(Position p: sAux) {
 			this.get(p).update();

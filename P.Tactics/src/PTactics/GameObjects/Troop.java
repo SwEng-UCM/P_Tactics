@@ -3,8 +3,8 @@ package PTactics.GameObjects;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 import PTactics.Game.BoardInterface;
 import PTactics.Game.Player;
@@ -28,6 +28,7 @@ public class Troop extends GameObject{
         this._dir = Direction.DOWN;
         this._aiming = false;
 	}
+	@Override
 	public void AddToMove(Position pos) 
 	{
 		_moveQueue.add(pos);
@@ -98,22 +99,18 @@ public class Troop extends GameObject{
 	{
 		// player has a function getDanger(Position pos) that returns if a troop is in 
 		// in danger when stepping in the tile, should be called in each step.
-		
-		if(!_moveQueue.isEmpty()) 
-		{
 			if(!_currentMove.isEmpty()) 
 			{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 			}
-			else 
+			else if(!this._moveQueue.isEmpty())
 			{
 				CalcNewMove(_moveQueue.getFirst());
 				_moveQueue.removeFirst();
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 			}
-		}
 	}
 	
 	@Override
