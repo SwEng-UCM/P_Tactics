@@ -3,6 +3,7 @@ package PTactics.Game;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
@@ -39,9 +40,14 @@ public class Controller {
 			movable.AddToMove(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
 			while(!(movable.getPos().X == (Integer.parseInt(coords[2]) - 1)) || !(movable.getPos().Y == (Integer.parseInt(coords[3]) - 1))) 
 			{
-				
 				game.update();
 				view.showGame(game);
+				try {
+					TimeUnit.MILLISECONDS.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
