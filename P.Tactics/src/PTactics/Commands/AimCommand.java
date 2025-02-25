@@ -19,7 +19,7 @@ public class AimCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI, Troop _currTroop) {
-		//TODO: Ask Javi what to do
+		_currTroop.takeAim(_dirToAim);
 	}
 
 	@Override

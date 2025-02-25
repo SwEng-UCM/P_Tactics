@@ -1,10 +1,5 @@
 package PTactics.Game;
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.concurrent.TimeUnit;
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -26,9 +21,6 @@ public class Controller implements ControllerInterface{
 		this._currentGameView = new GameView();
 	}
 	
-
-
-
 	@Override
 	public void endTurn() {
 		_endTurn = false;
