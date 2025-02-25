@@ -16,7 +16,6 @@ public class Game {
 	private int _currPlayer;
 	
 	public Game(int lenght, int width){
-		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
 		Game._boardLength = lenght;
 		Game._boardWidth = width;

@@ -8,7 +8,9 @@ public class CommandGenerator {
 	private static List<Command> _commands = Arrays.asList(
 	       new HelpCommand(),
 	       new MoveCommand(),
-	       new AimCommand()
+	       new AimCommand(),
+	       new ExitCommand(),
+	       new SelectTroopCommand()
 	    );;
 	
 	CommandGenerator(){}
