@@ -192,4 +192,4 @@ public class Troop extends GameObject{
 		alive = false;
 	}
 }
-}
+

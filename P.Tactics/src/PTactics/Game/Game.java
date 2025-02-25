@@ -33,10 +33,7 @@ public class Game {
 		if(Objects.isNull(g)) throw new IllegalArgumentException("A null object cannot be added to game.");
 		_board.addObj(pos, g);
 	}
-	
-	public BoardInterface getBoard() {
-		return _board;
-	}
+
 	
 	GameObject getGameObject (Position pos) {
 		return this._board.getGameObject(pos);
