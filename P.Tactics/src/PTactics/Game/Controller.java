@@ -45,7 +45,6 @@ public class Controller implements ControllerInterface{
 	}
 	
 	private void setup() {
-		Scanner scanner = new Scanner(System.in);
 		int numPlayers = 0;
 		boolean correct = false;
 		//TODO: Give them to decide between maps or randomizer
@@ -55,13 +54,13 @@ public class Controller implements ControllerInterface{
 		
 		while(!correct) {
 			try {
-				numPlayers = scanner.nextInt();
+				numPlayers = _currentGameView.getInt();
 				if(numPlayers < 2 || numPlayers > 4) throw new Exception();
 				correct = true;
 			}
 			catch (InputMismatchException inputError) {
 				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
-				scanner.nextLine(); 	//Clearing the buffer to avoid infinite loop!
+				_currentGameView.get();	//Clearing the buffer to avoid infinite loop!
 				correct = false;
 			} 
 			catch (Exception e) {
@@ -80,9 +79,6 @@ public class Controller implements ControllerInterface{
 			}
 			_currentGame.addPlayer(p);
 		}
-		
-		scanner.reset();
-		scanner.close();
 	}
 	
 	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
@@ -94,26 +90,20 @@ public class Controller implements ControllerInterface{
 	
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {	//Not safe, very probably explodes, tried with console, buffer, scanner and system.in, all throw internally a IOException and close the Stream
-		Scanner c = new Scanner(System.in);
-		System.out.print("\033[H\033[2J");  
-	    System.out.flush();
+		_cleanConsole();
 	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    c.nextLine();
-	    _currentGameView.showGame(_currentGame);
-	    c.reset();
-	    c.close();
+	    _waitForEnter();
 	}
 	
 	@Override
 	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
-		Scanner scanner = new Scanner(System.in);								//Setting the scanner
 		int posX = 0; int posY = 0;
 
 		while(true) {		//I am not afraid of consequences
 			try {
 			//Get the coordinates of user
 			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
-			posX = scanner.nextInt(); posY = scanner.nextInt();
+			posX = _currentGameView.getInt(); posY = _currentGameView.getInt();
 			Position pos = new Position(posX,posY);
 			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
 			
@@ -122,7 +112,6 @@ public class Controller implements ControllerInterface{
 			if (Objects.isNull(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								//Have to check if it exists (is a GO)
 			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
 			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)
-			scanner.close();
 			_currTroop = g;
 			} 
 			catch(InputMismatchException inputError) {
@@ -135,5 +124,15 @@ public class Controller implements ControllerInterface{
 				_currentGameView.showMessage(wrongCoords.getMessage());
 			}
 		}
+	}
+	
+	private void _cleanConsole() {
+		//System.out.print("\033[H\033[2J");  
+	    //System.out.flush();
+		for(int i = 0; i < 50; ++i) System.out.println(" ");
+	}
+	
+	private void _waitForEnter() {
+		_currentGameView.get();
 	}
 }

@@ -20,8 +20,9 @@ public class GameView {
 	private static final String LOWER_RIGHT_CORNER = "┘";
 	private final int _CELL_SIZE = 3;
 	private final int _INITIAL_SPACE = 3;
-	
+	Scanner scanner;
 	public GameView() {
+		scanner = new Scanner(System.in);
 	}
 	
 	private void newLine() {
@@ -86,14 +87,24 @@ public class GameView {
 	
 	public String[] getPrompt() {
 		//Maybe should create a scanner in the class for more efficiency.
-		Scanner scanner = new Scanner(System.in);
 		System.out.print(Utils.MessageUtils.PROMPT);
 		String line = scanner.nextLine();
 		String[] words = line.trim().split("\\s+");
 
         System.out.println(Utils.MessageUtils.DEBUG.formatted(line));		
-        scanner.close();
+        //scanner.close();
         
 		return words;
+	}
+	
+	public int getInt() {
+		System.out.print(Utils.MessageUtils.DATA);
+		int line = scanner.nextInt();
+		return line;
+	}
+	
+	//Just flush buffer
+	public void get() {
+		scanner.nextLine();
 	}
 }

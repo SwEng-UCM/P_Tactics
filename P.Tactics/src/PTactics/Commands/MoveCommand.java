@@ -19,6 +19,19 @@ public class MoveCommand extends Command {
 	@Override
 	public void execute(ControllerInterface CI, Troop _currTroop) {
 		//TODO: Need to ask Tim what to do
+		/*
+		 * movable.AddToMove(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
+			while(!(movable.getPos().X == (Integer.parseInt(coords[2]) - 1)) || !(movable.getPos().Y == (Integer.parseInt(coords[3]) - 1))) 
+			{
+				game.update();
+				view.showGame(game);
+				try {
+					TimeUnit.MILLISECONDS.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				*/
 	}
 
 	@Override

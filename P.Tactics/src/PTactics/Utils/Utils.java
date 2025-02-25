@@ -21,6 +21,7 @@ public interface Utils {
 	//Dedicated to messages to the players of the game
 	public static interface MessageUtils {
 		public final String PROMPT = "Command > ";
+		public final String DATA = "Data > ";
 		public final String DEBUG = "[DEBUG] Executing: %s%n";
 		public final String ERROR = "[ERROR] Error: %s%n";
 		public final String WELCOME_MSG = "Welcome to P.Tactics!";
