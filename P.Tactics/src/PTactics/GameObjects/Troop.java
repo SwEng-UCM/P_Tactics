@@ -174,7 +174,8 @@ public class Troop extends GameObject{
 		return dangerPositions;	
 	}
 	
-	public void takeAim() {
+	public void takeAim(Direction direction) {
+		_dir = direction;
 		_aiming = true;
 	}
 	
