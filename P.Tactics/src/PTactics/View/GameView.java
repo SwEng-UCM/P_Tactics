@@ -1,10 +1,13 @@
 package PTactics.View;
 
+import java.util.Scanner;
+
 import PTactics.Game.Game;
 import PTactics.Game.Player;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.StringUtils;
+import PTactics.Utils.Utils;
 
 public class GameView {
 	private final String _SPACE = " ";
@@ -74,7 +77,23 @@ public class GameView {
 	}
 	
 	public void showMessage(String msg) {
-		//TODO: Format this message.
 		System.out.println(msg);
+	}
+	
+	public void showError(String message) {
+        System.out.println(Utils.MessageUtils.ERROR.formatted(message));		
+	}
+	
+	public String[] getPrompt() {
+		//Maybe should create a scanner in the class for more efficiency.
+		Scanner scanner = new Scanner(System.in);
+		System.out.print(Utils.MessageUtils.PROMPT);
+		String line = scanner.nextLine();
+		String[] words = line.trim().split("\\s+");
+
+        System.out.println(Utils.MessageUtils.DEBUG.formatted(line));		
+        scanner.close();
+        
+		return words;
 	}
 }

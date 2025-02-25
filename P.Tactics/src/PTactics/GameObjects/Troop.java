@@ -3,10 +3,11 @@ package PTactics.GameObjects;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 import PTactics.Game.BoardInterface;
+import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
@@ -15,14 +16,19 @@ public class Troop extends GameObject{
 	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
 	private Direction _dir;
+	private boolean _aiming;
+	private Player _player;
 	private final int _visionRange = 5;
+	
 	public Troop (Position pos, BoardInterface BI) { // all GO constructors changed to include the board
 	    super(pos, BI);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
         this._dir = Direction.DOWN;
+        this._aiming = false;
 	}
+	@Override
 	public void AddToMove(Position pos) 
 	{
 		_moveQueue.add(pos);
@@ -91,21 +97,20 @@ public class Troop extends GameObject{
 
 	public void Move() 
 	{
-		if(!_moveQueue.isEmpty()) 
-		{
+		// player has a function getDanger(Position pos) that returns if a troop is in 
+		// in danger when stepping in the tile, should be called in each step.
 			if(!_currentMove.isEmpty()) 
 			{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 			}
-			else 
+			else if(!this._moveQueue.isEmpty())
 			{
 				CalcNewMove(_moveQueue.getFirst());
 				_moveQueue.removeFirst();
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 			}
-		}
 	}
 	
 	@Override
@@ -140,13 +145,44 @@ public class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!BI.isValid(pos))
+			if (!BI.isValid(pos) || BI.isSolid(pos))
 				break;
 			visiblePositions.add(pos);
 		}
 		
 		return visiblePositions;	
 	}
+	
+	public void addPlayer(Player p) {
+		_player = p;
+	}
+	
+	public List<Position> dangerPositions() {
+		List<Position> dangerPositions = new ArrayList<>();
+		
+		if (!_aiming) {
+			return dangerPositions;
+		}
+		
+		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
+			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
+			if (!BI.isValid(pos) || BI.isSolid(pos))
+				break;
+			dangerPositions.add(pos);
+		}
+		
+		return dangerPositions;	
+	}
+	
+	public void takeAim(Direction direction) {
+		_dir = direction;
+		_aiming = true;
+	}
+	
+	public void stopAiming() {
+		_aiming = false;
+	}
+	
 	@Override
 	public boolean isAlive() {
 		return alive;
@@ -155,4 +191,5 @@ public class Troop extends GameObject{
 	public void die() {
 		alive = false;
 	}
+}
 }

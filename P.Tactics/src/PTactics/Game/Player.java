@@ -6,13 +6,14 @@ import java.util.List;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 
-public class Player {
+public class Player implements DangerObject{
 	// all of this stuff really should be private
 	private String _id;
 	private int _turn;
 	private boolean[][] _visibility;
 	private boolean[][] _danger;
 	private List<Troop> _troops;
+	private DangerMediator _dangerMediator;
 
 	public Player(String id) {
 		this._id = id;
@@ -33,6 +34,11 @@ public class Player {
 
 	public void addTroops(Troop t) {
 		this._troops.add(t);
+		t.addPlayer(this);
+	}
+	
+	public boolean hasTroop(Troop t) {
+		return _troops.contains(t);
 	}
 	
 	public void updatePlayerVisibility() {
@@ -44,5 +50,36 @@ public class Player {
 				_visibility[pos.getX()][pos.getY()] = true;
 			}
 		}
+	}
+	
+	public void updatePlayerDangerTiles() {
+		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		
+		for (Troop troop : _troops) {
+			List<Position> positions = troop.dangerPositions();
+			for (Position pos : positions) {
+				_danger[pos.getX()][pos.getY()] = true;
+			}
+		}
+	}
+	
+	public void update() {
+		//if no more checks are to be done it maybe would be a good idea to merge this two into one function
+		updatePlayerVisibility();
+		updatePlayerDangerTiles();
+	}
+
+	@Override
+	public boolean isInDanger(Position pos) {
+		return _danger[pos.getX()][pos.getY()];
+	}
+	
+	public boolean getDanger(Position pos) {
+		return _dangerMediator.isInDanger(this, pos);
+	}
+
+	@Override
+	public String getId() {
+		return _id;
 	}
 }

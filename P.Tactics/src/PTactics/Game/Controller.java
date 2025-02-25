@@ -1,61 +1,147 @@
 package PTactics.Game;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
+import java.util.InputMismatchException;
+import java.util.Objects;
+import java.util.Scanner;
 
-import PTactics.GameObjects.GameObject;
+import PTactics.Commands.Command;
+import PTactics.Commands.CommandGenerator;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
+import PTactics.Utils.Utils;
 import PTactics.View.GameView;
 
-public class Controller {
+public class Controller implements ControllerInterface{
 	private Game _currentGame;
 	private GameView _currentGameView;
+	private boolean _endTurn;
+	private Troop _currTroop;
 	
-	public Controller() {	//Should fix this
-		this._currentGame = new Game();
+	public Controller() {
 		this._currentGameView = new GameView();
 	}
 	
-	//Showing for tomorrow
-	public static void main(String[] args) {
-		Game game = new Game();
-		game.addPlayer(new Player("01"));
-		Troop t = new Troop(new Position(1, 1), game.getBoard());
-		game.addTroops(t); //also adds the troop to the real board
-		GameView view = new GameView();
-		String moveStr = null;
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		game.update();
-		view.showGame(game);			
-		while (true) { // this is an awfull hack to read the move input
-			view.showMessage("Choose where to move the troop: ");
-			try {
-				moveStr = reader.readLine();
-			} catch (IOException e) {}
-			String[] coords = moveStr.trim().split(" ");
-			if (coords[0].equals(coords[1]) && coords[0].equals(coords[2]) && coords[0].equals(coords[3]))
-				break;
-			// this next line is my greatest shame
-			GameObject movable=game.getGameObject(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1));
-			movable.setPosition(new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1));
-			//game.setPositionOnBoard(new Position(Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1), new Position(Integer.parseInt(coords[2]) - 1, Integer.parseInt(coords[3]) - 1),movable);
-			game.update();
-			view.showGame(game);
+
+
+
+	@Override
+	public void endTurn() {
+		_endTurn = false;
+	}
+	
+	public void run() {
+		this.setup();
+		while(!this.isFinish()) {
+			startOfTurn();
+			while(!_endTurn) {
+				String[] userCommand = _currentGameView.getPrompt();
+				Command command = CommandGenerator.parse(userCommand);
+				
+				 if (command != null) { 
+			        command.execute(this, _currTroop);	//TODO: need an interface to protect game, probably will receive troop t too
+				 } else {
+					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
+				 }
+			}
+
 		}
 	}
 	
-	/*
-	public void run() {
-		_currentGameView.showWelcomeMessage();
-		//We give the troops to each player (for this sprint jusjt give troops)
-		while(true) {
-			//Select soldier 
-			//Move soldier
-			//Attack/Aim
-			//Special action
+	private void setup() {
+		Scanner scanner = new Scanner(System.in);
+		int numPlayers = 0;
+		boolean correct = false;
+		//TODO: Give them to decide between maps or randomizer
+		this._currentGame = new Game();
+		_currentGameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
+		_currentGameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
+		
+		while(!correct) {
+			try {
+				numPlayers = scanner.nextInt();
+				if(numPlayers < 2 || numPlayers > 4) throw new Exception();
+				correct = true;
+			}
+			catch (InputMismatchException inputError) {
+				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
+				scanner.nextLine(); 	//Clearing the buffer to avoid infinite loop!
+				correct = false;
+			} 
+			catch (Exception e) {
+				_currentGameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
+				correct = false;
+			}
+		}
+		
+		//TODO: Give troops to each player:
+		for(Integer i = 1; i <= numPlayers; ++i) {
+			Player p = new Player(i.toString());
+			for(int i1 = 0; i1 < Utils.Data.STARTING_SOLDIERS; ++i1) {					//TODO: This is just a demo
+				Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
+				p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
+				_currentGame.addNewElement(t, t.getPos());
+			}
+			_currentGame.addPlayer(p);
+		}
+		
+		scanner.reset();
+		scanner.close();
+	}
+	
+	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
+		for(Troop t : _currentGame.getPlayer().getTroops()) {
+			if(t.isAlive()) return false;
+		}
+		return true;
+	}
+	
+	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
+	private void startOfTurn() {	//Not safe, very probably explodes, tried with console, buffer, scanner and system.in, all throw internally a IOException and close the Stream
+		Scanner c = new Scanner(System.in);
+		System.out.print("\033[H\033[2J");  
+	    System.out.flush();
+	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    c.nextLine();
+	    _currentGameView.showGame(_currentGame);
+	    c.reset();
+	    c.close();
+	}
+	
+	@Override
+	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
+		Scanner scanner = new Scanner(System.in);								//Setting the scanner
+		int posX = 0; int posY = 0;
+
+		while(true) {		//I am not afraid of consequences
+			try {
+			//Get the coordinates of user
+			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
+			posX = scanner.nextInt(); posY = scanner.nextInt();
+			Position pos = new Position(posX,posY);
+			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
+			
+			//Search if troop is on board and is from the player
+			Troop g = (Troop) _currentGame.getGameObject(pos);	
+			if (Objects.isNull(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								//Have to check if it exists (is a GO)
+			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
+			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)
+			scanner.close();
+			_currTroop = g;
+			} 
+			catch(InputMismatchException inputError) {
+				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
+			}
+			catch(ClassCastException wrongObject) {
+				_currentGameView.showMessage(Utils.MsgErrors.INVALID_SELECTION);
+			}
+			catch(Exception wrongCoords) {
+				_currentGameView.showMessage(wrongCoords.getMessage());
+			}
 		}
 	}
-	*/
 }

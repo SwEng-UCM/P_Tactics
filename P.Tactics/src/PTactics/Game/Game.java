@@ -1,6 +1,7 @@
 package PTactics.Game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import PTactics.GameObjects.GameObject;
@@ -15,7 +16,6 @@ public class Game {
 	private int _currPlayer;
 	
 	public Game(int lenght, int width){
-		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
 		Game._boardLength = lenght;
 		Game._boardWidth = width;
@@ -34,6 +34,10 @@ public class Game {
 		_board.addObj(pos, g);
 	}
 	
+	public BoardInterface getBoard() {
+		return _board;
+	}
+	
 	GameObject getGameObject (Position pos) {
 		return this._board.getGameObject(pos);
 	}
@@ -42,7 +46,8 @@ public class Game {
 		_board.eraseFromPos(pos);
 	}
 
-	public String positionToString(Position p) {	
+	public String positionToString(Position p) {	//without  the not  null check the game breaks.
+		if (_board.getGameObject(p)!=null&&_board.getGameObject(p).isSolid()) return _board.toString(p);
 		
 		if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
 		return "*";
@@ -61,22 +66,31 @@ public class Game {
 		_players.get(_currPlayer).addTroops(t);
 	}
 	
-	private void updateVisibility() {
+	private void updatePlayers() {
 		for (Player p : _players) {
-			p.updatePlayerVisibility();
+			p.update();
 		}
 	}
 	
 	public void update() {
 		_board.update();
-		updateVisibility();
+		updatePlayers();
 	}
 
+	public GameObject objectInPos(Position pos ) {
+		return _board.getGameObject(pos);
+	}
+	
 	public BoardInterface getBoard() {
 		return _board;
 	}
+	
 	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
 	{
 		this._board.setPosition(p1, p2, GO);
+	}
+	
+	public int getNumPlayer() { //Human view
+		return this._currPlayer + 1;
 	}
 }
