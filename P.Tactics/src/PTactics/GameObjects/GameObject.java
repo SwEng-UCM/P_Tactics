@@ -48,5 +48,6 @@ public abstract class GameObject {
 	public abstract boolean isAlive();
 	public abstract void die();
 	public void AddToMove(Position pos) {};
+	public void CalcNewMove(Position pos) {};
 	public abstract void update();
 }

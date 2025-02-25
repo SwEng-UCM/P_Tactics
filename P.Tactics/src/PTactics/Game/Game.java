@@ -1,6 +1,7 @@
 package PTactics.Game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import PTactics.GameObjects.GameObject;
@@ -15,7 +16,6 @@ public class Game {
 	private int _currPlayer;
 	
 	public Game(int lenght, int width){
-		//TODO: Change exception to our own made exceptions.
 		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
 		Game._boardLength = lenght;
 		Game._boardWidth = width;
@@ -81,8 +81,16 @@ public class Game {
 		return _board.getGameObject(pos);
 	}
 	
+	public BoardInterface getBoard() {
+		return _board;
+	}
+	
 	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
 	{
 		this._board.setPosition(p1, p2, GO);
+	}
+	
+	public int getNumPlayer() { //Human view
+		return this._currPlayer + 1;
 	}
 }

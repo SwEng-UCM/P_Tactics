@@ -37,6 +37,10 @@ public class Player implements DangerObject{
 		t.addPlayer(this);
 	}
 	
+	public boolean hasTroop(Troop t) {
+		return _troops.contains(t);
+	}
+	
 	public void updatePlayerVisibility() {
 		_visibility = new boolean[Game._boardWidth][Game._boardLength];
 		
