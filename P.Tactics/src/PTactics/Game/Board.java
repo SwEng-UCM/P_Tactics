@@ -4,13 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 import PTactics.GameObjects.GameObject;
+import PTactics.GameObjects.Wall;
 import PTactics.Utils.Position;
 
 public class Board extends LinkedHashMap <Position,GameObject>implements BoardInterface {
 	int size; //what is this???
 	
 	public Board() {
-		// perhaps create an init consrtuctor to add the walls and troops 
+		map1();
 	}
 	
 	public void addObj(Position p, GameObject o) {
@@ -68,5 +69,17 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 		if (pos.getX() < 0 || pos.getX() >= Game._boardWidth || pos.getY() < 0 || pos.getY() >= Game._boardLength)
 			return false;
 		return true;
+	}
+	
+	private void map1() {
+		this.addObj(new Position(3, 1), new Wall(new Position(3, 1), this));
+		this.addObj(new Position(7, 2), new Wall(new Position(7, 2), this));
+		this.addObj(new Position(2, 3), new Wall(new Position(2, 3), this));
+		this.addObj(new Position(5, 4), new Wall(new Position(5, 4), this));
+		this.addObj(new Position(9, 4), new Wall(new Position(9, 4), this));
+		this.addObj(new Position(4, 6), new Wall(new Position(4, 6), this));
+		this.addObj(new Position(8, 7), new Wall(new Position(8, 7), this));
+		this.addObj(new Position(1, 9), new Wall(new Position(1, 9), this));
+		this.addObj(new Position(6, 10), new Wall(new Position(6, 10), this));
 	}
 }

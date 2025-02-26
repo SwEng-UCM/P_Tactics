@@ -73,9 +73,35 @@ public class Controller implements ControllerInterface{
 		for(Integer i = 1; i <= numPlayers; ++i) {
 			Player p = new Player(i.toString());
 			for(int i1 = 0; i1 < Utils.Data.STARTING_SOLDIERS; ++i1) {					//TODO: This is just a demo
-				Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
-				p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
-				_currentGame.addNewElement(t, t.getPos());
+				//Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
+				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
+				//_currentGame.addNewElement(t, t.getPos());
+				if(i == 1) {
+					Troop t1 = new Troop(new Position(3,2), _currentGame.getBoard());
+					p.addTroops(t1);
+					_currentGame.addNewElement(t1, t1.getPos());
+					
+					Troop t2 = new Troop(new Position(3,2), _currentGame.getBoard());
+					p.addTroops(t2);
+					_currentGame.addNewElement(t2, t2.getPos());
+					
+					Troop t3 = new Troop(new Position(3,2), _currentGame.getBoard());
+					p.addTroops(t3);
+					_currentGame.addNewElement(t3, t3.getPos());
+				}
+				else if (i == 2) {
+					Troop t1 = new Troop(new Position(2,8), _currentGame.getBoard());
+					p.addTroops(t1);
+					_currentGame.addNewElement(t1, t1.getPos());
+					
+					Troop t2 = new Troop(new Position(6,9), _currentGame.getBoard());
+					p.addTroops(t2);
+					_currentGame.addNewElement(t2, t2.getPos());
+					
+					Troop t3 = new Troop(new Position(9,10), _currentGame.getBoard());
+					p.addTroops(t3);
+					_currentGame.addNewElement(t3, t3.getPos());
+				}
 			}
 			_currentGame.addPlayer(p);
 		}
@@ -91,8 +117,10 @@ public class Controller implements ControllerInterface{
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {	//Not safe, very probably explodes, tried with console, buffer, scanner and system.in, all throw internally a IOException and close the Stream
 		_cleanConsole();
-	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    //_currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
 	    _waitForEnter();
+		_currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": ");
+	    _currentGameView.showGame(_currentGame);
 	}
 	
 	@Override
