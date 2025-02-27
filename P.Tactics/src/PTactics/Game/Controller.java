@@ -82,11 +82,11 @@ public class Controller implements ControllerInterface{
 					p.addTroops(t1);
 					_currentGame.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(3,2), _currentGame.getBoard());
+					Troop t2 = new Troop(new Position(3,3), _currentGame.getBoard());
 					p.addTroops(t2);
 					_currentGame.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(3,2), _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(3,4), _currentGame.getBoard());
 					p.addTroops(t3);
 					_currentGame.addNewElement(t3, t3.getPos());
 				}
@@ -127,8 +127,8 @@ public class Controller implements ControllerInterface{
 	@Override
 	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
 		int posX = 0; int posY = 0;
-
-		while(true) {		//I am not afraid of consequences
+		boolean finish = false;
+		while(!finish) {		// Sergio: I am not afraid of consequences Arturo: I am
 			try {
 			//Get the coordinates of user
 			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
@@ -142,6 +142,8 @@ public class Controller implements ControllerInterface{
 			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
 			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)
 			_currTroop = g;
+			finish = true;
+			
 			} 
 			catch(InputMismatchException inputError) {
 				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
