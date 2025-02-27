@@ -163,4 +163,20 @@ public class Controller implements ControllerInterface{
 	private void _waitForEnter() {
 		_currentGameView.get();
 	}
+
+	@Override
+	public void update() {
+		this._currentGame.update();
+		
+	}
+	public void showGame() 
+	{
+		this._currentGameView.showGame(_currentGame);
+	}
+
+	@Override
+	public int getNumPlayer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
