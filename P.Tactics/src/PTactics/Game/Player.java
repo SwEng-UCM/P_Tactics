@@ -41,7 +41,7 @@ public class Player implements DangerObject{
 		return _troops.contains(t);
 	}
 	
-	public void updatePlayerVisibility() {
+	private void updatePlayerVisibility() {
 		_visibility = new boolean[Game._boardWidth][Game._boardLength];
 		
 		for (Troop troop : _troops) {
@@ -52,7 +52,7 @@ public class Player implements DangerObject{
 		}
 	}
 	
-	public void updatePlayerDangerTiles() {
+	private void updatePlayerDangerTiles() {
 		_danger = new boolean[Game._boardWidth][Game._boardLength];
 		
 		for (Troop troop : _troops) {
