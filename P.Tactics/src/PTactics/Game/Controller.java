@@ -31,6 +31,7 @@ public class Controller implements ControllerInterface{
 		while(!this.isFinish()) {
 			startOfTurn();
 			while(!_endTurn) {
+				//_currentGame.update();
 				String[] userCommand = _currentGameView.getPrompt();
 				Command command = CommandGenerator.parse(userCommand);
 				
