@@ -31,7 +31,6 @@ public class Controller implements ControllerInterface{
 		while(!this.isFinish()) {
 			startOfTurn();
 			while(!_endTurn) {
-				//_currentGame.update();
 				String[] userCommand = _currentGameView.getPrompt();
 				Command command = CommandGenerator.parse(userCommand);
 				
@@ -40,6 +39,7 @@ public class Controller implements ControllerInterface{
 				 } else {
 					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				 }
+				 
 			}
 
 		}
@@ -99,13 +99,14 @@ public class Controller implements ControllerInterface{
 					p.addTroops(t2);
 					_currentGame.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(9,10), _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(9,9), _currentGame.getBoard());
 					p.addTroops(t3);
 					_currentGame.addNewElement(t3, t3.getPos());
 				}
 			}
 			_currentGame.addPlayer(p);
 		}
+		_currentGame.update();
 	}
 	
 	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
