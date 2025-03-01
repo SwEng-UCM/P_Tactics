@@ -15,7 +15,7 @@ public interface Utils {
 	
 	//Dedicated to walls
 	public static interface WallUtils {
-		public final String WALL_ICON = "🧱";
+		public final String WALL_ICON = "■";
 	}
 	
 	//Dedicated to messages to the players of the game
