@@ -32,6 +32,7 @@ public class Controller implements ControllerInterface{
 			startOfTurn();
 			while(!_endTurn) {
 				String[] userCommand = _currentGameView.getPrompt();
+				while(userCommand[0] == "") { _currentGameView.getPrompt();}
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
@@ -78,7 +79,7 @@ public class Controller implements ControllerInterface{
 				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
 				//_currentGame.addNewElement(t, t.getPos());
 				if(i == 1) {
-					Troop t1 = new Troop(new Position(3,2), _currentGame.getBoard());
+					Troop t1 = new Troop(new Position(2,3), _currentGame.getBoard());
 					p.addTroops(t1);
 					_currentGame.addNewElement(t1, t1.getPos());
 					
@@ -86,7 +87,7 @@ public class Controller implements ControllerInterface{
 					p.addTroops(t2);
 					_currentGame.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(3,4), _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(4,3), _currentGame.getBoard());
 					p.addTroops(t3);
 					_currentGame.addNewElement(t3, t3.getPos());
 				}
@@ -117,9 +118,10 @@ public class Controller implements ControllerInterface{
 	}
 	
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
-	private void startOfTurn() {	//Not safe, very probably explodes, tried with console, buffer, scanner and system.in, all throw internally a IOException and close the Stream
+	private void startOfTurn() {
 		_cleanConsole();
-	    //_currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    _waitForEnter();
 	    _waitForEnter();
 		_currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": ");
 	    _currentGameView.showGame(_currentGame);

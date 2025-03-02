@@ -91,8 +91,7 @@ public class GameView {
 		String line = scanner.nextLine();
 		String[] words = line.trim().split("\\s+");
 
-        System.out.println(Utils.MessageUtils.DEBUG.formatted(line));		
-        //scanner.close();
+        if(words[0] != "") { System.out.println(Utils.MessageUtils.DEBUG.formatted(line));}
         
 		return words;
 	}
