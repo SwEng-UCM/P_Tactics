@@ -39,7 +39,7 @@ public class Controller implements ControllerInterface{
 			        showGame();
 				 } else {
 					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
-				 } 
+				 }
 			}
 			_currentGame.nextTurn();
 		}
@@ -131,11 +131,12 @@ public class Controller implements ControllerInterface{
 	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
 		int posX = 0; int posY = 0;
 		boolean finish = false;
-		while(!finish) {		// Sergio: I am not afraid of consequences Arturo: I am
+		while(!finish) {		
 			try {
 			//Get the coordinates of user
 			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
 			posX = _currentGameView.getInt(); posY = _currentGameView.getInt();
+			_currentGameView.getPrompt(); // 
 			posX--;posY--; 															//Adapted to human view
 			Position pos = new Position(posX,posY);
 			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
