@@ -19,7 +19,12 @@ public class AimCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI, Troop _currTroop) {
-		_currTroop.takeAim(_dirToAim);
+		try {
+			_currTroop.takeAim(_dirToAim);
+		}
+		catch(NullPointerException e) {
+			System.out.println(Utils.MsgErrors.UNSELECTED_TROOP);
+		}
 	}
 
 	@Override

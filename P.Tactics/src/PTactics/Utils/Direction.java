@@ -37,16 +37,16 @@ public enum Direction {
 	}
 	
 	public static Direction toDir(String direction) {
-		if(direction == "UP") {
+		if(direction.equals("UP") || direction.equals("U")) {
 			return Direction.UP;
 		}
-		else if(direction == "DOWN") {
+		else if(direction.equals("DOWN") || direction.equals("D")) {
 			return Direction.DOWN;
 		}
-		else if(direction == "LEFT") {
+		else if(direction.equals("LEFT")  || direction.equals("L")) {
 			return Direction.LEFT;
 		}
-		else if(direction == "RIGHT") {
+		else if(direction.equals("RIGHT") || direction.equals("R")) {
 			return Direction.RIGHT;
 		}
 		return Direction.NONE;

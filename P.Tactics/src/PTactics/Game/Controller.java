@@ -36,6 +36,7 @@ public class Controller implements ControllerInterface{
 				
 				 if (command != null) { 
 			        command.execute(this, _currTroop);	//TODO: need an interface to protect game, probably will receive troop t too
+			        showGame();
 				 } else {
 					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				 } 
@@ -135,6 +136,7 @@ public class Controller implements ControllerInterface{
 			//Get the coordinates of user
 			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
 			posX = _currentGameView.getInt(); posY = _currentGameView.getInt();
+			posX--;posY--; 															//Adapted to human view
 			Position pos = new Position(posX,posY);
 			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
 			
@@ -174,8 +176,7 @@ public class Controller implements ControllerInterface{
 		this._currentGame.update();
 		
 	}
-	public void showGame() 
-	{
+	public void showGame() {
 		this._currentGameView.showGame(_currentGame);
 	}
 

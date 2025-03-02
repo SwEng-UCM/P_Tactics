@@ -39,6 +39,7 @@ public interface Utils {
 		public static final String UNKNOWN_COMMAND = "Unknown command";
 		public static final String COMMAND_PARAMETERS_MISSING = "Missing parameters";
 		public static final String COMMAND_INCORRECT_PARAMETER_NUMBER = "Incorrect parameter number";
+		public static final String UNSELECTED_TROOP = "Select a troop first.";
 	}
 	
 	public static interface Data {
@@ -54,12 +55,12 @@ public interface Utils {
 		//Move command
 		public static final String COMMAND_MOVE_NAME = "move";
 		public static final String COMMAND_MOVE_SHORTCUT = "m";
-		public static final String COMMAND_MOVE_DETAILS = "[m]ove";
+		public static final String COMMAND_MOVE_DETAILS = "[m]ove + posX + posY";
 		public static final String COMMAND_MOVE_HELP = "given a valid position, the troop will move there";
 		//Aim command
 		public static final String COMMAND_AIM_NAME = "aim";
 		public static final String COMMAND_AIM_SHORTCUT = "a";
-		public static final String COMMAND_AIM_DETAILS = "[a]im";
+		public static final String COMMAND_AIM_DETAILS = "[a]im + direction";
 		public static final String COMMAND_AIM_HELP = "given a valid direction, the troop will aim in that direction";
 		//Exit command (end the turn)
 		public static final String COMMAND_EXIT_NAME = "exit";

@@ -29,7 +29,7 @@ public class CommandGenerator {
 	public static String commandHelp() {
 		String s = "";
 		for(Command c: _commands) {
-			s += c.GetDetails() + " :" + c.GetHelp() + "\n";
+			s += c.GetDetails() + " : " + c.GetHelp() + "\n";
 		}
 		return s;
 	}
