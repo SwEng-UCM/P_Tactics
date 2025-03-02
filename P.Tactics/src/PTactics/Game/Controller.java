@@ -23,7 +23,7 @@ public class Controller implements ControllerInterface{
 	
 	@Override
 	public void endTurn() {
-		_endTurn = false;
+		_endTurn = true;
 	}
 	
 	public void run() {
@@ -32,17 +32,15 @@ public class Controller implements ControllerInterface{
 			startOfTurn();
 			while(!_endTurn) {
 				String[] userCommand = _currentGameView.getPrompt();
-				while(userCommand[0] == "") { _currentGameView.getPrompt();}
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
 			        command.execute(this, _currTroop);	//TODO: need an interface to protect game, probably will receive troop t too
 				 } else {
 					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
-				 }
-				 
+				 } 
 			}
-
+			_currentGame.nextTurn();
 		}
 	}
 	
@@ -119,11 +117,12 @@ public class Controller implements ControllerInterface{
 	
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {
+		_endTurn = false;
 		_cleanConsole();
-	    _currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    _currentGameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
 	    _waitForEnter();
 	    _waitForEnter();
-		_currentGameView.showMessage("Player " + this._currentGame.getNumPlayer() + ": ");
+		_currentGameView.showMessage("Player " + getNumPlayer() + ": ");
 	    _currentGameView.showGame(_currentGame);
 	}
 	
@@ -182,7 +181,6 @@ public class Controller implements ControllerInterface{
 
 	@Override
 	public int getNumPlayer() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _currentGame.getNumPlayer();
 	}
 }

@@ -90,4 +90,11 @@ public class Game {
 	public int getNumPlayer() { //Human view
 		return this._currPlayer + 1;
 	}
+	
+	public void nextTurn() {
+		_currPlayer++;
+		if(_currPlayer >= _players.size()) {
+			_currPlayer = 0;
+		}
+	}
 }
