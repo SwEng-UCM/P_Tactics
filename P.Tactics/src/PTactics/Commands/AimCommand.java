@@ -21,6 +21,7 @@ public class AimCommand extends Command {
 	public void execute(ControllerInterface CI, Troop _currTroop) {
 		try {
 			_currTroop.takeAim(_dirToAim);
+			CI.update();
 		}
 		catch(NullPointerException e) {
 			System.out.println(Utils.MsgErrors.UNSELECTED_TROOP);

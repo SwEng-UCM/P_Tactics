@@ -35,7 +35,8 @@ public class Controller implements ControllerInterface{
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
-			        command.execute(this, _currTroop);	//TODO: need an interface to protect game, probably will receive troop t too
+			        command.execute(this, _currTroop); //TODO: need an interface to protect game, probably will receive troop t too
+			        System.out.println("Current troop selected: " + (this._currTroop==null?"none":("In position:"+(this._currTroop.getPos().X+1)+" "+(this._currTroop.getPos().Y+1))));
 			        showGame();
 				 } else {
 					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
@@ -135,7 +136,7 @@ public class Controller implements ControllerInterface{
 			try {
 			//Get the coordinates of user
 			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
-			posX = _currentGameView.getInt(); posY = _currentGameView.getInt();
+			posY = _currentGameView.getInt(); posX = _currentGameView.getInt();
 			_currentGameView.getPrompt(); // 
 			posX--;posY--; 															//Adapted to human view
 			Position pos = new Position(posX,posY);

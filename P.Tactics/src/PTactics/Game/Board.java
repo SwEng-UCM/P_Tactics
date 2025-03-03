@@ -1,6 +1,8 @@
 package PTactics.Game;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import PTactics.GameObjects.GameObject;
@@ -54,22 +56,23 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 		this.remove(this.getPosition(o));
 	}
 	public void update() {
-		Set <Position> sAux = this.keySet();
-		for(Position p: sAux) {
-			this.get(p).update();
-		}
+	    Iterator<Map.Entry<Position, GameObject>> iterator = this.entrySet().iterator();
+	    while (iterator.hasNext()) {
+	        iterator.next().getValue().update();
+	    }
 	}
+
 	public String toString(Position p) {
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
 	}
 
-	@Override
-	public boolean isValid(Position pos) {
+	//@Override // NOT NEEDED, SEE POSITION!
+	/*public boolean isValid(Position pos) {
 		if (pos.getX() < 0 || pos.getX() >= Game._boardWidth || pos.getY() < 0 || pos.getY() >= Game._boardLength)
 			return false;
 		return true;
-	}
+	}*/
 	
 	private void map1() {
 		this.addObj(new Position(3, 1), new Wall(new Position(3, 1), this));

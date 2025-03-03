@@ -47,7 +47,10 @@ public class Player implements DangerObject{
 		for (Troop troop : _troops) {
 			List<Position> positions = troop.visiblePositions();
 			for (Position pos : positions) {
-				_visibility[pos.getX()][pos.getY()] = true;
+				if(pos.isValid()) 
+				{
+					_visibility[pos.getX()][pos.getY()] = true;
+				}
 			}
 		}
 	}

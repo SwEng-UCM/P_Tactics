@@ -15,10 +15,12 @@ public class Game {
 	private List<Player> _players;
 	private int _currPlayer;
 	
-	public Game(int lenght, int width){
-		if(lenght <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
-		Game._boardLength = lenght;
+	public Game(int length, int width){
+		if(length <= 0 || width <= 0) throw new IllegalArgumentException("Map needs valid distance.");
+		Game._boardLength = length;
 		Game._boardWidth = width;
+		Position._gameLength=length;
+		Position._gameWidth=width;
 		this._board = new Board(); // add walls here?
 		this._players = new ArrayList<>();
 		this._currPlayer = 0;
