@@ -43,13 +43,10 @@ public class Troop extends GameObject{
 		List<Position> Sol = new ArrayList<>();
 	}
 	public void CalcNewMove(Position pos) {
-	    List<List<Integer>> Dirs = Arrays.asList(
-	        Arrays.asList(-1, 0),
-	        Arrays.asList(1, 0),
-	        Arrays.asList(0, -1),
-	        Arrays.asList(0, 1)
-	    );
-
+		List<int[]> Dirs = Arrays.asList(
+			    new int[]{-1, 0}, new int[]{1, 0}, new int[]{0, -1}, new int[]{0, 1}
+			);
+		
 	    SolArray bestSol = new SolArray();
 	    SolArray curSol = new SolArray();
 	    Set<Position> marks = new HashSet<>();
@@ -63,32 +60,26 @@ public class Troop extends GameObject{
 
 	private void _backTrackPathFinding(Position dest, SolArray curSol,
 			                          SolArray  bestSol, Set<Position> marks,
-	                                   List<List<Integer>> Dirs, StepCount curSolSteps,
+			                          List<int[]> Dirs, StepCount curSolSteps,
 	                                   StepCount bestSolSteps, Position it) {
 		
 
 	    if (it.equals(dest)) {
 	        if (curSolSteps.value < bestSolSteps.value) {
-	            bestSol.Sol.clear();
-	            bestSol.Sol.addAll(curSol.Sol);
+	        	bestSol.Sol = new ArrayList<>(curSol.Sol);
 	            bestSolSteps.value = curSolSteps.value;
 	        }
 	    } else {
-	        for (List<Integer> dir : Dirs) {
-	        	int x=it.X + dir.get(0);
-	        	int y=it.Y + dir.get(1);
-	            if(x>=0 && y>=0 && x<10 && y<10) 
-	            {
-	            	Position movePos = new Position(it.X + dir.get(0), it.Y + dir.get(1));
-		            if (!this.BI.isSolid(movePos) && !marks.contains(movePos)) {
-		            	curSolSteps.value++;
-		        	    curSol.Sol.add(movePos);
-		        	    marks.add(movePos);
-		                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos);
-		                curSolSteps.value--;
-		        	    curSol.Sol.remove(curSol.Sol.size() - 1);
-		        	    //marks.remove(movePos);
-		            }
+	        for (int[] dir : Dirs) {
+	        	Position movePos = new Position(it.X + dir[0], it.Y + dir[1]);
+	            if (movePos.isValid() && !this.BI.isSolid(movePos) && !marks.contains(movePos)) {
+	            	curSolSteps.value++;
+	        	    curSol.Sol.add(movePos);
+	        	    marks.add(movePos);
+	                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos);
+	                curSolSteps.value--;
+	        	    curSol.Sol.remove(curSol.Sol.size() - 1);
+	        	    marks.remove(movePos);
 	            }
 	        }
 	    }
@@ -112,7 +103,6 @@ public class Troop extends GameObject{
 				this._currentMove.removeFirst();
 			}
 	}
-	
 	@Override
 	public String toString() {
 		if(_dir == Direction.UP) {

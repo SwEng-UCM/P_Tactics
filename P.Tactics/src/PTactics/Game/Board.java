@@ -1,15 +1,18 @@
 package PTactics.Game;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Wall;
 import PTactics.Utils.Position;
 
-public class Board extends LinkedHashMap <Position,GameObject>implements BoardInterface {
+public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {
 	int size; //what is this???
 	
 	public Board() {
@@ -56,10 +59,9 @@ public class Board extends LinkedHashMap <Position,GameObject>implements BoardIn
 		this.remove(this.getPosition(o));
 	}
 	public void update() {
-	    Iterator<Map.Entry<Position, GameObject>> iterator = this.entrySet().iterator();
-	    while (iterator.hasNext()) {
-	        iterator.next().getValue().update();
-	    }
+	    for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
+            entry.getValue().update();
+        }
 	}
 
 	public String toString(Position p) {
