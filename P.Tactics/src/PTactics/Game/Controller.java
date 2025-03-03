@@ -1,11 +1,9 @@
 package PTactics.Game;
 
 import java.util.InputMismatchException;
-import java.util.Objects;
-import java.util.Scanner;
-
 import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
+import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
@@ -19,11 +17,6 @@ public class Controller implements ControllerInterface{
 	
 	public Controller() {
 		this._currentGameView = new GameView();
-	}
-	
-	@Override
-	public void endTurn() {
-		_endTurn = true;
 	}
 	
 	public void run() {
@@ -79,28 +72,28 @@ public class Controller implements ControllerInterface{
 				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
 				//_currentGame.addNewElement(t, t.getPos());
 				if(i == 1) {
-					Troop t1 = new Troop(new Position(2,3), _currentGame.getBoard());
+					Troop t1 = new Troop(new Position(2,3), p, _currentGame.getBoard());
 					p.addTroops(t1);
 					_currentGame.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(3,3), _currentGame.getBoard());
+					Troop t2 = new Troop(new Position(3,3), p, _currentGame.getBoard());
 					p.addTroops(t2);
 					_currentGame.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(4,3), _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(4,3), p, _currentGame.getBoard());
 					p.addTroops(t3);
 					_currentGame.addNewElement(t3, t3.getPos());
 				}
 				else if (i == 2) {
-					Troop t1 = new Troop(new Position(2,8), _currentGame.getBoard());
+					Troop t1 = new Troop(new Position(2,8), p, _currentGame.getBoard());
 					p.addTroops(t1);
 					_currentGame.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(6,9), _currentGame.getBoard());
+					Troop t2 = new Troop(new Position(6,9), p, _currentGame.getBoard());
 					p.addTroops(t2);
 					_currentGame.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(9,9), _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(9,9), p, _currentGame.getBoard());
 					p.addTroops(t3);
 					_currentGame.addNewElement(t3, t3.getPos());
 				}
@@ -128,39 +121,15 @@ public class Controller implements ControllerInterface{
 	    _currentGameView.showGame(_currentGame);
 	}
 	
+
 	@Override
-	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
-		int row = 0; int col = 0;
-		boolean finish = false;
-		while(!finish) {		
-			try {
-			//Get the coordinates of user
-			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
-			row = _currentGameView.getInt(); col = _currentGameView.getInt();
-			_currentGameView.getPrompt(); // 
-			row--;col--; 															//Adapted to human view
-			Position pos = new Position(col,row);
-			if(row < 0 || row > Game._boardWidth - 1 || col < 0 || col > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
-			
-			//Search if troop is on board and is from the player
-			Troop g = (Troop) _currentGame.getGameObject(pos);	
-			if (Objects.isNull(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								//Have to check if it exists (is a GO)
-			if (!g.isAlive()) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);								    //Have to check if it is a troop alive (walls and dead troops will return false)
-			if(!_currentGame.getPlayer().hasTroop(g)) throw new Exception(Utils.MsgErrors.INVALID_SELECTION);   		//Have to check that it belongs to the player (sorry for the casting)
-			_currTroop = g;
-			finish = true;
-			
-			} 
-			catch(InputMismatchException inputError) {
-				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
-			}
-			catch(ClassCastException wrongObject) {
-				_currentGameView.showMessage(Utils.MsgErrors.INVALID_SELECTION);
-			}
-			catch(Exception wrongCoords) {
-				_currentGameView.showMessage(wrongCoords.getMessage());
-			}
-		}
+	public void endTurn() {
+		_endTurn = true;
+	}
+	
+	@Override
+	public void setTroop(Troop t) {		//Because select soldier is necessary, it will not be part of the commands, at least for now
+		this._currTroop = t;
 	}
 	
 	private void _cleanConsole() {
@@ -172,7 +141,7 @@ public class Controller implements ControllerInterface{
 	private void _waitForEnter() {
 		_currentGameView.get();
 	}
-
+	
 	@Override
 	public void update() {
 		this._currentGame.update();
@@ -185,5 +154,25 @@ public class Controller implements ControllerInterface{
 	@Override
 	public int getNumPlayer() {
 		return _currentGame.getNumPlayer();
+	}
+	
+	@Override
+	public String[] getPrompt() {
+		return _currentGameView.getPrompt();
+	}
+	
+	@Override
+	public int getInt() {
+		return _currentGameView.getInt();
+	}
+	
+	@Override
+	public void showMessage(String msg) {
+		_currentGameView.showMessage(msg);
+	}
+
+	@Override
+	public  GameObject getGameObject(Position pos) {
+		return _currentGame.getGameObject(pos);
 	}
 }

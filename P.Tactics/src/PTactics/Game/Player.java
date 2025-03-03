@@ -7,7 +7,6 @@ import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 
 public class Player implements DangerObject{
-	// all of this stuff really should be private
 	private String _id;
 	private int _turn;
 	private boolean[][] _visibility;
