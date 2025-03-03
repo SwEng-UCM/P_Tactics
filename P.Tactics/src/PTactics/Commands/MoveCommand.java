@@ -42,8 +42,8 @@ public class MoveCommand extends Command {
 		if(sa.length == 3  && matchCommand(sa[0])) 
 		{
 			try {
-				_posX =Integer.valueOf(sa[1])-1;
-				_posY =Integer.valueOf(sa[2])-1;
+				_posY =Integer.valueOf(sa[1])-1;
+				_posX =Integer.valueOf(sa[2])-1;
 			} catch(NumberFormatException n) {
 				//So it is not recognized as a command, maybe throw a Exception instead?
 				return null;

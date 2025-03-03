@@ -130,17 +130,17 @@ public class Controller implements ControllerInterface{
 	
 	@Override
 	public void selectSoldier() {		//Because select soldier is necessary, it will not be part of the commands, at least for now
-		int posX = 0; int posY = 0;
+		int row = 0; int col = 0;
 		boolean finish = false;
 		while(!finish) {		
 			try {
 			//Get the coordinates of user
 			_currentGameView.showMessage(Utils.MessageUtils.ASK_SELECT_SOLDIER);
-			posY = _currentGameView.getInt(); posX = _currentGameView.getInt();
+			row = _currentGameView.getInt(); col = _currentGameView.getInt();
 			_currentGameView.getPrompt(); // 
-			posX--;posY--; 															//Adapted to human view
-			Position pos = new Position(posX,posY);
-			if(posX < 0 || posX > Game._boardWidth - 1 || posY < 0 || posY > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
+			row--;col--; 															//Adapted to human view
+			Position pos = new Position(col,row);
+			if(row < 0 || row > Game._boardWidth - 1 || col < 0 || col > Game._boardLength) throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
 			
 			//Search if troop is on board and is from the player
 			Troop g = (Troop) _currentGame.getGameObject(pos);	
