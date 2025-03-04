@@ -10,13 +10,13 @@ import PTactics.Utils.Utils;
 import PTactics.View.GameView;
 
 public class Controller implements ControllerInterface{
-	private Game _currentGame;
-	private GameView _currentGameView;
+	private Game _game;
+	private GameView _gameView;
 	private boolean _endTurn;
-	private Troop _currTroop;
+	private Troop _troop;
 	
 	public Controller() {
-		this._currentGameView = new GameView();
+		this._gameView = new GameView();
 	}
 	
 	public void run() {
@@ -24,18 +24,18 @@ public class Controller implements ControllerInterface{
 		while(!this.isFinish()) {
 			startOfTurn();
 			while(!_endTurn) {
-				String[] userCommand = _currentGameView.getPrompt();
+				String[] userCommand = _gameView.getPrompt();
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
-			        command.execute(this, _currTroop); //TODO: need an interface to protect game, probably will receive troop t too
-			        System.out.println("Current troop selected: " + (this._currTroop==null?"none":("In position:"+(this._currTroop.getPos().Y+1)+" "+(this._currTroop.getPos().X+1))));
+			        command.execute(this, _troop); //TODO: need an interface to protect game, probably will receive troop t too
+			        System.out.println("Current troop selected: " + (this._troop==null?"none":("In position:"+(this._troop.getPos().Y+1)+" "+(this._troop.getPos().X+1))));
 			        showGame();
 				 } else {
-					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
+					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				 }
 			}
-			_currentGame.nextTurn();
+			_game.nextTurn();
 		}
 	}
 	
@@ -43,23 +43,23 @@ public class Controller implements ControllerInterface{
 		int numPlayers = 0;
 		boolean correct = false;
 		//TODO: Give them to decide between maps or randomizer
-		this._currentGame = new Game();
-		_currentGameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
-		_currentGameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
+		this._game = new Game();
+		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
+		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
 		
 		while(!correct) {
 			try {
-				numPlayers = _currentGameView.getInt();
+				numPlayers = _gameView.getInt();
 				if(numPlayers < 2 || numPlayers > 4) throw new Exception();
 				correct = true;
 			}
 			catch (InputMismatchException inputError) {
-				_currentGameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
-				_currentGameView.get();	//Clearing the buffer to avoid infinite loop!
+				_gameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
+				_gameView.get();	//Clearing the buffer to avoid infinite loop!
 				correct = false;
 			} 
 			catch (Exception e) {
-				_currentGameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
+				_gameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
 				correct = false;
 			}
 		}
@@ -72,39 +72,39 @@ public class Controller implements ControllerInterface{
 				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
 				//_currentGame.addNewElement(t, t.getPos());
 				if(i == 1) {
-					Troop t1 = new Troop(new Position(2,3), p, _currentGame.getBoard());
+					Troop t1 = new Troop(new Position(2,3), p, _game.getBoard());
 					p.addTroops(t1);
-					_currentGame.addNewElement(t1, t1.getPos());
+					_game.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(3,3), p, _currentGame.getBoard());
+					Troop t2 = new Troop(new Position(3,3), p, _game.getBoard());
 					p.addTroops(t2);
-					_currentGame.addNewElement(t2, t2.getPos());
+					_game.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(4,3), p, _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(4,3), p, _game.getBoard());
 					p.addTroops(t3);
-					_currentGame.addNewElement(t3, t3.getPos());
+					_game.addNewElement(t3, t3.getPos());
 				}
 				else if (i == 2) {
-					Troop t1 = new Troop(new Position(2,8), p, _currentGame.getBoard());
+					Troop t1 = new Troop(new Position(2,8), p, _game.getBoard());
 					p.addTroops(t1);
-					_currentGame.addNewElement(t1, t1.getPos());
+					_game.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(6,9), p, _currentGame.getBoard());
+					Troop t2 = new Troop(new Position(6,9), p, _game.getBoard());
 					p.addTroops(t2);
-					_currentGame.addNewElement(t2, t2.getPos());
+					_game.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(9,9), p, _currentGame.getBoard());
+					Troop t3 = new Troop(new Position(9,9), p, _game.getBoard());
 					p.addTroops(t3);
-					_currentGame.addNewElement(t3, t3.getPos());
+					_game.addNewElement(t3, t3.getPos());
 				}
 			}
-			_currentGame.addPlayer(p);
+			_game.addPlayer(p);
 		}
-		_currentGame.update();
+		_game.update();
 	}
 	
 	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
-		for(Troop t : _currentGame.getPlayer().getTroops()) {
+		for(Troop t : _game.getPlayer().getTroops()) {
 			if(t.isAlive()) return false;
 		}
 		return true;
@@ -114,11 +114,11 @@ public class Controller implements ControllerInterface{
 	private void startOfTurn() {
 		_endTurn = false;
 		_cleanConsole();
-	    _currentGameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    _gameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
 	    _waitForEnter();
 	    _waitForEnter();
-		_currentGameView.showMessage("Player " + getNumPlayer() + ": ");
-	    _currentGameView.showGame(_currentGame);
+		_gameView.showMessage("Player " + getNumPlayer() + ": ");
+	    _gameView.showGame(_game);
 	}
 	
 
@@ -129,7 +129,7 @@ public class Controller implements ControllerInterface{
 	
 	@Override
 	public void setTroop(Troop t) {		//Because select soldier is necessary, it will not be part of the commands, at least for now
-		this._currTroop = t;
+		this._troop = t;
 	}
 	
 	private void _cleanConsole() {
@@ -139,40 +139,40 @@ public class Controller implements ControllerInterface{
 	}
 	
 	private void _waitForEnter() {
-		_currentGameView.get();
+		_gameView.get();
 	}
 	
 	@Override
 	public void update() {
-		this._currentGame.update();
+		this._game.update();
 		
 	}
 	public void showGame() {
-		this._currentGameView.showGame(_currentGame);
+		this._gameView.showGame(_game);
 	}
 
 	@Override
 	public int getNumPlayer() {
-		return _currentGame.getNumPlayer();
+		return _game.getNumPlayer();
 	}
 	
 	@Override
 	public String[] getPrompt() {
-		return _currentGameView.getPrompt();
+		return _gameView.getPrompt();
 	}
 	
 	@Override
 	public int getInt() {
-		return _currentGameView.getInt();
+		return _gameView.getInt();
 	}
 	
 	@Override
 	public void showMessage(String msg) {
-		_currentGameView.showMessage(msg);
+		_gameView.showMessage(msg);
 	}
 
 	@Override
 	public  GameObject getGameObject(Position pos) {
-		return _currentGame.getGameObject(pos);
+		return _game.getGameObject(pos);
 	}
 }
