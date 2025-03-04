@@ -29,7 +29,7 @@ public class Controller implements ControllerInterface{
 				
 				 if (command != null) { 
 			        command.execute(this, _currTroop); //TODO: need an interface to protect game, probably will receive troop t too
-			        System.out.println("Current troop selected: " + (this._currTroop==null?"none":("In position:"+(this._currTroop.getPos().X+1)+" "+(this._currTroop.getPos().Y+1))));
+			        System.out.println("Current troop selected: " + (this._currTroop==null?"none":("In position:"+(this._currTroop.getPos().Y+1)+" "+(this._currTroop.getPos().X+1))));
 			        showGame();
 				 } else {
 					 _currentGameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
