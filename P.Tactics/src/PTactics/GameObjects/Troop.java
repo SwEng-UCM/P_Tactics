@@ -2,8 +2,10 @@ package PTactics.GameObjects;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import PTactics.Game.BoardInterface;
@@ -43,48 +45,71 @@ public class Troop extends GameObject{
 		List<Position> Sol = new ArrayList<>();
 	}
 	public void CalcNewMove(Position dest) {
-		List<int[]> Dirs = Arrays.asList(
-			    new int[]{-1, 0}, new int[]{1, 0}, new int[]{0, -1}, new int[]{0, 1}
-			);
-		int biggestSteps= (Math.abs(dest.X-this.pos.X)+Math.abs(dest.Y-this.pos.Y))*(Math.abs(dest.X-this.pos.X)+Math.abs(dest.Y-this.pos.Y));
+	    List<int[]> Dirs = Arrays.asList(
+	        new int[]{-1, 0}, new int[]{1, 0}, new int[]{0, -1}, new int[]{0, 1}
+	    );
+
 	    SolArray bestSol = new SolArray();
 	    SolArray curSol = new SolArray();
 	    Set<Position> marks = new HashSet<>();
 	    StepCount bestSolSteps = new StepCount();
 	    StepCount curSolSteps = new StepCount();
-	    bestSolSteps.value = Integer.MAX_VALUE;
+	    bestSolSteps.value = Integer.MAX_VALUE;  // Ensure it starts at max possible value
 
-	    _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos, biggestSteps);
-	    this._currentMove = bestSol.Sol;
+	    Map<Position, Integer> minSteps = new HashMap<>(); // Track shortest path per position
+
+	    _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos, minSteps);
+
+	    this._currentMove = bestSol.Sol; // Store the best found solution
 	}
+
 
 	private void _backTrackPathFinding(Position dest, SolArray curSol,
-			                          SolArray  bestSol, Set<Position> marks,
-			                          List<int[]> Dirs, StepCount curSolSteps,
-	                                   StepCount bestSolSteps, Position it, int biggestSteps) {
-		
+            SolArray bestSol, Set<Position> marks,
+            List<int[]> Dirs, StepCount curSolSteps,
+            StepCount bestSolSteps, Position it, Map<Position, Integer> minSteps) {
 
-	    if (it.equals(dest)) {
-	        if (curSolSteps.value < bestSolSteps.value) {
-	        	bestSol.Sol = new ArrayList<>(curSol.Sol);
-	            bestSolSteps.value = curSolSteps.value;
-	        }
-	    } else if(curSolSteps.value<=biggestSteps)  {
-	        for (int[] dir : Dirs) {
-	        	Position movePos = new Position(it.X + dir[0], it.Y + dir[1]);
-	            if (movePos.isValid() && !this.BI.isSolid(movePos) && !marks.contains(movePos)) {
-	            	curSolSteps.value++;
-	        	    curSol.Sol.add(movePos);
-	        	    marks.add(movePos);
-	                _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos, biggestSteps);
-	                curSolSteps.value--;
-	        	    curSol.Sol.remove(curSol.Sol.size() - 1);
-	        	    marks.remove(movePos);
-	            }
-	        }
-	    }
-	    
-	}
+    //System.out.println("Current Position: " + it.Y + " " + it.X + " Steps: " + curSolSteps.value);
+
+    if (dest.equals(it)) {
+        if (curSolSteps.value < bestSolSteps.value) {
+            bestSolSteps.value = curSolSteps.value;
+            bestSol.Sol = new ArrayList<>(curSol.Sol);
+            //System.out.println("Found new best solution with steps: " + bestSolSteps.value);
+        }
+        return;
+    }
+
+    for (int[] curDir : Dirs) {
+        Position movePos = new Position(it.X + curDir[0], it.Y + curDir[1]);
+
+        //System.out.println("Trying move to: " + movePos.Y + " " + movePos.X);
+
+        if (movePos.isValid() && !BI.isSolid(movePos) && !marks.contains(movePos)) {
+
+            // Heuristic pruning: if this path is already worse, skip it
+            if (minSteps.containsKey(movePos) && minSteps.get(movePos) <= curSolSteps.value) {
+                //System.out.println("Skipping move due to worse step count: " + movePos.Y + " " + movePos.X);
+                continue;
+            }
+            minSteps.put(movePos, curSolSteps.value);
+
+            curSolSteps.value++;
+            marks.add(movePos);
+            curSol.Sol.add(movePos);
+
+            _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos, minSteps);
+
+            curSol.Sol.remove(curSol.Sol.size() - 1);
+            curSolSteps.value--;
+            marks.remove(movePos);
+
+            //System.out.println("Backtracking from: " + movePos.Y + " " + movePos.X);
+        } else {
+            //System.out.println("Skipping move to: " + movePos.Y + " " + movePos.X);
+        }
+    }
+}
 
 	public void Move() 
 	{
