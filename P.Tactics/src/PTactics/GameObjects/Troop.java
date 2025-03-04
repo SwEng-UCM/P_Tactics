@@ -22,13 +22,14 @@ public class Troop extends GameObject{
 	private Player _player;
 	private final int _visionRange = 5;
 	
-	public Troop (Position pos, BoardInterface BI) { // all GO constructors changed to include the board
+	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board
 	    super(pos, BI);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
         this._dir = Direction.DOWN;
         this._aiming = false;
+        this._player = p;
 	}
 	@Override
 	public void AddToMove(Position pos) 
@@ -195,6 +196,10 @@ public class Troop extends GameObject{
 	
 	public void stopAiming() {
 		_aiming = false;
+	}
+	
+	public String getPlayer() {
+		return this._player.getId();
 	}
 	
 	@Override
