@@ -30,6 +30,7 @@ public class Troop extends GameObject{
         this._dir = Direction.DOWN;
         this._aiming = false;
         this._player = p;
+        _player.addTroops(this);
 	}
 	@Override
 	public void AddToMove(Position pos) 
@@ -120,6 +121,12 @@ public class Troop extends GameObject{
 			{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
+				if (_player.getDanger(getPos())) {
+					die();					
+				}
+				else {
+					_player.update();					
+				}
 			}
 			else if(!this._moveQueue.isEmpty())
 			{
@@ -155,6 +162,9 @@ public class Troop extends GameObject{
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
 		
+		if (!isAlive()) {
+			return visiblePositions;
+		}
 		visiblePositions.add(getPos());
 		Position pos = new Position(getPos().getX(), getPos().getY());
 		
@@ -180,10 +190,13 @@ public class Troop extends GameObject{
 			return dangerPositions;
 		}
 		
+		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
-			Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (pos.isValid() && !BI.isSolid(pos))
-				dangerPositions.add(pos);
+			if (visPos.isValid() && !BI.isSolid(visPos)) {
+				dangerPositions.add(visPos);
+				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
+			} else break;
+			
 		}
 		
 		return dangerPositions;	

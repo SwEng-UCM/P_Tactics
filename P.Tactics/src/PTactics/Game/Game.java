@@ -46,9 +46,14 @@ public class Game {
 	}
 
 	public String positionToString(Position p) {	//without  the not  null check the game breaks.
+		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
 		if (_board.getGameObject(p)!=null&&_board.getGameObject(p).isSolid()) return _board.toString(p);
-		
-		if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
+		if (visible) {
+			if (_board.getGameObject(p)!=null&&!_board.getGameObject(p).isAlive()) {
+				return " ";
+			}
+			if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
+		}
 		return "*";
 	}
 	
