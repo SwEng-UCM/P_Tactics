@@ -28,14 +28,14 @@ public class Controller implements ControllerInterface{
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
-			        command.execute(this, _troop); //TODO: need an interface to protect game, probably will receive troop t too
+			        command.execute(this, _troop);
 			        System.out.println("Current troop selected: " + (this._troop==null?"none":("In position:"+(this._troop.getPos().Y+1)+" "+(this._troop.getPos().X+1))));
 			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				 }
 			}
-			_game.nextTurn();
+			nextTurn();
 		}
 	}
 	
@@ -119,6 +119,11 @@ public class Controller implements ControllerInterface{
 	@Override
 	public void endTurn() {
 		_endTurn = true;
+	}
+	
+	public void nextTurn() {
+		_troop = null;
+		_game.nextTurn();
 	}
 	
 	@Override
