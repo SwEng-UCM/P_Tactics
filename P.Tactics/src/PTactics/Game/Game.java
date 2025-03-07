@@ -1,7 +1,6 @@
 package PTactics.Game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import PTactics.GameObjects.GameObject;
@@ -31,7 +30,7 @@ public class Game {
 		this(10 ,10);
 	}
 	
-	public void addNewElement(GameObject g, Position pos) {//la posicion tiene que venir adaptada de la vista humana a la vista maquina
+	public void addNewElement(GameObject g, Position pos) {
 		if(Objects.isNull(g)) throw new IllegalArgumentException("A null object cannot be added to game.");
 		_board.addObj(pos, g);
 	}
@@ -61,10 +60,10 @@ public class Game {
 		this._players.add(p);
 	}
 	
-	Player getPlayer() {	//This should receive an index or smth. // this is illegal I feel like, make the call for a function of game and let it handle its players
+	Player getPlayer() {
 		return this._players.get(_currPlayer);
 	}
-	// try this instead
+
 	public void addTroops(Troop t) {
 		addNewElement(t, t.getPos());
 		_players.get(_currPlayer).addTroops(t);

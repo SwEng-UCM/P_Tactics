@@ -69,14 +69,6 @@ public class GameView {
 				 StringUtils.repeat(_HORIZONTAL_LINE, Game._boardWidth * _CELL_SIZE) + LOWER_RIGHT_CORNER);
 	}
 	
-	public void showEndMessage() {
-		
-	}
-	
-	public void showWelcomeMessage() {
-		
-	}
-	
 	public void showMessage(String msg) {
 		System.out.println(msg);
 	}

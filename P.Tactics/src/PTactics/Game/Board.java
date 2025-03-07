@@ -1,9 +1,5 @@
 package PTactics.Game;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +9,7 @@ import PTactics.GameObjects.Wall;
 import PTactics.Utils.Position;
 
 public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {
-	int size; //what is this???
+	private static final long serialVersionUID = 1L;
 	
 	public Board() {
 		map1();
@@ -68,13 +64,6 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
 	}
-
-	//@Override // NOT NEEDED, SEE POSITION!
-	/*public boolean isValid(Position pos) {
-		if (pos.getX() < 0 || pos.getX() >= Game._boardWidth || pos.getY() < 0 || pos.getY() >= Game._boardLength)
-			return false;
-		return true;
-	}*/
 	
 	private void map1() {
 		this.addObj(new Position(3, 1), new Wall(new Position(3, 1), this));
