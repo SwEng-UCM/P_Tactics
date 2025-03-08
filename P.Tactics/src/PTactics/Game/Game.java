@@ -10,7 +10,6 @@ import PTactics.Utils.Position;
 public class Game {
 	public static int _boardLength; 			//This is the first value (y)
 	public static int _boardWidth;			//This is the second value (x)
-	private BoardInterface _board;
 	private List<Player> _players;
 	private int _currPlayer;
 	
@@ -20,7 +19,6 @@ public class Game {
 		Game._boardWidth = width;
 		Position._gameLength=length;
 		Position._gameWidth=width;
-		this._board = new Board(); // add walls here?
 		this._players = new ArrayList<>();
 		this._currPlayer = 0;
 	}
@@ -32,26 +30,26 @@ public class Game {
 	
 	public void addNewElement(GameObject g, Position pos) {
 		if(Objects.isNull(g)) throw new IllegalArgumentException("A null object cannot be added to game.");
-		_board.addObj(pos, g);
+		Board.getInstance().addObj(pos, g);
 	}
 
 	
 	GameObject getGameObject (Position pos) {
-		return this._board.getGameObject(pos);
+		return Board.getInstance().getGameObject(pos);
 	}
 	
 	void eraseGameObject(Position pos) {
-		_board.eraseFromPos(pos);
+		Board.getInstance().eraseFromPos(pos);
 	}
 
 	public String positionToString(Position p) {	//without  the not  null check the game breaks.
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
-		if (_board.getGameObject(p)!=null&&_board.getGameObject(p).isSolid()) return _board.toString(p);
+		if (Board.getInstance().getGameObject(p)!=null&&Board.getInstance().getGameObject(p).isSolid()) return Board.getInstance().toString(p);
 		if (visible) {
-			if (_board.getGameObject(p)!=null&&!_board.getGameObject(p).isAlive()) {
+			if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
 				return " ";
 			}
-			if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
+			if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return Board.getInstance().toString(p);
 		}
 		return "*";
 	}
@@ -76,21 +74,21 @@ public class Game {
 	}
 	
 	public void update() {
-		_board.update();
+		Board.getInstance().update();
 		updatePlayers();
 	}
 
 	public GameObject objectInPos(Position pos ) {
-		return _board.getGameObject(pos);
+		return Board.getInstance().getGameObject(pos);
 	}
 	
 	public BoardInterface getBoard() {
-		return _board;
+		return Board.getInstance();
 	}
 	
 	public void  setPositionOnBoard(Position p1, Position p2, GameObject GO) 
 	{
-		this._board.setPosition(p1, p2, GO);
+		Board.getInstance().setPosition(p1, p2, GO);
 	}
 	
 	public int getNumPlayer() { //Human view

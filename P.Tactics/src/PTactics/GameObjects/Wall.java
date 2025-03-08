@@ -1,13 +1,12 @@
 package PTactics.GameObjects;
 
-import PTactics.Game.BoardInterface;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
 public class Wall extends GameObject  {
 
-	public Wall(Position pos, BoardInterface BI) {
-		super(pos, BI);
+	public Wall(Position pos) {
+		super(pos);
 		this.solid=true;
 	}
 

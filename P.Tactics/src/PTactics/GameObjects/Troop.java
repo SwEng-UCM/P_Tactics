@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import PTactics.Game.Board;
 import PTactics.Game.BoardInterface;
 import PTactics.Game.Player;
 import PTactics.Utils.Direction;
@@ -22,8 +23,8 @@ public class Troop extends GameObject{
 	private Player _player;
 	private final int _visionRange = 5;
 	
-	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board
-	    super(pos, BI);
+	public Troop (Position pos, Player p) { // all GO constructors changed to include the board
+	    super(pos);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
@@ -87,7 +88,7 @@ public class Troop extends GameObject{
 
         //System.out.println("Trying move to: " + movePos.Y + " " + movePos.X);
 
-        if (movePos.isValid() && BI.getGameObject(movePos)==null &&  !marks.contains(movePos)) {
+        if (movePos.isValid() && Board.getInstance().getGameObject(movePos)==null &&  !marks.contains(movePos)) {
 
             // Heuristic pruning: if this path is already worse, skip it
             if (minSteps.containsKey(movePos) && minSteps.get(movePos) <= curSolSteps.value) {
@@ -171,7 +172,7 @@ public class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || BI.isSolid(pos))
+			if (!pos.isValid() || Board.getInstance().isSolid(pos))
 				break;
 			visiblePositions.add(pos);
 		}
@@ -192,7 +193,7 @@ public class Troop extends GameObject{
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && !BI.isSolid(visPos)) {
+			if (visPos.isValid() && !Board.getInstance().isSolid(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;

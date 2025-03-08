@@ -1,6 +1,7 @@
 package PTactics.Game;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,9 +11,18 @@ import PTactics.Utils.Position;
 
 public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {
 	private static final long serialVersionUID = 1L;
+	private static Board _board;
 	
-	public Board() {
+	private Board() {
 		map1();
+	}
+	
+	public static BoardInterface getInstance() {
+		if(Objects.isNull(_board)) {
+			_board = new Board();
+		}
+				
+		return _board;
 	}
 	
 	public void addObj(Position p, GameObject o) {
@@ -66,14 +76,14 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	}
 	
 	private void map1() {
-		this.addObj(new Position(3, 1), new Wall(new Position(3, 1), this));
-		this.addObj(new Position(7, 2), new Wall(new Position(7, 2), this));
-		this.addObj(new Position(2, 3), new Wall(new Position(2, 3), this));
-		this.addObj(new Position(5, 4), new Wall(new Position(5, 4), this));
-		this.addObj(new Position(9, 4), new Wall(new Position(9, 4), this));
-		this.addObj(new Position(4, 6), new Wall(new Position(4, 6), this));
-		this.addObj(new Position(8, 7), new Wall(new Position(8, 7), this));
-		this.addObj(new Position(1, 9), new Wall(new Position(1, 9), this));
-		this.addObj(new Position(6, 10), new Wall(new Position(6, 10), this));
+		this.addObj(new Position(3, 1), new Wall(new Position(3, 1)));
+		this.addObj(new Position(7, 2), new Wall(new Position(7, 2)));
+		this.addObj(new Position(2, 3), new Wall(new Position(2, 3)));
+		this.addObj(new Position(5, 4), new Wall(new Position(5, 4)));
+		this.addObj(new Position(9, 4), new Wall(new Position(9, 4)));
+		this.addObj(new Position(4, 6), new Wall(new Position(4, 6)));
+		this.addObj(new Position(8, 7), new Wall(new Position(8, 7)));
+		this.addObj(new Position(1, 9), new Wall(new Position(1, 9)));
+		this.addObj(new Position(6, 10), new Wall(new Position(6, 10)));
 	}
 }
