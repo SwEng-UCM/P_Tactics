@@ -33,6 +33,19 @@ public class Troop extends GameObject{
         this._player = p;
         _player.addTroops(this);
 	}
+	
+	//If want to personalize direction
+	public Troop (Position pos, Player p, Direction dir) { 
+	    super(pos);
+	    this._moveQueue = new ArrayList<>(); 
+        this._currentMove = new ArrayList<>();
+        this.solid=false;
+        this._dir = dir;
+        this._aiming = false;
+        this._player = p;
+        _player.addTroops(this);
+	}
+	
 	@Override
 	public void AddToMove(Position pos) 
 	{
