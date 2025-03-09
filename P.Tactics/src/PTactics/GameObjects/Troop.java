@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import PTactics.Game.Board;
-import PTactics.Game.BoardInterface;
 import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;

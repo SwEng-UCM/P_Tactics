@@ -3,8 +3,6 @@ package PTactics.View;
 import java.util.Scanner;
 
 import PTactics.Game.Game;
-import PTactics.Game.Player;
-import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.StringUtils;
 import PTactics.Utils.Utils;

@@ -5,6 +5,7 @@ import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
+import PTactics.Utils.MapSelector;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 import PTactics.View.GameView;
@@ -14,6 +15,7 @@ public class Controller implements ControllerInterface{
 	private GameView _gameView;
 	private boolean _endTurn;
 	private Troop _troop;
+	public static int mapSelected = 0;
 	
 	public Controller() {
 		this._gameView = new GameView();
@@ -64,34 +66,12 @@ public class Controller implements ControllerInterface{
 			}
 		}
 		DangerMediator dangerMediator = new DangerMediator();
-		//TODO: Give troops to each player:
 		for(Integer i = 1; i <= numPlayers; ++i) {
 			Player p = new Player(i.toString(), dangerMediator);
-			//for(int i1 = 0; i1 < Utils.Data.STARTING_SOLDIERS; ++i1) {					//TODO: This is just a demo
-				//Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
-				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
-				//_currentGame.addNewElement(t, t.getPos());
-				if(i == 1) {
-					Troop t1 = new Troop(new Position(2,3), p);
-					_game.addNewElement(t1, t1.getPos());
-					
-					Troop t2 = new Troop(new Position(3,3), p);
-					_game.addNewElement(t2, t2.getPos());
-					
-					Troop t3 = new Troop(new Position(4,3), p);
-					_game.addNewElement(t3, t3.getPos());
+			for(Position pos : MapSelector.getTroops(mapSelected, i)) {
+				Troop t1 = new Troop(pos, p);
+				_game.addNewElement(t1, t1.getPos());
 				}
-				else if (i == 2) {
-					Troop t1 = new Troop(new Position(2,8), p);
-					_game.addNewElement(t1, t1.getPos());
-					
-					Troop t2 = new Troop(new Position(6,9), p);
-					_game.addNewElement(t2, t2.getPos());
-					
-					Troop t3 = new Troop(new Position(9,9), p);
-					_game.addNewElement(t3, t3.getPos());
-				}
-			//}
 			_game.addPlayer(p);
 		}
 		_game.update();

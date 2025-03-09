@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Wall;
+import PTactics.Utils.MapSelector;
 import PTactics.Utils.Position;
 
 public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {
@@ -14,7 +15,7 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	private static Board _board;
 	
 	private Board() {
-		map1();
+		_addMap();
 	}
 	
 	public static BoardInterface getInstance() {
@@ -75,15 +76,9 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		return " ";
 	}
 	
-	private void map1() {
-		this.addObj(new Position(3, 1), new Wall(new Position(3, 1)));
-		this.addObj(new Position(7, 2), new Wall(new Position(7, 2)));
-		this.addObj(new Position(2, 3), new Wall(new Position(2, 3)));
-		this.addObj(new Position(5, 4), new Wall(new Position(5, 4)));
-		this.addObj(new Position(9, 4), new Wall(new Position(9, 4)));
-		this.addObj(new Position(4, 6), new Wall(new Position(4, 6)));
-		this.addObj(new Position(8, 7), new Wall(new Position(8, 7)));
-		this.addObj(new Position(1, 9), new Wall(new Position(1, 9)));
-		this.addObj(new Position(6, 10), new Wall(new Position(6, 10)));
+	private void _addMap() {
+		for(Position p : MapSelector.getWalls(Controller.mapSelected)) {
+			this.addObj(p, new Wall(p));
+		}
 	}
 }

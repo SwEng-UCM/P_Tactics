@@ -1,7 +1,6 @@
 package PTactics.GameObjects;
 
 import PTactics.Game.Board;
-import PTactics.Game.BoardInterface;
 import PTactics.Utils.Position;
 
 public abstract class GameObject {
