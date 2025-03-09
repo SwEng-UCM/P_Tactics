@@ -14,15 +14,17 @@ import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
-public class Troop extends GameObject{
+public abstract class Troop extends GameObject{
 	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
 	private Direction _dir;
 	private boolean _aiming;
 	private Player _player;
-	private final int _visionRange = 5;
+	private int _visionRange;//init in children contructor
+	private int _moveRange; //same
+	private int _movesLeft; //same
 	
-	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board
+	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board // children must initialize move range
 	    super(pos, BI);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
@@ -121,6 +123,7 @@ public class Troop extends GameObject{
 			{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
+				this._movesLeft--;
 				if (_player.getDanger(getPos())) {
 					die();					
 				}
@@ -134,7 +137,9 @@ public class Troop extends GameObject{
 				_moveQueue.removeFirst();
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
+				this._movesLeft--;
 			}
+			
 	}
 	@Override
 	public String toString() {
@@ -179,7 +184,7 @@ public class Troop extends GameObject{
 		return visiblePositions;	
 	}
 	
-	public void addPlayer(Player p) {
+	public void addPlayer(Player p) { // is this for debug? (dm Arturo your answer)(or a feet pic)
 		_player = p;
 	}
 	
@@ -222,6 +227,12 @@ public class Troop extends GameObject{
 	@Override
 	public void die() {
 		alive = false;
+	}
+	public int getMovesLeft() {
+		return this._movesLeft;
+	}
+	public void resetMoveRange() {
+		this._movesLeft = this._moveRange;
 	}
 }
 

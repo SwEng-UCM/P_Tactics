@@ -24,8 +24,14 @@ public class MoveCommand extends Command {
 		_currTroop.AddToMove(new Position(_posX,_posY));
 		while(!(_currTroop.getPos().X == _posX) || !(_currTroop.getPos().Y == _posY))
 		{
-			CI.update();
-			CI.showGame();
+			if(_currTroop.getMovesLeft() > 0) {
+				CI.update();
+				CI.showGame();
+			}
+			else {
+				System.out.print("Troop has no moves left");
+				break;
+			}
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
