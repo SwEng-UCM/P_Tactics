@@ -21,6 +21,7 @@ public abstract class Troop extends GameObject{
 	private boolean _aiming;
 	private Player _player;
 	private int _visionRange;//init in children contructor
+	private int _shootRange;//init in children contructor
 	private int _moveRange; //same
 	private int _movesLeft; //same
 	
@@ -196,7 +197,7 @@ public abstract class Troop extends GameObject{
 		}
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
+		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
 			if (visPos.isValid() && !BI.isSolid(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
