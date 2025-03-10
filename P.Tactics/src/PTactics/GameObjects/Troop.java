@@ -20,10 +20,12 @@ public abstract class Troop extends GameObject{
 	private Direction _dir;
 	private boolean _aiming;
 	private Player _player;
-	private int _visionRange;//init in children contructor
-	private int _shootRange;//init in children contructor
-	private int _moveRange; //same
-	private int _movesLeft; //same
+	protected int _visionRange;//init in children contructor
+	protected int _shootRange;//init in children contructor
+	protected int _moveRange; //same
+	protected int _movesLeft; //same
+	protected int _abilityUses;// for implementing limited number of ability uses
+	protected boolean _abilityActive; // true while using ability
 	
 	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board // children must initialize move range
 	    super(pos, BI);
@@ -33,6 +35,7 @@ public abstract class Troop extends GameObject{
         this._dir = Direction.DOWN;
         this._aiming = false;
         this._player = p;
+        this._abilityActive = false;
         _player.addTroops(this);
 	}
 	@Override
@@ -121,7 +124,7 @@ public abstract class Troop extends GameObject{
 		// player has a function getDanger(Position pos) that returns if a troop is in 
 		// in danger when stepping in the tile, should be called in each step.
 			if(!_currentMove.isEmpty()) 
-			{
+			{			
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 				this._movesLeft--;
@@ -131,11 +134,17 @@ public abstract class Troop extends GameObject{
 				else {
 					_player.update();					
 				}
+				
 			}
 			else if(!this._moveQueue.isEmpty())
 			{
 				CalcNewMove(_moveQueue.getFirst());
 				_moveQueue.removeFirst();
+				
+				if( this._movesLeft < this._currentMove.size()) { // pa salir del paso
+					this._currentMove.clear();
+					throw new IllegalArgumentException("Path too long, not enough moves left");
+				}
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 				this._movesLeft--;
@@ -235,5 +244,10 @@ public abstract class Troop extends GameObject{
 	public void resetMoveRange() {
 		this._movesLeft = this._moveRange;
 	}
+	public abstract void activateAbility(); 
+	public abstract void deactivateAbility();
+	public boolean isAbility() {
+		return this._abilityActive;
+	}// true if using ability
 }
 
