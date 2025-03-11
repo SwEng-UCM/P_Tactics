@@ -83,8 +83,8 @@ public class Controller implements ControllerInterface{
 					//_game.addNewElement(t3, t3.getPos());
 				}
 				else if (i == 2) {
-					//Troop t1 = new Troop(new Position(2,8), p, _game.getBoard());
-					//_game.addNewElement(t1, t1.getPos());
+					Cloaker t1 = new Cloaker(new Position(2,8), p, _game.getBoard());
+					_game.addNewElement(t1, t1.getPos());
 					
 					//Troop t2 = new Troop(new Position(6,9), p, _game.getBoard());
 					//_game.addNewElement(t2, t2.getPos());
