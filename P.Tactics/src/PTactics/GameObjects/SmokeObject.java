@@ -10,13 +10,15 @@ public class SmokeObject extends GameObject {
 		this.solid=false;
 		this.seeThrough=false;
 	}
-
 	@Override
 	public boolean isAlive() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	@Override
+	public String toString() {
+		return "M";
+	}
 	@Override
 	public void onHit() {
 		// TODO Auto-generated method stub
