@@ -15,7 +15,7 @@ public class Controller implements ControllerInterface{
 	private GameView _gameView;
 	private boolean _endTurn;
 	private Troop _troop;
-	public static int mapSelected = 1;
+	public static int mapSelected = 0;
 	
 	public Controller() {
 		this._gameView = new GameView();

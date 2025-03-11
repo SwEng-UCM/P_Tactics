@@ -10,7 +10,8 @@ public class CommandGenerator {
 	       new MoveCommand(),
 	       new AimCommand(),
 	       new ExitCommand(),
-	       new SelectTroopCommand()
+	       new SelectTroopCommand(),
+	       new AbilityCommand()
 	    );;
 	
 	CommandGenerator(){}
