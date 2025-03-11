@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Wall;
-import PTactics.Utils.MapSelector;
+import PTactics.Maps.MapSelector;
 import PTactics.Utils.Position;
 
 public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {

@@ -5,7 +5,7 @@ import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
-import PTactics.Utils.MapSelector;
+import PTactics.Maps.MapSelector;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 import PTactics.View.GameView;
@@ -15,7 +15,7 @@ public class Controller implements ControllerInterface{
 	private GameView _gameView;
 	private boolean _endTurn;
 	private Troop _troop;
-	public static int mapSelected = 0;
+	public static int mapSelected = 1;
 	
 	public Controller() {
 		this._gameView = new GameView();
