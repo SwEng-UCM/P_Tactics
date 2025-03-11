@@ -71,25 +71,25 @@ public class Controller implements ControllerInterface{
 				//Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
 				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
 				//_currentGame.addNewElement(t, t.getPos());
-				if(i == 1) {
-					Troop t1 = new Troop(new Position(2,3), p, _game.getBoard());
-					_game.addNewElement(t1, t1.getPos());
+				if(i == 1) { //uncomment troop creation when troops fully work
+					//Troop t1 = new Troop(new Position(2,3), p, _game.getBoard());
+					//_game.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(3,3), p, _game.getBoard());
-					_game.addNewElement(t2, t2.getPos());
+					//Troop t2 = new Troop(new Position(3,3), p, _game.getBoard());
+					//_game.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(4,3), p, _game.getBoard());
-					_game.addNewElement(t3, t3.getPos());
+					//Troop t3 = new Troop(new Position(4,3), p, _game.getBoard());
+					//_game.addNewElement(t3, t3.getPos());
 				}
 				else if (i == 2) {
-					Troop t1 = new Troop(new Position(2,8), p, _game.getBoard());
-					_game.addNewElement(t1, t1.getPos());
+					//Troop t1 = new Troop(new Position(2,8), p, _game.getBoard());
+					//_game.addNewElement(t1, t1.getPos());
 					
-					Troop t2 = new Troop(new Position(6,9), p, _game.getBoard());
-					_game.addNewElement(t2, t2.getPos());
+					//Troop t2 = new Troop(new Position(6,9), p, _game.getBoard());
+					//_game.addNewElement(t2, t2.getPos());
 					
-					Troop t3 = new Troop(new Position(9,9), p, _game.getBoard());
-					_game.addNewElement(t3, t3.getPos());
+					//Troop t3 = new Troop(new Position(9,9), p, _game.getBoard());
+					//_game.addNewElement(t3, t3.getPos());
 				}
 			//}
 			_game.addPlayer(p);
