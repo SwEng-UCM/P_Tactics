@@ -3,7 +3,7 @@ package PTactics.Game;
 import java.util.InputMismatchException;
 import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
-import PTactics.GameObjects.Cloaker;
+import PTactics.GameObjects.Smoker;
 import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
@@ -73,7 +73,7 @@ public class Controller implements ControllerInterface{
 				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
 				//_currentGame.addNewElement(t, t.getPos());
 				if(i == 1) { //uncomment troop creation when troops fully work
-					Cloaker t1 = new Cloaker(new Position(2,3), p, _game.getBoard());
+					Smoker t1 = new Smoker(new Position(2,3), p, _game.getBoard());
 					_game.addNewElement(t1, t1.getPos());
 					
 					//Troop t2 = new Troop(new Position(3,3), p, _game.getBoard());
@@ -83,7 +83,7 @@ public class Controller implements ControllerInterface{
 					//_game.addNewElement(t3, t3.getPos());
 				}
 				else if (i == 2) {
-					Cloaker t1 = new Cloaker(new Position(2,8), p, _game.getBoard());
+					Smoker t1 = new Smoker(new Position(2,8), p, _game.getBoard());
 					_game.addNewElement(t1, t1.getPos());
 					
 					//Troop t2 = new Troop(new Position(6,9), p, _game.getBoard());

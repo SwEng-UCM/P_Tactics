@@ -9,6 +9,7 @@ public class Wall extends GameObject  {
 	public Wall(Position pos, BoardInterface BI) {
 		super(pos, BI);
 		this.solid=true;
+		this.seeThrough=false;
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class Wall extends GameObject  {
 	}
 
 	@Override
-	public void die() {
+	public void onHit() {
 	}
 
 }

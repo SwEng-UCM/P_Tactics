@@ -129,7 +129,7 @@ public abstract class Troop extends GameObject{
 				this._currentMove.removeFirst();
 				this._movesLeft--;
 				if (_player.getDanger(getPos())) {
-					die();					
+					onHit();					
 				}
 				else {
 					_player.update();					
@@ -235,7 +235,7 @@ public abstract class Troop extends GameObject{
 		return alive;
 	}
 	@Override
-	public void die() {
+	public void onHit() {
 		alive = false;
 	}
 	public int getMovesLeft() {

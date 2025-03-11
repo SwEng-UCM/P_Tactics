@@ -31,7 +31,7 @@ public class lightTroop extends Troop {
 		this._abilityActive = false;
 	}
 	@Override
-	public void die() {
+	public void onHit() {
 		if(!this.isAbility()) alive = false;
 	}
 	@Override

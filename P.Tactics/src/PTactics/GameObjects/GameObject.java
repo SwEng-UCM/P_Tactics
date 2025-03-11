@@ -10,6 +10,7 @@ public abstract class GameObject {
 	protected boolean solid;
 	protected BoardInterface BI;
 	protected String icon;
+	protected Boolean seeThrough;
 	
 	public GameObject(Position pos, BoardInterface BI) {
 		this.pos = pos;
@@ -47,7 +48,7 @@ public abstract class GameObject {
 	}
 	
 	public abstract boolean isAlive();
-	public abstract void die();
+	public abstract void onHit();
 	public void AddToMove(Position pos) {};
 	public void CalcNewMove(Position pos) {};
 	public abstract void update();
