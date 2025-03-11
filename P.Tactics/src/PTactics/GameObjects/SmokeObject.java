@@ -8,6 +8,7 @@ public class SmokeObject extends GameObject {
 	public SmokeObject(Position pos, BoardInterface BI) {
 		super(pos, BI);
 		this.solid=false;
+		this.seeThrough=false;
 	}
 
 	@Override
