@@ -4,10 +4,10 @@ import PTactics.Game.BoardInterface;
 import PTactics.Game.Player;
 import PTactics.Utils.Position;
 
-public class lightTroop extends Troop {
+public class LightTroop extends Troop {
 	int iFrames;
 	
-	public lightTroop(Position pos, Player p, BoardInterface BI) {
+	public LightTroop(Position pos, Player p, BoardInterface BI) {
 		super(pos, p, BI);
 		this._visionRange = 10;
 		this._shootRange = 5;
