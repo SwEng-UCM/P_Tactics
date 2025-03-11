@@ -19,7 +19,7 @@ public abstract class Troop extends GameObject{
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
 	protected Direction _dir;
 	protected boolean _aiming;
-	private Player _player;
+	protected Player _player;
 	protected int _visionRange;//init in children contructor
 	protected int _shootRange;//init in children contructor
 	protected int _moveRange; //same
@@ -129,7 +129,7 @@ public abstract class Troop extends GameObject{
 				this._currentMove.removeFirst();
 				this._movesLeft--;
 				if (_player.getDanger(getPos())) {
-					die();					
+					onHit();					
 				}
 				else {
 					_player.update();					
@@ -235,7 +235,7 @@ public abstract class Troop extends GameObject{
 		return alive;
 	}
 	@Override
-	public void die() {
+	public void onHit() {
 		alive = false;
 	}
 	public int getMovesLeft() {
