@@ -17,8 +17,8 @@ import PTactics.Utils.Utils;
 public abstract class Troop extends GameObject{
 	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
-	private Direction _dir;
-	private boolean _aiming;
+	protected Direction _dir;
+	protected boolean _aiming;
 	private Player _player;
 	protected int _visionRange;//init in children contructor
 	protected int _shootRange;//init in children contructor
