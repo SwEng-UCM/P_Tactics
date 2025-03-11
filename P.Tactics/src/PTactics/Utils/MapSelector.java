@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import PTactics.Game.Controller;
+import PTactics.Game.Player;
+import PTactics.GameObjects.Troop;
+
 public interface MapSelector {
 	public static List<Map> maps = Arrays.asList(
 		      new Map1()
@@ -11,14 +15,15 @@ public interface MapSelector {
 		    
 	public interface Map {
 		public List<Position> listWalls();
-		public List<Position> listTroops(int player);
+		public List<Troop> listTroops(Player player);
 	}
 	
 	public class Map1 implements Map {
 		public static int SERIAL_ID = 1;
 		public static int game_width = 10;
 		public static int game_lenght = 10;
-
+		
+		@Override
 		public List<Position> listWalls(){
 			List<Position> walls = new ArrayList<Position>();
 			walls.add(new Position(3, 1));
@@ -34,25 +39,26 @@ public interface MapSelector {
 			return walls;
 		}
 		
-		public List<Position> listTroops(int player){
-			List<Position> troops = new ArrayList<Position>();
+		@Override
+		public List<Troop> listTroops(Player player){
+			List<Troop> troops = new ArrayList<Troop>();
 			
-			if(player == 1) {
-				troops.add(new Position(2,3));
-				troops.add(new Position(3,3));
-				troops.add(new Position(4,3));
+			if(player.getId().equals("1")) {
+				troops.add(new Troop(new Position(2,3), player, Direction.DOWN));
+				troops.add(new Troop(new Position(3,3), player, Direction.DOWN));
+				troops.add(new Troop(new Position(4,3), player, Direction.DOWN));
 			}
-			else if (player == 2) {
-				troops.add(new Position(2,8));
-				troops.add(new Position(6,9));
-				troops.add(new Position(9,9));
+			else if (player.getId().equals("2")) {
+				troops.add(new Troop(new Position(2,8), player, Direction.UP));
+				troops.add(new Troop(new Position(6,9), player, Direction.UP));
+				troops.add(new Troop(new Position(9,9), player, Direction.UP));
 			}
-			else if(player == 3) {
+			else if(player.getId().equals("3")) {
 				//In case of more players
 				
 				
 			}
-			else if(player == 4) {
+			else if(player.getId().equals("4")) {
 				//In case of more players
 				
 				
@@ -62,12 +68,12 @@ public interface MapSelector {
 		}
 	}
 	
-	public static List<Position> getWalls(int map){
-		return maps.get(map).listWalls();
+	public static List<Position> getWalls(){
+		return maps.get(Controller.mapSelected).listWalls();
 	}
 	
-	public static List<Position> getTroops(int map, int player){
-		return maps.get(map).listTroops(player);
+	public static List<Troop> getTroops(Player player){
+		return maps.get(Controller.mapSelected).listTroops(player);
 	}
 
 }

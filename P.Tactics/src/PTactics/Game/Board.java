@@ -77,7 +77,7 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	}
 	
 	private void _addMap() {
-		for(Position p : MapSelector.getWalls(Controller.mapSelected)) {
+		for(Position p : MapSelector.getWalls()) {
 			this.addObj(p, new Wall(p));
 		}
 	}

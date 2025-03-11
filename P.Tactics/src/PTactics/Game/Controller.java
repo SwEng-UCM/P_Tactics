@@ -68,10 +68,9 @@ public class Controller implements ControllerInterface{
 		DangerMediator dangerMediator = new DangerMediator();
 		for(Integer i = 1; i <= numPlayers; ++i) {
 			Player p = new Player(i.toString(), dangerMediator);
-			for(Position pos : MapSelector.getTroops(mapSelected, i)) {
-				Troop t1 = new Troop(pos, p);
-				_game.addNewElement(t1, t1.getPos());
-				}
+			for(Troop t : MapSelector.getTroops(p)) {
+				_game.addNewElement(t, t.getPos());
+			}
 			_game.addPlayer(p);
 		}
 		_game.update();
