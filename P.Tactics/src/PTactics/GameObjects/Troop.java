@@ -143,7 +143,7 @@ public abstract class Troop extends GameObject{
 				
 				if( this._movesLeft < this._currentMove.size()) { // pa salir del paso
 					this._currentMove.clear();
-					throw new IllegalArgumentException("Path too long, not enough moves left");
+					throw new IllegalArgumentException("Not enough moves left");
 				}
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();

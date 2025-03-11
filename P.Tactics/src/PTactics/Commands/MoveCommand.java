@@ -24,12 +24,12 @@ public class MoveCommand extends Command {
 		_currTroop.AddToMove(new Position(_posX,_posY));
 		while(!(_currTroop.getPos().X == _posX) || !(_currTroop.getPos().Y == _posY))
 		{
-			if(_currTroop.getMovesLeft() > 0) {
+			try {
 				CI.update();
 				CI.showGame();
 			}
-			else {
-				System.out.print("Troop has no moves left");
+			catch(IllegalArgumentException e) { // this stops the updating of all gameObjects after the troop that throws the exception but no other way occurs to me without a big refactor
+				System.out.print(e);
 				break;
 			}
 			try {
