@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import PTactics.GameObjects.GameObject;
+import PTactics.GameObjects.SmokeObject;
 import PTactics.GameObjects.Wall;
 import PTactics.Maps.MapSelector;
 import PTactics.Utils.Position;
@@ -52,6 +53,10 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	public boolean isSolid(Position p) {
 		if (get(p) == null) return false;
 		return get(p).isSolid();
+	}
+	public boolean isSeeThrough(Position p) {
+		if (get(p) == null) return true;
+		return get(p).isSeeThrough();
 	}
 
 	@Override

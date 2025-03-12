@@ -8,6 +8,7 @@ public interface BoardInterface{
 	public void setPosition(Position p1, Position p2, GameObject o);
 	public GameObject getGameObject(Position p);
 	public boolean isSolid(Position p);
+	public boolean isSeeThrough(Position p);
 	public void addObj(Position p, GameObject o);
 	public void eraseFromPos(Position p);// erases GO in pos false if no pos
 	public void eraseFromGO(GameObject o);// erases GO and assigned pos from map false if no GO

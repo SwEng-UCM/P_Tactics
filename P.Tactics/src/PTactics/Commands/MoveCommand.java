@@ -24,8 +24,14 @@ public class MoveCommand extends Command {
 		_currTroop.AddToMove(new Position(_posX,_posY));
 		while(!(_currTroop.getPos().X == _posX) || !(_currTroop.getPos().Y == _posY))
 		{
-			CI.update();
-			CI.showGame();
+			try {
+				CI.update();
+				CI.showGame();
+			}
+			catch(IllegalArgumentException e) { // this stops the updating of all gameObjects after the troop that throws the exception but no other way occurs to me without a big refactor
+				System.out.print(e);
+				break;
+			}
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {

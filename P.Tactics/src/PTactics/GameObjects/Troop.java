@@ -14,22 +14,28 @@ import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
-public class Troop extends GameObject{
+public abstract class Troop extends GameObject{
 	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
 	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
-	private Direction _dir;
-	private boolean _aiming;
-	private Player _player;
-	private final int _visionRange = 5;
+	protected Direction _dir;
+	protected boolean _aiming;
+	protected Player _player;
+	protected int _visionRange;//init in children contructor
+	protected int _shootRange;//init in children contructor
+	protected int _moveRange; //same
+	protected int _movesLeft; //same
+	protected int _abilityUses;// for implementing limited number of ability uses
+	protected boolean _abilityActive; // true while using ability
 	
-	public Troop (Position pos, Player p) { // all GO constructors changed to include the board
-	    super(pos);
+	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board // children must initialize move range
+	    super(pos, BI);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
         this._dir = Direction.DOWN;
         this._aiming = false;
         this._player = p;
+        this._abilityActive = false;
         _player.addTroops(this);
 	}
 	
@@ -131,23 +137,32 @@ public class Troop extends GameObject{
 		// player has a function getDanger(Position pos) that returns if a troop is in 
 		// in danger when stepping in the tile, should be called in each step.
 			if(!_currentMove.isEmpty()) 
-			{
+			{			
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
+				this._movesLeft--;
 				if (_player.getDanger(getPos())) {
-					die();					
+					onHit();					
 				}
 				else {
 					_player.update();					
 				}
+				
 			}
 			else if(!this._moveQueue.isEmpty())
 			{
 				CalcNewMove(_moveQueue.getFirst());
 				_moveQueue.removeFirst();
+				
+				if( this._movesLeft < this._currentMove.size()) { // pa salir del paso
+					this._currentMove.clear();
+					throw new IllegalArgumentException("Not enough moves left");
+				}
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
+				this._movesLeft--;
 			}
+			
 	}
 	@Override
 	public String toString() {
@@ -184,7 +199,7 @@ public class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || Board.getInstance().isSolid(pos))
+			if (!pos.isValid() || !BI.isSeeThrough(pos))
 				break;
 			visiblePositions.add(pos);
 		}
@@ -192,7 +207,7 @@ public class Troop extends GameObject{
 		return visiblePositions;	
 	}
 	
-	public void addPlayer(Player p) {
+	public void addPlayer(Player p) { // is this for debug? (dm Arturo your answer)(or a feet pic)
 		_player = p;
 	}
 	
@@ -204,8 +219,8 @@ public class Troop extends GameObject{
 		}
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-		for (int i = 0; i < _visionRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && !Board.getInstance().isSolid(visPos)) {
+		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
+			if (visPos.isValid() && !BI.isSolid(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;
@@ -233,8 +248,19 @@ public class Troop extends GameObject{
 		return alive;
 	}
 	@Override
-	public void die() {
+	public void onHit() {
 		alive = false;
 	}
+	public int getMovesLeft() {
+		return this._movesLeft;
+	}
+	public void resetMoveRange() {
+		this._movesLeft = this._moveRange;
+	}
+	public abstract void activateAbility(); 
+	public abstract void deactivateAbility();
+	public boolean isAbility() {
+		return this._abilityActive;
+	}// true if using ability
 }
 
