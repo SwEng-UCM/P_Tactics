@@ -52,7 +52,7 @@ public class SniperTroop extends Troop {
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && !BI.isSolid(visPos)) {
+			if (visPos.isValid() && BI.isSeeThrough(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;

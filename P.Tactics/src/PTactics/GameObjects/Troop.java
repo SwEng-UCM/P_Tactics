@@ -186,7 +186,7 @@ public abstract class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || BI.isSolid(pos))
+			if (!pos.isValid() || !BI.isSeeThrough(pos))
 				break;
 			visiblePositions.add(pos);
 		}

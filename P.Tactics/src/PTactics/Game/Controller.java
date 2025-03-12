@@ -5,6 +5,7 @@ import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
 import PTactics.GameObjects.Smoker;
 import PTactics.GameObjects.GameObject;
+import PTactics.GameObjects.SmokeObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;

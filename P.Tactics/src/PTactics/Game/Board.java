@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import PTactics.GameObjects.GameObject;
+import PTactics.GameObjects.SmokeObject;
 import PTactics.GameObjects.Wall;
 import PTactics.Utils.Position;
 
@@ -46,6 +47,10 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		if (get(p) == null) return false;
 		return get(p).isSolid();
 	}
+	public boolean isSeeThrough(Position p) {
+		if (get(p) == null) return true;
+		return get(p).isSeeThrough();
+	}
 
 	@Override
 	public void eraseFromPos(Position p) throws IllegalArgumentException {
@@ -77,6 +82,7 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	}*/
 	
 	private void map1() {
+		this.addObj(new Position(4,4), new SmokeObject(new Position (3,1),this));
 		this.addObj(new Position(3, 1), new Wall(new Position(3, 1), this));
 		this.addObj(new Position(7, 2), new Wall(new Position(7, 2), this));
 		this.addObj(new Position(2, 3), new Wall(new Position(2, 3), this));
