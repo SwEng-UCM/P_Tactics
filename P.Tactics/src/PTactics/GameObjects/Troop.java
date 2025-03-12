@@ -15,8 +15,9 @@ import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
 public abstract class Troop extends GameObject{
-	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
-	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
+	protected String _id;
+	List<Position> _moveQueue;
+	List<Position> _currentMove;
 	protected Direction _dir;
 	protected boolean _aiming;
 	protected Player _player;
@@ -48,6 +49,10 @@ public abstract class Troop extends GameObject{
         this._aiming = false;
         this._player = p;
         _player.addTroops(this);
+	}
+	
+	public String getId() {
+		return _id;
 	}
 	
 	@Override
@@ -256,7 +261,10 @@ public abstract class Troop extends GameObject{
 	public void resetMoveRange() {
 		this._movesLeft = this._moveRange;
 	}
-	public abstract void activateAbility(); 
+	public void activateAbility() {
+		_abilityActive = true;
+	}; 
+	
 	public abstract void deactivateAbility();
 	public boolean isAbility() {
 		return this._abilityActive;

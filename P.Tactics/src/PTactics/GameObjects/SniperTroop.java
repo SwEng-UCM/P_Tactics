@@ -9,7 +9,7 @@ import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 
 public class SniperTroop extends Troop {
-
+	private final String  _ID = "sniper";
 	private final int _VISION = Math.max(Game._boardLength, Game._boardWidth);
 	private final int _MOVE = 3;
 	private final int _USE = 3;
@@ -21,6 +21,7 @@ public class SniperTroop extends Troop {
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
 		_abilityUses = _USE;
+		_id = _ID;
 	}
 	
 	public SniperTroop(Position pos, Player p, Direction dir) {
@@ -29,6 +30,7 @@ public class SniperTroop extends Troop {
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
 		_abilityUses = _USE;
+		_id = _ID;
 	}
 
 	public List<Position> visiblePositions() {
@@ -70,8 +72,7 @@ public class SniperTroop extends Troop {
 		return dangerPositions;	
 	}
 	
-	@Override
-	public void activateAbility() {
+	public void activateAbility(Position pos) {
 		_abilityActive = true;
 	}
 

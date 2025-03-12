@@ -6,6 +6,7 @@ import PTactics.Utils.Position;
 
 public class LightTroop extends Troop {
 	int iFrames;
+	private final String  _ID = "light";
 	
 	public LightTroop(Position pos, Player p) {
 		super(pos, p);
@@ -14,6 +15,7 @@ public class LightTroop extends Troop {
 		this._moveRange = 20; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 100;
+		_id = _ID;
 	}
 	
 	public LightTroop(Position pos, Player p, Direction dir) {
@@ -23,6 +25,7 @@ public class LightTroop extends Troop {
 		this._moveRange = 20; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 100;
+		_id = _ID;
 	}
 
 	@Override

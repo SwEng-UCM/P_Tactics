@@ -5,13 +5,15 @@ import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 
 public class Smoker extends Troop {
-
+	private final String  _ID = "smoker";
+	
 	public Smoker(Position pos, Player p) {
 		super(pos, p);
 		this._visionRange=10;
 		this._abilityUses=3;
 		this._moveRange=5;
 		this._movesLeft=this._moveRange;
+		_id = _ID;
 	}
 	
 	public Smoker(Position pos, Player p, Direction dir) {
@@ -20,6 +22,7 @@ public class Smoker extends Troop {
 		this._abilityUses=3;
 		this._moveRange=5;
 		this._movesLeft=this._moveRange;
+		_id = _ID;
 	}
 
 	@Override
