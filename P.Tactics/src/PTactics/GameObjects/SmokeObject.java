@@ -1,12 +1,11 @@
 package PTactics.GameObjects;
 
-import PTactics.Game.BoardInterface;
 import PTactics.Utils.Position;
 
 public class SmokeObject extends GameObject {
 
-	public SmokeObject(Position pos, BoardInterface BI) {
-		super(pos, BI);
+	public SmokeObject(Position pos) {
+		super(pos);
 		this.solid=false;
 		this.seeThrough=false;
 	}

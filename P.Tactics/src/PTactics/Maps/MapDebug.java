@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import PTactics.Game.Player;
+import PTactics.GameObjects.LightTroop;
+import PTactics.GameObjects.Smoker;
+import PTactics.GameObjects.SniperTroop;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
@@ -34,14 +37,14 @@ public class MapDebug implements Map {
 		List<Troop> troops = new ArrayList<Troop>();
 		
 		if(player.getId().equals("1")) {
-			troops.add(new Troop(new Position(2,3), player, Direction.DOWN));
-			troops.add(new Troop(new Position(3,3), player, Direction.DOWN));
-			troops.add(new Troop(new Position(4,3), player, Direction.DOWN));
+			troops.add(new SniperTroop(new Position(2,3), player, Direction.DOWN));
+			troops.add(new Smoker(new Position(3,3), player, Direction.DOWN));
+			troops.add(new LightTroop(new Position(4,3), player, Direction.DOWN)); 
 		}
 		else if (player.getId().equals("2")) {
-			troops.add(new Troop(new Position(2,8), player, Direction.UP));
-			troops.add(new Troop(new Position(6,9), player, Direction.UP));
-			troops.add(new Troop(new Position(9,9), player, Direction.UP));
+			troops.add(new SniperTroop(new Position(2,8), player, Direction.UP));
+			troops.add(new Smoker(new Position(6,9), player, Direction.UP));
+			troops.add(new LightTroop(new Position(9,9), player, Direction.UP));
 		}
 		else if(player.getId().equals("3")) {
 			//In case of more players

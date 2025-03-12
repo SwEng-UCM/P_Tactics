@@ -1,25 +1,33 @@
 package PTactics.GameObjects;
 
-import PTactics.Game.BoardInterface;
 import PTactics.Game.Player;
+import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 
 public class LightTroop extends Troop {
 	int iFrames;
 	
-	public LightTroop(Position pos, Player p, BoardInterface BI) {
-		super(pos, p, BI);
+	public LightTroop(Position pos, Player p) {
+		super(pos, p);
 		this._visionRange = 10;
 		this._shootRange = 5;
 		this._moveRange = 20; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 100;
-		// TODO Auto-generated constructor stub
+	}
+	
+	public LightTroop(Position pos, Player p, Direction dir) {
+		super(pos, p, dir);
+		this._visionRange = 10;
+		this._shootRange = 5;
+		this._moveRange = 20; 
+		this._movesLeft = this._moveRange; 
+		this._abilityUses = 100;
 	}
 
 	@Override
 	public void activateAbility() {
-		// TODO Auto-generated method stub
+
 		this.iFrames = 5;
 		this._abilityActive = true;
 		
@@ -27,7 +35,6 @@ public class LightTroop extends Troop {
 
 	@Override
 	public void deactivateAbility() {
-		// TODO Auto-generated method stub
 		this._abilityActive = false;
 	}
 	@Override

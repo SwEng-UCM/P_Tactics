@@ -2,10 +2,10 @@ package PTactics.GameObjects;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import PTactics.Game.BoardInterface;
+import PTactics.Game.Board;
 import PTactics.Game.Game;
 import PTactics.Game.Player;
+import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 
 public class SniperTroop extends Troop {
@@ -15,8 +15,16 @@ public class SniperTroop extends Troop {
 	private final int _USE = 3;
 	private final int _DANGER = Math.max(Game._boardLength, Game._boardWidth);
 	
-	public SniperTroop(Position pos, Player p, BoardInterface BI) {
-		super(pos, p, BI);
+	public SniperTroop(Position pos, Player p) {
+		super(pos, p);
+		_visionRange = _VISION;
+		_moveRange = _MOVE;
+		_shootRange = _DANGER;
+		_abilityUses = _USE;
+	}
+	
+	public SniperTroop(Position pos, Player p, Direction dir) {
+		super(pos, p, dir);
 		_visionRange = _VISION;
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
@@ -35,7 +43,7 @@ public class SniperTroop extends Troop {
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || BI.isSolid(pos))
+			if (!pos.isValid() || Board.getInstance().isSolid(pos))
 				break;
 			visiblePositions.add(pos);
 		}
@@ -52,7 +60,7 @@ public class SniperTroop extends Troop {
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && BI.isSeeThrough(visPos)) {
+			if (visPos.isValid() && Board.getInstance().isSeeThrough(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;

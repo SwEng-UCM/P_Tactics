@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import PTactics.Game.Player;
+import PTactics.GameObjects.LightTroop;
+import PTactics.GameObjects.Smoker;
+import PTactics.GameObjects.SniperTroop;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
@@ -40,14 +43,14 @@ public class Map1 implements Map {
 		List<Troop> troops = new ArrayList<Troop>(); 
 
 		if (player.getId().equals("1")) {
-		    troops.add(new Troop(new Position(1, 2), player, Direction.DOWN));
-		    troops.add(new Troop(new Position(7, 9), player, Direction.DOWN));
-		    troops.add(new Troop(new Position(9, 3), player, Direction.DOWN));
+		    troops.add(new SniperTroop(new Position(1, 2), player, Direction.DOWN));
+		    troops.add(new Smoker(new Position(7, 9), player, Direction.DOWN));
+		    troops.add(new LightTroop(new Position(9, 3), player, Direction.DOWN));
 		}
 		else if (player.getId().equals("2")) {
-		    troops.add(new Troop(new Position(1, 9), player, Direction.UP));
-		    troops.add(new Troop(new Position(7, 2), player, Direction.UP));
-		    troops.add(new Troop(new Position(9, 8), player, Direction.UP));
+		    troops.add(new SniperTroop(new Position(1, 9), player, Direction.UP));
+		    troops.add(new Smoker(new Position(7, 2), player, Direction.UP));
+		    troops.add(new LightTroop(new Position(9, 8), player, Direction.UP));
 		}
 
 		return troops;

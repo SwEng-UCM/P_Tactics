@@ -27,8 +27,8 @@ public abstract class Troop extends GameObject{
 	protected int _abilityUses;// for implementing limited number of ability uses
 	protected boolean _abilityActive; // true while using ability
 	
-	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board // children must initialize move range
-	    super(pos, BI);
+	public Troop (Position pos, Player p) { // all GO constructors changed to include the board // children must initialize move range
+		super(pos);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
         this.solid=false;
@@ -39,7 +39,6 @@ public abstract class Troop extends GameObject{
         _player.addTroops(this);
 	}
 	
-	//If want to personalize direction
 	public Troop (Position pos, Player p, Direction dir) { 
 	    super(pos);
 	    this._moveQueue = new ArrayList<>(); 
@@ -199,7 +198,7 @@ public abstract class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || !BI.isSeeThrough(pos))
+			if (!pos.isValid() || !Board.getInstance().isSeeThrough(pos))
 				break;
 			visiblePositions.add(pos);
 		}
@@ -220,7 +219,7 @@ public abstract class Troop extends GameObject{
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && !BI.isSolid(visPos)) {
+			if (visPos.isValid() && !Board.getInstance().isSolid(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;
