@@ -3,9 +3,9 @@ package PTactics.GameObjects;
 import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
+import PTactics.Utils.Utils;
 
 public class Smoker extends Troop {
-	private final String  _ID = "smoker";
 	
 	public Smoker(Position pos, Player p) {
 		super(pos, p);
@@ -13,7 +13,7 @@ public class Smoker extends Troop {
 		this._abilityUses=3;
 		this._moveRange=5;
 		this._movesLeft=this._moveRange;
-		_id = _ID;
+		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
 	
 	public Smoker(Position pos, Player p, Direction dir) {
@@ -22,7 +22,7 @@ public class Smoker extends Troop {
 		this._abilityUses=3;
 		this._moveRange=5;
 		this._movesLeft=this._moveRange;
-		_id = _ID;
+		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
 
 	@Override

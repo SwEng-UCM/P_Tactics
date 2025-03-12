@@ -11,6 +11,10 @@ public interface Utils {
 		public final String TROOP_FACING_RIGHT = "▶";
 		public final String TROOP_ICON = "▲";
 		public final String TROOP_DEAD = "💀";
+		
+		public final String  LIGHT_TROOP_ID = "light";
+		public final String  SMOKER_TROOP_ID = "smoke";
+		public final String  SNIPER_TROOP_ID = "sniper";
 	}
 
 	// Dedicated to walls

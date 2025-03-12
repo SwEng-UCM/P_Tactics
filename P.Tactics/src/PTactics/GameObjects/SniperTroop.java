@@ -7,9 +7,9 @@ import PTactics.Game.Game;
 import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
+import PTactics.Utils.Utils;
 
 public class SniperTroop extends Troop {
-	private final String  _ID = "sniper";
 	private final int _VISION = Math.max(Game._boardLength, Game._boardWidth);
 	private final int _MOVE = 3;
 	private final int _USE = 3;
@@ -21,7 +21,7 @@ public class SniperTroop extends Troop {
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
 		_abilityUses = _USE;
-		_id = _ID;
+		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
 	
 	public SniperTroop(Position pos, Player p, Direction dir) {
@@ -30,7 +30,7 @@ public class SniperTroop extends Troop {
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
 		_abilityUses = _USE;
-		_id = _ID;
+		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
 
 	public List<Position> visiblePositions() {
