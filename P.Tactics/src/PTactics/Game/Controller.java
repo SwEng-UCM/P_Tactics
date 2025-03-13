@@ -31,6 +31,9 @@ public class Controller implements ControllerInterface{
 				
 				 if (command != null) { 
 			        command.execute(this, _troop);
+			        if (!_troop.isAlive()) {
+			        	_troop = null;
+			        }
 			        System.out.println("Current troop selected: " +(this._troop==null?"none":this._troop.getId()) + (this._troop==null?"":(" In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
 			        System.out.println(_troop == null? "" : "Moves left: " + _troop.getMovesLeft());
 			        System.out.println(_troop == null? "" : !_troop.isAbility()? "" : "Ability turns left: " + _troop.abilityUsesLeft());

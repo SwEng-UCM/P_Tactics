@@ -22,7 +22,7 @@ public class MoveCommand extends Command {
 	@Override
 	public void execute(ControllerInterface CI, Troop _currTroop) {
 		_currTroop.AddToMove(new Position(_posX,_posY));
-		while(!(_currTroop.getPos().getX() == _posX) || !(_currTroop.getPos().getY() == _posY))
+		while(_currTroop.isAlive() && !(_currTroop.getPos().getX() == _posX) || !(_currTroop.getPos().getY() == _posY))
 		{
 			try {
 				CI.update();
