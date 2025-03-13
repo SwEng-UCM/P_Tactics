@@ -72,6 +72,9 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	}
 	public void update() {
 	    for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
+	    	if (!entry.getValue().isAlive()) {
+	    		entry.setValue(null);
+	    	}
             entry.getValue().update();
         }
 	}
