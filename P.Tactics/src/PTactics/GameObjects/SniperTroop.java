@@ -79,7 +79,7 @@ public class SniperTroop extends Troop {
 	}
 	
 	public String toString() {
-		return "S" + super.toString();
+		return "F" + super.toString();
 	}
 	
 	public void activateAbility(Position pos) {
