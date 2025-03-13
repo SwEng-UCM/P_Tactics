@@ -3,9 +3,7 @@ package PTactics.Game;
 import java.util.InputMismatchException;
 import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
-import PTactics.GameObjects.Smoker;
 import PTactics.GameObjects.GameObject;
-import PTactics.GameObjects.SmokeObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Maps.MapSelector;
 import PTactics.Utils.Position;
@@ -34,6 +32,8 @@ public class Controller implements ControllerInterface{
 				 if (command != null) { 
 			        command.execute(this, _troop);
 			        System.out.println("Current troop selected: " + (this._troop==null?"none":("In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
+			        System.out.println(_troop == null? "" : "Moves left: " + _troop.getMovesLeft());
+			        System.out.println(_troop == null? "" : !_troop.isAbility()? "" : "Ability turns left: " + _troop.abilityUsesLeft());
 			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
@@ -90,7 +90,7 @@ public class Controller implements ControllerInterface{
 		_endTurn = false;
 		_cleanConsole();
 	    _gameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    _waitForEnter();
+	    _waitForEnter(); //why twice?
 	    _waitForEnter();
 		_gameView.showMessage("Player " + getNumPlayer() + ": ");
 	    _gameView.showGame(_game);

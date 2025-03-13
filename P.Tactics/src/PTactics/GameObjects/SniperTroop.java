@@ -24,6 +24,7 @@ public class SniperTroop extends Troop {
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
 		_abilityUses = _USE;
+        _movesLeft = _moveRange;
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
 	
@@ -33,6 +34,7 @@ public class SniperTroop extends Troop {
 		_moveRange = _MOVE;
 		_shootRange = _DANGER;
 		_abilityUses = _USE;
+		_movesLeft = _moveRange;
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
 
@@ -103,6 +105,7 @@ public class SniperTroop extends Troop {
 
 	@Override
 	public void nextTurn() {
+		_movesLeft = _moveRange;
 		if (isAbility() && _abilityUses > 0) {
 			_abilityUses--;
 		}

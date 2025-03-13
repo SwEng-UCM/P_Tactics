@@ -32,7 +32,7 @@ public abstract class Troop extends GameObject{
 		super(pos);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
-        this.solid=false;
+        this.solid = false; //this should be true now
         this._dir = Direction.DOWN;
         this._aiming = false;
         this._player = p;
@@ -44,7 +44,7 @@ public abstract class Troop extends GameObject{
 	    super(pos);
 	    this._moveQueue = new ArrayList<>(); 
         this._currentMove = new ArrayList<>();
-        this.solid=false;
+        this.solid=false; //this should be true now
         this._dir = dir;
         this._aiming = false;
         this._player = p;
@@ -269,7 +269,10 @@ public abstract class Troop extends GameObject{
 	public boolean isAbility() {
 		return this._abilityActive;
 	}// true if using ability
-
+	public int abilityUsesLeft() {
+		return _abilityUses;
+	}
+	
 	public abstract void nextTurn();
 }
 

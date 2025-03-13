@@ -29,7 +29,7 @@ public class MoveCommand extends Command {
 				CI.showGame();
 			}
 			catch(IllegalArgumentException e) { // this stops the updating of all gameObjects after the troop that throws the exception but no other way occurs to me without a big refactor
-				System.out.print(e);
+				System.out.println(e);
 				break;
 			}
 			try {
