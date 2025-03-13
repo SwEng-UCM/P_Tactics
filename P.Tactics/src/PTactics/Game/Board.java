@@ -90,11 +90,11 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	public void Smoke(Position pos) 
 	{
 		Position center= pos;
-		int range = 2;
+		int range = 1;
 		for (int dx = -range; dx <= range; dx++) {
 	        for (int dy = -range; dy <= range; dy++) {
 	            Position smokePos = new Position(center.getX() + dx, center.getY() + dy);
-	            if (pos.isValid() && !Board.getInstance().isSolid(pos)) {
+	            if (pos.isValid() && !Board.getInstance().isSolid(pos) && !this.containsKey(smokePos)) {
 	                SmokeObject smoke= new SmokeObject(smokePos);
 	                this.addObj(smokePos, smoke);
 	            }

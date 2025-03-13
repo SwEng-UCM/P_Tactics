@@ -110,7 +110,7 @@ public abstract class Troop extends GameObject{
 
         //System.out.println("Trying move to: " + movePos.Y + " " + movePos.X);
 
-        if (movePos.isValid() && Board.getInstance().getGameObject(movePos)==null &&  !marks.contains(movePos)) {
+        if (movePos.isValid() && !Board.getInstance().getGameObject(movePos).isSolid() &&  !marks.contains(movePos)) {
 
             // Heuristic pruning: if this path is already worse, skip it
             if (minSteps.containsKey(movePos) && minSteps.get(movePos) <= curSolSteps.value) {
