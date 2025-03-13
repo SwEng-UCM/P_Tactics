@@ -98,7 +98,8 @@ public class Game {
 	}
 
 	public void nextTurn() {
-		_players.get(_currPlayer).nextTurn(); 	//this is illegal (nerd emoji) idgaf rn
+		Board.getInstance().nextTurn();
+		//_players.get(_currPlayer).nextTurn(); 	//this is illegal (nerd emoji) idgaf rn
 		_players.get(_currPlayer).update();		//this is illegal (nerd emoji) idgaf rn
 		_currPlayer++;
 		if (_currPlayer >= _players.size()) {

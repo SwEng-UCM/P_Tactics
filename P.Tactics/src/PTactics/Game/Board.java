@@ -81,6 +81,12 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		return " ";
 	}
 	
+	public void nextTurn() 
+	{
+		for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
+            entry.getValue().nextTurn();
+        }
+	}
 	public void Smoke(Position pos) 
 	{
 		Position center= pos;

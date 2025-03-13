@@ -15,4 +15,5 @@ public interface BoardInterface{
 	public void update();
 	public String toString(Position p);
 	public void Smoke(Position pos);
+	public void nextTurn();
 }

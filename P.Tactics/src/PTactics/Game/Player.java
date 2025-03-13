@@ -83,7 +83,7 @@ public class Player implements DangerObject{
 	public String getId() {
 		return _id;
 	}
-
+    //DISABLED NOW NEXT TURN IS A BOARD THING
 	public void nextTurn() {
 		for (Troop troop: _troops) {
 			troop.nextTurn();
