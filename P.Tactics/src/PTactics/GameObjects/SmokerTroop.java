@@ -12,6 +12,7 @@ public class SmokerTroop extends Troop {
 		this._visionRange=10;
 		this._abilityUses=3;
 		this._moveRange=5;
+		this._shootRange = 5;
 		this._movesLeft=this._moveRange;
 		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
@@ -21,6 +22,7 @@ public class SmokerTroop extends Troop {
 		this._visionRange=10;
 		this._abilityUses=3;
 		this._moveRange=5;
+		this._shootRange = 5;
 		this._movesLeft=this._moveRange;
 		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}

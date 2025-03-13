@@ -149,12 +149,9 @@ public abstract class Troop extends GameObject{
 				if (_player.getDanger(getPos())) {
 					onHit();					
 				}
-				else {
-					_player.update();					
-				}
-				
+				_player.update();									
 			}
-			else if(!this._moveQueue.isEmpty())
+			else if(alive && !this._moveQueue.isEmpty())
 			{
 				CalcNewMove(_moveQueue.getFirst());
 				_moveQueue.removeFirst();
@@ -166,6 +163,9 @@ public abstract class Troop extends GameObject{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 				this._movesLeft--;
+				if (_player.getDanger(getPos())) {
+					onHit();					
+				}
 			}
 			
 	}

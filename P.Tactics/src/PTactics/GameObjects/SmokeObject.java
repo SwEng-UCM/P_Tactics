@@ -14,7 +14,7 @@ public class SmokeObject extends GameObject {
 	@Override
 	public boolean isAlive() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	@Override
 	public String toString() {

@@ -55,6 +55,12 @@ public class Game {
 			}
 			
 		}
+		
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {// just in case in the future a new way of killing without seeing is added
+			if (_players.get(_currPlayer).lastTurnKill(p)) {
+				return "†";
+			}
+		}
 		return "*";												//Returning fog of war	(not visible)
 	}
 
