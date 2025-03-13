@@ -1,5 +1,7 @@
 package PTactics.Game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -71,12 +73,17 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		this.remove(this.getPosition(o));
 	}
 	public void update() {
+		List<Position> deadGuys = new ArrayList();
 	    for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
-	    	if (!entry.getValue().isAlive()) {
-	    		entry.setValue(null);
+	    	if (entry.getValue() != null && !entry.getValue().isAlive()) {
+	    		deadGuys.add(entry.getKey());
 	    	}
-            entry.getValue().update();
+	    	entry.getValue().update();	    		
         }
+	    
+	    for (Position p : deadGuys) {
+	    	_board.remove(p);
+	    }
 	}
 
 	public String toString(Position p) {

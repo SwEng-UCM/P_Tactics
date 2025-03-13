@@ -39,23 +39,21 @@ public class Game {
 
 	public String positionToString(Position p) { // without the not null check the game breaks.
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
-		if (_players.get(_currPlayer).lastTurnKill(p)) {
-			return "†";
+		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return Board.getInstance().toString(p);
 		}
-		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) return Board.getInstance().toString(p);
-		if (visible) {
-			if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
-				return " ";
-			}
-			if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return Board.getInstance().toString(p);
-		}
+		
 		if (visible) {
 			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+				if (_players.get(_currPlayer).lastTurnKill(p)) {
+					return "†";
+				}
 				return " ";										//Returning dead soldier (not solid not alive entities)
 			}
 			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
 				return Board.getInstance().toString(p);			//Returning actual soldiers (alive not solid)
 			}
+			
 		}
 		return "*";												//Returning fog of war	(not visible)
 	}
