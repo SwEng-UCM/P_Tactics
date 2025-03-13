@@ -30,4 +30,10 @@ public class Wall extends GameObject  {
 	public void onHit() {
 	}
 
+	@Override
+	public void nextTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

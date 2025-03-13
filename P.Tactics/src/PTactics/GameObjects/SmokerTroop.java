@@ -1,13 +1,13 @@
 package PTactics.GameObjects;
 
+import PTactics.Game.Board;
 import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
-public class Smoker extends Troop {
-	private Position smokePos;
-	public Smoker(Position pos, Player p) {
+public class SmokerTroop extends Troop {
+	public SmokerTroop(Position pos, Player p) {
 		super(pos, p);
 		this._visionRange=10;
 		this._abilityUses=3;
@@ -16,7 +16,7 @@ public class Smoker extends Troop {
 		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
 	
-	public Smoker(Position pos, Player p, Direction dir) {
+	public SmokerTroop(Position pos, Player p, Direction dir) {
 		super(pos, p, dir);
 		this._visionRange=10;
 		this._abilityUses=3;
@@ -24,15 +24,9 @@ public class Smoker extends Troop {
 		this._movesLeft=this._moveRange;
 		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
-
-	@Override
-	public void activateAbility() {
+	public void activateAbility(Position position) {
 		
-		
-	}
-	public void setSmokePosition() 
-	{
-		
+		Board.getInstance().Smoke(position);
 	}
 	@Override
 	public void deactivateAbility() {
@@ -46,7 +40,7 @@ public class Smoker extends Troop {
 
 	@Override
 	public void nextTurn() {
-		// TODO Auto-generated method stub
+	
 		
 	}
 }

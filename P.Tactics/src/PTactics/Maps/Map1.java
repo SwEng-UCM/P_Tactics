@@ -5,7 +5,7 @@ import java.util.List;
 
 import PTactics.Game.Player;
 import PTactics.GameObjects.LightTroop;
-import PTactics.GameObjects.Smoker;
+import PTactics.GameObjects.SmokerTroop;
 import PTactics.GameObjects.SniperTroop;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Direction;
@@ -44,12 +44,12 @@ public class Map1 implements Map {
 
 		if (player.getId().equals("1")) {
 		    troops.add(new SniperTroop(new Position(1, 2), player, Direction.DOWN));
-		    troops.add(new Smoker(new Position(7, 9), player, Direction.DOWN));
+		    troops.add(new SmokerTroop(new Position(7, 9), player, Direction.DOWN));
 		    troops.add(new LightTroop(new Position(9, 3), player, Direction.DOWN));
 		}
 		else if (player.getId().equals("2")) {
 		    troops.add(new SniperTroop(new Position(1, 9), player, Direction.UP));
-		    troops.add(new Smoker(new Position(7, 2), player, Direction.UP));
+		    troops.add(new SmokerTroop(new Position(7, 2), player, Direction.UP));
 		    troops.add(new LightTroop(new Position(9, 8), player, Direction.UP));
 		}
 

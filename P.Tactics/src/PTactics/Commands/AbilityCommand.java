@@ -1,6 +1,7 @@
 package PTactics.Commands;
 
 import PTactics.Game.ControllerInterface;
+import PTactics.GameObjects.SmokerTroop;
 import PTactics.GameObjects.SniperTroop;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
@@ -24,6 +25,10 @@ public class AbilityCommand extends Command {
 		}
 		if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
 			SniperTroop st = (SniperTroop) _currTroop;
+			st.activateAbility(new Position(_posX, _posY));
+		}
+		if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
+			SmokerTroop st = (SmokerTroop) _currTroop;
 			st.activateAbility(new Position(_posX, _posY));
 		}
 		else {

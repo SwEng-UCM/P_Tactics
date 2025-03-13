@@ -83,7 +83,17 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	
 	public void Smoke(Position pos) 
 	{
-		
+		Position center= pos;
+		int range = 2;
+		for (int dx = -range; dx <= range; dx++) {
+	        for (int dy = -range; dy <= range; dy++) {
+	            Position smokePos = new Position(center.getX() + dx, center.getY() + dy);
+	            if (pos.isValid() && !Board.getInstance().isSolid(pos)) {
+	                SmokeObject smoke= new SmokeObject(smokePos);
+	                this.addObj(smokePos, smoke);
+	            }
+	        }
+	    }
 	}
 	//@Override // NOT NEEDED, SEE POSITION!
 	/*public boolean isValid(Position pos) {

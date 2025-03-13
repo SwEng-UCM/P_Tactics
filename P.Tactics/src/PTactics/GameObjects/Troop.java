@@ -272,7 +272,6 @@ public abstract class Troop extends GameObject{
 	public int abilityUsesLeft() {
 		return _abilityUses;
 	}
-	
-	public abstract void nextTurn();
+
 }
 
