@@ -19,7 +19,17 @@ public class LightTroop extends Troop {
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
 	
-
+	public LightTroop(Position pos, Player p, Direction dir) {
+		super(pos, p);
+		this._visionRange = 10;
+		this._shootRange = 5;
+		this._moveRange = 20; 
+		this._movesLeft = this._moveRange; 
+		this._abilityUses = 100;
+		this.iFrames = 0;
+		this._dir = dir;
+		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
+	}
 
 	@Override
 	public void activateAbility() {
