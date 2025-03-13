@@ -39,8 +39,17 @@ public class Game {
 
 	public String positionToString(Position p) { // without the not null check the game breaks.
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+<<<<<<< Updated upstream
 		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()) {
 			return Board.getInstance().toString(p); 			//Returning walls (solid entities)
+=======
+		if (_board.getGameObject(p)!=null&&!_board.getGameObject(p).isSeeThrough()) return _board.toString(p);
+		if (visible) {
+			if (_board.getGameObject(p)!=null&&!_board.getGameObject(p).isAlive()) {
+				return " ";
+			}
+			if(_players.get(_currPlayer).isVisible(p.getX(), p.getY())) return _board.toString(p);
+>>>>>>> Stashed changes
 		}
 		if (visible) {
 			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {

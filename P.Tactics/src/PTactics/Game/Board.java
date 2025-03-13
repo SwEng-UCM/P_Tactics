@@ -80,6 +80,20 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
 	}
+<<<<<<< Updated upstream
+=======
+	
+	public void Smoke(Position pos) 
+	{
+		
+	}
+	//@Override // NOT NEEDED, SEE POSITION!
+	/*public boolean isValid(Position pos) {
+		if (pos.getX() < 0 || pos.getX() >= Game._boardWidth || pos.getY() < 0 || pos.getY() >= Game._boardLength)
+			return false;
+		return true;
+	}*/
+>>>>>>> Stashed changes
 	
 	private void _addMap() {
 		for(Position p : MapSelector.getWalls()) {
