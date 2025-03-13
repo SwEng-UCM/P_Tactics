@@ -8,7 +8,6 @@ import PTactics.Utils.Position;
 
 public class Player implements DangerObject{
 	private String _id;
-	private int _turn;
 	private boolean[][] _visibility;
 	private boolean[][] _danger;
 	private List<Troop> _troops;
@@ -16,7 +15,6 @@ public class Player implements DangerObject{
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
-		this._turn = 0;
 		_visibility = new boolean[Game._boardWidth][Game._boardLength];
 		_danger = new boolean[Game._boardWidth][Game._boardLength];
 		this._troops = new ArrayList<>();
@@ -84,5 +82,11 @@ public class Player implements DangerObject{
 	@Override
 	public String getId() {
 		return _id;
+	}
+    //DISABLED NOW NEXT TURN IS A BOARD THING
+	public void nextTurn() {
+		for (Troop troop: _troops) {
+			troop.nextTurn();
+		}
 	}
 }

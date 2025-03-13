@@ -22,4 +22,11 @@ public class StringUtils { //maybe orivate inner class for ViewGame
 		}
 		return rs;
 	}
+
+	public static String toSize(String formatted) {
+		if (formatted.length() > 3) {
+			return formatted.substring(0, formatted.length() - 1);			
+		}
+		return formatted;
+	}
 }

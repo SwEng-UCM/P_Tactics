@@ -3,8 +3,6 @@ package PTactics.View;
 import java.util.Scanner;
 
 import PTactics.Game.Game;
-import PTactics.Game.Player;
-import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.StringUtils;
 import PTactics.Utils.Utils;
@@ -52,7 +50,7 @@ public class GameView {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
 			for (int j = 0; j < Game._boardWidth; j++) {
 				Position pos = new Position(j, i);
-				System.out.print(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos)));
+				System.out.print(StringUtils.toSize(_CELL_SIZED_VALUE.formatted(_game.positionToString(pos))));
 			}
 			System.out.println(_VERTICAL_LINE);
 		}
@@ -67,14 +65,6 @@ public class GameView {
 	private void showBottom(Game _game) {
 		System.out.println(StringUtils.repeat(_SPACE, _INITIAL_SPACE) + LOWER_LEFT_CORNER + 
 				 StringUtils.repeat(_HORIZONTAL_LINE, Game._boardWidth * _CELL_SIZE) + LOWER_RIGHT_CORNER);
-	}
-	
-	public void showEndMessage() {
-		
-	}
-	
-	public void showWelcomeMessage() {
-		
 	}
 	
 	public void showMessage(String msg) {

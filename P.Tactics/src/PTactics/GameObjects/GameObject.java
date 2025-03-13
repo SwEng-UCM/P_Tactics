@@ -1,6 +1,6 @@
 package PTactics.GameObjects;
 
-import PTactics.Game.BoardInterface;
+import PTactics.Game.Board;
 import PTactics.Utils.Position;
 
 public abstract class GameObject {
@@ -8,18 +8,17 @@ public abstract class GameObject {
 	protected boolean enabled;
 	protected boolean alive;
 	protected boolean solid;
-	protected BoardInterface BI;
+	//protected BoardInterface BI;
 	protected String icon;
 	protected Boolean seeThrough=true;
 	
-	public GameObject(Position pos, BoardInterface BI) {
+	public GameObject(Position pos) {
 		this.pos = pos;
-		this.BI = BI;
 		this.alive = true;
 	}
 
 	public void setPosition(Position setter) {
-		this.BI.setPosition(this.pos, setter, this);
+		Board.getInstance().setPosition(this.pos, setter, this);
 		pos = setter;
 	}
 
@@ -55,4 +54,5 @@ public abstract class GameObject {
 	public void AddToMove(Position pos) {};
 	public void CalcNewMove(Position pos) {};
 	public abstract void update();
+	public abstract void nextTurn();
 }

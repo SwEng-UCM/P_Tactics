@@ -3,10 +3,9 @@ package PTactics.Game;
 import java.util.InputMismatchException;
 import PTactics.Commands.Command;
 import PTactics.Commands.CommandGenerator;
-import PTactics.GameObjects.Smoker;
 import PTactics.GameObjects.GameObject;
-import PTactics.GameObjects.SmokeObject;
 import PTactics.GameObjects.Troop;
+import PTactics.Maps.MapSelector;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 import PTactics.View.GameView;
@@ -16,6 +15,7 @@ public class Controller implements ControllerInterface{
 	private GameView _gameView;
 	private boolean _endTurn;
 	private Troop _troop;
+	public static int mapSelected = 0;
 	
 	public Controller() {
 		this._gameView = new GameView();
@@ -30,14 +30,16 @@ public class Controller implements ControllerInterface{
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
-			        command.execute(this, _troop); //TODO: need an interface to protect game, probably will receive troop t too
-			        System.out.println("Current troop selected: " + (this._troop==null?"none":("In position:"+(this._troop.getPos().Y+1)+" "+(this._troop.getPos().X+1))));
+			        command.execute(this, _troop);
+			        System.out.println("Current troop selected: " +(this._troop==null?"none":this._troop.getId()) + (this._troop==null?"":(" In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
+			        System.out.println(_troop == null? "" : "Moves left: " + _troop.getMovesLeft());
+			        System.out.println(_troop == null? "" : !_troop.isAbility()? "" : "Ability turns left: " + _troop.abilityUsesLeft());
 			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				 }
 			}
-			_game.nextTurn();
+			nextTurn();
 		}
 	}
 	
@@ -66,34 +68,11 @@ public class Controller implements ControllerInterface{
 			}
 		}
 		DangerMediator dangerMediator = new DangerMediator();
-		//TODO: Give troops to each player:
 		for(Integer i = 1; i <= numPlayers; ++i) {
 			Player p = new Player(i.toString(), dangerMediator);
-			//for(int i1 = 0; i1 < Utils.Data.STARTING_SOLDIERS; ++i1) {					//TODO: This is just a demo
-				//Troop t = new Troop(new Position(i1,i1), _currentGame.getBoard());
-				//p.addTroops(t);															//Adding manually because addTroops() --> adds to current player and we do not want them
-				//_currentGame.addNewElement(t, t.getPos());
-				if(i == 1) { //uncomment troop creation when troops fully work
-					Smoker t1 = new Smoker(new Position(2,3), p, _game.getBoard());
-					_game.addNewElement(t1, t1.getPos());
-					
-					//Troop t2 = new Troop(new Position(3,3), p, _game.getBoard());
-					//_game.addNewElement(t2, t2.getPos());
-					
-					//Troop t3 = new Troop(new Position(4,3), p, _game.getBoard());
-					//_game.addNewElement(t3, t3.getPos());
-				}
-				else if (i == 2) {
-					Smoker t1 = new Smoker(new Position(2,8), p, _game.getBoard());
-					_game.addNewElement(t1, t1.getPos());
-					
-					//Troop t2 = new Troop(new Position(6,9), p, _game.getBoard());
-					//_game.addNewElement(t2, t2.getPos());
-					
-					//Troop t3 = new Troop(new Position(9,9), p, _game.getBoard());
-					//_game.addNewElement(t3, t3.getPos());
-				}
-			//}
+			for(Troop t : MapSelector.getTroops(p)) {
+				_game.addNewElement(t, t.getPos());
+			}
 			_game.addPlayer(p);
 		}
 		_game.update();
@@ -111,7 +90,7 @@ public class Controller implements ControllerInterface{
 		_endTurn = false;
 		_cleanConsole();
 	    _gameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    _waitForEnter();
+	    _waitForEnter(); //why twice?
 	    _waitForEnter();
 		_gameView.showMessage("Player " + getNumPlayer() + ": ");
 	    _gameView.showGame(_game);
@@ -121,6 +100,11 @@ public class Controller implements ControllerInterface{
 	@Override
 	public void endTurn() {
 		_endTurn = true;
+	}
+	
+	public void nextTurn() {
+		_troop = null;
+		_game.nextTurn();
 	}
 	
 	@Override

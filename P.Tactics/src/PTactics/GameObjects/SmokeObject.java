@@ -1,14 +1,15 @@
 package PTactics.GameObjects;
 
-import PTactics.Game.BoardInterface;
+import PTactics.Game.Board;
 import PTactics.Utils.Position;
 
 public class SmokeObject extends GameObject {
-
-	public SmokeObject(Position pos, BoardInterface BI) {
-		super(pos, BI);
+	private int turnsLeft;
+	public SmokeObject(Position pos) {
+		super(pos);
 		this.solid=false;
 		this.seeThrough=false;
+		this.turnsLeft=3;
 	}
 	@Override
 	public boolean isAlive() {
@@ -29,6 +30,18 @@ public class SmokeObject extends GameObject {
 	public void update() {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void nextTurn() {
+		if(this.turnsLeft==0) 
+		{
+			this.alive=false;
+		    Board.getInstance().eraseFromPos(this.pos);
+		}
+		else 
+		{
+			this.turnsLeft--;
+		}
 	}
 
 }

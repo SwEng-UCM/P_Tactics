@@ -1,7 +1,5 @@
 package PTactics.Game;
 
-import java.util.Map;
-
 import PTactics.GameObjects.GameObject;
 import PTactics.Utils.Position;
 
@@ -14,7 +12,8 @@ public interface BoardInterface{
 	public void addObj(Position p, GameObject o);
 	public void eraseFromPos(Position p);// erases GO in pos false if no pos
 	public void eraseFromGO(GameObject o);// erases GO and assigned pos from map false if no GO
-	//public boolean isValid(Position pos); not needed, see Position
 	public void update();
 	public String toString(Position p);
+	public void Smoke(Position pos);
+	public void nextTurn();
 }

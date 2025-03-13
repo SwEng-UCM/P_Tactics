@@ -8,15 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import PTactics.Game.BoardInterface;
+import PTactics.Game.Board;
 import PTactics.Game.Player;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
 public abstract class Troop extends GameObject{
-	List<Position> _moveQueue; // why package protected? unless there is a reason it should be private
-	List<Position> _currentMove; // why package protected? unless there is a reason it should be private
+	protected String _id;
+	List<Position> _moveQueue;
+	List<Position> _currentMove;
 	protected Direction _dir;
 	protected boolean _aiming;
 	protected Player _player;
@@ -27,17 +28,34 @@ public abstract class Troop extends GameObject{
 	protected int _abilityUses;// for implementing limited number of ability uses
 	protected boolean _abilityActive; // true while using ability
 	
-	public Troop (Position pos, Player p, BoardInterface BI) { // all GO constructors changed to include the board // children must initialize move range
-	    super(pos, BI);
+	public Troop (Position pos, Player p) { // all GO constructors changed to include the board // children must initialize move range
+		super(pos);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
-        this.solid=false;
+        this.solid = true; //this should be true now
         this._dir = Direction.DOWN;
         this._aiming = false;
         this._player = p;
         this._abilityActive = false;
+        this.seeThrough= true;
         _player.addTroops(this);
 	}
+	
+	public Troop (Position pos, Player p, Direction dir) { 
+	    super(pos);
+	    this._moveQueue = new ArrayList<>(); 
+        this._currentMove = new ArrayList<>();
+        this.solid=false; //this should be true now
+        this._dir = dir;
+        this._aiming = false;
+        this._player = p;
+        _player.addTroops(this);
+	}
+	
+	public String getId() {
+		return _id;
+	}
+	
 	@Override
 	public void AddToMove(Position pos) 
 	{
@@ -89,11 +107,11 @@ public abstract class Troop extends GameObject{
     }
 
     for (int[] curDir : Dirs) {
-        Position movePos = new Position(it.X + curDir[0], it.Y + curDir[1]);
+        Position movePos = new Position(it.getX() + curDir[0], it.getY() + curDir[1]);
 
         //System.out.println("Trying move to: " + movePos.Y + " " + movePos.X);
 
-        if (movePos.isValid() && BI.getGameObject(movePos)==null &&  !marks.contains(movePos)) {
+        if (movePos.isValid() && (Board.getInstance().getGameObject(movePos)==null || !Board.getInstance().getGameObject(movePos).isSolid()) &&  !marks.contains(movePos)) {
 
             // Heuristic pruning: if this path is already worse, skip it
             if (minSteps.containsKey(movePos) && minSteps.get(movePos) <= curSolSteps.value) {
@@ -186,7 +204,7 @@ public abstract class Troop extends GameObject{
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || !BI.isSeeThrough(pos))
+			if (!pos.isValid() || !Board.getInstance().isSeeThrough(pos))
 				break;
 			visiblePositions.add(pos);
 		}
@@ -207,7 +225,7 @@ public abstract class Troop extends GameObject{
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && !BI.isSolid(visPos)) {
+			if (visPos.isValid() && !Board.getInstance().isSolid(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;
@@ -244,10 +262,17 @@ public abstract class Troop extends GameObject{
 	public void resetMoveRange() {
 		this._movesLeft = this._moveRange;
 	}
-	public abstract void activateAbility(); 
+	public void activateAbility() {
+		_abilityActive = true;
+	}; 
+	
 	public abstract void deactivateAbility();
 	public boolean isAbility() {
 		return this._abilityActive;
 	}// true if using ability
+	public int abilityUsesLeft() {
+		return _abilityUses;
+	}
+
 }
 
