@@ -3,8 +3,8 @@ package PTactics.Utils;
 import java.util.Objects;
 
 public final  class Position {
-	public final int X;
-	public final int Y;
+	private final int X;
+	private final int Y;
 	public static int _gameLength; //both assigned at the start of game creation.
 	public static int _gameWidth;
 	

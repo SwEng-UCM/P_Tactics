@@ -14,6 +14,9 @@ public class SniperTroop extends Troop {
 	private final int _MOVE = 3;
 	private final int _USE = 3;
 	private final int _DANGER = Math.max(Game._boardLength, Game._boardWidth);
+	private final int _droneSide = 1;
+	private final int _droneHeight = 1;
+	private List<Position> _droneArea;
 	
 	public SniperTroop(Position pos, Player p) {
 		super(pos, p);
@@ -40,6 +43,10 @@ public class SniperTroop extends Troop {
 			return visiblePositions;
 		}
 		visiblePositions.add(getPos());
+		
+		if (isAbility()) {
+			visiblePositions.addAll(_droneArea);			
+		}
 		Position pos = new Position(getPos().getX(), getPos().getY());
 		
 		
@@ -61,19 +68,32 @@ public class SniperTroop extends Troop {
 		}
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
+		for (int i = 0; i < _shootRange; i++) {
 			if (visPos.isValid() && Board.getInstance().isSeeThrough(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;
-			
 		}
 		
 		return dangerPositions;	
 	}
 	
+	public String toString() {
+		return "S" + super.toString();
+	}
+	
 	public void activateAbility(Position pos) {
 		_abilityActive = true;
+		
+		_droneArea = new ArrayList<>();
+		for (int i = -_droneSide; i <= _droneSide; i++) {
+			for (int j = -_droneSide; j <= _droneSide; j++) {
+				Position areaPos = new Position(pos.getX() + i, pos.getY() + j);
+				if (areaPos.isValid()) {
+					_droneArea.add(new Position(pos.getX() + i, pos.getY() + j));					
+				}
+			}				
+		}
 	}
 
 	@Override

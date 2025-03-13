@@ -33,7 +33,7 @@ public class Controller implements ControllerInterface{
 				
 				 if (command != null) { 
 			        command.execute(this, _troop);
-			        System.out.println("Current troop selected: " + (this._troop==null?"none":("In position:"+(this._troop.getPos().Y+1)+" "+(this._troop.getPos().X+1))));
+			        System.out.println("Current troop selected: " + (this._troop==null?"none":("In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
 			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);

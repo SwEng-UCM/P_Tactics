@@ -106,7 +106,7 @@ public abstract class Troop extends GameObject{
     }
 
     for (int[] curDir : Dirs) {
-        Position movePos = new Position(it.X + curDir[0], it.Y + curDir[1]);
+        Position movePos = new Position(it.getX() + curDir[0], it.getY() + curDir[1]);
 
         //System.out.println("Trying move to: " + movePos.Y + " " + movePos.X);
 

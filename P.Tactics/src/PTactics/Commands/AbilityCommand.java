@@ -26,6 +26,7 @@ public class AbilityCommand extends Command {
 		else {
 			_currTroop.activateAbility();
 		}
+		CI.update();
 	}
 
 	@Override
