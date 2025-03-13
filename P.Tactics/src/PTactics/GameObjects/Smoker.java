@@ -38,6 +38,6 @@ public class Smoker extends Troop {
 	}
 	@Override
 	public String toString() {
-		return "S";
+		return "S"  + super.toString();
 	}
 }
