@@ -80,8 +80,6 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
 	}
-<<<<<<< Updated upstream
-=======
 	
 	public void Smoke(Position pos) 
 	{
@@ -93,7 +91,6 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 			return false;
 		return true;
 	}*/
->>>>>>> Stashed changes
 	
 	private void _addMap() {
 		for(Position p : MapSelector.getWalls()) {

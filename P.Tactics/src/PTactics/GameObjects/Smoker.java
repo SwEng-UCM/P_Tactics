@@ -6,15 +6,9 @@ import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
 public class Smoker extends Troop {
-<<<<<<< Updated upstream
-	
+	private Position smokePos;
 	public Smoker(Position pos, Player p) {
 		super(pos, p);
-=======
-	private Position smokePos;
-	public Smoker(Position pos, Player p, BoardInterface BI) {
-		super(pos, p, BI);
->>>>>>> Stashed changes
 		this._visionRange=10;
 		this._abilityUses=3;
 		this._moveRange=5;
