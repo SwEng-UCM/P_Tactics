@@ -40,5 +40,9 @@ public class LightTroop extends Troop {
 		Move();
 		this.iFrames--;
 	}
+	@Override
+	public String toString() {
+		return "L";
+	}
 
 }
