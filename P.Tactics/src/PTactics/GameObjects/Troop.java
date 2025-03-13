@@ -32,11 +32,12 @@ public abstract class Troop extends GameObject{
 		super(pos);
 	    this._moveQueue = new ArrayList<>();  // Initialize the lists
         this._currentMove = new ArrayList<>();
-        this.solid = false; //this should be true now
+        this.solid = true; //this should be true now
         this._dir = Direction.DOWN;
         this._aiming = false;
         this._player = p;
         this._abilityActive = false;
+        this.seeThrough= true;
         _player.addTroops(this);
 	}
 	

@@ -25,8 +25,8 @@ public class SmokerTroop extends Troop {
 		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
 	public void activateAbility(Position position) {
-		
 		Board.getInstance().Smoke(position);
+		this._abilityUses--;
 	}
 	@Override
 	public void deactivateAbility() {

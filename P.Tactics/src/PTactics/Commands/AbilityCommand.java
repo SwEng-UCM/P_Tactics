@@ -20,21 +20,28 @@ public class AbilityCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI, Troop _currTroop) {
-		if (_currTroop.abilityUsesLeft() == 0) {
-			System.out.print("No uses left for the ability");
+		if (_currTroop.isAbility()) {
+			System.out.println ("Ability is already in use");
 		}
-		if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
-			SniperTroop st = (SniperTroop) _currTroop;
-			st.activateAbility(new Position(_posX, _posY));
-		}
-		if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
-			SmokerTroop st = (SmokerTroop) _currTroop;
-			st.activateAbility(new Position(_posX, _posY));
-		}
+		
 		else {
-			_currTroop.activateAbility();
+			
+			if (_currTroop.abilityUsesLeft() == 0) {
+				System.out.println("No uses left for the ability");
+			}
+			if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
+				SniperTroop st = (SniperTroop) _currTroop;
+				st.activateAbility(new Position(_posX, _posY));
+			}
+			if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
+				SmokerTroop st = (SmokerTroop) _currTroop;
+				st.activateAbility(new Position(_posX, _posY));
+			}
+			else {
+				_currTroop.activateAbility();
+			}
+			CI.update();
 		}
-		CI.update();
 	}
 
 	@Override
