@@ -39,6 +39,9 @@ public class Game {
 
 	public String positionToString(Position p) { // without the not null check the game breaks.
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+		if (_players.get(_currPlayer).lastTurnKill(p)) {
+			return "†";
+		}
 		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) return Board.getInstance().toString(p);
 		if (visible) {
 			if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
@@ -100,7 +103,8 @@ public class Game {
 	public void nextTurn() {
 		Board.getInstance().nextTurn();
 		//_players.get(_currPlayer).nextTurn(); 	//this is illegal (nerd emoji) idgaf rn
-		_players.get(_currPlayer).update();		//this is illegal (nerd emoji) idgaf rn
+		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
+		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
 		_currPlayer++;
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;

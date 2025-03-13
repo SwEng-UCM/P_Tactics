@@ -1,8 +1,9 @@
 package PTactics.Game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import PTactics.GameObjects.Troop;
 import PTactics.Utils.Position;
 
@@ -10,6 +11,7 @@ public class Player implements DangerObject{
 	private String _id;
 	private boolean[][] _visibility;
 	private boolean[][] _danger;
+	private Map<Position, Boolean> _lastTurnKills;
 	private List<Troop> _troops;
 	private DangerMediator _dangerMediator;
 
@@ -20,6 +22,7 @@ public class Player implements DangerObject{
 		this._troops = new ArrayList<>();
 		_dangerMediator = dm;
 		_dangerMediator.registerComponent(this);
+		_lastTurnKills = new HashMap<>();
 	}
 
 	public boolean isVisible(int x, int y) {
@@ -72,6 +75,9 @@ public class Player implements DangerObject{
 
 	@Override
 	public boolean isInDanger(Position pos) {
+		if (_danger[pos.getX()][pos.getY()]) {
+			_lastTurnKills.put(pos, true);
+		}
 		return _danger[pos.getX()][pos.getY()];
 	}
 	
@@ -88,5 +94,16 @@ public class Player implements DangerObject{
 		for (Troop troop: _troops) {
 			troop.nextTurn();
 		}
+	}
+
+	public void clearKills() {
+		_lastTurnKills.clear();
+	}
+
+	public boolean lastTurnKill(Position pos) {
+		if (_lastTurnKills.get(pos) == null) {
+			return false;
+		}
+		return _lastTurnKills.get(pos);
 	}
 }

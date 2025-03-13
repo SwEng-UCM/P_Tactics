@@ -19,12 +19,13 @@ public class DangerMediator {
 	}
 	
 	public boolean isInDanger(DangerObject obj, Position pos) {
+		boolean danger = false;
 		for (DangerObject o : _objects) {
 			if (!o.getId().equals(obj.getId()) && o.isInDanger(pos)) {
-				return true;
+				danger = true;
 			}
 		}
 		
-		return false;
+		return danger;
 	}
 }
