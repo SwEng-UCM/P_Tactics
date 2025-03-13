@@ -14,6 +14,7 @@ public class LightTroop extends Troop {
 		this._moveRange = 20; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 100;
+		this.iFrames = 0;
 		// TODO Auto-generated constructor stub
 	}
 
