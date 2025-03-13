@@ -98,5 +98,9 @@ public class Game {
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
 		}
+		
+		for (Player p : _players) {
+			p.nextTurn();
+		}
 	}
 }

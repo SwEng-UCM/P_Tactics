@@ -51,4 +51,10 @@ public class LightTroop extends Troop {
 		this.iFrames--;
 	}
 
+	@Override
+	public void nextTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

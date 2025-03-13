@@ -40,4 +40,10 @@ public class Smoker extends Troop {
 	public String toString() {
 		return "S"  + super.toString();
 	}
+
+	@Override
+	public void nextTurn() {
+		// TODO Auto-generated method stub
+		
+	}
 }

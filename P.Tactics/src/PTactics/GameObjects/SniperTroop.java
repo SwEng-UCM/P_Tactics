@@ -87,7 +87,7 @@ public class SniperTroop extends Troop {
 		
 		_droneArea = new ArrayList<>();
 		for (int i = -_droneSide; i <= _droneSide; i++) {
-			for (int j = -_droneSide; j <= _droneSide; j++) {
+			for (int j = -_droneHeight; j <= _droneHeight; j++) {
 				Position areaPos = new Position(pos.getX() + i, pos.getY() + j);
 				if (areaPos.isValid()) {
 					_droneArea.add(new Position(pos.getX() + i, pos.getY() + j));					
@@ -99,6 +99,17 @@ public class SniperTroop extends Troop {
 	@Override
 	public void deactivateAbility() {
 		_abilityActive = false;
+	}
+
+	@Override
+	public void nextTurn() {
+		if (isAbility() && _abilityUses > 0) {
+			_abilityUses--;
+		}
+		
+		if (_abilityUses == 0) {
+			deactivateAbility();
+		}
 	}
 
 }

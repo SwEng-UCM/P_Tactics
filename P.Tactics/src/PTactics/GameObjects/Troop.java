@@ -269,5 +269,7 @@ public abstract class Troop extends GameObject{
 	public boolean isAbility() {
 		return this._abilityActive;
 	}// true if using ability
+
+	public abstract void nextTurn();
 }
 

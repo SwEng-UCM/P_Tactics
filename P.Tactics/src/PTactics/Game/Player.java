@@ -83,4 +83,10 @@ public class Player implements DangerObject{
 	public String getId() {
 		return _id;
 	}
+
+	public void nextTurn() {
+		for (Troop troop: _troops) {
+			troop.nextTurn();
+		}
+	}
 }
