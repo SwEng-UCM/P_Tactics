@@ -80,7 +80,9 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	    	}
 	    	entry.getValue().update();	    		
         }
-	    
+	    for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
+	    	entry.getValue().resetUpdate();	    		
+        }
 	    for (Position p : deadGuys) {
 	    	_board.remove(p);
 	    }

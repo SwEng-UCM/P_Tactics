@@ -51,7 +51,11 @@ public class LightTroop extends Troop {
 	@Override
 	public void update() {
 		if(this.iFrames < 1 && this.isAbility()) this.deactivateAbility();
-		Move();
+		if(!updated) 
+		{
+			Move();
+		}
+		updated=true;
 		this.iFrames--;
 	}
 	@Override
