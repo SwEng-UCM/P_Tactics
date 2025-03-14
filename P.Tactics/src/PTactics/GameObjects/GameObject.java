@@ -8,7 +8,6 @@ public abstract class GameObject {
 	protected boolean enabled;
 	protected boolean alive;
 	protected boolean solid;
-	//protected BoardInterface BI;
 	protected String icon;
 	protected Boolean seeThrough=true;
 	

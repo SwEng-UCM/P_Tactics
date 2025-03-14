@@ -45,7 +45,7 @@ public abstract class Troop extends GameObject{
 	    super(pos);
 	    this._moveQueue = new ArrayList<>(); 
         this._currentMove = new ArrayList<>();
-        this.solid=false; //this should be true now
+        this.solid=true; //this should be true now (I hope)
         this._dir = dir;
         this._aiming = false;
         this._player = p;

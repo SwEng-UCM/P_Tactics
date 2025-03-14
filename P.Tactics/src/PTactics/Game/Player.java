@@ -1,6 +1,7 @@
 package PTactics.Game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,7 @@ public class Player implements DangerObject{
 	}
 
 	public List<Troop> getTroops() {
-		// getters are observers, return a copy
-		return new ArrayList<>(_troops);
+		return Collections.unmodifiableList(new ArrayList<>(_troops));
 	}
 
 	public void addTroops(Troop t) {
@@ -88,12 +88,6 @@ public class Player implements DangerObject{
 	@Override
 	public String getId() {
 		return _id;
-	}
-    //DISABLED NOW NEXT TURN IS A BOARD THING
-	public void nextTurn() {
-		for (Troop troop: _troops) {
-			troop.nextTurn();
-		}
 	}
 
 	public void clearKills() {

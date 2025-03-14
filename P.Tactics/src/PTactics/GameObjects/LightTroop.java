@@ -41,6 +41,7 @@ public class LightTroop extends Troop {
 
 	@Override
 	public void deactivateAbility() {
+		//iFrames = 0;
 		this._abilityActive = false;
 	}
 	@Override
@@ -60,8 +61,7 @@ public class LightTroop extends Troop {
 
 	@Override
 	public void nextTurn() {
-		// TODO Auto-generated method stub
-		
+		//deactivateAbility();
 	}
 
 }

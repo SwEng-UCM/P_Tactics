@@ -37,7 +37,6 @@ public class AimCommand extends Command {
 						_dirToAim = Direction.toDir(sa[1].toUpperCase());
 						if(_dirToAim == Direction.NONE) throw new DataFormatException();
 					} catch(DataFormatException n) {
-						//So it is not recognized as a command, maybe throw a Exception instead?
 						return null;
 					}
 					return this;

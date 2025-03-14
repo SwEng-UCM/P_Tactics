@@ -20,7 +20,6 @@ public class SelectTroopCommand extends Command {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
 
-	// TODO: Do the selection here maybe.
 	@Override
 	public void execute(ControllerInterface CI, Troop t) {
 		try {

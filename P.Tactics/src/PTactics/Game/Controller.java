@@ -93,8 +93,8 @@ public class Controller implements ControllerInterface{
 		_endTurn = false;
 		_cleanConsole();
 	    _gameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    _waitForEnter(); //why twice?
-	    _waitForEnter();
+	    _waitForEnter(); //First one as a cin.get()
+	    _waitForEnter(); //Second, to receive the enter key from user
 		_gameView.showMessage("Player " + getNumPlayer() + ": ");
 	    _gameView.showGame(_game);
 	}
@@ -111,7 +111,7 @@ public class Controller implements ControllerInterface{
 	}
 	
 	@Override
-	public void setTroop(Troop t) {		//Because select soldier is necessary, it will not be part of the commands, at least for now
+	public void setTroop(Troop t) {
 		this._troop = t;
 	}
 	

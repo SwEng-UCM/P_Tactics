@@ -73,7 +73,7 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		this.remove(this.getPosition(o));
 	}
 	public void update() {
-		List<Position> deadGuys = new ArrayList();
+		List<Position> deadGuys = new ArrayList<Position>();
 	    for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
 	    	if (entry.getValue() != null && !entry.getValue().isAlive()) {
 	    		deadGuys.add(entry.getKey());
@@ -97,7 +97,7 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
             entry.getValue().nextTurn();
         }
 	}
-	public void Smoke(Position pos) 
+	public void smoke(Position pos) 
 	{
 		Position center= pos;
 		int range = 1;

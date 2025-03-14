@@ -35,7 +35,6 @@ public class MoveCommand extends Command {
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -51,7 +50,6 @@ public class MoveCommand extends Command {
 				_posY =Integer.valueOf(sa[1])-1;
 				_posX =Integer.valueOf(sa[2])-1;
 			} catch(NumberFormatException n) {
-				//So it is not recognized as a command, maybe throw a Exception instead?
 				return null;
 			}
 			return this;

@@ -76,7 +76,7 @@ public interface Utils {
 		public static final String COMMAND_SELECT_SHORTCUT = "s";
 		public static final String COMMAND_SELECT_DETAILS = "[s]elect";
 		public static final String COMMAND_SELECT_HELP = "selects a soldier to move, aim or do special action";
-		// Exit command (end the turn)
+		// Ability command (end the turn)
 		public static final String COMMAND_ABILITY_NAME = "ability";
 		public static final String COMMAND_ABILITY_SHORTCUT = "b";
 		public static final String COMMAND_ABILITY_DETAILS = "a[b]ility";

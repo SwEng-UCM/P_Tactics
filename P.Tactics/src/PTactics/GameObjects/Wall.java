@@ -32,7 +32,6 @@ public class Wall extends GameObject  {
 
 	@Override
 	public void nextTurn() {
-		// TODO Auto-generated method stub
 		
 	}
 

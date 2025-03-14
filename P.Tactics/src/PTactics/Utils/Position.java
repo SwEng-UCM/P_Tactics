@@ -9,14 +9,13 @@ public final  class Position {
 	public static int _gameWidth;
 	
 	public Position (int X, int Y) {
-		//This is incredibly dumb and interfering with our project in many ways we have to talk about this
-		//if(X < 0 || Y < 0) throw new IllegalArgumentException("Coordinates have to be valid.");
+		if(X < 0 || Y < 0) throw new IllegalArgumentException("Coordinates have to be valid.");
 		this.X=X;
 		this.Y=Y;
 	}
 	public Boolean isValid() 
 	{
-		//much better in my opinion. this way position always knows if it is valid
+		//Position always knows if it is valid
 		return !(X < 0 || Y < 0 || X>=_gameWidth||Y>=_gameLength) ;
 	}
 	public int getX() {

@@ -14,6 +14,6 @@ public interface BoardInterface{
 	public void eraseFromGO(GameObject o);// erases GO and assigned pos from map false if no GO
 	public void update();
 	public String toString(Position p);
-	public void Smoke(Position pos);
+	public void smoke(Position pos);
 	public void nextTurn();
 }

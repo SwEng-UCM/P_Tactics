@@ -1,6 +1,6 @@
 package PTactics.Utils;
 
-public class StringUtils { //maybe orivate inner class for ViewGame
+public class StringUtils { //maybe private inner class for ViewGame
 	/*
 	 * This class is heavily inspired in a class from the project of TP1 although it is written by us in its totality.
 	 * It's purpose is to provide support for common string manipulations and in doing so facilitating the display of information.

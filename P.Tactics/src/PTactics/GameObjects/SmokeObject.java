@@ -13,7 +13,6 @@ public class SmokeObject extends GameObject {
 	}
 	@Override
 	public boolean isAlive() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	@Override
@@ -22,13 +21,11 @@ public class SmokeObject extends GameObject {
 	}
 	@Override
 	public void onHit() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
