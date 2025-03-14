@@ -45,7 +45,7 @@ public class LightTroop extends Troop {
 	}
 	@Override
 	public void onHit() {
-		if(!this.isAbility()) alive = false;
+		if(!this.isAbility()) alive = false; // this does not work well with other stuff, I think it should completely avoid the hit
 	}
 	@Override
 	public void update() {
