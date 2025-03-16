@@ -10,27 +10,24 @@ public class LightTroop extends Troop {
 	
 	public LightTroop(Position pos, Player p) {
 		super(pos, p);
-		this._visionRange = 10;
-		this._shootRange = 5;
-		this._moveRange = 20; 
-		this._movesLeft = this._moveRange; 
-		this._abilityUses = 100;
-		this.iFrames = 0;
+		initVars();
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
 	
 	public LightTroop(Position pos, Player p, Direction dir) {
-		super(pos, p);
-		this._visionRange = 10;
-		this._shootRange = 5;
-		this._moveRange = 20; 
+		super(pos, p, dir);
+		initVars();
+		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
+	}
+	public void initVars() 
+	{
+		this._visionRange = 4;
+		this._shootRange = 4;
+		this._moveRange = 8; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 100;
 		this.iFrames = 0;
-		this._dir = dir;
-		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
-
 	@Override
 	public void activateAbility() {
 
@@ -60,7 +57,7 @@ public class LightTroop extends Troop {
 	}
 	@Override
 	public String toString() {
-		return "L";
+		return "L"+ super.toString();
 	}
 
 	@Override

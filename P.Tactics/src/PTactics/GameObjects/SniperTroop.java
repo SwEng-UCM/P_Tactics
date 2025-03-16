@@ -10,33 +10,31 @@ import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
 public class SniperTroop extends Troop {
-	private final int _VISION = Math.max(Game._boardLength, Game._boardWidth);
-	private final int _MOVE = 3;
-	private final int _USE = 3;
-	private final int _DANGER = Math.max(Game._boardLength, Game._boardWidth);
-	private final int _droneSide = 1;
-	private final int _droneHeight = 1;
+	private  int _droneSide;
+	private  int _droneHeight;
 	private List<Position> _droneArea;
 	
 	public SniperTroop(Position pos, Player p) {
 		super(pos, p);
-		_visionRange = _VISION;
-		_moveRange = _MOVE;
-		_shootRange = _DANGER;
-		_abilityUses = _USE;
-        _movesLeft = _moveRange;
+		initVars();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
 	
 	public SniperTroop(Position pos, Player p, Direction dir) {
 		super(pos, p, dir);
-		_visionRange = _VISION;
-		_moveRange = _MOVE;
-		_shootRange = _DANGER;
-		_abilityUses = _USE;
-		_movesLeft = _moveRange;
+		initVars();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
+	public void initVars() 
+	{
+		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
+		_moveRange = 3;
+		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
+		_abilityUses = 3;
+        _movesLeft = _moveRange;
+        _droneSide = 1;
+        _droneHeight = 1;
+    }
 
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
