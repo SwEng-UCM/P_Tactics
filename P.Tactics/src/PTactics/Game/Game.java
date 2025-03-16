@@ -7,6 +7,7 @@ import PTactics.GameObjects.GameObject;
 import PTactics.GameObjects.Troop;
 import PTactics.Maps.MapSelector;
 import PTactics.Utils.Position;
+import PTactics.Utils.Utils;
 
 public class Game {
 	public static int _boardLength; // This is the first value (y)
@@ -46,7 +47,7 @@ public class Game {
 		if (visible) {
 			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
 				if (_players.get(_currPlayer).lastTurnKill(p)) {
-					return "†";
+					return Utils.TroopUtils.TROOP_DEAD;
 				}
 				return " ";										//Returning dead soldier (not solid not alive entities)
 			}
