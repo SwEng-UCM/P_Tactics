@@ -8,7 +8,7 @@ public interface ControllerInterface {
 	
 	void endTurn();
 	public void update();
-
+	public void updatePlayers();
 	
 	void showGame();
 
