@@ -49,7 +49,7 @@ public class Game {
 				if (_players.get(_currPlayer).lastTurnKill(p)) {
 					return Utils.TroopUtils.TROOP_DEAD;
 				}
-				return " ";										//Returning dead soldier (not solid not alive entities)
+				return Utils.TroopUtils.TROOP_DEAD;										//Returning dead soldier (not solid not alive entities)
 			}
 			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
 				return Board.getInstance().toString(p);			//Returning actual soldiers (alive not solid)
@@ -110,10 +110,10 @@ public class Game {
 		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
 		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
 		_currPlayer++;
-		_players.get(_currPlayer).startOfTurnDeadCheck();
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
 		}
+		_players.get(_currPlayer).startOfTurnDeadCheck();
 	}
 	
 }
