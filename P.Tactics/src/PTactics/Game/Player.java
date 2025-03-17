@@ -84,7 +84,16 @@ public class Player implements DangerObject{
 	public boolean getDanger(Position pos) {
 		return _dangerMediator.isInDanger(this, pos);
 	}
-
+	public  void startOfTurnDeadCheck() 
+	{
+		for(Troop t: _troops) 
+		{
+			if(getDanger(t.getPos())) 
+			{
+				t.onHit();
+			}
+		}
+	}
 	@Override
 	public String getId() {
 		return _id;

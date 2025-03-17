@@ -110,7 +110,7 @@ public class Game {
 		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
 		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
 		_currPlayer++;
-		//_players.get(_currPlayer).checkdeadTroops this should be implemented here i guess
+		_players.get(_currPlayer).startOfTurnDeadCheck();
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
 		}
