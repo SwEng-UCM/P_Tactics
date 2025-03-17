@@ -107,10 +107,10 @@ public class Game {
 
 	public void nextTurn() {
 		Board.getInstance().nextTurn();
-		//_players.get(_currPlayer).nextTurn(); 	//this is illegal (nerd emoji) idgaf rn
 		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
 		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
 		_currPlayer++;
+		//_players.get(_currPlayer).checkdeadTroops this should be implemented here i guess
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
 		}
