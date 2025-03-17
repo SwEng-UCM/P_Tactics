@@ -21,24 +21,32 @@ public class MoveCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI, Troop _currTroop) {
-		_currTroop.AddToMove(new Position(_posX,_posY));
-		while(_currTroop.isAlive() && (!(_currTroop.getPos().getX() == _posX) || !(_currTroop.getPos().getY() == _posY)))
+		if(_currTroop!=null) 
 		{
-			try {
-				CI.update();
-				CI.showGame();
-			}
-			catch(IllegalArgumentException e) { // this stops the updating of all gameObjects after the troop that throws the exception but no other way occurs to me without a big refactor
-				System.out.println(e);
-				break;
-			}
-			try {
-				TimeUnit.MILLISECONDS.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			_currTroop.AddToMove(new Position(_posX,_posY));
+			while(_currTroop.isAlive() && (!(_currTroop.getPos().getX() == _posX) || !(_currTroop.getPos().getY() == _posY)))
+			{
+				try {
+					_currTroop.update();
+					_currTroop.resetUpdate();
+					CI.updatePlayers();
+					CI.showGame();
+				}
+				catch(IllegalArgumentException e) { // this stops the updating of all gameObjects after the troop that throws the exception but no other way occurs to me without a big refactor
+					System.out.println(e);
+					break;
+				}
+				try {
+					TimeUnit.MILLISECONDS.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-			
+		else
+		{
+			System.out.println("Select a troop before executing a troop command, current troop selection is none");
+		}
 	}
 
 	@Override

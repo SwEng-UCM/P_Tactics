@@ -78,7 +78,7 @@ public class Game {
 		_players.get(_currPlayer).addTroops(t);
 	}
 
-	private void updatePlayers() {
+	public void updatePlayers() {
 		for (Player p : _players) {
 			p.update();
 		}

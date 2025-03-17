@@ -130,6 +130,10 @@ public class Controller implements ControllerInterface{
 		this._game.update();
 		
 	}
+	public void updatePlayers() 
+	{
+		this._game.updatePlayers();
+	}
 	public void showGame() {
 		this._gameView.showGame(_game);
 	}
