@@ -10,8 +10,9 @@ import PTactics.Utils.Position;
 
 public class MapSelector {
 	private static List<Map> maps = Arrays.asList(
-		      new MapDebug(),
-		      new Map1()
+			  new MapEmpty(),
+		      new Map1(),
+		      new Map2()
 		    );;
 	
 	public static List<Position> getWalls(){
