@@ -10,7 +10,6 @@ public abstract class GameObject {
 	protected boolean solid;
 	protected String icon;
 	protected Boolean seeThrough=true;
-	protected Boolean updated=false;
 	public GameObject(Position pos) {
 		this.pos = pos;
 		this.alive = true;
@@ -46,10 +45,6 @@ public abstract class GameObject {
 	public String toString() 
 	{
 		return icon;
-	}
-	public void resetUpdate() 
-	{
-		updated=false;
 	}
 	public abstract boolean isAlive();
 	public abstract void onHit();

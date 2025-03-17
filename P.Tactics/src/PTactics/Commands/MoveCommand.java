@@ -28,7 +28,7 @@ public class MoveCommand extends Command {
 			{
 				try {
 					_currTroop.update();
-					_currTroop.resetUpdate();
+					//_currTroop.resetUpdate();
 					CI.updatePlayers();
 					CI.showGame();
 				}

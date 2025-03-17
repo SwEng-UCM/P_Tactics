@@ -192,11 +192,7 @@ public abstract class Troop extends GameObject{
 		if (_player.getDanger(getPos())) {
 			onHit();
 		}
-		if(!updated) 
-		{
-			Move();
-		}
-		updated=true;
+		Move();
 	}
 	
 	public List<Position> visiblePositions() {
