@@ -41,14 +41,14 @@ public class LightTroop extends Troop {
 		//iFrames = 0;
 		this._abilityActive = false;
 	}
-	@Override
-	public void onHit() {
-		if(!this.isAbility()) alive = false; // this does not work well with other stuff, I think it should completely avoid the hit
-	}
+
 	@Override
 	public void update() {
 		if(this.iFrames < 1 && this.isAbility()) this.deactivateAbility();
 		Move();
+		if (_player.getDanger(getPos()) && !this.isAbility()) {
+			onHit();
+		}
 		this.iFrames--;
 	}
 	@Override

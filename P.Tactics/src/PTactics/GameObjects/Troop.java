@@ -146,9 +146,9 @@ public abstract class Troop extends GameObject{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 				this._movesLeft--;
-				if (_player.getDanger(getPos())) {
+				/*if (_player.getDanger(getPos())) {
 					onHit();					
-				}
+				}*/
 				_player.update();									
 			}
 			else if(alive && !this._moveQueue.isEmpty())
@@ -163,9 +163,9 @@ public abstract class Troop extends GameObject{
 				this.setPosition(this._currentMove.getFirst());
 				this._currentMove.removeFirst();
 				this._movesLeft--;
-				if (_player.getDanger(getPos())) {
+				/*if (_player.getDanger(getPos())) {
 					onHit();					
-				}
+				}*/
 			}
 			
 	}
@@ -189,10 +189,11 @@ public abstract class Troop extends GameObject{
 	
 	@Override // TODO: i need this // the move to be boolean and return true if there are moves left in the queue so I can paint it step by step
 	public void update() {
+		
+		Move();
 		if (_player.getDanger(getPos())) {
 			onHit();
 		}
-		Move();
 	}
 	
 	public List<Position> visiblePositions() {
