@@ -25,7 +25,7 @@ public class LightTroop extends Troop {
 		this._shootRange = 4;
 		this._moveRange = 8; 
 		this._movesLeft = this._moveRange; 
-		this._abilityUses = 100;
+		this._abilityUses = 1;		//Why a 100?
 		this.iFrames = 0;
 	}
 	@Override

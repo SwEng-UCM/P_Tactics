@@ -23,7 +23,9 @@ public class AbilityCommand extends Command {
 		if (_currTroop.isAbility()) {
 			System.out.println ("Ability is already in use");
 		}
-		
+		else if(_posX == -1 && _posY == -1 && _currTroop.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
+			_currTroop.activateAbility();
+		}
 		else {
 			
 			if (_currTroop.abilityUsesLeft() == 0) {
@@ -47,12 +49,19 @@ public class AbilityCommand extends Command {
 	@Override
 	protected Command parse(String[] sa) {
 		if(sa.length == 3  && matchCommand(sa[0])) {
-		try {
-			_posY =Integer.valueOf(sa[1])-1;
-			_posX =Integer.valueOf(sa[2])-1;
-		} catch(NumberFormatException n) { return null;	}
-		return this;
+			try {
+				_posY =Integer.valueOf(sa[1])-1;
+				_posX =Integer.valueOf(sa[2])-1;
+			} catch(NumberFormatException n) { 
+				return null;	
+				}
+			return this;
 		} 
+		else if(sa.length == 1) {
+			_posX = -1;
+			_posY = -1;
+			return this;
+		}
 		return null;
 	}
 }

@@ -36,6 +36,7 @@ public class MapEmpty implements Map{
 			troops.add(new SniperTroop(new Position(1,9), player, Direction.UP));
 			troops.add(new SmokerTroop(new Position(5,7), player, Direction.UP));
 			troops.add(new LightTroop(new Position(8,6), player, Direction.UP));
+			troops.add(new SniperTroop(new Position(8,9), player, Direction.UP));
 		}
 		else if(player.getId().equals("3")) {
 			//In case of more players
