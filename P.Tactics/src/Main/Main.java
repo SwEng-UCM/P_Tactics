@@ -1,6 +1,6 @@
 package Main;
 
-import PTactics.Game.Controller;
+import PTactics.control.Controller;
 
 public class Main {
 	
