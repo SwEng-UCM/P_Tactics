@@ -30,6 +30,7 @@ public class Controller implements ControllerInterface{
 				
 				 if (command != null) { 
 <<<<<<< Updated upstream:P.Tactics/src/PTactics/Game/Controller.java
+<<<<<<< Updated upstream:P.Tactics/src/PTactics/Game/Controller.java
 			        command.execute(this, _troop);
 			        if (_troop != null && !_troop.isAlive()) {
 			        	_troop = null;
@@ -37,6 +38,10 @@ public class Controller implements ControllerInterface{
 			        System.out.println("Current troop selected: " +(this._troop==null?"none":this._troop.getId()) + (this._troop==null?"":(" In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
 			        System.out.println(_troop == null? "" : "Moves left: " + _troop.getMovesLeft());
 			        System.out.println(_troop == null? "" : !_troop.isAbility()? "" : "Ability turns left: " + _troop.abilityUsesLeft());
+=======
+			        command.execute(this);
+			        _game.onDeadTroopSelected();			        
+>>>>>>> Stashed changes:P.Tactics/src/PTactics/control/Controller.java
 =======
 			        command.execute(this);
 			        _game.onDeadTroopSelected();			        
@@ -189,6 +194,12 @@ public class Controller implements ControllerInterface{
 	public void takeAim(Direction _dirToAim) {
 		_game.takeAim(_dirToAim);
 >>>>>>> Stashed changes:P.Tactics/src/PTactics/control/Controller.java
+	}
+
+	@Override
+	public void setTroop(Troop t) {
+		_game.setTroop(t);
+		
 	}
 
 	@Override
