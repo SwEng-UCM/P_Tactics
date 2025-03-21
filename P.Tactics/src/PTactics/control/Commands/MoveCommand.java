@@ -27,7 +27,7 @@ public class MoveCommand extends Command {
 				try {
 					CI.moveTroop(pos);
 				} catch (IllegalArgumentException iae) {
-					iae.printStackTrace();
+					System.out.println(iae);
 					break;
 				}
 				CI.showGame();				

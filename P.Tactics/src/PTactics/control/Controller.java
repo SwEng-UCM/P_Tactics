@@ -17,7 +17,6 @@ public class Controller implements ControllerInterface{
 	private Game _game;
 	private GameView _gameView;
 	private boolean _endTurn;
-	private Troop _troop;
 	public static int mapSelected = 1;
 	
 	public Controller() {
@@ -25,7 +24,7 @@ public class Controller implements ControllerInterface{
 	}
 	
 	public void run() {
-		this.setup();
+		
 		while(!this.isFinish()) {
 			startOfTurn();
 			while(!_endTurn) {
@@ -34,12 +33,8 @@ public class Controller implements ControllerInterface{
 				
 				 if (command != null) { 
 			        command.execute(this);
-			        if (_troop != null && !_troop.isAlive()) {
-			        	_troop = null;
-			        }
-			        System.out.println("Current troop selected: " +(this._troop==null?"none":this._troop.getId()) + (this._troop==null?"":(" In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
-			        System.out.println(_troop == null? "" : "Moves left: " + _troop.getMovesLeft());
-			        System.out.println(_troop == null? "" : !_troop.isAbility()? "" : "Ability turns left: " + _troop.abilityUsesLeft());
+			        _game.onDeadTroopSelected();
+			        
 			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
@@ -82,6 +77,7 @@ public class Controller implements ControllerInterface{
 			}
 			_game.addPlayer(p);
 		}
+		_game.InicializeTurns();
 		_game.update();
 	}
 	
@@ -110,13 +106,13 @@ public class Controller implements ControllerInterface{
 	}
 	
 	public void nextTurn() {
-		_troop = null;
+		_game.dropTroop();
 		_game.nextTurn();
 	}
 	
 	@Override
 	public void setTroop(Troop t) {
-		this._troop = t;
+		_game.setTroop(t);
 	}
 	
 	private void _cleanConsole() {

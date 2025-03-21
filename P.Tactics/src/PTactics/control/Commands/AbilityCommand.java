@@ -20,7 +20,7 @@ public class AbilityCommand extends Command {
 		try {
 			CI.troopAbility(new Position(_posX, _posY));
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 		CI.update();
 	}
@@ -32,7 +32,7 @@ public class AbilityCommand extends Command {
 				_posY =Integer.valueOf(sa[1])-1;
 				_posX =Integer.valueOf(sa[2])-1;
 			} catch(NumberFormatException n) { 
-				return null;	
+				return null;	    
 				}
 			return this;
 		} 

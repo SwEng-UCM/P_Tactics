@@ -15,6 +15,7 @@ public class Player implements DangerObject{
 	private Map<Position, Boolean> _lastTurnKills;
 	private List<Troop> _troops;
 	private DangerMediator _dangerMediator;
+	private boolean _turn;
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
@@ -24,6 +25,7 @@ public class Player implements DangerObject{
 		_dangerMediator = dm;
 		_dangerMediator.registerComponent(this);
 		_lastTurnKills = new HashMap<>();
+		_turn = false;
 	}
 
 	public boolean isVisible(int x, int y) {
@@ -108,5 +110,17 @@ public class Player implements DangerObject{
 			return false;
 		}
 		return _lastTurnKills.get(pos);
+	}
+
+	public void endTurn() {
+		_turn = false;
+	}
+
+	public void startTurn() {
+		_turn = true;
+	}
+
+	public boolean isMyTurn() {
+		return _turn;
 	}
 }

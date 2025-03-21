@@ -32,9 +32,8 @@ public class SmokerTroop extends Troop {
 	}
 	@Override
 	public void deactivateAbility() {
-		// TODO Auto-generated method stub
-		
 	}
+	
 	@Override
 	public String toString() {
 		return "S"  + super.toString();

@@ -116,12 +116,14 @@ public class Game {
 
 	public void nextTurn() {
 		Board.getInstance().nextTurn();
+		_players.get(_currPlayer).endTurn();		
 		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
 		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
 		_currPlayer++;
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
 		}
+		_players.get(_currPlayer).startTurn();	
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 	}
 	
@@ -185,6 +187,28 @@ public class Game {
 
 	public void takeAim(Direction _dirToAim) {
 		_currTroop.takeAim(_dirToAim);
+	}
+
+	public void dropTroop() {
+		_currTroop = null;
+	}
+
+	public void setTroop(Troop t) {
+		_currTroop = t;
+	}
+	
+	public void onDeadTroopSelected() {
+		if (_currTroop != null && !_currTroop.isAlive()) {
+        	_currTroop = null;
+        }
+	}
+	
+	public Troop getTroop() {
+		return _currTroop;
+	}
+
+	public void InicializeTurns() {
+		_players.get(0).startTurn();		
 	}
 	
 }

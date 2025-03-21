@@ -189,10 +189,11 @@ public abstract class Troop extends GameObject{
 	
 	@Override // TODO: i need this // the move to be boolean and return true if there are moves left in the queue so I can paint it step by step
 	public void update() {
-		
-		Move();
-		if (_player.getDanger(getPos())) {
-			onHit();
+		if (_player.isMyTurn()) {
+			Move();
+			if (_player.getDanger(getPos())) {
+				onHit();
+			}			
 		}
 	}
 	
