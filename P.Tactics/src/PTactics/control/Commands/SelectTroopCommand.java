@@ -1,10 +1,7 @@
 package PTactics.control.Commands;
 
 import java.util.InputMismatchException;
-import java.util.Objects;
-
 import PTactics.control.ControllerInterface;
-import PTactics.model.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
@@ -21,29 +18,14 @@ public class SelectTroopCommand extends Command {
 	}
 
 	@Override
-	public void execute(ControllerInterface CI, Troop t) {
+	public void execute(ControllerInterface CI) {
 		try {
 			// Get the coordinates of user
 			Position pos = new Position(_posX, _posY);
 			if (!pos.isValid())
 				throw new Exception(Utils.MsgErrors.INVALID_COORDINATES);
-
 			// Search if troop is on board and is from the player
-			Troop g = (Troop) CI.getGameObject(pos);
-			Integer i = CI.getNumPlayer();
-			if (Objects.isNull(g)) {
-				throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check if it exists (is a GO)
-			}
-			if (!g.isAlive()) {
-				throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check if it is a troop alive (walls
-																		// and dead troops will return false)
-			}
-			if (!g.getPlayer().equals(i.toString())) {
-				throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check that it belongs to the player
-																		// (sorry for the casting)
-			}
-			CI.setTroop(g);
-
+			CI.selectTroop(pos);
 		} catch (InputMismatchException inputError) {
 			CI.showMessage(Utils.MsgErrors.INVALID_INPUT);
 		} catch (ClassCastException wrongObject) {

@@ -1,7 +1,7 @@
 package PTactics.control;
 
-import PTactics.model.GameObjects.GameObject;
 import PTactics.model.GameObjects.Troop;
+import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 
 public interface ControllerInterface {
@@ -18,8 +18,18 @@ public interface ControllerInterface {
 
 	int getInt();
 
-	GameObject getGameObject(Position pos);
+	void selectTroop(Position pos) throws Exception;
+	
+	boolean isTroopSelected();
+	
+	boolean canMove(Position pos);
+	
+	void moveTroop(Position pos) throws IllegalArgumentException;
+	
+	void troopAbility(Position pos) throws Exception;
 
+	void takeAim(Direction _dirToAim);
+	
 	void setTroop(Troop t);
 	
 	int getNumPlayer();

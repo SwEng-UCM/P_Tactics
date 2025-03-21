@@ -3,12 +3,12 @@ package PTactics.control;
 import java.util.InputMismatchException;
 import PTactics.control.Commands.Command;
 import PTactics.control.Commands.CommandGenerator;
-import PTactics.model.GameObjects.GameObject;
 import PTactics.model.GameObjects.Troop;
 import PTactics.control.Maps.MapSelector;
 import PTactics.model.Game.DangerMediator;
 import PTactics.model.Game.Game;
 import PTactics.model.Game.Player;
+import PTactics.Utils.Direction;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 import PTactics.View.GameView;
@@ -17,11 +17,10 @@ public class Controller implements ControllerInterface{
 	private Game _game;
 	private GameView _gameView;
 	private boolean _endTurn;
-	private Troop _troop;
-	public static int mapSelected = 0;
+	public static int mapSelected = 1;
 	
 	public Controller() {
-		this._gameView = new GameView();
+		setup();
 	}
 	
 	public void run() {
@@ -33,7 +32,7 @@ public class Controller implements ControllerInterface{
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
-			        command.execute(this, _troop);
+			        command.execute(this);
 			        if (_troop != null && !_troop.isAlive()) {
 			        	_troop = null;
 			        }
@@ -49,10 +48,11 @@ public class Controller implements ControllerInterface{
 		}
 	}
 	
-	private void setup() {
+	private final void setup() {
 		int numPlayers = 0;
 		boolean correct = false;
 		//TODO: Give them to decide between maps or randomizer
+		this._gameView = new GameView();
 		this._game = new Game();
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
@@ -162,7 +162,27 @@ public class Controller implements ControllerInterface{
 	}
 
 	@Override
-	public  GameObject getGameObject(Position pos) {
-		return _game.getGameObject(pos);
+	public void selectTroop(Position pos) throws Exception {
+		_game.selectTroop(pos);
+	}
+	
+	public boolean isTroopSelected() {
+		return _game.isTroopSelected();
+	}
+	
+	public boolean canMove(Position pos) {
+		return _game.canMove(pos);
+	}
+	
+	public void moveTroop(Position pos) throws IllegalArgumentException{
+		_game.moveTroop(pos);
+	}
+	
+	public void troopAbility(Position pos) throws Exception{
+		_game.troopAbility(pos);
+	}
+	
+	public void takeAim(Direction _dirToAim) {
+		_game.takeAim(_dirToAim);
 	}
 }

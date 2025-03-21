@@ -1,9 +1,6 @@
 package PTactics.control.Commands;
 
 import PTactics.control.ControllerInterface;
-import PTactics.model.GameObjects.SmokerTroop;
-import PTactics.model.GameObjects.SniperTroop;
-import PTactics.model.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
@@ -19,31 +16,13 @@ public class AbilityCommand extends Command {
 	}
 
 	@Override
-	public void execute(ControllerInterface CI, Troop _currTroop) {
-		if (_currTroop.isAbility()) {
-			System.out.println ("Ability is already in use");
+	public void execute(ControllerInterface CI) {
+		try {
+			CI.troopAbility(new Position(_posX, _posY));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		else if(_posX == -1 && _posY == -1 && _currTroop.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
-			_currTroop.activateAbility();
-		}
-		else {
-			
-			if (_currTroop.abilityUsesLeft() == 0) {
-				System.out.println("No uses left for the ability");
-			}
-			if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
-				SniperTroop st = (SniperTroop) _currTroop;
-				st.activateAbility(new Position(_posX, _posY));
-			}
-			if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
-				SmokerTroop st = (SmokerTroop) _currTroop;
-				st.activateAbility(new Position(_posX, _posY));
-			}
-			else {
-				_currTroop.activateAbility();
-			}
-			CI.update();
-		}
+		CI.update();
 	}
 
 	@Override

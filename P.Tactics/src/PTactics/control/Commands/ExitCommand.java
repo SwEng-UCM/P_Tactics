@@ -1,7 +1,6 @@
 package PTactics.control.Commands;
 
 import PTactics.control.ControllerInterface;
-import PTactics.model.GameObjects.Troop;
 import PTactics.Utils.Utils;
 
 public class ExitCommand extends Command {
@@ -15,7 +14,7 @@ public class ExitCommand extends Command {
 	}
 
 	@Override
-	public void execute(ControllerInterface CI, Troop _currTroop) {
+	public void execute(ControllerInterface CI) {
 		CI.endTurn();
 	}
 

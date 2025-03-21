@@ -3,7 +3,6 @@ package PTactics.control.Commands;
 import java.util.concurrent.TimeUnit;
 
 import PTactics.control.ControllerInterface;
-import PTactics.model.GameObjects.Troop;
 import PTactics.Utils.Position;
 import PTactics.Utils.Utils;
 
@@ -20,23 +19,18 @@ public class MoveCommand extends Command {
 	}
 
 	@Override
-	public void execute(ControllerInterface CI, Troop _currTroop) {
-		if(_currTroop!=null) 
+	public void execute(ControllerInterface CI) {
+		if(CI.isTroopSelected()) 
 		{
-			_currTroop.AddToMove(new Position(_posX,_posY));
-			
-			while(_currTroop.isAlive() && (!(_currTroop.getPos().getX() == _posX) || !(_currTroop.getPos().getY() == _posY)))
-			{
+			Position pos = new Position(_posX, _posY);
+			while (CI.canMove(pos)) {
 				try {
-					_currTroop.update();
-					//_currTroop.resetUpdate();
-					CI.updatePlayers();
-					CI.showGame();
-				}
-				catch(IllegalArgumentException e) { // this stops the updating of all gameObjects after the troop that throws the exception but no other way occurs to me without a big refactor
-					System.out.println(e);
+					CI.moveTroop(pos);
+				} catch (IllegalArgumentException iae) {
+					iae.printStackTrace();
 					break;
 				}
+				CI.showGame();				
 				try {
 					TimeUnit.MILLISECONDS.sleep(500);
 				} catch (InterruptedException e) {

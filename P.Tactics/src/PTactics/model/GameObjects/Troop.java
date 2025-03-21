@@ -137,7 +137,7 @@ public abstract class Troop extends GameObject{
     }
 }
 
-	public void Move() 
+	public void Move () throws IllegalArgumentException
 	{
 		// player has a function getDanger(Position pos) that returns if a troop is in 
 		// in danger when stepping in the tile, should be called in each step.

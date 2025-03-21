@@ -3,7 +3,6 @@ package PTactics.control.Commands;
 import java.util.zip.DataFormatException;
 
 import PTactics.control.ControllerInterface;
-import PTactics.model.GameObjects.Troop;
 import PTactics.Utils.Direction;
 import PTactics.Utils.Utils;
 
@@ -18,9 +17,9 @@ public class AimCommand extends Command {
 	}
 
 	@Override
-	public void execute(ControllerInterface CI, Troop _currTroop) {
+	public void execute(ControllerInterface CI) {
 		try {
-			_currTroop.takeAim(_dirToAim);
+			CI.takeAim(_dirToAim);
 			CI.updatePlayers();
 			}
 		catch(NullPointerException e) {
