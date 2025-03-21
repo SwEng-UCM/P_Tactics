@@ -56,7 +56,19 @@ public class GameView {
 		}
 	}
 	
+	private void showInfo(Game game) {
+		System.out.println("Current troop selected: " + (!game.isTroopSelected()? "none" : game.getTroop().getId()) 
+							+ (!game.isTroopSelected() ? "" : (" In position:"+(game.getTroop().getPos().getY()+1)
+							+ " " +(game.getTroop().getPos().getX()+1))));
+		
+	    System.out.println(!game.isTroopSelected()? "" : "Moves left: " + game.getTroop().getMovesLeft());
+	    
+	    System.out.println(!game.isTroopSelected()? "" : !game.getTroop().isAbility()? "" : "Ability turns left: " 
+	    					+ game.getTroop().abilityUsesLeft());
+	}
+	
 	public void showGame(Game _game) {
+		showInfo(_game);
 		showTop(_game);
 		showMiddle(_game);
 		showBottom(_game);	

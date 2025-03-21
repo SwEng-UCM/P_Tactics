@@ -22,7 +22,6 @@ public class Controller implements ControllerInterface{
 	}
 	
 	public void run() {
-		this.setup();
 		while(!this.isFinish()) {
 			startOfTurn();
 			while(!_endTurn) {
@@ -30,6 +29,7 @@ public class Controller implements ControllerInterface{
 				Command command = CommandGenerator.parse(userCommand);
 				
 				 if (command != null) { 
+<<<<<<< Updated upstream:P.Tactics/src/PTactics/Game/Controller.java
 			        command.execute(this, _troop);
 			        if (_troop != null && !_troop.isAlive()) {
 			        	_troop = null;
@@ -37,6 +37,10 @@ public class Controller implements ControllerInterface{
 			        System.out.println("Current troop selected: " +(this._troop==null?"none":this._troop.getId()) + (this._troop==null?"":(" In position:"+(this._troop.getPos().getY()+1)+" "+(this._troop.getPos().getX()+1))));
 			        System.out.println(_troop == null? "" : "Moves left: " + _troop.getMovesLeft());
 			        System.out.println(_troop == null? "" : !_troop.isAbility()? "" : "Ability turns left: " + _troop.abilityUsesLeft());
+=======
+			        command.execute(this);
+			        _game.onDeadTroopSelected();			        
+>>>>>>> Stashed changes:P.Tactics/src/PTactics/control/Controller.java
 			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
@@ -106,13 +110,12 @@ public class Controller implements ControllerInterface{
 	}
 	
 	public void nextTurn() {
-		_troop = null;
+		dropTroop();
 		_game.nextTurn();
 	}
-	
-	@Override
-	public void setTroop(Troop t) {
-		this._troop = t;
+		
+	public Troop getTroop() {
+		return _game.getTroop();
 	}
 	
 	private void _cleanConsole() {
@@ -155,7 +158,42 @@ public class Controller implements ControllerInterface{
 	}
 
 	@Override
+<<<<<<< Updated upstream:P.Tactics/src/PTactics/Game/Controller.java
 	public  GameObject getGameObject(Position pos) {
 		return _game.getGameObject(pos);
+=======
+	public void selectTroop(Position pos) throws Exception {
+		_game.selectTroop(pos);
+	}
+	
+	public void dropTroop() {
+		_game.dropTroop();
+	}
+	
+	public boolean isTroopSelected() {
+		return _game.isTroopSelected();
+	}
+	
+	public boolean canMove(Position pos) {
+		return _game.canMove(pos);
+	}
+	
+	public void moveTroop(Position pos) throws IllegalArgumentException{
+		_game.moveTroop(pos);
+	}
+	
+	public void troopAbility(Position pos) throws Exception{
+		_game.troopAbility(pos);
+	}
+	
+	public void takeAim(Direction _dirToAim) {
+		_game.takeAim(_dirToAim);
+>>>>>>> Stashed changes:P.Tactics/src/PTactics/control/Controller.java
+	}
+
+	@Override
+	public void setTroop(Troop t) {
+		_game.setTroop(t);
+		
 	}
 }

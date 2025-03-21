@@ -24,6 +24,7 @@ public class MoveCommand extends Command {
 		_currTroop.AddToMove(new Position(_posX,_posY));
 		while(_currTroop.isAlive() && !(_currTroop.getPos().getX() == _posX) || !(_currTroop.getPos().getY() == _posY))
 		{
+<<<<<<< Updated upstream:P.Tactics/src/PTactics/Commands/MoveCommand.java
 			try {
 				_currTroop.update();
 				CI.showGame();
@@ -36,6 +37,22 @@ public class MoveCommand extends Command {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+=======
+			Position pos = new Position(_posX, _posY);
+			while (CI.canMove(pos)) {
+				try {
+					CI.moveTroop(pos);
+				} catch (IllegalArgumentException iae) {
+					System.out.println(iae);
+					break;
+				}
+				CI.showGame();				
+				try {
+					TimeUnit.MILLISECONDS.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+>>>>>>> Stashed changes:P.Tactics/src/PTactics/control/Commands/MoveCommand.java
 			}
 		}
 			
