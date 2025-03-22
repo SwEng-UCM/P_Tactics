@@ -31,7 +31,14 @@ public class Game implements Observable<GameObserver>{
 		this._currPlayer = 0;
 		_observers = new ArrayList<>();
 	}
-
+	public int getBoardLength() 
+	{
+		return this._boardLength;
+	}
+	public int getBoardWidth() 
+	{
+		return this._boardWidth;
+	}
 	public void addNewElement(GameObject g, Position pos) {
 		if (Objects.isNull(g))
 			throw new IllegalArgumentException("A null object cannot be added to game.");

@@ -1,5 +1,6 @@
 package PTactics.control;
 
+import java.awt.EventQueue;
 import java.util.InputMismatchException;
 
 import PTactics.model.game.DangerMediator;
@@ -10,6 +11,7 @@ import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GameConsoleView;
+import PTactics.view.GUI.GameWindow;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
@@ -53,6 +55,18 @@ public class Controller implements ControllerInterface{
 		this._game = new Game();
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
+		
+		//GUI
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GameWindow window = new GameWindow(_game);
+					window.GetGameWindow().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		while(!correct) {
 			try {
