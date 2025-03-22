@@ -7,7 +7,7 @@ import PTactics.utils.Position;
 import PTactics.utils.StringUtils;
 import PTactics.utils.Utils;
 
-public class GameView {
+public class GameConsoleView {
 	private final String _SPACE = " ";
 	private final String _CELL_SIZED_VALUE = " %s "; //TODO: make it change with the _CELL_SIZE attribute
 	private final String _VERTICAL_LINE = "┃";
@@ -19,7 +19,7 @@ public class GameView {
 	private final int _CELL_SIZE = 3;
 	private final int _INITIAL_SPACE = 3;
 	Scanner scanner;
-	public GameView() {
+	public GameConsoleView() {
 		scanner = new Scanner(System.in);
 	}
 	

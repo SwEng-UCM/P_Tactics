@@ -9,14 +9,14 @@ import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
-import PTactics.view.GameView;
+import PTactics.view.GameConsoleView;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
 
 public class Controller implements ControllerInterface{
 	private Game _game;
-	private GameView _gameView;
+	private GameConsoleView _gameView;
 	private boolean _endTurn;
 	public static int mapSelected = 1;
 	
@@ -49,7 +49,7 @@ public class Controller implements ControllerInterface{
 		int numPlayers = 0;
 		boolean correct = false;
 		//TODO: Give them to decide between maps or randomizer
-		this._gameView = new GameView();
+		this._gameView = new GameConsoleView();
 		this._game = new Game();
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
