@@ -56,6 +56,10 @@ public class Game implements Observable<GameObserver>{
 			return Board.getInstance().toString(p);
 		}
 		
+		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
+			return Utils.TroopUtils.TROOP_DEAD;
+		}
+		
 		if (visible) {
 			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
 				if (_players.get(_currPlayer).lastTurnKill(p)) {
@@ -98,16 +102,28 @@ public class Game implements Observable<GameObserver>{
 			o.onPlayersUpdate(this);
 		}
 	}
+	
+	private void inicializePlayers() {
+		for (Player p : _players) {
+			p.update();
+		}
+	}
 
-	public void update() { // total update, only called on the setup
+	public void update() { 
 		Board.getInstance().update();
 		updatePlayers();
+	}
+	
+	public void inicialize() { // total update, only called on the setup
+		InicializeTurns();
+		Board.getInstance().update();
+		inicializePlayers();
 	}
 	
 	public void updateBoard() {
 		Board.getInstance().update();
 		for (GameObserver o : _observers) {
-			o.onBoardUpdate(Board.getInstance());
+			o.onBoardUpdate(this);
 		}
 	}
 
@@ -250,7 +266,7 @@ public class Game implements Observable<GameObserver>{
 		return _currTroop;
 	}
 
-	public void InicializeTurns() {
+	private void InicializeTurns() {
 		_players.get(0).startTurn();		
 	}
 

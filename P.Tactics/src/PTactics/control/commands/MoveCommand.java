@@ -29,8 +29,7 @@ public class MoveCommand extends Command {
 				} catch (IllegalArgumentException iae) {
 					System.out.println(iae);
 					break;
-				}
-				CI.showGame();				
+				}			
 				try {
 					TimeUnit.MILLISECONDS.sleep(500);
 				} catch (InterruptedException e) {
