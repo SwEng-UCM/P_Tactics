@@ -11,6 +11,7 @@ import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GameConsoleView;
+import PTactics.view.GameObserver;
 import PTactics.view.GUI.GameWindow;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
@@ -27,9 +28,9 @@ public class Controller implements ControllerInterface{
 	}
 	
 	public void run() {
-		
 		while(!this.isFinish()) {
 			startOfTurn();
+			update();
 			while(!_endTurn) {
 				String[] userCommand = _gameView.getPrompt();
 				Command command = CommandGenerator.parse(userCommand);
@@ -54,18 +55,6 @@ public class Controller implements ControllerInterface{
 		this._gameView = new GameConsoleView(_game);
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
-		
-		//GUI
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameWindow window = new GameWindow(_game);
-					window.GetGameWindow().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 		
 		while(!correct) {
 			try {
@@ -141,7 +130,14 @@ public class Controller implements ControllerInterface{
 	public int getNumPlayer() {
 		return _game.getNumPlayer();
 	}
-	
+	public void addObserver(GameObserver o) 
+	{
+		this._game.addObserver(o);
+	}
+	public String positionToString(Position pos) 
+	{
+		return this._game.positionToString(pos);
+	}
 	@Override
 	public String[] getPrompt() {
 		return _gameView.getPrompt();

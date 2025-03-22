@@ -117,7 +117,7 @@ public class Game implements Observable<GameObserver>{
 	}
 
 	public void update() { 
-		Board.getInstance().update();
+		updateBoard();
 		updatePlayers();
 	}
 	
@@ -151,6 +151,7 @@ public class Game implements Observable<GameObserver>{
 	}
 
 	public void nextTurn() {
+		updateBoard();
 		Board.getInstance().nextTurn();
 		_players.get(_currPlayer).endTurn();		
 		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 

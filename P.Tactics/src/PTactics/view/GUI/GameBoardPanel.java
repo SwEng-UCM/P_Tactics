@@ -6,16 +6,23 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import PTactics.control.Controller;
+import PTactics.utils.Position;
 
 public class GameBoardPanel extends JPanel {
-    private JButton[][] buttons;
-    public GameBoardPanel(int width,int height) {
-    	buttons = new JButton[height][width];
+    private JButton[][] _buttons;
+    
+    private Controller _cntr;
+    
+    public GameBoardPanel(int width,int height,Controller cntr) {
+    	this._cntr=cntr;
+    _buttons = new JButton[height][width];
    	 setLayout(new GridLayout(width, height));
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                GameBoardCell btn = new GameBoardCell();
-                buttons[row][col] = btn;
+            	Position pos= new Position(col,row);
+                GameBoardCell btn = new GameBoardCell(pos,this._cntr);
+                _buttons[row][col] = btn;
                 int r = row, c = col;
                 btn.addActionListener(e -> {
                     System.out.println("Cell " + r + ", " + c);
@@ -26,6 +33,6 @@ public class GameBoardPanel extends JPanel {
         }
     }
     public JButton getButton(int row, int col) {
-        return buttons[row][col];
+        return _buttons[row][col];
     }
 }

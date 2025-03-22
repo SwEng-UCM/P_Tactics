@@ -4,12 +4,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import PTactics.model.game.Game;
+import PTactics.control.Controller;
+import PTactics.utils.Position;
 
 public class GameWindow {
 
 	private JFrame _gameWindowFrame;
-	private Game _game;
+	private Controller _cntrl;
 	/**
 	 * Launch the application.
 	 */
@@ -17,8 +18,8 @@ public class GameWindow {
 	/**
 	 * Create the application.
 	 */
-	public GameWindow(Game game) {
-		this._game=game;
+	public GameWindow(Controller cntrl) {
+		this._cntrl=cntrl;
 		initialize();
 	}
 	public JFrame GetGameWindow() 
@@ -39,12 +40,12 @@ public class GameWindow {
 		gameInfo.setBounds(0, 0, 1227, 60);
 		_gameWindowFrame.getContentPane().add(gameInfo);
 		
-		GameBoardPanel gameBoard= new GameBoardPanel(_game.getBoardLength(),_game.getBoardWidth());
-		gameBoard.setBounds(0, 65, 1227, 686);
+		GameBoardPanel gameBoard= new GameBoardPanel(Position._gameLength,Position._gameWidth,this._cntrl);
+		gameBoard.setBounds(250, 59, 700, 700);
 		_gameWindowFrame.getContentPane().add(gameBoard);
 		
 		ControlPanel control= new ControlPanel();
-		control.setBounds(0, 750, 1227, 167);
+		control.setBounds(0, 759, 1227, 158);
 		_gameWindowFrame.getContentPane().add(control);
 	}
 
