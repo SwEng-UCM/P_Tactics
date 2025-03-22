@@ -96,6 +96,8 @@ public class Player implements DangerObject{
 				t.onHit();
 			}
 		}
+		
+		updatePlayerVisibility();
 	}
 	@Override
 	public String getId() {

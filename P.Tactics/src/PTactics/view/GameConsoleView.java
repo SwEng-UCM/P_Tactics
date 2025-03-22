@@ -2,12 +2,14 @@ package PTactics.view;
 
 import java.util.Scanner;
 
+import PTactics.control.ControllerInterface;
+import PTactics.model.game.BoardInterface;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
 import PTactics.utils.StringUtils;
 import PTactics.utils.Utils;
 
-public class GameConsoleView {
+public class GameConsoleView implements GameObserver {
 	private final String _SPACE = " ";
 	private final String _CELL_SIZED_VALUE = " %s "; //TODO: make it change with the _CELL_SIZE attribute
 	private final String _VERTICAL_LINE = "┃";
@@ -19,8 +21,9 @@ public class GameConsoleView {
 	private final int _CELL_SIZE = 3;
 	private final int _INITIAL_SPACE = 3;
 	Scanner scanner;
-	public GameConsoleView() {
+	public GameConsoleView(Game game) {
 		scanner = new Scanner(System.in);
+		game.addObserver(this);
 	}
 	
 	private void newLine() {
@@ -54,6 +57,25 @@ public class GameConsoleView {
 			}
 			System.out.println(_VERTICAL_LINE);
 		}
+	}
+	
+	private void _cleanConsole() {
+		//System.out.print("\033[H\033[2J");  
+	    //System.out.flush();
+		for(int i = 0; i < 50; ++i) System.out.println(" ");
+	}
+	
+	private void _waitForEnter() {
+		get();
+	}
+	
+	public void showStartOfTurn(ControllerInterface ctrl, Game game) {
+		_cleanConsole();
+	    showMessage("Player " + ctrl.getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
+	    _waitForEnter(); //First one as a cin.get()
+	    _waitForEnter(); //Second, to receive the enter key from user
+		showMessage("Player " + ctrl.getNumPlayer() + ": ");
+	    showGame(game);
 	}
 	
 	private void showInfo(Game _game) {
@@ -105,5 +127,30 @@ public class GameConsoleView {
 	//Just flush buffer
 	public void get() {
 		scanner.nextLine();
+	}
+
+	@Override
+	public void onPlayersUpdate(Game game) {
+		showGame(game);
+	}
+
+	@Override
+	public void onBoardUpdate(Game game) {
+		showGame(game);
+	}
+
+	@Override
+	public void onTroopAction(Game game) {
+		//showGame(game);
+	}
+
+	@Override
+	public void onTroopSelection(Game game) {
+		showGame(game);
+	}
+
+	@Override
+	public void onNextTurn(Game game) {
+		showGame(game);
 	}
 }

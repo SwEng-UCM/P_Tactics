@@ -38,7 +38,6 @@ public class Controller implements ControllerInterface{
 			        command.execute(this);
 			        _game.onDeadTroopSelected();
 			        
-			        showGame();
 				 } else {
 					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				 }
@@ -51,8 +50,8 @@ public class Controller implements ControllerInterface{
 		int numPlayers = 0;
 		boolean correct = false;
 		//TODO: Give them to decide between maps or randomizer
-		this._gameView = new GameConsoleView();
 		this._game = new Game();
+		this._gameView = new GameConsoleView(_game);
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
 		
@@ -92,8 +91,7 @@ public class Controller implements ControllerInterface{
 			}
 			_game.addPlayer(p);
 		}
-		_game.InicializeTurns();
-		_game.update();
+		_game.inicialize();
 	}
 	
 	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
@@ -106,12 +104,7 @@ public class Controller implements ControllerInterface{
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {
 		_endTurn = false;
-		_cleanConsole();
-	    _gameView.showMessage("Player " + getNumPlayer() + ": " + Utils.MessageUtils.START_TURN);
-	    _waitForEnter(); //First one as a cin.get()
-	    _waitForEnter(); //Second, to receive the enter key from user
-		_gameView.showMessage("Player " + getNumPlayer() + ": ");
-	    _gameView.showGame(_game);
+		_gameView.showStartOfTurn(this, _game);
 	}
 	
 
@@ -130,15 +123,6 @@ public class Controller implements ControllerInterface{
 		_game.setTroop(t);
 	}
 	
-	private void _cleanConsole() {
-		//System.out.print("\033[H\033[2J");  
-	    //System.out.flush();
-		for(int i = 0; i < 50; ++i) System.out.println(" ");
-	}
-	
-	private void _waitForEnter() {
-		_gameView.get();
-	}
 	
 	@Override
 	public void update() {

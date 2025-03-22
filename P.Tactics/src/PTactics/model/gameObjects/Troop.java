@@ -160,9 +160,12 @@ public abstract class Troop extends GameObject{
 					this._currentMove.clear();
 					throw new IllegalArgumentException("Not enough moves left");
 				}
-				this.setPosition(this._currentMove.getFirst());
-				this._currentMove.removeFirst();
-				this._movesLeft--;
+				
+				if (!_currentMove.isEmpty()) {					
+					this.setPosition(this._currentMove.getFirst());
+					this._currentMove.removeFirst();
+					this._movesLeft--;
+				}
 				/*if (_player.getDanger(getPos())) {
 					onHit();					
 				}*/
