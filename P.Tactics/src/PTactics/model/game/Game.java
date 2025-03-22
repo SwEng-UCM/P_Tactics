@@ -50,7 +50,7 @@ public class Game implements Observable<GameObserver>{
 		return _currTroop;
 	}
 
-	public String positionToString(Position p) { // without the not null check the game breaks.
+	public String positionToString(Position p) { 
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
 		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
 			return Board.getInstance().toString(p);
@@ -61,15 +61,15 @@ public class Game implements Observable<GameObserver>{
 				if (_players.get(_currPlayer).lastTurnKill(p)) {
 					return Utils.TroopUtils.TROOP_DEAD;
 				}
-				return Utils.TroopUtils.TROOP_DEAD;										//Returning dead soldier (not solid not alive entities)
+				return Utils.TroopUtils.TROOP_DEAD;				//Returning dead soldier (not solid not alive entities)
 			}
 			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
 				return Board.getInstance().toString(p);			//Returning actual soldiers (alive not solid)
 			}
 			
 		}
-		
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {// just in case in the future a new way of killing without seeing is added
+		// just in case in the future a new way of killing without seeing is added
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
 			if (_players.get(_currPlayer).lastTurnKill(p)) {
 				return "†";
 			}
@@ -94,11 +94,21 @@ public class Game implements Observable<GameObserver>{
 		for (Player p : _players) {
 			p.update();
 		}
+		for (GameObserver o : _observers) {
+			o.onPlayersUpdate(this);
+		}
 	}
 
-	public void update() {
+	public void update() { // total update, only called on the setup
 		Board.getInstance().update();
 		updatePlayers();
+	}
+	
+	public void updateBoard() {
+		Board.getInstance().update();
+		for (GameObserver o : _observers) {
+			o.onBoardUpdate(Board.getInstance());
+		}
 	}
 
 	public GameObject objectInPos(Position pos) {
@@ -128,6 +138,10 @@ public class Game implements Observable<GameObserver>{
 		}
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();	
+		
+		for (GameObserver o : _observers) {
+			o.onNextTurn(this);
+		}
 	}
 	
 	public boolean isTroopSelected() {
@@ -149,6 +163,10 @@ public class Game implements Observable<GameObserver>{
 		}		
 		
 		_currTroop = (Troop) t;
+		
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(this);
+		}		
 	}
 	
 	public boolean canMove(Position pos) {
@@ -158,7 +176,10 @@ public class Game implements Observable<GameObserver>{
 	public void moveTroop(Position pos) throws IllegalArgumentException{
 		_currTroop.AddToMove(pos);
 		_currTroop.update();
-		updatePlayers();				
+		updatePlayers();
+		for (GameObserver o : _observers) {
+			o.onTroopAction(this);
+		}
 	}
 
 	public void troopAbility(Position pos) throws Exception {
@@ -185,19 +206,38 @@ public class Game implements Observable<GameObserver>{
 				_currTroop.activateAbility();
 			}
 		}
-	
+		
+		for (GameObserver o : _observers) {
+			o.onTroopAction(this);
+		}
 	}
 
 	public void takeAim(Direction _dirToAim) {
 		_currTroop.takeAim(_dirToAim);
+		for (GameObserver o : _observers) {
+			o.onTroopAction(this);
+		}	
+	}
+	
+	public void troopLook(Direction dir) {
+		_currTroop.setDirection(dir);
+		for (GameObserver o : _observers) {
+			o.onTroopAction(this);
+		}
 	}
 
 	public void dropTroop() {
 		_currTroop = null;
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(this);
+		}
 	}
 
 	public void setTroop(Troop t) {
 		_currTroop = t;
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(this);
+		}
 	}
 	
 	public void onDeadTroopSelected() {

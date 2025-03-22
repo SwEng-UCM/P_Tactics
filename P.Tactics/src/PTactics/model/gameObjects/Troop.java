@@ -278,5 +278,9 @@ public abstract class Troop extends GameObject{
 	public int abilityUsesLeft() {
 		return _abilityUses;
 	}
+
+	public void setDirection(Direction dir) {
+		_dir = dir;
+	}
 }
 
