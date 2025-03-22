@@ -1,8 +1,8 @@
 package PTactics.control;
 
-import PTactics.model.GameObjects.Troop;
-import PTactics.Utils.Direction;
-import PTactics.Utils.Position;
+import PTactics.model.gameObjects.Troop;
+import PTactics.utils.Direction;
+import PTactics.utils.Position;
 
 public interface ControllerInterface {
 	

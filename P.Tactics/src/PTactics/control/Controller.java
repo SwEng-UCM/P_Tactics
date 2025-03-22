@@ -1,17 +1,18 @@
 package PTactics.control;
 
 import java.util.InputMismatchException;
-import PTactics.control.Commands.Command;
-import PTactics.control.Commands.CommandGenerator;
-import PTactics.model.GameObjects.Troop;
-import PTactics.control.Maps.MapSelector;
-import PTactics.model.Game.DangerMediator;
-import PTactics.model.Game.Game;
-import PTactics.model.Game.Player;
-import PTactics.Utils.Direction;
-import PTactics.Utils.Position;
-import PTactics.Utils.Utils;
-import PTactics.View.GameView;
+
+import PTactics.model.game.DangerMediator;
+import PTactics.model.game.Game;
+import PTactics.model.game.Player;
+import PTactics.model.gameObjects.Troop;
+import PTactics.utils.Direction;
+import PTactics.utils.Position;
+import PTactics.utils.Utils;
+import PTactics.view.GameView;
+import PTactics.control.commands.Command;
+import PTactics.control.commands.CommandGenerator;
+import PTactics.control.maps.MapSelector;
 
 public class Controller implements ControllerInterface{
 	private Game _game;
