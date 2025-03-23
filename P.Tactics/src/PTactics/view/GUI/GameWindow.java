@@ -39,7 +39,7 @@ public class GameWindow {
 		_gameWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		_gameWindowFrame.getContentPane().setLayout(null);
 		
-		GameInfoPanel gameInfo= new GameInfoPanel();
+		GameInfoPanel gameInfo= new GameInfoPanel(this._cntrl);
 		gameInfo.setBounds(0, 0, 1227, 60);
 		_gameWindowFrame.getContentPane().add(gameInfo);
 		
