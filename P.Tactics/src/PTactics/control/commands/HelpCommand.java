@@ -19,7 +19,7 @@ public class HelpCommand extends Command {
 	}
 
 	@Override
-	protected Command parse(String[] sa) {
+	public Command parse(String[] sa) {
 		if(sa.length == 1  && matchCommand(sa[0])) 
 		{
 			return this;

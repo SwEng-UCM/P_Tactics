@@ -3,6 +3,8 @@ package PTactics.control;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
+import PTactics.view.GameObserver;
+import PTactics.view.GUI.GameBoardCell;
 
 public interface ControllerInterface {
 	
@@ -33,4 +35,8 @@ public interface ControllerInterface {
 	void setTroop(Troop t);
 	
 	int getNumPlayer();
+	
+	public void addObserver(GameObserver o);
+	
+	String positionToString(Position _pos);
 }

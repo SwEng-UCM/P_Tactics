@@ -16,7 +16,15 @@ public class SelectTroopCommand extends Command {
 	public SelectTroopCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
-
+	
+	public void setX(int pos) 
+	{
+		this._posX=pos;
+	}
+	public void setY(int pos) 
+	{
+		this._posY=pos;
+	}
 	@Override
 	public void execute(ControllerInterface CI) {
 		try {
@@ -36,7 +44,7 @@ public class SelectTroopCommand extends Command {
 	}
 
 	@Override
-	protected Command parse(String[] sa) {
+	public Command parse(String[] sa) {
 		if (sa.length == 3 && matchCommand(sa[0])) {
 			try {
 				_posY = Integer.valueOf(sa[1]) - 1;

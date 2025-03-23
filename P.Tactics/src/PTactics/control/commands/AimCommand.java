@@ -28,7 +28,7 @@ public class AimCommand extends Command {
 	}
 
 	@Override
-	protected Command parse(String[] sa) {
+	public Command parse(String[] sa) {
 		//Example: aim left // a left
 				if(sa.length == 2  && matchCommand(sa[0])) 
 				{

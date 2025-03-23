@@ -44,7 +44,7 @@ public class MoveCommand extends Command {
 	}
 
 	@Override
-	protected Command parse(String[] sa) {
+	public Command parse(String[] sa) {
 		//Example: move 3 3 // m 3 3
 		if(sa.length == 3  && matchCommand(sa[0])) 
 		{

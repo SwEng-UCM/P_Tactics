@@ -7,14 +7,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import PTactics.control.Controller;
+import PTactics.control.ControllerInterface;
+import PTactics.control.commands.SelectTroopCommand;
 import PTactics.utils.Position;
 
 public class GameBoardPanel extends JPanel {
     private JButton[][] _buttons;
     
-    private Controller _cntr;
+    private ControllerInterface _cntr;
     
-    public GameBoardPanel(int width,int height,Controller cntr) {
+    public GameBoardPanel(int width,int height,ControllerInterface cntr) {
     	this._cntr=cntr;
     _buttons = new JButton[height][width];
    	 setLayout(new GridLayout(width, height));
@@ -25,8 +27,14 @@ public class GameBoardPanel extends JPanel {
                 _buttons[row][col] = btn;
                 int r = row, c = col;
                 btn.addActionListener(e -> {
-                    System.out.println("Cell " + r + ", " + c);
-                    btn.setBackground(Color.RED);
+                    //System.out.println("Cell " + r + ", " + c);
+                	if(!this._cntr.isTroopSelected()) 
+                	{
+                		SelectTroopCommand select= new SelectTroopCommand();
+                		select.setX(btn.getPosition().getX());
+                		select.setY(btn.getPosition().getY());
+                		select.execute(cntr);
+                	}
                 });
                 add(btn);
             }

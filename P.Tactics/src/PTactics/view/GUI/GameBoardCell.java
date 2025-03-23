@@ -3,6 +3,7 @@ package PTactics.view.GUI;
 import javax.swing.JButton;
 
 import PTactics.control.Controller;
+import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
@@ -13,15 +14,18 @@ public class GameBoardCell extends JButton implements GameObserver{
 	
 	private Position _pos;
 	
-	private Controller _cntr;
-	public GameBoardCell(Position pos, Controller cntr) 
+	private ControllerInterface _cntr;
+	public GameBoardCell(Position pos, ControllerInterface _cntr) 
 	{
-		this._cntr=cntr;
+		this._cntr=_cntr;
 		this.setText("O");
 		_cntr.addObserver(this);
 		this._pos=pos;
 	}
-
+	public Position getPosition() 
+	{
+		return this._pos;
+	}
 	@Override
 	public void onPlayersUpdate(Game game) {
 		// TODO Auto-generated method stub

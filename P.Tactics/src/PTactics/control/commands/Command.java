@@ -32,5 +32,5 @@ public abstract class Command {
 		return c.equalsIgnoreCase(this.GetName()) || c.equalsIgnoreCase(this.GetShortCut()); 
 	} 
 	public abstract void execute(ControllerInterface CI);
-	protected abstract Command parse(String[] sa);
+	public abstract Command parse(String[] sa);
 }

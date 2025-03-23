@@ -26,7 +26,7 @@ public class AbilityCommand extends Command {
 	}
 
 	@Override
-	protected Command parse(String[] sa) {
+	public Command parse(String[] sa) {
 		if(sa.length == 3  && matchCommand(sa[0])) {
 			try {
 				_posY =Integer.valueOf(sa[1])-1;
