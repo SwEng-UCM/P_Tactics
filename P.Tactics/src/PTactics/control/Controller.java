@@ -226,4 +226,8 @@ public class Controller implements ControllerInterface{
 	{
 		return this._game.isTroop(pos);
 	}
+	public Game getGame() 
+	{
+		return this._game;
+	}
 }

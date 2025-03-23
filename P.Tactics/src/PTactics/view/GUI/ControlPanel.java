@@ -7,20 +7,29 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 
-public class ControlPanel extends JPanel {
+import PTactics.control.ControllerInterface;
+import PTactics.model.game.Game;
+import PTactics.view.GameObserver;
+
+public class ControlPanel extends JPanel implements GameObserver{
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the panel.
 	 */
-	JToggleButton moveButton;
-	JToggleButton aimButton;
-	JToggleButton abilityButton;
-	public ControlPanel() {
+	private JTextArea txtrCurrentSelectedTroop;
+	private JToggleButton moveButton;
+	private JToggleButton aimButton;
+	private JToggleButton abilityButton;
+	
+	private ControllerInterface _cntr;
+	public ControlPanel(ControllerInterface cntr) {
+		this._cntr=cntr;
+		this._cntr.addObserver(this);
 		setLayout(null);
 		
-		JTextArea txtrCurrentSelectedTroop = new JTextArea();
+		txtrCurrentSelectedTroop = new JTextArea();
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
 		txtrCurrentSelectedTroop.setBounds(10, 11, 236, 83);
 		add(txtrCurrentSelectedTroop);
@@ -47,5 +56,29 @@ public class ControlPanel extends JPanel {
 	    if (aimButton.isSelected()) return 1;
 	    if (abilityButton.isSelected()) return 2;
 	    return -1; // none selected
+	}
+	@Override
+	public void onPlayersUpdate(Game game) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onBoardUpdate(Game game) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onTroopAction(Game game) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onTroopSelection(Game game) {
+		this.txtrCurrentSelectedTroop.setText("Current Troop Selected \n "+this._cntr.getGame().getTroop().getId()+"\n Moves Left: "+ this._cntr.getGame().getTroop().getMovesLeft()+"\n Ability Uses Left: "+this._cntr.getGame().getTroop().abilityUsesLeft());
+	}
+	@Override
+	public void onNextTurn(Game game) {
+		// TODO Auto-generated method stub
+		
 	}
 }

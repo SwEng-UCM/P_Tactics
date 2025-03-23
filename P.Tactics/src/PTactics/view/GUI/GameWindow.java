@@ -43,7 +43,7 @@ public class GameWindow {
 		gameInfo.setBounds(0, 0, 1227, 60);
 		_gameWindowFrame.getContentPane().add(gameInfo);
 		
-		ControlPanel control= new ControlPanel();
+		ControlPanel control= new ControlPanel(this._cntrl);
 		control.setBounds(0, 759, 1227, 158);
 		_gameWindowFrame.getContentPane().add(control);
 		

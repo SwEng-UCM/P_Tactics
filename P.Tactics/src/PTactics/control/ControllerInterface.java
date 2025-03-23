@@ -1,5 +1,6 @@
 package PTactics.control;
 
+import PTactics.model.game.Game;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -46,4 +47,6 @@ public interface ControllerInterface {
 	void setCorrect();
 	
 	public  void setupPlayers();
+	
+	public Game getGame();
 }

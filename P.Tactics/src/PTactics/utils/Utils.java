@@ -13,7 +13,7 @@ public interface Utils {
 		public final String TROOP_DEAD = "💀";
 		
 		public final String  LIGHT_TROOP_ID = "light";
-		public final String  SMOKER_TROOP_ID = "smoke";
+		public final String  SMOKER_TROOP_ID = "smoker";
 		public final String  SNIPER_TROOP_ID = "sniper";
 	}
 
