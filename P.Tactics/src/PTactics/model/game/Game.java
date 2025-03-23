@@ -171,7 +171,11 @@ public class Game implements Observable<GameObserver>{
 	public boolean isTroopSelected() {
 		return !(_currTroop == null);
 	}
-
+	public Boolean isTroop(Position pos) 
+	{
+		GameObject t = Board.getInstance().getGameObject(pos);
+		return !Objects.isNull(t) && t.isAlive() && ((Troop) t).getPlayer().equals(_players.get(_currPlayer).getId());
+	}
 	public void selectTroop(Position pos) throws Exception{
 		GameObject t = Board.getInstance().getGameObject(pos);
 		if (Objects.isNull(t)) {

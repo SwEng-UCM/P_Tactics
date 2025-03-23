@@ -17,7 +17,12 @@ public class MoveCommand extends Command {
 	public MoveCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
-
+	public MoveCommand(int x, int y) //for GUI implementation
+	{
+		super(NAME, SHORTCUT, DETAILS, HELP);
+		this._posX=x;
+		this._posY=y;
+	}
 	@Override
 	public void execute(ControllerInterface CI) {
 		if(CI.isTroopSelected()) 

@@ -16,14 +16,11 @@ public class SelectTroopCommand extends Command {
 	public SelectTroopCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
-	
-	public void setX(int pos) 
+	public SelectTroopCommand(int x, int y) //for GUI implementation
 	{
-		this._posX=pos;
-	}
-	public void setY(int pos) 
-	{
-		this._posY=pos;
+		super(NAME, SHORTCUT, DETAILS, HELP);
+		this._posX=x;
+		this._posY=y;
 	}
 	@Override
 	public void execute(ControllerInterface CI) {

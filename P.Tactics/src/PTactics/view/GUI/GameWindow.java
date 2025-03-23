@@ -40,13 +40,13 @@ public class GameWindow {
 		gameInfo.setBounds(0, 0, 1227, 60);
 		_gameWindowFrame.getContentPane().add(gameInfo);
 		
-		GameBoardPanel gameBoard= new GameBoardPanel(Position._gameLength,Position._gameWidth,this._cntrl);
-		gameBoard.setBounds(250, 59, 700, 700);
-		_gameWindowFrame.getContentPane().add(gameBoard);
-		
 		ControlPanel control= new ControlPanel();
 		control.setBounds(0, 759, 1227, 158);
 		_gameWindowFrame.getContentPane().add(control);
+		
+		GameBoardPanel gameBoard= new GameBoardPanel(Position._gameLength,Position._gameWidth,this._cntrl, control);
+		gameBoard.setBounds(250, 59, 700, 700);
+		_gameWindowFrame.getContentPane().add(gameBoard);
 	}
 
 }

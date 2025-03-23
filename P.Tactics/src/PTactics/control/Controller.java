@@ -177,4 +177,8 @@ public class Controller implements ControllerInterface{
 	public void takeAim(Direction _dirToAim) {
 		_game.takeAim(_dirToAim);
 	}
+	public Boolean isTroop(Position pos) 
+	{
+		return this._game.isTroop(pos);
+	}
 }

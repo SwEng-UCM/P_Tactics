@@ -39,4 +39,6 @@ public interface ControllerInterface {
 	public void addObserver(GameObserver o);
 	
 	String positionToString(Position _pos);
+	
+	public Boolean isTroop(Position pos);
 }
