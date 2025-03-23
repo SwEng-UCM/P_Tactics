@@ -38,7 +38,7 @@ public class Controller implements ControllerInterface{
 	}
 	
 	public void run() {
-		while(!this.isFinish()) {
+		while(!this.isFinish()) { // revisar logica
 			if(MODE==0) 
 			{
 				startOfTurn();

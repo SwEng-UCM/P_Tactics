@@ -10,6 +10,7 @@ import javax.swing.JToggleButton;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.view.GameObserver;
+import javax.swing.UIManager;
 
 public class ControlPanel extends JPanel implements GameObserver{
 
@@ -30,26 +31,31 @@ public class ControlPanel extends JPanel implements GameObserver{
 		setLayout(null);
 		
 		txtrCurrentSelectedTroop = new JTextArea();
+		txtrCurrentSelectedTroop.setBackground(UIManager.getColor("Button.background"));
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
-		txtrCurrentSelectedTroop.setBounds(10, 11, 236, 83);
+		txtrCurrentSelectedTroop.setBounds(10, 57, 250, 29);
+		txtrCurrentSelectedTroop.setBorder(null);
+		txtrCurrentSelectedTroop.setEditable(false);
 		add(txtrCurrentSelectedTroop);
 		
 		moveButton = new JToggleButton("Move");
-		moveButton.setBounds(270, 12, 148, 82);
+		moveButton.setBounds(270, 26, 148, 82);
 		add(moveButton);
 		
 		aimButton = new JToggleButton("Aim");
-		aimButton.setBounds(446, 11, 148, 83);
+		aimButton.setBounds(446, 25, 148, 83);
 		add(aimButton);
 		
 		abilityButton = new JToggleButton("Ability");
-		abilityButton.setBounds(624, 11, 148, 83);
+		abilityButton.setBounds(624, 25, 148, 83);
 		add(abilityButton);
 		
 		ButtonGroup toggleGroup = new ButtonGroup(); //makes the buttons mutually exclusive
 		toggleGroup.add(moveButton);
 		toggleGroup.add(aimButton);
 		toggleGroup.add(abilityButton);
+		
+		
 	}
 	public int getControlSelection() { //0 move 1 aim 2 ability : in order from left to right
 	    if (moveButton.isSelected()) return 0;
