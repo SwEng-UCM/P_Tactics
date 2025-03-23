@@ -3,6 +3,8 @@ package PTactics.control;
 import java.awt.EventQueue;
 import java.util.InputMismatchException;
 
+import javax.swing.SwingUtilities;
+
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Player;
@@ -22,30 +24,43 @@ public class Controller implements ControllerInterface{
 	private GameConsoleView _gameView;
 	private boolean _endTurn;
 	public static int mapSelected = 1;
-	
+	private boolean _playersSetUp=false;
 	
 	//to allow gui to change number or players
 	private int _numPlayers = 0;
 	private boolean correct = false;
 	
-	public Controller() {
+	public final int MODE;
+	
+	public Controller(String args) {
+		MODE=Integer.parseInt(args);
 		setup();
 	}
 	
 	public void run() {
 		while(!this.isFinish()) {
-			startOfTurn();
+			if(MODE==0) 
+			{
+				startOfTurn();
+			}
+			else 
+			{
+				update();
+			}
 			while(!_endTurn) {
-				String[] userCommand = _gameView.getPrompt();
-				Command command = CommandGenerator.parse(userCommand);
-				
-				 if (command != null) { 
-			        command.execute(this);
-			        _game.onDeadTroopSelected();
-			        
-				 } else {
-					 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
-				 }
+				if(MODE==0) 
+				{
+					String[] userCommand = _gameView.getPrompt();
+					Command command = CommandGenerator.parse(userCommand);
+					
+					 if (command != null) { 
+				        command.execute(this);
+				        _game.onDeadTroopSelected();
+				        
+					 } else {
+						 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
+					 }
+				}
 			}
 			nextTurn();
 		}
@@ -62,43 +77,56 @@ public class Controller implements ControllerInterface{
 		//TODO: Give them to decide between maps or randomizer
 		this._game = new Game();
 		this._gameView = new GameConsoleView(_game);
-		initMainWindow();
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
-		
-		while(!correct) {
-			try {
-				_numPlayers = _gameView.getInt();
-				if(_numPlayers < 2 || _numPlayers > 4) throw new Exception();
-				correct = true;
-			}
-			catch (InputMismatchException inputError) {
-				_gameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
-				_gameView.get();	//Clearing the buffer to avoid infinite loop!
-				correct = false;
-			} 
-			catch (Exception e) {
-				_gameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
-				correct = false;
-			}
+		if(MODE==1) 
+		{
+			initMainWindow();
 		}
-		DangerMediator dangerMediator = new DangerMediator();
-		for(Integer i = 1; i <= _numPlayers; ++i) {
-			Player p = new Player(i.toString(), dangerMediator);
-			for(Troop t : MapSelector.getTroops(p)) {
-				_game.addNewElement(t, t.getPos());
+		else 
+		{
+			while(!correct) {
+				try {
+					_numPlayers = _gameView.getInt();
+					if(_numPlayers < 2 || _numPlayers > 4) throw new Exception();
+					correct = true;
+				}
+				catch (InputMismatchException inputError) {
+					_gameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
+					_gameView.get();	//Clearing the buffer to avoid infinite loop!
+					correct = false;
+				} 
+				catch (Exception e) {
+					_gameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
+					correct = false;
+				}
 			}
-			_game.addPlayer(p);
+			setupPlayers();
 		}
-		_game.inicialize();
+	}
+	public void setupPlayers()
+	{
+		if(!this._playersSetUp) 
+		{
+			DangerMediator dangerMediator = new DangerMediator();
+			for(Integer i = 1; i <= _numPlayers; ++i) {
+				Player p = new Player(i.toString(), dangerMediator);
+				for(Troop t : MapSelector.getTroops(p)) {
+					_game.addNewElement(t, t.getPos());
+				}
+				_game.addPlayer(p);
+			}
+			_game.inicialize();
+			this._playersSetUp=true;
+		}
 	}
 	private void initMainWindow() 
 	{
-		try {
-			GameWindow window = new GameWindow(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			try {
+				GameWindow window = new GameWindow(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
 		for(Troop t : _game.getPlayer().getTroops()) {
@@ -110,7 +138,7 @@ public class Controller implements ControllerInterface{
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {
 		_endTurn = false;
-		//_gameView.showStartOfTurn(this, _game);
+		_gameView.showStartOfTurn(this, _game);
 	}
 	
 

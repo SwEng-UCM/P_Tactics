@@ -66,6 +66,7 @@ public class GameWindow {
 		}
 		this._cntrl.setPlayerNum(playerCount);
 		this._cntrl.setCorrect();
+		this._cntrl.setupPlayers();
 	}
 
 }

@@ -21,6 +21,7 @@ public class GameConsoleView implements GameObserver {
 	private final int _CELL_SIZE = 3;
 	private final int _INITIAL_SPACE = 3;
 	Scanner scanner;
+	//current thread to interrupt console input waiting
 	public GameConsoleView(Game game) {
 		scanner = new Scanner(System.in);
 		game.addObserver(this);

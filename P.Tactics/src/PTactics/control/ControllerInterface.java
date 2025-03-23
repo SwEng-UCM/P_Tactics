@@ -42,5 +42,8 @@ public interface ControllerInterface {
 	
 	public Boolean isTroop(Position pos);
 	void setPlayerNum(int playerNum);
+	
 	void setCorrect();
+	
+	public  void setupPlayers();
 }

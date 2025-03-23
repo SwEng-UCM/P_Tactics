@@ -8,7 +8,7 @@ import PTactics.view.GUI.GameWindow;
 public class Main {
 	
 	public static void main(String[] args) {
-		Controller control = new Controller();
+		Controller control = new Controller(args[0]);
 		control.run();
 	}
 }
