@@ -119,10 +119,20 @@ public class GameConsoleView implements GameObserver {
 	}
 	
 	public int getInt() {
-		System.out.print(Utils.MessageUtils.DATA);
+
+        System.out.print(Utils.MessageUtils.DATA);
 		int line = scanner.nextInt();
 		return line;
 	}
+	Thread getPlayerNumberThread = new Thread(() -> {
+		Scanner scanner = new Scanner(System.in);
+		 try {
+		        System.out.println("Data > ");
+		        int input = scanner.nextInt();
+		    } catch (Exception e) {
+		        System.out.println("Console input interrupted.");
+		    }
+	});
 	
 	//Just flush buffer
 	public void get() {

@@ -1,16 +1,18 @@
 package PTactics.view.GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import PTactics.control.Controller;
+import PTactics.control.ControllerInterface;
 import PTactics.utils.Position;
 
 public class GameWindow {
 
 	private JFrame _gameWindowFrame;
-	private Controller _cntrl;
+	private ControllerInterface _cntrl;
 	/**
 	 * Launch the application.
 	 */
@@ -30,6 +32,7 @@ public class GameWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		_gameWindowFrame = new JFrame();
 		_gameWindowFrame.setTitle("P.Tactics");
 		_gameWindowFrame.setBounds(100, 100, 1243, 956);
@@ -47,6 +50,22 @@ public class GameWindow {
 		GameBoardPanel gameBoard= new GameBoardPanel(Position._gameLength,Position._gameWidth,this._cntrl, control);
 		gameBoard.setBounds(250, 59, 700, 700);
 		_gameWindowFrame.getContentPane().add(gameBoard);
+		
+		_gameWindowFrame.setVisible(true);
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1)); // default, min, max, step
+		int playerCount=-1;
+		while(playerCount==-1) 
+		{
+			int result = JOptionPane.showConfirmDialog(
+			        null,
+			        spinner,
+			        "Select number of players",
+			        JOptionPane.OK_CANCEL_OPTION,
+			        JOptionPane.QUESTION_MESSAGE);
+			playerCount = (result == JOptionPane.OK_OPTION) ? (Integer) spinner.getValue() : -1;
+		}
+		this._cntrl.setPlayerNum(playerCount);
+		this._cntrl.setCorrect();
 	}
 
 }

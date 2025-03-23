@@ -23,6 +23,11 @@ public class Controller implements ControllerInterface{
 	private boolean _endTurn;
 	public static int mapSelected = 1;
 	
+	
+	//to allow gui to change number or players
+	private int _numPlayers = 0;
+	private boolean correct = false;
+	
 	public Controller() {
 		setup();
 	}
@@ -30,7 +35,6 @@ public class Controller implements ControllerInterface{
 	public void run() {
 		while(!this.isFinish()) {
 			startOfTurn();
-			update();
 			while(!_endTurn) {
 				String[] userCommand = _gameView.getPrompt();
 				Command command = CommandGenerator.parse(userCommand);
@@ -46,20 +50,26 @@ public class Controller implements ControllerInterface{
 			nextTurn();
 		}
 	}
-	
+	public void setPlayerNum(int playerNum) 
+	{
+		this._numPlayers=playerNum;
+	}
+	public void setCorrect() 
+	{
+		correct=true;
+	}
 	private final void setup() {
-		int numPlayers = 0;
-		boolean correct = false;
 		//TODO: Give them to decide between maps or randomizer
 		this._game = new Game();
 		this._gameView = new GameConsoleView(_game);
+		initMainWindow();
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
 		
 		while(!correct) {
 			try {
-				numPlayers = _gameView.getInt();
-				if(numPlayers < 2 || numPlayers > 4) throw new Exception();
+				_numPlayers = _gameView.getInt();
+				if(_numPlayers < 2 || _numPlayers > 4) throw new Exception();
 				correct = true;
 			}
 			catch (InputMismatchException inputError) {
@@ -73,7 +83,7 @@ public class Controller implements ControllerInterface{
 			}
 		}
 		DangerMediator dangerMediator = new DangerMediator();
-		for(Integer i = 1; i <= numPlayers; ++i) {
+		for(Integer i = 1; i <= _numPlayers; ++i) {
 			Player p = new Player(i.toString(), dangerMediator);
 			for(Troop t : MapSelector.getTroops(p)) {
 				_game.addNewElement(t, t.getPos());
@@ -82,7 +92,14 @@ public class Controller implements ControllerInterface{
 		}
 		_game.inicialize();
 	}
-	
+	private void initMainWindow() 
+	{
+		try {
+			GameWindow window = new GameWindow(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
 		for(Troop t : _game.getPlayer().getTroops()) {
 			if(t.isAlive()) return false;
@@ -93,7 +110,7 @@ public class Controller implements ControllerInterface{
 	//TODO: Needs fixing because Java is dumb and I am not going to create a cmd controller class just for this, yet.
 	private void startOfTurn() {
 		_endTurn = false;
-		_gameView.showStartOfTurn(this, _game);
+		//_gameView.showStartOfTurn(this, _game);
 	}
 	
 

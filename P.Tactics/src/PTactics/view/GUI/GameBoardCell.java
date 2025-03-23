@@ -18,7 +18,6 @@ public class GameBoardCell extends JButton implements GameObserver{
 	public GameBoardCell(Position pos, ControllerInterface _cntr) 
 	{
 		this._cntr=_cntr;
-		this.setText("O");
 		_cntr.addObserver(this);
 		this._pos=pos;
 	}

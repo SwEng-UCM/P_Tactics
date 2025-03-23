@@ -41,4 +41,6 @@ public interface ControllerInterface {
 	String positionToString(Position _pos);
 	
 	public Boolean isTroop(Position pos);
+	void setPlayerNum(int playerNum);
+	void setCorrect();
 }
