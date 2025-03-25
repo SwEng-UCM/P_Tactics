@@ -37,19 +37,10 @@ public class Controller implements ControllerInterface{
 		setup();
 	}
 	
-	public void run() {
+	public void runConsole() {
 		while(!this.isFinish()) { // revisar logica
-			if(MODE==0) 
-			{
-				startOfTurn();
-			}
-			else 
-			{
-				update();
-			}
+			startOfTurn();
 			while(!_endTurn) {
-				if(MODE==0) 
-				{
 					String[] userCommand = _gameView.getPrompt();
 					Command command = CommandGenerator.parse(userCommand);
 					
@@ -60,10 +51,13 @@ public class Controller implements ControllerInterface{
 					 } else {
 						 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 					 }
-				}
 			}
 			nextTurn();
 		}
+	}
+	public void runGUI() 
+	{
+		update();
 	}
 	public void setPlayerNum(int playerNum) 
 	{

@@ -38,7 +38,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		JButton endTurnButton = new JButton("End Turn");
 		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				_cntr.endTurn();
+				_cntr.nextTurn();
 			}
 		});
 		endTurnButton.setBounds(679, 6, 156, 56);
@@ -69,5 +69,10 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	public void onNextTurn(Game game) {
 		// TODO Auto-generated method stub
 		playerTurnText.setText("Player: "+ this._cntr.getNumPlayer()+" turn");
+	}
+	@Override
+	public void onTroopUnSelection(Game game) {
+		// TODO Auto-generated method stub
+		
 	}
 }
