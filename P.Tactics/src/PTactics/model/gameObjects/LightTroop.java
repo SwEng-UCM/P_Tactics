@@ -58,7 +58,7 @@ public class LightTroop extends Troop {
 
 	@Override
 	public void nextTurn() {
-		//deactivateAbility();
+		deactivateAbility();
 	}
 
 }
