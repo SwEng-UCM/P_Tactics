@@ -9,6 +9,13 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Controller control = new Controller(args[0]);
-		control.run();
+		if(args[0]=="0") 
+		{
+			control.runConsole();
+		}
+		else 
+		{
+			control.runGUI();
+		}
 	}
 }

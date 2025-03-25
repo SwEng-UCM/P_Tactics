@@ -30,7 +30,6 @@ public class GameBoardPanel extends JPanel {
 		        	Position pos= new Position(col,row);
 		            GameBoardCell btn = new GameBoardCell(pos,this._cntr);
 		            _buttons[row][col] = btn;
-		            int r = row, c = col;
 		            btn.addActionListener(e -> {
 		                //System.out.println("Cell " + r + ", " + c);
 		            	//chaneg this to isTroop;

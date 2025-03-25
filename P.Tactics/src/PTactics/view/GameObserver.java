@@ -8,4 +8,5 @@ public interface GameObserver {
 	void onTroopAction(Game game); // maybe this une is useless -> on every troop action either the board or the players are updated
 	void onTroopSelection(Game game);
 	void onNextTurn(Game game);
+	void onTroopUnSelection(Game game);
 }

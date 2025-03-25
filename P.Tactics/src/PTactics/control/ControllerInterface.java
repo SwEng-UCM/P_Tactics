@@ -49,4 +49,6 @@ public interface ControllerInterface {
 	public  void setupPlayers();
 	
 	public Game getGame();
+	
+	public void nextTurn();
 }

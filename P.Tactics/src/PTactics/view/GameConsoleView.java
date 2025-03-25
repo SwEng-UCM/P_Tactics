@@ -164,4 +164,10 @@ public class GameConsoleView implements GameObserver {
 	public void onNextTurn(Game game) {
 		showGame(game);
 	}
+
+	@Override
+	public void onTroopUnSelection(Game game) {
+		// TODO Auto-generated method stub
+		
+	}
 }

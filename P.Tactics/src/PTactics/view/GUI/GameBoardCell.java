@@ -53,10 +53,15 @@ public class GameBoardCell extends JButton implements GameObserver{
 
 	@Override
 	public void onNextTurn(Game game) {
-		// TODO Auto-generated method stub
+		updateCell();
 	}
 	public void updateCell() 
 	{
 		this.setText(this._cntr.positionToString(this._pos));
+	}
+	@Override
+	public void onTroopUnSelection(Game game) {
+		// TODO Auto-generated method stub
+		
 	}
 }
