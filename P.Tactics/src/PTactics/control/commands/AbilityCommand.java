@@ -14,6 +14,12 @@ public class AbilityCommand extends Command {
 	public AbilityCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
+	
+	public AbilityCommand(int x, int y) {
+		super(NAME, SHORTCUT, DETAILS, HELP);
+		_posX = x;
+		_posY = y; 
+	}
 
 	@Override
 	public void execute(ControllerInterface CI) {

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
+import PTactics.control.commands.AbilityCommand;
 import PTactics.control.commands.MoveCommand;
 import PTactics.control.commands.SelectTroopCommand;
 import PTactics.utils.Position;
@@ -45,11 +46,12 @@ public class GameBoardPanel extends JPanel {
 		            	}
 		            	else if(this._cPanel.getControlSelection()==1)
 		            	{
-		            		//aim;
+		            		// aim 
 		            	}
 		            	else if(this._cPanel.getControlSelection()==2)
 		            	{
-		            		//ability
+		            		AbilityCommand ability= new AbilityCommand(btn.getPosition().getX(),btn.getPosition().getY());
+		            		ability.execute(cntr);
 		            	}
 		            });
 		            add(btn);

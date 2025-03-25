@@ -8,7 +8,9 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 
 import PTactics.control.ControllerInterface;
+import PTactics.control.commands.AbilityCommand;
 import PTactics.model.game.Game;
+import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
 import javax.swing.UIManager;
 
@@ -60,8 +62,16 @@ public class ControlPanel extends JPanel implements GameObserver{
 	public int getControlSelection() { //0 move 1 aim 2 ability : in order from left to right
 	    if (moveButton.isSelected()) return 0;
 	    if (aimButton.isSelected()) return 1;
-	    if (abilityButton.isSelected()) return 2;
-	    return -1; // none selected
+	    if (abilityButton.isSelected()) {
+	    	if (_cntr.getGame().getTroop().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
+	    		AbilityCommand ability= new AbilityCommand(_cntr.getGame().getTroop().getPos().getX(), _cntr.getGame().getTroop().getPos().getY());
+        		ability.execute(_cntr);
+	    	}
+	    	else {
+	    		return 2;
+	    	}
+	    }
+	    return -1; // none selected or light 
 	}
 	@Override
 	public void onPlayersUpdate(Game game) {
