@@ -224,4 +224,7 @@ public class Controller implements ControllerInterface{
 	{
 		return this._game;
 	}
+	public Troop currTroop() {
+		return _game.currentTroop();
+	}
 }

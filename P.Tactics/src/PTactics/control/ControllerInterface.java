@@ -51,4 +51,5 @@ public interface ControllerInterface {
 	public Game getGame();
 	
 	public void nextTurn();
+	public Troop currTroop();
 }

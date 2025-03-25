@@ -15,6 +15,10 @@ public class AimCommand extends Command {
 	public AimCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 	}
+	public AimCommand(Direction dir) {
+		super(NAME, SHORTCUT, DETAILS, HELP);
+		_dirToAim = dir;
+	}
 
 	@Override
 	public void execute(ControllerInterface CI) {

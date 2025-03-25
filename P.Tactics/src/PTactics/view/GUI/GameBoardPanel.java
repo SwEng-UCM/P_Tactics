@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
+import PTactics.control.commands.AimCommand;
 import PTactics.control.commands.MoveCommand;
 import PTactics.control.commands.SelectTroopCommand;
+import PTactics.utils.Direction;
 import PTactics.utils.Position;
 
 public class GameBoardPanel extends JPanel {
@@ -45,7 +47,9 @@ public class GameBoardPanel extends JPanel {
 		            	}
 		            	else if(this._cPanel.getControlSelection()==1)
 		            	{
-		            		// aim 
+		            		
+		            		AimCommand aim = new AimCommand(posToDir(btn.getPosition().getX(), btn.getPosition().getY()));
+		            		aim.execute(cntr);
 		            	}
 		            	else if(this._cPanel.getControlSelection()==2)
 		            	{
@@ -60,5 +64,18 @@ public class GameBoardPanel extends JPanel {
     
     public JButton getButton(int row, int col) {
         return _buttons[row][col];
+    }
+    private Direction posToDir(int x, int y) {
+    	int X = x - _cntr.currTroop().getPos().getX(); // given pos minus troop position (setting 0,0 at troop)
+    	int Y = y - _cntr.currTroop().getPos().getY();
+    	int abx = Math.abs(X); // see which axis is more prominent
+    	int aby = Math.abs(Y);
+    	if(abx < aby) {
+    		return Y < 0? Direction.UP : Direction.DOWN;
+    	}
+    	else {
+    		return X < 0? Direction.LEFT : Direction.RIGHT;
+    	}
+    	
     }
 }
