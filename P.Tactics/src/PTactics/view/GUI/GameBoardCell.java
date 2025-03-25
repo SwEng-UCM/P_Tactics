@@ -40,7 +40,7 @@ public class GameBoardCell extends JButton implements GameObserver{
 	@Override
 	public void onTroopAction(Game game) {
 		// TODO Auto-generated method stub
-		
+		updateCell();
 	}
 
 	@Override
