@@ -1,11 +1,8 @@
 package PTactics.view.GUI;
 
-import javax.swing.DropMode;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import PTactics.control.ControllerInterface;
-import PTactics.control.commands.ExitCommand;
 import PTactics.model.game.Game;
 import PTactics.view.GameObserver;
 
@@ -25,6 +22,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	JTextArea playerTurnText;
 	public GameInfoPanel(ControllerInterface cntr) {
 		this._cntr=cntr;
+		this._cntr.addObserver(this);
 		setLayout(null);
 		
 		playerTurnText = new JTextArea();
