@@ -5,14 +5,14 @@ import PTactics.utils.Position;
 
 public abstract class GameObject {
 	protected Position pos;
-	protected boolean enabled;
 	protected boolean alive;
+	protected boolean active;
 	protected boolean solid;
 	protected String icon;
 	protected Boolean seeThrough=true;
 	public GameObject(Position pos) {
 		this.pos = pos;
-		this.alive = true;
+		this.active = true;
 	}
 
 	public void setPosition(Position setter) {
@@ -21,15 +21,15 @@ public abstract class GameObject {
 	}
 
 	public void disable() {
-		enabled = false;
+		alive = false;
 	}
 
 	public void enable() {
-		enabled = true;
+		alive = true;
 	}
 
 	public boolean getCheckStatus() {
-		return enabled;
+		return alive;
 	}
 
 	public Position getPos() {

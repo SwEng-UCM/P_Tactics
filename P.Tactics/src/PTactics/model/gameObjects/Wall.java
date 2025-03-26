@@ -7,6 +7,7 @@ public class Wall extends GameObject  {
 
 	public Wall(Position pos) {
 		super(pos);
+		this.alive=false;
 		this.solid=true;
 		this.seeThrough=false;
 	}
@@ -23,7 +24,7 @@ public class Wall extends GameObject  {
 
 	@Override
 	public boolean isAlive() {
-		return alive;
+		return active;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ public class SmokeObject extends GameObject {
 		this.solid=false;
 		this.seeThrough=false;
 		this.turnsLeft=3;
+		this.alive=false;
 	}
 	@Override
 	public boolean isAlive() {
@@ -32,7 +33,7 @@ public class SmokeObject extends GameObject {
 	public void nextTurn() {
 		if(this.turnsLeft==0) 
 		{
-			this.alive=false;
+			this.active=false;
 		    Board.getInstance().eraseFromPos(this.pos);
 		}
 		else 

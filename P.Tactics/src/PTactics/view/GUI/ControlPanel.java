@@ -35,7 +35,7 @@ public class ControlPanel extends JPanel implements GameObserver{
 		txtrCurrentSelectedTroop = new JTextArea();
 		txtrCurrentSelectedTroop.setBackground(UIManager.getColor("Button.background"));
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
-		txtrCurrentSelectedTroop.setBounds(10, 57, 250, 29);
+		txtrCurrentSelectedTroop.setBounds(10, 0, 250, 156);
 		txtrCurrentSelectedTroop.setBorder(null);
 		txtrCurrentSelectedTroop.setEditable(false);
 		add(txtrCurrentSelectedTroop);

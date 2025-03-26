@@ -59,6 +59,7 @@ public class Game implements Observable<GameObserver>{
 
 	public String positionToString(Position p) { 
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+		GameObject inPos=Board.getInstance().getGameObject(p);
 		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
 			return Board.getInstance().toString(p);
 		}
@@ -173,7 +174,11 @@ public class Game implements Observable<GameObserver>{
 	public Boolean isTroop(Position pos) 
 	{
 		GameObject t = Board.getInstance().getGameObject(pos);
-		return !Objects.isNull(t) && t.isAlive() && ((Troop) t).getPlayer().equals(_players.get(_currPlayer).getId());
+		if(!Objects.isNull(t) && t.isAlive()) 
+		{
+			return ((Troop) t).getPlayer().equals(_players.get(_currPlayer).getId());
+		}
+		return false;
 	}
 	public void selectTroop(Position pos) throws Exception{
 		GameObject t = Board.getInstance().getGameObject(pos);
