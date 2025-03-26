@@ -202,7 +202,7 @@ public class Game implements Observable<GameObserver>{
 	}
 	
 	public boolean canMove(Position pos) {
-		return _currTroop.isAlive() && (!(_currTroop.getPos().getX() == pos.getX()) || !(_currTroop.getPos().getY() == pos.getY()));
+		return _currTroop.isAlive() && (!(_currTroop.getPos().getX() == pos.getX()) || !(_currTroop.getPos().getY() == pos.getY())) && (this.getBoard().getGameObject(pos)==null||this.getBoard().getGameObject(pos).isWalkable());
 	}
 
 	public void moveTroop(Position pos) throws IllegalArgumentException{

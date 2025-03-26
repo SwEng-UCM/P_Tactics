@@ -10,11 +10,15 @@ public abstract class GameObject {
 	protected boolean solid;
 	protected String icon;
 	protected Boolean seeThrough=true;
+	protected Boolean walkable=false;
 	public GameObject(Position pos) {
 		this.pos = pos;
 		this.active = true;
 	}
-
+	public Boolean isWalkable() 
+	{
+		return this.walkable;
+	}
 	public void setPosition(Position setter) {
 		Board.getInstance().setPosition(this.pos, setter, this);
 		pos = setter;

@@ -11,6 +11,7 @@ public class SmokeObject extends GameObject {
 		this.seeThrough=false;
 		this.turnsLeft=3;
 		this.alive=false;
+		this.walkable=true;
 	}
 	@Override
 	public boolean isAlive() {
