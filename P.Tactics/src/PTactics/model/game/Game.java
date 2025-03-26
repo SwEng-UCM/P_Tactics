@@ -174,7 +174,7 @@ public class Game implements Observable<GameObserver>{
 	public Boolean isTroop(Position pos) 
 	{
 		GameObject t = Board.getInstance().getGameObject(pos);
-		if(!Objects.isNull(t) && t.isAlive()) 
+		if(!Objects.isNull(t) && t.isAlive()&& t.isSeeThrough()) 
 		{
 			return ((Troop) t).getPlayer().equals(_players.get(_currPlayer).getId());
 		}
