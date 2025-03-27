@@ -13,6 +13,7 @@ public class GameWindow {
 
 	private JFrame _gameWindowFrame;
 	private ControllerInterface _cntrl;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -38,6 +39,7 @@ public class GameWindow {
 		_gameWindowFrame.setBounds(100, 100, 1243, 956);
 		_gameWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		_gameWindowFrame.getContentPane().setLayout(null);
+		_gameWindowFrame.setFocusable(true);
 		
 		GameInfoPanel gameInfo= new GameInfoPanel(this._cntrl);
 		gameInfo.setBounds(0, 0, 1227, 60);
@@ -46,6 +48,8 @@ public class GameWindow {
 		ControlPanel control= new ControlPanel(this._cntrl);
 		control.setBounds(0, 759, 1227, 158);
 		_gameWindowFrame.getContentPane().add(control);
+		
+		
 		
 		GameBoardPanel gameBoard= new GameBoardPanel(Position._gameLength,Position._gameWidth,this._cntrl, control);
 		gameBoard.setBounds(250, 59, 700, 700);

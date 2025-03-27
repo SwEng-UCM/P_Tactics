@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
@@ -34,14 +35,7 @@ public class Game implements Observable<GameObserver>{
 		this._currPlayer = 0;
 		_observers = new ArrayList<>();
 	}
-	public int getBoardLength() 
-	{
-		return this._boardLength;
-	}
-	public int getBoardWidth() 
-	{
-		return this._boardWidth;
-	}
+
 	public void addNewElement(GameObject g, Position pos) {
 		if (Objects.isNull(g))
 			throw new IllegalArgumentException("A null object cannot be added to game.");
@@ -110,7 +104,7 @@ public class Game implements Observable<GameObserver>{
 				return Icons.TroopIcons.DEAD;				//Returning dead soldier (not solid not alive entities)
 			}
 			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
-				return Board.getInstance().toIcon(p);			//Returning actual soldiers (alive not solid)
+				return Board.getInstance().toIcon(p);		//Returning actual soldiers (alive not solid)
 			}
 			
 		}
@@ -120,7 +114,7 @@ public class Game implements Observable<GameObserver>{
 				return Icons.TroopIcons.DEAD;
 			}
 		}
-		return Icons.otherIcons.FOG;												//Returning fog of war	(not visible)
+		return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(69, 69, 2));												//Returning fog of war	(not visible)
 	}
 
 	public void addPlayer(Player p) {

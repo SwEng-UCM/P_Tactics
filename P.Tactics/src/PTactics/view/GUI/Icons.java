@@ -6,7 +6,8 @@ public interface Icons {
 
 	public static interface TroopIcons {
 		public final ImageIcon TROOP_FACING_UP = new ImageIcon("Icons/LightTroop_up.png");
-		public final ImageIcon TROOP_FACING_DOWN = new ImageIcon("Icons/LightTroop_down.png");
+		public final ImageIcon TROOP_FACING_DOWN = new ImageIcon("Icons/inprogressTroop.png"); 
+		//public final ImageIcon TROOP_FACING_DOWN = new ImageIcon("LightTroop_down.png"); 
 		public final ImageIcon TROOP_FACING_LEFT = new ImageIcon("Icons/LightTroop_left.png");
 		public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon("Icons/LightTroop_right.png");
 		
@@ -16,7 +17,8 @@ public interface Icons {
 
 	public static interface otherIcons {
 		public final ImageIcon WALL = new ImageIcon("Icons/Wall.png");
-		public final ImageIcon FOG = new ImageIcon("Icons/certainly_fog.png");
+		public final ImageIcon FOG = new ImageIcon("Icons/inprogressFog.png");
+		//public final ImageIcon FOG = new ImageIcon("Icons/certainly_fog.png");
 		public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");
 	}
 }

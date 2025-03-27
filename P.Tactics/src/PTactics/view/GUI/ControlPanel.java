@@ -1,7 +1,5 @@
 package PTactics.view.GUI;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -22,10 +20,11 @@ public class ControlPanel extends JPanel implements GameObserver{
 	 * Create the panel.
 	 */
 	private JTextArea txtrCurrentSelectedTroop;
-	private JToggleButton moveButton;
-	private JToggleButton aimButton;
-	private JToggleButton abilityButton;
+	JToggleButton moveButton;
+	JToggleButton aimButton;
+	JToggleButton abilityButton;
 	private ButtonGroup toggleGroup;
+	
 	
 	private ControllerInterface _cntr;
 	public ControlPanel(ControllerInterface cntr) {
@@ -56,14 +55,12 @@ public class ControlPanel extends JPanel implements GameObserver{
 		toggleGroup = new ButtonGroup(); //makes the buttons mutually exclusive
 		toggleGroup.add(moveButton);
 		toggleGroup.add(aimButton);
-		toggleGroup.add(abilityButton);
-		
-		
+		toggleGroup.add(abilityButton);		
 	}
 	public int getControlSelection() { //0 move 1 aim 2 ability : in order from left to right
 	    if (moveButton.isSelected()) return 0;
-	    if (aimButton.isSelected()) return 1;
-	    if (abilityButton.isSelected()) {
+	    else if (aimButton.isSelected()) return 1;
+	    else if (abilityButton.isSelected()) {
 	    	if (_cntr.getGame().getTroop().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
 	    		AbilityCommand ability= new AbilityCommand(_cntr.getGame().getTroop().getPos().getX(), _cntr.getGame().getTroop().getPos().getY());
         		ability.execute(_cntr);

@@ -3,10 +3,8 @@ package PTactics.view.GUI;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
@@ -26,7 +24,8 @@ public class GameBoardCell extends JButton implements GameObserver{
 		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
-		//this.setBorderPainted(false);
+
+		this.setBorderPainted(true);
 	}
 	public Position getPosition() 
 	{
@@ -67,7 +66,7 @@ public class GameBoardCell extends JButton implements GameObserver{
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 		} else {
-			setBorderPainted(false);
+			this.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		}
 		repaint();
 	}

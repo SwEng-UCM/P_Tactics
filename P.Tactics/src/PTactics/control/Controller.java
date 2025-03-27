@@ -228,7 +228,7 @@ public class Controller implements ControllerInterface{
 
 	@Override
 	public Icon getIcon(Position _pos) {
-		return this._game.positionToIcon(_pos);
+		return _game.positionToIcon(_pos);
 	}
 	
 	public boolean dangerTile(Position pos) {

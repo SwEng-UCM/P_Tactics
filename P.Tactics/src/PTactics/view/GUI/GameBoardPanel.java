@@ -1,12 +1,12 @@
 package PTactics.view.GUI;
 
-import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
 import PTactics.control.commands.AimCommand;
@@ -21,10 +21,12 @@ public class GameBoardPanel extends JPanel {
     private ControllerInterface _cntr;
     
     private ControlPanel _cPanel;
+    private char _keyChar;
     
     public GameBoardPanel(int width,int height,ControllerInterface cntr, ControlPanel cPanel) {
     	this._cntr=cntr;
     	this._cPanel=cPanel;
+    	
 		_buttons = new JButton[height][width];
 		 setLayout(new GridLayout(width, height));
 		    for (int row = 0; row < height; row++) {
@@ -32,6 +34,41 @@ public class GameBoardPanel extends JPanel {
 		        	Position pos= new Position(col,row);
 		            GameBoardCell btn = new GameBoardCell(pos,this._cntr);
 		            _buttons[row][col] = btn;
+		            
+		            btn.addKeyListener(new KeyListener() {
+
+		    			@Override
+		    			public void keyTyped(KeyEvent e) {
+		    				System.out.print(e.getKeyChar());
+		    				
+		    			}
+
+		    			@Override
+		    			public void keyPressed(KeyEvent e) {
+		    				_keyChar = e.getKeyChar();
+		    				if (_keyChar == 'm' || _keyChar == 'M') {
+		    					_cPanel.resetControlSelection();
+		    					_cPanel.moveButton.setSelected(true);
+		    				}
+		    				else if (_keyChar == 'a' || _keyChar == 'A') {
+		    					_cPanel.resetControlSelection();
+		    					_cPanel.aimButton.setSelected(true);
+		    				}
+		    				else if (_keyChar == 'b' || _keyChar == 'B') {
+		    					_cPanel.resetControlSelection();
+		    					_cPanel.abilityButton.setSelected(true);
+		    				}
+		    				_cPanel.getControlSelection();
+		    			}
+
+		    			@Override
+		    			public void keyReleased(KeyEvent e) {
+		    				System.out.print(e.getKeyChar());
+		    			}
+		    			
+		    		});
+		            
+		            
 		            btn.addActionListener(e -> {
 		                //System.out.println("Cell " + r + ", " + c);
 		            	//chaneg this to isTroop;
