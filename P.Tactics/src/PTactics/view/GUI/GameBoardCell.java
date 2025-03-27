@@ -59,8 +59,8 @@ public class GameBoardCell extends JButton implements GameObserver{
 	}
 	public void updateCell() 
 	{
-		//this.setText(this._cntr.positionToString(this._pos));
 		this.setIcon(_cntr.getIcon(this._pos));
+		repaint();
 	}
 	@Override
 	public void onTroopUnSelection(Game game) {
