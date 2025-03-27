@@ -20,6 +20,7 @@ public class GameBoardCell extends JButton implements GameObserver{
 	{
 		this._cntr=_cntr;
 		_cntr.addObserver(this);
+		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
 		//this.setBorderPainted(false);
