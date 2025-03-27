@@ -14,6 +14,7 @@ import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokeObject;
 import PTactics.model.gameObjects.Wall;
 import PTactics.utils.Position;
+import PTactics.view.GUI.Icons;
 
 public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {
 	private static final long serialVersionUID = 1L;
@@ -94,7 +95,7 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	
 	public ImageIcon toIcon(Position p) {
 		if(this.containsKey(p)) return this.get(p).toIcon();
-		return null;
+		return Icons.otherIcons.FLOOR;
 	}
 	
 	public void nextTurn() 
