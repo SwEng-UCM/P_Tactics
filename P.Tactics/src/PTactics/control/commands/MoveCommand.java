@@ -29,19 +29,22 @@ public class MoveCommand extends Command {
 
 	private void foo(ControllerInterface CI) {
 		if (CI.isTroopSelected()) {
+			boolean movesLeft = true;
 			Position pos = new Position(_posX, _posY);
 			try {
 				CI.moveTroop(pos);
 			} catch (IllegalArgumentException iae) {
 				System.out.println(iae);
-				;
+				movesLeft = false;
 			}
 			try {
-				TimeUnit.MILLISECONDS.sleep(0);
+				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			SwingUtilities.invokeLater(() -> foo(CI));
+			if (movesLeft && CI.canMove(pos)) {
+				SwingUtilities.invokeLater(() -> foo(CI));				
+			}
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
 		}

@@ -230,4 +230,8 @@ public class Controller implements ControllerInterface{
 	public Icon getIcon(Position _pos) {
 		return this._game.positionToIcon(_pos);
 	}
+	
+	public boolean dangerTile(Position pos) {
+		return _game.dangerTile(pos);
+	}
 }

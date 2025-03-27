@@ -1,5 +1,9 @@
 package PTactics.model.gameObjects;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import PTactics.model.game.Board;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -42,6 +46,24 @@ public class LightTroop extends Troop {
 		this._abilityActive = false;
 	}
 
+	public List<Position> dangerPositions() {
+		List<Position> dangerPositions = new ArrayList<>();
+		
+		if (!_aiming) {
+			return dangerPositions;
+		}
+		
+		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
+		for (int i = 0; i < _shootRange; i++) {
+			if (visPos.isValid() && Board.getInstance().isSeeThrough(visPos)) {
+				dangerPositions.add(visPos);
+				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
+			} else break;
+		}
+		
+		return dangerPositions;	
+	}
+	
 	@Override
 	public void update() {
 		if(this.iFrames < 1 && this.isAbility()) this.deactivateAbility();

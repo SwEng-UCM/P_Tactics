@@ -44,17 +44,21 @@ public class GameBoardPanel extends JPanel {
 		            	{
 		            		MoveCommand move = new MoveCommand(btn.getPosition().getX(),btn.getPosition().getY());
 		            		move.execute(cntr);
+		            		//_cPanel.resetControlSelection();
 		            	}
 		            	else if(this._cPanel.getControlSelection()==1)
 		            	{
 		            		
 		            		AimCommand aim = new AimCommand(posToDir(btn.getPosition().getX(), btn.getPosition().getY()));
 		            		aim.execute(cntr);
+		            		//_cPanel.resetControlSelection();
+
 		            	}
 		            	else if(this._cPanel.getControlSelection()==2)
 		            	{
 		            		AbilityCommand ability= new AbilityCommand(btn.getPosition().getX(),btn.getPosition().getY());
 		            		ability.execute(cntr);
+		            		//_cPanel.resetControlSelection();
 		            	}
 		            });
 		            add(btn);

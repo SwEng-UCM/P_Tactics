@@ -25,6 +25,7 @@ public class ControlPanel extends JPanel implements GameObserver{
 	private JToggleButton moveButton;
 	private JToggleButton aimButton;
 	private JToggleButton abilityButton;
+	private ButtonGroup toggleGroup;
 	
 	private ControllerInterface _cntr;
 	public ControlPanel(ControllerInterface cntr) {
@@ -52,7 +53,7 @@ public class ControlPanel extends JPanel implements GameObserver{
 		abilityButton.setBounds(624, 25, 148, 83);
 		add(abilityButton);
 		
-		ButtonGroup toggleGroup = new ButtonGroup(); //makes the buttons mutually exclusive
+		toggleGroup = new ButtonGroup(); //makes the buttons mutually exclusive
 		toggleGroup.add(moveButton);
 		toggleGroup.add(aimButton);
 		toggleGroup.add(abilityButton);
@@ -104,5 +105,8 @@ public class ControlPanel extends JPanel implements GameObserver{
 	public void onTroopUnSelection(Game game) {
 		// TODO Auto-generated method stub
 		
+	}
+	public void resetControlSelection() {
+		toggleGroup.clearSelection();
 	}
 }

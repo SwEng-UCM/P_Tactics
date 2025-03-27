@@ -1,5 +1,8 @@
 package PTactics.view.GUI;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -60,6 +63,12 @@ public class GameBoardCell extends JButton implements GameObserver{
 	public void updateCell() 
 	{
 		this.setIcon(_cntr.getIcon(this._pos));
+		if (_cntr.dangerTile(_pos)) {
+			this.setBorderPainted(true);
+			this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+		} else {
+			setBorderPainted(false);
+		}
 		repaint();
 	}
 	@Override

@@ -54,4 +54,5 @@ public interface ControllerInterface {
 	public void nextTurn();
 	public Troop currTroop();
 	Icon getIcon(Position _pos);
+	boolean dangerTile(Position _pos);
 }

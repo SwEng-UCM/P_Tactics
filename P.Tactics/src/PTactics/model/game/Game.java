@@ -329,5 +329,8 @@ public class Game implements Observable<GameObserver>{
 	public void removeObserver(GameObserver o) {
 		_observers.remove(o);
 	}
+	public boolean dangerTile(Position pos) {
+		return _players.get(_currPlayer).isInDanger(pos);
+	}
 	
 }
