@@ -1,0 +1,21 @@
+package PTactics.view.GUI;
+
+import javax.swing.ImageIcon;
+
+public interface Icons {
+
+	public static interface TroopIcons {
+		public final ImageIcon TROOP_FACING_UP = new ImageIcon("Icons/LightTroop_up.png");
+		public final ImageIcon TROOP_FACING_DOWN = new ImageIcon("Icons/LightTroop_down.png");
+		public final ImageIcon TROOP_FACING_LEFT = new ImageIcon("Icons/LightTroop_left.png");
+		public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon("Icons/LightTroop_right.png");
+		
+		public final ImageIcon DEAD = new ImageIcon("Icons/Dead.png");
+
+	}
+
+	public static interface otherIcons {
+		public final ImageIcon WALL = new ImageIcon("Icons/Wall.png");
+		public final ImageIcon FOG = new ImageIcon("Icons/certainly_fog.png");
+	}
+}

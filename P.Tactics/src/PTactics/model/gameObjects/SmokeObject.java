@@ -1,7 +1,10 @@
 package PTactics.model.gameObjects;
 
+import javax.swing.ImageIcon;
+
 import PTactics.model.game.Board;
 import PTactics.utils.Position;
+import PTactics.view.GUI.Icons;
 
 public class SmokeObject extends GameObject {
 	private int turnsLeft;
@@ -39,6 +42,11 @@ public class SmokeObject extends GameObject {
 		{
 			this.turnsLeft--;
 		}
+	}
+	
+	@Override
+	public ImageIcon toIcon() {
+		return Icons.otherIcons.FOG;
 	}
 
 }

@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.swing.ImageIcon;
+
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokeObject;
@@ -88,6 +90,11 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	public String toString(Position p) {
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
+	}
+	
+	public ImageIcon toIcon(Position p) {
+		if(this.containsKey(p)) return this.get(p).toIcon();
+		return null;
 	}
 	
 	public void nextTurn() 

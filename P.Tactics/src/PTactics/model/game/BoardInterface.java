@@ -1,5 +1,7 @@
 package PTactics.model.game;
 
+import javax.swing.ImageIcon;
+
 import PTactics.model.gameObjects.GameObject;
 import PTactics.utils.Position;
 
@@ -16,4 +18,5 @@ public interface BoardInterface{
 	public String toString(Position p);
 	public void smoke(Position pos);
 	public void nextTurn();
+	public ImageIcon toIcon(Position p);
 }

@@ -1,7 +1,10 @@
 package PTactics.model.gameObjects;
 
+import javax.swing.ImageIcon;
+
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
+import PTactics.view.GUI.Icons;
 
 public class Wall extends GameObject  {
 
@@ -14,6 +17,11 @@ public class Wall extends GameObject  {
 	@Override
 	public void update() {
 		
+	}
+	
+	@Override
+	public ImageIcon toIcon() {
+		return Icons.otherIcons.WALL;
 	}
 	
 	@Override
@@ -34,5 +42,4 @@ public class Wall extends GameObject  {
 	public void nextTurn() {
 		
 	}
-
 }

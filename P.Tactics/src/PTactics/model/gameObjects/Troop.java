@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+
 import PTactics.model.game.Board;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
+import PTactics.view.GUI.Icons;
 
 public abstract class Troop extends GameObject{
 	protected String _id;
@@ -188,6 +191,24 @@ public abstract class Troop extends GameObject{
 		}
 		
 		return Utils.TroopUtils.TROOP_ICON;
+	}
+	
+	@Override
+	public ImageIcon toIcon() {
+		if(_dir == Direction.UP) {
+			return Icons.TroopIcons.TROOP_FACING_UP;
+		}
+		else if(_dir == Direction.DOWN) {
+			return Icons.TroopIcons.TROOP_FACING_DOWN;
+		}
+		else if(_dir == Direction.LEFT) {
+			return Icons.TroopIcons.TROOP_FACING_LEFT;
+		}
+		else if(_dir == Direction.RIGHT) {
+			return Icons.TroopIcons.TROOP_FACING_RIGHT;
+		}
+		
+		return Icons.TroopIcons.TROOP_FACING_UP;
 	}
 	
 	@Override // TODO: i need this // the move to be boolean and return true if there are moves left in the queue so I can paint it step by step

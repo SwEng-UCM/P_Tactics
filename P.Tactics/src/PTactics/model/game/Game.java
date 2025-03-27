@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.swing.Icon;
+
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokerTroop;
@@ -13,6 +15,7 @@ import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
+import PTactics.view.GUI.Icons;
 
 public class Game implements Observable<GameObserver>{
 	public static int _boardLength; // This is the first value (y)
@@ -86,6 +89,37 @@ public class Game implements Observable<GameObserver>{
 			}
 		}
 		return "*";												//Returning fog of war	(not visible)
+	}
+	
+	public Icon positionToIcon(Position p) { 
+		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return Board.getInstance().toIcon(p);
+		}
+		
+		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
+			return Icons.TroopIcons.DEAD;
+		}
+		
+		if (visible) {
+			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+				if (_players.get(_currPlayer).lastTurnKill(p)) {
+					return Icons.TroopIcons.DEAD;
+				}
+				return Icons.TroopIcons.DEAD;				//Returning dead soldier (not solid not alive entities)
+			}
+			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
+				return Board.getInstance().toIcon(p);			//Returning actual soldiers (alive not solid)
+			}
+			
+		}
+		// just in case in the future a new way of killing without seeing is added
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			if (_players.get(_currPlayer).lastTurnKill(p)) {
+				return Icons.TroopIcons.DEAD;
+			}
+		}
+		return Icons.otherIcons.FOG;												//Returning fog of war	(not visible)
 	}
 
 	public void addPlayer(Player p) {

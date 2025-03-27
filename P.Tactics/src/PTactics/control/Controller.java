@@ -1,10 +1,8 @@
 package PTactics.control;
 
-import java.awt.EventQueue;
 import java.util.InputMismatchException;
 
-import javax.swing.SwingUtilities;
-
+import javax.swing.Icon;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Player;
@@ -226,5 +224,10 @@ public class Controller implements ControllerInterface{
 	}
 	public Troop currTroop() {
 		return _game.currentTroop();
+	}
+
+	@Override
+	public Icon getIcon(Position _pos) {
+		return this._game.positionToIcon(_pos);
 	}
 }

@@ -1,11 +1,12 @@
 package PTactics.control;
 
+import javax.swing.Icon;
+
 import PTactics.model.game.Game;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
-import PTactics.view.GUI.GameBoardCell;
 
 public interface ControllerInterface {
 	
@@ -52,4 +53,5 @@ public interface ControllerInterface {
 	
 	public void nextTurn();
 	public Troop currTroop();
+	Icon getIcon(Position _pos);
 }

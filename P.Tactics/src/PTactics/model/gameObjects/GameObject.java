@@ -1,5 +1,7 @@
 package PTactics.model.gameObjects;
 
+import javax.swing.ImageIcon;
+
 import PTactics.model.game.Board;
 import PTactics.utils.Position;
 
@@ -52,4 +54,6 @@ public abstract class GameObject {
 	public void CalcNewMove(Position pos) {};
 	public abstract void update();
 	public abstract void nextTurn();
+
+	public abstract ImageIcon toIcon();
 }

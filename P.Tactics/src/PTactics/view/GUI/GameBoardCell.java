@@ -1,5 +1,6 @@
 package PTactics.view.GUI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import PTactics.control.Controller;
@@ -57,7 +58,8 @@ public class GameBoardCell extends JButton implements GameObserver{
 	}
 	public void updateCell() 
 	{
-		this.setText(this._cntr.positionToString(this._pos));
+		//this.setText(this._cntr.positionToString(this._pos));
+		this.setIcon(_cntr.getIcon(this._pos));
 	}
 	@Override
 	public void onTroopUnSelection(Game game) {
