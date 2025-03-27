@@ -41,6 +41,7 @@ public abstract class Troop extends GameObject{
         this._player = p;
         this._abilityActive = false;
         this.seeThrough= true;
+        this.alive=true;
         _player.addTroops(this);
 	}
 	
@@ -154,7 +155,7 @@ public abstract class Troop extends GameObject{
 				}*/
 				_player.update();									
 			}
-			else if(alive && !this._moveQueue.isEmpty())
+			else if(active && !this._moveQueue.isEmpty())
 			{
 				CalcNewMove(_moveQueue.getFirst());
 				_moveQueue.removeFirst();
@@ -279,11 +280,11 @@ public abstract class Troop extends GameObject{
 	
 	@Override
 	public boolean isAlive() {
-		return alive;
+		return active;
 	}
 	@Override
 	public void onHit() {
-		alive = false;
+		active = false;
 	}
 	public int getMovesLeft() {
 		return this._movesLeft;

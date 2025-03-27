@@ -31,7 +31,7 @@ public class Wall extends GameObject  {
 
 	@Override
 	public boolean isAlive() {
-		return alive;
+		return active;
 	}
 
 	@Override
