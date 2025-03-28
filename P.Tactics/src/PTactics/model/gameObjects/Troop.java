@@ -289,9 +289,6 @@ public abstract class Troop extends GameObject{
 	public int getMovesLeft() {
 		return this._movesLeft;
 	}
-	public void resetMoveRange() {
-		this._movesLeft = this._moveRange;
-	}
 	public void activateAbility() {
 		_abilityActive = true;
 	}; 
@@ -310,6 +307,9 @@ public abstract class Troop extends GameObject{
 
 	public List<Position> getPath(Position pos) {
 		return _currentMove;
+	}
+	public void nextTurn() {
+		this._movesLeft = this._moveRange; // resets move range
 	}
 }
 

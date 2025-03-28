@@ -83,6 +83,7 @@ public class LightTroop extends Troop {
 
 	@Override
 	public void nextTurn() {
+		this._movesLeft = this._moveRange;
 		deactivateAbility();
 	}
 	
