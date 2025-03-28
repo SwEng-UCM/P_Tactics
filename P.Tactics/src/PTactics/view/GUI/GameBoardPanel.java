@@ -1,5 +1,6 @@
 package PTactics.view.GUI;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,6 +9,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicButtonListener;
@@ -21,10 +23,10 @@ import PTactics.utils.Direction;
 import PTactics.utils.Position;
 
 public class GameBoardPanel extends JPanel {
-    private JButton[][] _buttons;
-    
+    private JButton[][] _buttons;   
     private ControllerInterface _cntr;
-    
+    private int _height;
+    private int _width;
     private ControlPanel _cPanel;
     private char _keyChar;
     List<Position> _pathing;
@@ -32,6 +34,8 @@ public class GameBoardPanel extends JPanel {
     public GameBoardPanel(int width,int height,ControllerInterface cntr, ControlPanel cPanel) {
     	this._cntr=cntr;
     	this._cPanel=cPanel;
+    	this._height = height;
+    	this._width = width;
     	_pathing = new ArrayList<>();
     	
 		_buttons = new JButton[height][width];
@@ -42,15 +46,14 @@ public class GameBoardPanel extends JPanel {
 		            GameBoardCell btn = new GameBoardCell(pos,this._cntr);
 		            _buttons[row][col] = btn;
 		            
-//		            btn.addMouseListener(new BasicButtonListener(btn) {
-//		            	public void mouseEntered(MouseEvent e) {
-//		            		System.out.println("pingo");
-//		            		if (_cPanel.getControlSelection() == 0) {
-//		            			_cntr.getGame().getTroop().CalcNewMove(pos);
-//		            			_pathing = _cntr.getPath(btn.getPosition());
-//		            		}
-//		            	}
-//		            });
+		            btn.addMouseListener(new BasicButtonListener(btn) {
+		            	public void mouseEntered(MouseEvent e) {
+		            		if (_cPanel.getControlSelection() == 0) {
+		            			_pathing = _cntr.hoverPath(btn.getPosition());
+		            			updateOnHover();
+		            		}
+		            	} 	
+		            });
 		            
 		            btn.addKeyListener(new KeyListener() {
 
@@ -120,8 +123,21 @@ public class GameBoardPanel extends JPanel {
 		    }
 	}
     
-    public JButton getButton(int row, int col) {
-        return _buttons[row][col];
+    private void updateOnHover() {
+    	for (int row = 0; row < _height; row++) {
+			for (int col = 0; col < _width; col++) {
+				if (_pathing != null && _pathing.contains(getButton(row, col).getPosition())) {
+					getButton(row, col).setBorder(BorderFactory.createLineBorder(Color.blue, 2));
+				}
+				else {
+					getButton(row, col).updateCell();;
+				}
+			}
+		}
+    }
+    
+    public GameBoardCell getButton(int row, int col) {
+        return (GameBoardCell)_buttons[row][col];
     }
     private Direction posToDir(int x, int y) {
     	int X = x - _cntr.currTroop().getPos().getX(); // given pos minus troop position (setting 0,0 at troop)

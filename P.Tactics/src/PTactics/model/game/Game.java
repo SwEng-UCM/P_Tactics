@@ -334,4 +334,8 @@ public class Game implements Observable<GameObserver>{
 		return _currTroop == null? null : _currTroop.getPath(pos);
 	}
 	
+	public List<Position> hoverPath(Position pos) {
+		return _currTroop == null? null : _currTroop.hoverPath(pos);
+	}
+	
 }

@@ -312,6 +312,27 @@ public abstract class Troop extends GameObject{
 	public List<Position> getPath(Position pos) {
 		return _currentMove;
 	}
+	
+	public List<Position> hoverPath(Position dest) {
+		List<int[]> Dirs = Arrays.asList(
+		        new int[]{-1, 0}, new int[]{1, 0}, new int[]{0, -1}, new int[]{0, 1}
+		    );
+
+		    SolArray bestSol = new SolArray();
+		    SolArray curSol = new SolArray();
+		    Set<Position> marks = new HashSet<>();
+		    StepCount bestSolSteps = new StepCount();
+		    StepCount curSolSteps = new StepCount();
+		    bestSolSteps.value = Integer.MAX_VALUE;  // Ensure it starts at max possible value
+
+		    Map<Position, Integer> minSteps = new HashMap<>(); // Track shortest path per position
+
+		    _backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos, minSteps);
+
+		    return bestSol.Sol.size() <= _movesLeft ? bestSol.Sol : null; // Store the best found solution
+	}
+	
+	
 	public void nextTurn() {
 		this._movesLeft = this._moveRange; // resets move range
 	}

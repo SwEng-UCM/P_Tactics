@@ -62,7 +62,7 @@ public class ControlPanel extends JPanel implements GameObserver{
 	    if (moveButton.isSelected()) return 0;
 	    else if (aimButton.isSelected()) return 1;
 	    else if (abilityButton.isSelected()) {
-	    	if (_cntr.getGame().getTroop().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
+	    	if (_cntr.isTroopSelected() && _cntr.getGame().getTroop().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
 	    		AbilityCommand ability= new AbilityCommand(_cntr.getGame().getTroop().getPos().getX(), _cntr.getGame().getTroop().getPos().getY());
         		ability.execute(_cntr);
 	    	}

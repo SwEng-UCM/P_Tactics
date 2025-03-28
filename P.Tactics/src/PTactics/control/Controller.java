@@ -240,4 +240,8 @@ public class Controller implements ControllerInterface{
 	public List<Position> getPath(Position pos) {
 		return _game.getPath(pos);
 	}
+	
+	public List<Position> hoverPath(Position pos) {
+		return _game.hoverPath(pos);
+	}
 }

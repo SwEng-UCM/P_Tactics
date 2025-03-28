@@ -62,4 +62,6 @@ public interface ControllerInterface {
 	boolean dangerTile(Position _pos);
 	
 	List<Position> getPath(Position pos);
+	
+	List<Position> hoverPath(Position pos);
 }
