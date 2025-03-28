@@ -66,8 +66,7 @@ public class SmokerTroop extends Troop {
 
 	@Override
 	public void nextTurn() {
-	
-		
+		this._movesLeft = this._moveRange;
 	}
 	
 	@Override

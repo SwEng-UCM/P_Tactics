@@ -104,8 +104,7 @@ public class GameBoardPanel extends JPanel {
 		            		//_cPanel.resetControlSelection();
 		            	}
 		            	else if(this._cPanel.getControlSelection()==1)
-		            	{
-		            		
+		            	{   		
 		            		AimCommand aim = new AimCommand(posToDir(btn.getPosition().getX(), btn.getPosition().getY()));
 		            		aim.execute(cntr);
 		            		//_cPanel.resetControlSelection();
