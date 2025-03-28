@@ -56,8 +56,12 @@ public class SniperTroop extends Troop {
 		
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
-			if (!pos.isValid() || !Board.getInstance().isSeeThrough(pos))
-				break;
+			if (!pos.isValid() || !Board.getInstance().isSeeThrough(pos)) {
+				if (!Board.getInstance().isSolid(pos)) {
+					visiblePositions.add(pos);
+				}
+				break;					
+			}
 			visiblePositions.add(pos);
 		}
 		
