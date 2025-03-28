@@ -326,5 +326,9 @@ public class Game implements Observable<GameObserver>{
 	public boolean dangerTile(Position pos) {
 		return _players.get(_currPlayer).isInDanger(pos);
 	}
+
+	public List<Position> getPath(Position pos) {
+		return _currTroop == null? null : _currTroop.getPath(pos);
+	}
 	
 }

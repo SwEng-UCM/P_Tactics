@@ -16,9 +16,11 @@ public interface Icons {
 	}
 
 	public static interface otherIcons {
-		public final ImageIcon WALL = new ImageIcon("Icons/Wall.png");
+		public final ImageIcon WALL = new ImageIcon("Icons/inprogressWall.png");
+		//public final ImageIcon WALL = new ImageIcon("Icons/Wall.png");
 		public final ImageIcon FOG = new ImageIcon("Icons/inprogressFog.png");
 		//public final ImageIcon FOG = new ImageIcon("Icons/certainly_fog.png");
-		public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");
+		public final ImageIcon FLOOR = new ImageIcon("Icons/inprogressFloor.png");
+		//public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");
 	}
 }

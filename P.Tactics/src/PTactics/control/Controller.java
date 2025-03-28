@@ -1,6 +1,7 @@
 package PTactics.control;
 
 import java.util.InputMismatchException;
+import java.util.List;
 
 import javax.swing.Icon;
 import PTactics.model.game.DangerMediator;
@@ -233,5 +234,10 @@ public class Controller implements ControllerInterface{
 	
 	public boolean dangerTile(Position pos) {
 		return _game.dangerTile(pos);
+	}
+
+	@Override
+	public List<Position> getPath(Position pos) {
+		return _game.getPath(pos);
 	}
 }

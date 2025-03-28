@@ -64,8 +64,14 @@ public class GameBoardCell extends JButton implements GameObserver{
 		this.setIcon(_cntr.getIcon(this._pos));
 		if (_cntr.dangerTile(_pos)) {
 			this.setBorderPainted(true);
-			this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-		} else {
+			this.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+		} 
+		else if (_cntr.getPath(_pos) != null && _cntr.getPath(_pos).contains(_pos)) {
+			this.setBorderPainted(true);
+			this.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
+		}
+		
+		else {
 			this.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		}
 		repaint();

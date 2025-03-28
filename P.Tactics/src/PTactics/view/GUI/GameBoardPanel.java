@@ -3,9 +3,14 @@ package PTactics.view.GUI;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicButtonListener;
 
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
@@ -22,10 +27,12 @@ public class GameBoardPanel extends JPanel {
     
     private ControlPanel _cPanel;
     private char _keyChar;
+    List<Position> _pathing;
     
     public GameBoardPanel(int width,int height,ControllerInterface cntr, ControlPanel cPanel) {
     	this._cntr=cntr;
     	this._cPanel=cPanel;
+    	_pathing = new ArrayList<>();
     	
 		_buttons = new JButton[height][width];
 		 setLayout(new GridLayout(width, height));
@@ -34,6 +41,16 @@ public class GameBoardPanel extends JPanel {
 		        	Position pos= new Position(col,row);
 		            GameBoardCell btn = new GameBoardCell(pos,this._cntr);
 		            _buttons[row][col] = btn;
+		            
+//		            btn.addMouseListener(new BasicButtonListener(btn) {
+//		            	public void mouseEntered(MouseEvent e) {
+//		            		System.out.println("pingo");
+//		            		if (_cPanel.getControlSelection() == 0) {
+//		            			_cntr.getGame().getTroop().CalcNewMove(pos);
+//		            			_pathing = _cntr.getPath(btn.getPosition());
+//		            		}
+//		            	}
+//		            });
 		            
 		            btn.addKeyListener(new KeyListener() {
 

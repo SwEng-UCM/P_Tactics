@@ -307,5 +307,9 @@ public abstract class Troop extends GameObject{
 	public void setDirection(Direction dir) {
 		_dir = dir;
 	}
+
+	public List<Position> getPath(Position pos) {
+		return _currentMove;
+	}
 }
 

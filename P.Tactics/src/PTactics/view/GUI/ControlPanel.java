@@ -57,6 +57,7 @@ public class ControlPanel extends JPanel implements GameObserver{
 		toggleGroup.add(aimButton);
 		toggleGroup.add(abilityButton);		
 	}
+	
 	public int getControlSelection() { //0 move 1 aim 2 ability : in order from left to right
 	    if (moveButton.isSelected()) return 0;
 	    else if (aimButton.isSelected()) return 1;
@@ -71,6 +72,7 @@ public class ControlPanel extends JPanel implements GameObserver{
 	    }
 	    return -1; // none selected or light 
 	}
+	
 	@Override
 	public void onPlayersUpdate(Game game) {
 		// TODO Auto-generated method stub

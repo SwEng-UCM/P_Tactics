@@ -1,5 +1,7 @@
 package PTactics.control;
 
+import java.util.List;
+
 import javax.swing.Icon;
 
 import PTactics.model.game.Game;
@@ -52,7 +54,12 @@ public interface ControllerInterface {
 	public Game getGame();
 	
 	public void nextTurn();
+	
 	public Troop currTroop();
+	
 	Icon getIcon(Position _pos);
+	
 	boolean dangerTile(Position _pos);
+	
+	List<Position> getPath(Position pos);
 }
