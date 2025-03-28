@@ -40,6 +40,6 @@ public interface Icons {
 		//public final ImageIcon FOG = new ImageIcon("Icons/certainly_fog.png");
 		public final ImageIcon FLOOR = new ImageIcon("Icons/inprogressFloor.png");
 		//public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");
-		public final ImageIcon SMOKE= new ImageIcon("smoke.png");
+		public final ImageIcon SMOKE= new ImageIcon("Icons/smoke.png");
 	}
 }

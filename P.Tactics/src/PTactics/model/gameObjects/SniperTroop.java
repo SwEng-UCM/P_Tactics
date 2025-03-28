@@ -89,19 +89,19 @@ public class SniperTroop extends Troop {
 	public ImageIcon toIcon() 
 	{
 		if(_dir == Direction.UP) {
-			return Icons.TroopIcons.SNIPER_FACING_UP;
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
 		}
 		else if(_dir == Direction.DOWN) {
-			return Icons.TroopIcons.SNIPER_FACING_DOWN;
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_DOWN;
 		}
 		else if(_dir == Direction.LEFT) {
-			return Icons.TroopIcons.SNIPER_FACING_LEFT;
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_LEFT;
 		}
 		else if(_dir == Direction.RIGHT) {
-			return Icons.TroopIcons.SNIPER_FACING_RIGHT;
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_RIGHT;
 		}
 		
-		return Icons.TroopIcons.SNIPER_FACING_UP;
+		return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
 	}
 	
 	public void activateAbility(Position pos) {
@@ -133,23 +133,5 @@ public class SniperTroop extends Troop {
 		if (_abilityUses == 0) {
 			deactivateAbility();
 		}
-	}
-	
-	@Override
-	public ImageIcon toIcon() {
-		if(_dir == Direction.UP) {
-			return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
-		}
-		else if(_dir == Direction.DOWN) {
-			return Icons.TroopIcons.SniperIcons.TROOP_FACING_DOWN;
-		}
-		else if(_dir == Direction.LEFT) {
-			return Icons.TroopIcons.SniperIcons.TROOP_FACING_LEFT;
-		}
-		else if(_dir == Direction.RIGHT) {
-			return Icons.TroopIcons.SniperIcons.TROOP_FACING_RIGHT;
-		}
-		
-		return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
 	}
 }

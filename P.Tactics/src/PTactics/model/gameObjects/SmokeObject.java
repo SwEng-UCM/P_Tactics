@@ -48,7 +48,7 @@ public class SmokeObject extends GameObject {
 	
 	@Override
 	public ImageIcon toIcon() {
-		return Icons.otherIcons.FOG;
+		return Icons.otherIcons.SMOKE;
 	}
 
 }
