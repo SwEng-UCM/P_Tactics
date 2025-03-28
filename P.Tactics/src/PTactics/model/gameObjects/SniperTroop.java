@@ -134,5 +134,22 @@ public class SniperTroop extends Troop {
 			deactivateAbility();
 		}
 	}
-
+	
+	@Override
+	public ImageIcon toIcon() {
+		if(_dir == Direction.UP) {
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
+		}
+		else if(_dir == Direction.DOWN) {
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_DOWN;
+		}
+		else if(_dir == Direction.LEFT) {
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_LEFT;
+		}
+		else if(_dir == Direction.RIGHT) {
+			return Icons.TroopIcons.SniperIcons.TROOP_FACING_RIGHT;
+		}
+		
+		return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
+	}
 }

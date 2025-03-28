@@ -3,11 +3,14 @@ package PTactics.model.gameObjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import PTactics.model.game.Board;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
+import PTactics.view.GUI.Icons;
 
 public class LightTroop extends Troop {
 	int iFrames;
@@ -82,5 +85,23 @@ public class LightTroop extends Troop {
 	public void nextTurn() {
 		deactivateAbility();
 	}
-
+	
+	
+	@Override
+	public ImageIcon toIcon() {
+		if(_dir == Direction.UP) {
+			return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
+		}
+		else if(_dir == Direction.DOWN) {
+			return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN;
+		}
+		else if(_dir == Direction.LEFT) {
+			return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT;
+		}
+		else if(_dir == Direction.RIGHT) {
+			return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT;
+		}
+		
+		return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
+	}
 }
