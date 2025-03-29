@@ -41,5 +41,7 @@ public interface Icons {
 		public final ImageIcon FLOOR = new ImageIcon("Icons/inprogressFloor.png");
 		//public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");
 		public final ImageIcon SMOKE= new ImageIcon("Icons/smoke.png");
+		
+		public final ImageIcon BACKGROUND = new ImageIcon("Icons/wallpaper.png");
 	}
 }
