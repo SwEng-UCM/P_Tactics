@@ -6,6 +6,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -51,9 +55,10 @@ public class MainWindow extends JFrame {
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
 		// centered title
-		JLabel title = new JLabel("P.Tactics");
-		title.setFont(new Font("Algerian", Font.BOLD, 58));
-		title.setForeground(Color.WHITE);
+//		JLabel title = new JLabel("P.Tactics");
+//		title.setFont(new Font("Algerian", Font.BOLD, 58));
+//		title.setForeground(Color.WHITE);
+		ShadowLabel title = new ShadowLabel("P.TACTICS", new Font("Algerian", Font.BOLD, 58), Color.WHITE, Color.BLACK, 3);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		centerPanel.add(title);
 
@@ -94,6 +99,45 @@ public class MainWindow extends JFrame {
 		setVisible(true);
 	}
 
+	private static class ShadowLabel extends JLabel{
+		private final Font _font;
+		private final Color _textColor;
+		private final Color _shadowColor;
+		private final int _shadowOffset;
+		
+		public ShadowLabel(String txt, Font font, Color txtColor, Color shadowColor, int shadowOffset) {
+			super(txt);
+			_font = font;
+			_textColor = txtColor;
+			_shadowColor = shadowColor;
+			_shadowOffset = shadowOffset;
+			setFont(font);
+			setOpaque(false);
+			setForeground(txtColor);
+		}
+		
+		@Override
+		protected void paintComponent(Graphics g) {
+			Graphics2D g2 = (Graphics2D) g.create();
+			g2.setFont(_font);
+			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+			FontMetrics fm = g2.getFontMetrics();
+			int x = (getWidth() - fm.stringWidth(getText())) / 2;
+			int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+
+			// Sombra
+			g2.setColor(_shadowColor);
+			g2.drawString(getText(), x + _shadowOffset, y + _shadowOffset);
+
+			// Texto principal
+			g2.setColor(_textColor);
+			g2.drawString(getText(), x, y);
+
+			g2.dispose();
+		}
+	}
+	
 	private void swapToGameWindow() {
 		getContentPane().removeAll(); // delete everything before
 		getContentPane().setLayout(null); // same as game window
