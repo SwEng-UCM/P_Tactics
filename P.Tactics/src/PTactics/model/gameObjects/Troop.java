@@ -291,6 +291,7 @@ public abstract class Troop extends GameObject{
 	public void onHit() {
 		active = false;
 		_currentMove.clear();
+		//Board.getInstance().eraseFromGO(this);
 	}
 	public int getMovesLeft() {
 		return this._movesLeft;
