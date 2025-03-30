@@ -80,7 +80,10 @@ public class SniperTroop extends Troop {
 			if (visPos.isValid() && Board.getInstance().isSeeThrough(visPos)) {
 				dangerPositions.add(visPos);
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
-			} else break;
+			} else if (visPos.isValid() && !Board.getInstance().isSolid(visPos)) {
+				dangerPositions.add(visPos);
+				break;
+			}
 		}
 		
 		return dangerPositions;	
