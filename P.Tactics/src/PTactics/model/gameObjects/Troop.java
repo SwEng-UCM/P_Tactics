@@ -338,7 +338,9 @@ public abstract class Troop extends GameObject{
 	
 	
 	public void nextTurn() {
-		this._movesLeft = this._moveRange; // resets move range
+		this._movesLeft = this._moveRange; // resets move range and abilities
+		this._abilityUses = 1;
+
 	}
 }
 
