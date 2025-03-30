@@ -4,13 +4,13 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
 
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
 import PTactics.model.game.Game;
 import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
-import javax.swing.UIManager;
 
 public class ControlPanel extends JPanel implements GameObserver{
 

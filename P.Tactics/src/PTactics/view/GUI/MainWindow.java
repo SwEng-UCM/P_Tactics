@@ -1,9 +1,23 @@
 package PTactics.view.GUI;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import PTactics.control.Controller;
 import PTactics.view.GUI.Icons.otherIcons;
@@ -19,11 +33,11 @@ public class MainWindow extends JFrame {
 	private void initGUI() {
 		setTitle("P.TACTICS");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600, 400);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);		// full screen
 		setLocationRelativeTo(null); // center window
 
 		// panel with background image
-		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.BACKGROUND.getImage());
+		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.BACKGROUND2.getImage());
 		backgroundPanel.setLayout(new BorderLayout());
 		setContentPane(backgroundPanel);
 

@@ -91,7 +91,7 @@ public class GameBoardPanel extends JPanel {
 		            
 		            btn.addActionListener(e -> {
 		                //System.out.println("Cell " + r + ", " + c);
-		            	//chaneg this to isTroop;
+		            	//change this to isTroop;
 		            	if(this._cntr.isTroop(btn.getPosition())) 
 		            	{
 		            		SelectTroopCommand select= new SelectTroopCommand(btn.getPosition().getX(),btn.getPosition().getY());
