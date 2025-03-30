@@ -16,6 +16,10 @@ public interface Icons {
 			public final ImageIcon TROOP_FACING_UP= new ImageIcon("Icons/sniper_up.png");
 			public final ImageIcon TROOP_FACING_LEFT= new ImageIcon("Icons/sniper_left.png");
 			public final ImageIcon TROOP_FACING_RIGHT= new ImageIcon("Icons/sniper_right.png");
+			public final ImageIcon ENEMY_TROOP_FACING_UP = new ImageIcon("Icons/sniper_up_enemy.png");
+			public final ImageIcon ENEMY_TROOP_FACING_DOWN = new ImageIcon("Icons/sniper_down_enemy.png");
+			public final ImageIcon ENEMY_TROOP_FACING_LEFT = new ImageIcon("Icons/sniper_left_enemy.png");
+			public final ImageIcon ENEMY_TROOP_FACING_RIGHT = new ImageIcon("Icons/sniper_right_enemy.png");
 		}
 		
 		public static interface SmokerIcons {
@@ -23,6 +27,10 @@ public interface Icons {
 			public final ImageIcon TROOP_FACING_DOWN = new ImageIcon("Icons/Smoker_down.png"); 
 			public final ImageIcon TROOP_FACING_LEFT = new ImageIcon("Icons/Smoker_left.png");
 			public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon("Icons/Smoker_right.png");
+			public final ImageIcon ENEMY_TROOP_FACING_UP = new ImageIcon("Icons/smoker_up_enemy.png");
+			public final ImageIcon ENEMY_TROOP_FACING_DOWN = new ImageIcon("Icons/smoker_down_enemy.png");
+			public final ImageIcon ENEMY_TROOP_FACING_LEFT = new ImageIcon("Icons/smoker_left_enemy.png");
+			public final ImageIcon ENEMY_TROOP_FACING_RIGHT = new ImageIcon("Icons/smoker_right_enemy.png");
 		}
 		
 		public static interface LightTroopIcons {

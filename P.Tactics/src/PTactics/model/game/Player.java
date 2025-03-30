@@ -126,4 +126,13 @@ public class Player implements DangerObject{
 	public boolean isMyTurn() {
 		return _turn;
 	}
+
+	public boolean hasTroopInPosition(Position p) {
+		for (Troop t : _troops) {
+			if (t.getPos() == p) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

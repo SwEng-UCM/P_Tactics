@@ -74,17 +74,32 @@ public class SmokerTroop extends Troop {
 	
 	@Override
 	public ImageIcon toIcon() {
-		if(_dir == Direction.UP) {
-			return Icons.TroopIcons.SmokerIcons.TROOP_FACING_UP;
-		}
-		else if(_dir == Direction.DOWN) {
-			return Icons.TroopIcons.SmokerIcons.TROOP_FACING_DOWN;
-		}
-		else if(_dir == Direction.LEFT) {
-			return Icons.TroopIcons.SmokerIcons.TROOP_FACING_LEFT;
-		}
-		else if(_dir == Direction.RIGHT) {
-			return Icons.TroopIcons.SmokerIcons.TROOP_FACING_RIGHT;
+		if (_player.isMyTurn()) {
+			if(_dir == Direction.UP) {
+				return Icons.TroopIcons.SmokerIcons.TROOP_FACING_UP;
+			}
+			else if(_dir == Direction.DOWN) {
+				return Icons.TroopIcons.SmokerIcons.TROOP_FACING_DOWN;
+			}
+			else if(_dir == Direction.LEFT) {
+				return Icons.TroopIcons.SmokerIcons.TROOP_FACING_LEFT;
+			}
+			else if(_dir == Direction.RIGHT) {
+				return Icons.TroopIcons.SmokerIcons.TROOP_FACING_RIGHT;
+			}
+		} else {
+			if(_dir == Direction.UP) {
+				return Icons.TroopIcons.SmokerIcons.ENEMY_TROOP_FACING_UP;
+			}
+			else if(_dir == Direction.DOWN) {
+				return Icons.TroopIcons.SmokerIcons.ENEMY_TROOP_FACING_DOWN;
+			}
+			else if(_dir == Direction.LEFT) {
+				return Icons.TroopIcons.SmokerIcons.ENEMY_TROOP_FACING_LEFT;
+			}
+			else if(_dir == Direction.RIGHT) {
+				return Icons.TroopIcons.SmokerIcons.ENEMY_TROOP_FACING_RIGHT;
+			}
 		}
 		
 		return Icons.TroopIcons.SmokerIcons.TROOP_FACING_UP;
