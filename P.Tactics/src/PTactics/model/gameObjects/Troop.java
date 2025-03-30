@@ -53,6 +53,7 @@ public abstract class Troop extends GameObject{
         this._dir = dir;
         this._aiming = false;
         this._player = p;
+        this._abilityActive = false;
         _player.addTroops(this);
 	}
 	
