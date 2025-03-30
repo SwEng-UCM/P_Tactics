@@ -25,10 +25,10 @@ public class AbilityCommand extends Command {
 	public void execute(ControllerInterface CI) {
 		try {
 			CI.troopAbility(new Position(_posX, _posY));
+			CI.update();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();;
 		}
-		CI.update();
 	}
 
 	@Override

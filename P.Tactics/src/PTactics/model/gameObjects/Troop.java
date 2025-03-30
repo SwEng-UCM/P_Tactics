@@ -289,6 +289,7 @@ public abstract class Troop extends GameObject{
 	@Override
 	public void onHit() {
 		active = false;
+		_currentMove.clear();
 	}
 	public int getMovesLeft() {
 		return this._movesLeft;
