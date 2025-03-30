@@ -20,7 +20,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	 */
 	public ControllerInterface _cntr;
 	JTextArea playerTurnText;
-	public GameInfoPanel(ControllerInterface cntr) {
+	public GameInfoPanel(ControllerInterface cntr,GameWindow gw) {
 		this._cntr=cntr;
 		this._cntr.addObserver(this);
 		setLayout(null);
@@ -39,7 +39,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				_cntr.nextTurn();
 				if(_cntr.isFinish()) 
 				{
-					
+					gw.showWinMessage(_cntr.getNumPlayer()-1);
 				}
 			}
 		});
