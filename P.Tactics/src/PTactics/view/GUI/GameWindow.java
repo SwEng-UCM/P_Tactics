@@ -28,7 +28,7 @@ public class GameWindow {
 	private void initialize() {
 		
 		//_gameWindowFrame = new JPanel();
-		GameInfoPanel gameInfo = new GameInfoPanel(_cntrl);
+		GameInfoPanel gameInfo = new GameInfoPanel(_cntrl,this);
 		gameInfo.setBounds(0, 0, 1227, 60);
 		frame.getContentPane().add(gameInfo);
 
