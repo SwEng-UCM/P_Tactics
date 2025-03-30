@@ -260,8 +260,9 @@ public abstract class Troop extends GameObject{
 		
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {		// TODO: maybe change vision range
-			if (visPos.isValid() && !Board.getInstance().isSeeThrough(visPos)) {
+			if (visPos.isValid() && !Board.getInstance().isSolid(visPos)) {
 				dangerPositions.add(visPos);
+				if (!Board.getInstance().isSeeThrough(visPos)) break;
 				visPos = new Position(visPos.getX() + _dir.getX(), visPos.getY() + _dir.getY());
 			} else break;
 			
