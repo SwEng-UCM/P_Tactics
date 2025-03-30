@@ -123,7 +123,7 @@ public class Controller implements ControllerInterface{
 				e.printStackTrace();
 			}
 	}
-	private boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
+	public boolean isFinish() {	//In principle, we do like player 0 turn --> check if player 1 has alive troops...
 		for(Troop t : _game.getPlayer().getTroops()) {
 			if(t.isAlive()) return false;
 		}
@@ -151,7 +151,6 @@ public class Controller implements ControllerInterface{
 	public void setTroop(Troop t) {
 		_game.setTroop(t);
 	}
-	
 	
 	@Override
 	public void update() {

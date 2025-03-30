@@ -141,27 +141,7 @@ public class MainWindow extends JFrame {
 	private void swapToGameWindow() {
 		getContentPane().removeAll(); // delete everything before
 		getContentPane().setLayout(null); // same as game window
-
-		GameInfoPanel gameInfo = new GameInfoPanel(_ctrl);
-		gameInfo.setBounds(0, 0, 1227, 60);
-		getContentPane().add(gameInfo);
-
-		ControlPanel control = new ControlPanel(_ctrl);
-		control.setBounds(0, 759, 1227, 158);
-		getContentPane().add(control);
-
-		GameBoardPanel gameBoard = new GameBoardPanel(
-				PTactics.utils.Position._gameLength,
-				PTactics.utils.Position._gameWidth,
-				_ctrl,
-				control
-		);
-		gameBoard.setBounds(250, 59, 700, 700);
-		getContentPane().add(gameBoard);
-		_ctrl.update();
-
-		setSize(1243, 956);
-		setLocationRelativeTo(null); // center again
-		repaint();
+		
+		GameWindow gw= new GameWindow(_ctrl,this);
 	}
 }

@@ -4,8 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.JPanel;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
@@ -13,39 +12,46 @@ import PTactics.utils.Position;
 
 public class GameWindow {
 
-	private JFrame _gameWindowFrame;
+	private JPanel _gameWindowFrame;
 	private ControllerInterface _cntrl;
+	private JFrame frame;
 
-	public GameWindow(Controller cntrl) {
+	public GameWindow(Controller cntrl,JFrame frame) {
 		this._cntrl=cntrl;
+		this.frame=frame;
 		initialize();
 	}
 	public JFrame GetGameWindow() {
-		return this._gameWindowFrame;
+		return this.frame;
 	}
 	
 	private void initialize() {
 		
-		_gameWindowFrame = new JFrame();
-		_gameWindowFrame.setTitle("P.Tactics");
-		_gameWindowFrame.setBounds(100, 100, 1243, 956);
-		_gameWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		_gameWindowFrame.getContentPane().setLayout(null);
-		_gameWindowFrame.setBackground(Color.orange);
-		
-		GameInfoPanel gameInfo= new GameInfoPanel(this._cntrl);
+		//_gameWindowFrame = new JPanel();
+		GameInfoPanel gameInfo = new GameInfoPanel(_cntrl);
 		gameInfo.setBounds(0, 0, 1227, 60);
-		_gameWindowFrame.getContentPane().add(gameInfo);
-		
-		ControlPanel control= new ControlPanel(this._cntrl);
-		control.setBounds(0, 759, 1227, 158);
-		_gameWindowFrame.getContentPane().add(control);
-		
-		GameBoardPanel gameBoard= new GameBoardPanel(Position._gameLength,Position._gameWidth,this._cntrl, control);
-		gameBoard.setBounds(250, 59, 700, 700);
-		_gameWindowFrame.getContentPane().add(gameBoard);
-		
-		_gameWindowFrame.setVisible(true);
-	}
+		frame.getContentPane().add(gameInfo);
 
+		ControlPanel control = new ControlPanel(_cntrl);
+		control.setBounds(0, 759, 1227, 158);
+		frame.getContentPane().add(control);
+
+		GameBoardPanel gameBoard = new GameBoardPanel(
+				PTactics.utils.Position._gameLength,
+				PTactics.utils.Position._gameWidth,
+				_cntrl,
+				control
+		);
+		gameBoard.setBounds(250, 59, 700, 700);
+		frame.getContentPane().add(gameBoard);
+		_cntrl.update();
+
+		frame.setSize(1243, 956);
+		frame.setLocationRelativeTo(null); // center again
+		frame.repaint();
+	}
+	public  void showWinMessage(int PlayerNumber) 
+	{
+		JOptionPane.showMessageDialog(_gameWindowFrame, "Player "+Integer.toString(PlayerNumber)+" won the game.");
+	}
 }

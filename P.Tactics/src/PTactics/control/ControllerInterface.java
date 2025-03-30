@@ -64,4 +64,6 @@ public interface ControllerInterface {
 	List<Position> getPath(Position pos);
 	
 	List<Position> hoverPath(Position pos);
+	
+	public boolean isFinish();
 }

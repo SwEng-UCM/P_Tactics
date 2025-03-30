@@ -37,6 +37,10 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_cntr.nextTurn();
+				if(_cntr.isFinish()) 
+				{
+					
+				}
 			}
 		});
 		endTurnButton.setBounds(679, 6, 156, 56);
