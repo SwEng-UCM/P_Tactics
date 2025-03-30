@@ -111,16 +111,16 @@ public class LightTroop extends Troop {
 			}
 		} else {
 			if(_dir == Direction.UP) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
+				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_UP;
 			}
 			else if(_dir == Direction.DOWN) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN;
+				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_DOWN;
 			}
 			else if(_dir == Direction.LEFT) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT;
+				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_LEFT;
 			}
 			else if(_dir == Direction.RIGHT) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT;
+				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_RIGHT;
 			}
 		}
 		
