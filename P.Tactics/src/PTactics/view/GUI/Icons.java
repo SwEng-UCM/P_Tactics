@@ -39,7 +39,9 @@ public interface Icons {
 		public final ImageIcon FOG = new ImageIcon("Icons/FoggedFloor.png");
 		//public final ImageIcon FOG = new ImageIcon("Icons/certainly_fog.png");
 		public final ImageIcon FLOOR = new ImageIcon("Icons/inprogressFloor.png");
-		//public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");
+		//public final ImageIcon FLOOR = new ImageIcon("Icons/Floor.png");s
 		public final ImageIcon SMOKE= new ImageIcon("Icons/SmokedFloor.png");
+		public final ImageIcon BACKGROUND = new ImageIcon("Icons/wallpaper.png");
+
 	}
 }

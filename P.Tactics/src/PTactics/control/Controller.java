@@ -14,6 +14,7 @@ import PTactics.utils.Utils;
 import PTactics.view.GameConsoleView;
 import PTactics.view.GameObserver;
 import PTactics.view.GUI.GameWindow;
+import PTactics.view.GUI.MainWindow;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
@@ -116,7 +117,8 @@ public class Controller implements ControllerInterface{
 	private void initMainWindow() 
 	{
 			try {
-				GameWindow window = new GameWindow(this);
+//				GameWindow window = new GameWindow(this);
+				new MainWindow(this);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

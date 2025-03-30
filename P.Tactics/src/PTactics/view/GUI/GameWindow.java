@@ -58,7 +58,8 @@ public class GameWindow {
 		_gameWindowFrame.getContentPane().add(gameBoard);
 		
 		_gameWindowFrame.setVisible(true);
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1)); // default, min, max, step
+		
+		/*JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1)); // default, min, max, step
 		int playerCount=-1;
 		while(playerCount==-1) 
 		{
@@ -72,7 +73,7 @@ public class GameWindow {
 		}
 		this._cntrl.setPlayerNum(playerCount);
 		this._cntrl.setCorrect();
-		this._cntrl.setupPlayers();
+		this._cntrl.setupPlayers();*/
 	}
 
 }
