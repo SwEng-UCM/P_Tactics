@@ -38,7 +38,7 @@ public class LightTroop extends Troop {
 	@Override
 	public void activateAbility() {
 
-		this.iFrames = 5;
+		this.iFrames = 3;
 		this._abilityActive = true;
 		
 	}
@@ -70,14 +70,16 @@ public class LightTroop extends Troop {
 		return dangerPositions;	
 	}
 	
+	
 	@Override
 	public void update() {
 		if(this.iFrames < 1 && this.isAbility()) this.deactivateAbility();
-			Move();
+		int moves = _movesLeft;
+		Move();
 		if (_player.getDanger(getPos()) && !this.isAbility()) {
 			onHit();
 		}
-		this.iFrames--;
+		if(_movesLeft < moves) iFrames--;
 	}
 	@Override
 	public String toString() {
@@ -87,6 +89,7 @@ public class LightTroop extends Troop {
 	@Override
 	public void nextTurn() {
 		this._movesLeft = this._moveRange;
+		this._abilityUses = 1;
 		deactivateAbility();
 	}
 	
