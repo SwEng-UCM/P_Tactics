@@ -45,6 +45,9 @@ public class MoveCommand extends Command {
 			if (movesLeft && CI.canMove(pos)) {
 				SwingUtilities.invokeLater(() -> foo(CI));				
 			}
+			else if (!CI.currTroop().isAlive()) {
+				CI.setTroop(null);
+			}
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
 		}

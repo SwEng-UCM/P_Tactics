@@ -1,5 +1,7 @@
 package PTactics.view.GUI;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -29,7 +31,7 @@ public class GameWindow {
 		_gameWindowFrame.setBounds(100, 100, 1243, 956);
 		_gameWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		_gameWindowFrame.getContentPane().setLayout(null);
-		_gameWindowFrame.setFocusable(true);
+		_gameWindowFrame.setBackground(Color.orange);
 		
 		GameInfoPanel gameInfo= new GameInfoPanel(this._cntrl);
 		gameInfo.setBounds(0, 0, 1227, 60);

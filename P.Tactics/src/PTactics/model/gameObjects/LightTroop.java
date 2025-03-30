@@ -70,7 +70,7 @@ public class LightTroop extends Troop {
 	@Override
 	public void update() {
 		if(this.iFrames < 1 && this.isAbility()) this.deactivateAbility();
-		Move();
+			Move();
 		if (_player.getDanger(getPos()) && !this.isAbility()) {
 			onHit();
 		}

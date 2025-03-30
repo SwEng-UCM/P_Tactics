@@ -75,17 +75,16 @@ public class ControlPanel extends JPanel implements GameObserver{
 	
 	@Override
 	public void onPlayersUpdate(Game game) {
-		// TODO Auto-generated method stub
+		updateText();
 		
 	}
 	@Override
 	public void onBoardUpdate(Game game) {
-		// TODO Auto-generated method stub
-		
+		updateText();
 	}
 	@Override
 	public void onTroopAction(Game game) {
-		// TODO Auto-generated method stub
+
 		updateText();
 	}
 	@Override
@@ -97,6 +96,10 @@ public class ControlPanel extends JPanel implements GameObserver{
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");		
 	}
 	public void updateText() {
+		if (!_cntr.isTroopSelected()) {
+			txtrCurrentSelectedTroop.setText("Current Selected Troop:");
+			return;
+		}
 		this.txtrCurrentSelectedTroop.setText("Current Troop Selected \n "+this._cntr.getGame().getTroop().getId()+"\n Moves Left: "+ this._cntr.getGame().getTroop().getMovesLeft()+"\n Ability Uses Left: "+this._cntr.getGame().getTroop().abilityUsesLeft());
 	}
 	@Override

@@ -53,6 +53,7 @@ public abstract class Troop extends GameObject{
         this._dir = dir;
         this._aiming = false;
         this._player = p;
+        this._abilityActive = false;
         _player.addTroops(this);
 	}
 	
@@ -289,6 +290,7 @@ public abstract class Troop extends GameObject{
 	@Override
 	public void onHit() {
 		active = false;
+		_currentMove.clear();
 	}
 	public int getMovesLeft() {
 		return this._movesLeft;
