@@ -100,6 +100,7 @@ public class MainWindow extends JFrame {
 		);
 		gameBoard.setBounds(250, 59, 700, 700);
 		getContentPane().add(gameBoard);
+		_ctrl.update();
 
 		setSize(1243, 956);
 		setLocationRelativeTo(null); // center again
