@@ -51,7 +51,7 @@ public class GameBoardCell extends JButton implements GameObserver{
 
 	@Override
 	public void onTroopSelection(Game game) {
-		// TODO Auto-generated method stub
+		updateCell();
 		
 	}
 
@@ -62,7 +62,11 @@ public class GameBoardCell extends JButton implements GameObserver{
 	public void updateCell() 
 	{
 		this.setIcon(_cntr.getIcon(this._pos));
-		if (_cntr.dangerTile(_pos)) {
+		if (_cntr.currTroop() != null && _cntr.currTroop().getPos().equals(_pos)) {
+			this.setBorderPainted(true);
+			this.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
+		}
+		else if (_cntr.dangerTile(_pos)) {
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		} 
