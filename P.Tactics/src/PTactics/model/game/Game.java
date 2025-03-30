@@ -183,11 +183,11 @@ public class Game implements Observable<GameObserver>{
 	}
 
 	public void nextTurn() {
-		update();
 		Board.getInstance().nextTurn();
 		_players.get(_currPlayer).endTurn();		
 		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
 		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
+		update();
 		_currPlayer++;
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
