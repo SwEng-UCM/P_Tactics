@@ -6,9 +6,14 @@ import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.view.GameObserver;
 
-import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 public class GameInfoPanel extends JPanel implements GameObserver{
@@ -19,21 +24,33 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	 * Create the panel.
 	 */
 	public ControllerInterface _cntr;
-	JTextArea playerTurnText;
+	JLabel playerTurnText;
 	public GameInfoPanel(ControllerInterface cntr,GameWindow gw) {
 		this._cntr=cntr;
 		this._cntr.addObserver(this);
-		setLayout(null);
+		this.setOpaque(false);
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
-		playerTurnText = new JTextArea();
-		playerTurnText.setEditable(false);
-		playerTurnText.setBounds(23, 22, 148, 29);
+		playerTurnText = new JLabel(Icons.otherIcons.LABELBACKGROUND);
+
+	//	playerTurnText.setBounds(23, 22, 148, 29);
 		playerTurnText.setText("Player: "+ this._cntr.getNumPlayer()+" turn");
-		playerTurnText.setHighlighter(null); // disables text highlighting
+		playerTurnText.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		playerTurnText.setForeground(Color.getHSBColor(0, 0, 0));
+		playerTurnText.setAlignmentX(CENTER_ALIGNMENT);
+		playerTurnText.setHorizontalTextPosition(0);
 		playerTurnText.setFocusable(false);  // disables focus (no caret or selection)
 		add(playerTurnText);
 		
+		add(Box.createRigidArea(new Dimension(400, 0))); 
+		
 		JButton endTurnButton = new JButton("End Turn");
+		endTurnButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		endTurnButton.setContentAreaFilled(false);
+		endTurnButton.setBorder(null);
+		endTurnButton.setHorizontalTextPosition(0);
+		endTurnButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		endTurnButton.setForeground(Color.orange);		
 		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_cntr.nextTurn();
@@ -43,7 +60,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				}
 			}
 		});
-		endTurnButton.setBounds(679, 6, 156, 56);
+	//	endTurnButton.setBounds(679, 6, 156, 56);
 		add(endTurnButton);
 		
 	}

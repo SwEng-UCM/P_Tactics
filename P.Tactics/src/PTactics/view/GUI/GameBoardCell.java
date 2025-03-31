@@ -1,6 +1,7 @@
 package PTactics.view.GUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,7 +25,9 @@ public class GameBoardCell extends JButton implements GameObserver{
 		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
-
+		this.setPreferredSize(new Dimension(69, 69));
+		this.setMaximumSize(new Dimension(69, 69));;
+		this.setMinimumSize(new Dimension(69, 69));;
 		this.setBorderPainted(true);
 	}
 	public Position getPosition() 

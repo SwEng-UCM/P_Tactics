@@ -12,6 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 import PTactics.control.Controller;
 import PTactics.view.GUI.Icons.otherIcons;
@@ -44,6 +47,7 @@ public class MainWindow extends JFrame {
 		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.BACKGROUND2.getImage());
 		backgroundPanel.setLayout(new BorderLayout());
 		setContentPane(backgroundPanel);
+		setBackground(Color.black);
 
 		// wrapper centered with flowlayout
 		JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 100));
@@ -66,14 +70,21 @@ public class MainWindow extends JFrame {
 
 		// start button
 		JButton start = new JButton("START GAME");
-		start.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		start.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		start.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		start.setContentAreaFilled(false);
+		start.setBorder(null);
+		start.setHorizontalTextPosition(0);
+		start.setForeground(Color.orange);
 		centerPanel.add(start);
 		
 		// add background
 		wrapper.add(centerPanel);
 		backgroundPanel.add(wrapper, BorderLayout.CENTER);
 		
+		pack();
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));	// default, min, max, step
@@ -139,9 +150,21 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void swapToGameWindow() {
-		getContentPane().removeAll(); // delete everything before
-		getContentPane().setLayout(null); // same as game window
-		
-		GameWindow gw= new GameWindow(_ctrl,this);
+		SwingUtilities.invokeLater(() -> {
+			getContentPane().removeAll(); // delete everything before
+			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // same as game window
+			GameWindow gw = new GameWindow(_ctrl,this);			
+			revalidate();
+			repaint();
+			setExtendedState(JFrame.MAXIMIZED_BOTH);
+			
+			addComponentListener(new ComponentAdapter() {
+				public void componentResized(ComponentEvent e) {
+					if ((getExtendedState() & JFrame.MAXIMIZED_BOTH) == 0) {
+						pack();
+					}				
+				}
+			});
+		});
 	}
 }
