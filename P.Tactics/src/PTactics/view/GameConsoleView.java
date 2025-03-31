@@ -3,7 +3,6 @@ package PTactics.view;
 import java.util.Scanner;
 
 import PTactics.control.ControllerInterface;
-import PTactics.model.game.BoardInterface;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
 import PTactics.utils.StringUtils;
@@ -126,10 +125,12 @@ public class GameConsoleView implements GameObserver {
 		return line;
 	}
 	Thread getPlayerNumberThread = new Thread(() -> {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		 try {
 		        System.out.println("Data > ");
-		        int input = scanner.nextInt();
+		        @SuppressWarnings("unused")
+				int input = scanner.nextInt();
 		    } catch (Exception e) {
 		        System.out.println("Console input interrupted.");
 		    }

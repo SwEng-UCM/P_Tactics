@@ -13,7 +13,6 @@ import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GameConsoleView;
 import PTactics.view.GameObserver;
-import PTactics.view.GUI.GameWindow;
 import PTactics.view.GUI.MainWindow;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;

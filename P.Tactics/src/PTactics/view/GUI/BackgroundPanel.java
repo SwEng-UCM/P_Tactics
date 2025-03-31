@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 // creation of backgroundPanel class to make sure it resizes correctly if necessary
+@SuppressWarnings("serial")
 public class BackgroundPanel extends JPanel{
 	private final Image _backgroundImage;
 	

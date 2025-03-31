@@ -56,7 +56,6 @@ public class Game implements Observable<GameObserver>{
 
 	public String positionToString(Position p) { 
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
-		GameObject inPos=Board.getInstance().getGameObject(p);
 		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
 			return Board.getInstance().toString(p);
 		}

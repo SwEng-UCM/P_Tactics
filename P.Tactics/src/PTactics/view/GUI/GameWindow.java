@@ -1,10 +1,6 @@
 package PTactics.view.GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,7 +11,6 @@ import javax.swing.JPanel;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
-import PTactics.utils.Position;
 
 public class GameWindow {
 

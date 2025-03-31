@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import PTactics.control.Controller;
 import PTactics.view.GUI.Icons.otherIcons;
 
+@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	private Controller _ctrl;
 
@@ -153,7 +154,7 @@ public class MainWindow extends JFrame {
 		SwingUtilities.invokeLater(() -> {
 			getContentPane().removeAll(); // delete everything before
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // same as game window
-			GameWindow gw = new GameWindow(_ctrl,this);			
+			new GameWindow(_ctrl,this);			
 			revalidate();
 			repaint();
 			setExtendedState(JFrame.MAXIMIZED_BOTH);

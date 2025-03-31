@@ -1,12 +1,10 @@
 package PTactics.view.GUI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +18,10 @@ import PTactics.control.commands.AbilityCommand;
 import PTactics.control.commands.AimCommand;
 import PTactics.control.commands.MoveCommand;
 import PTactics.control.commands.SelectTroopCommand;
-import PTactics.model.game.Game;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
 
+@SuppressWarnings("serial")
 public class GameBoardPanel extends JPanel {
     private JButton[][] _buttons;   
     private ControllerInterface _cntr;

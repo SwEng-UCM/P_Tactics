@@ -1,9 +1,6 @@
 package launcher;
 
-import java.awt.EventQueue;
-
 import PTactics.control.Controller;
-import PTactics.view.GUI.GameWindow;
 
 public class Main {
 	
