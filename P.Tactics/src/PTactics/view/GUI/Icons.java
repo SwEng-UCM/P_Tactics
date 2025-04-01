@@ -58,5 +58,7 @@ public interface Icons {
 		public final ImageIcon TEXTAREABACKGROUND = new ImageIcon("Icons/TextArea_bg.png");
 		public final ImageIcon BACKGROUND = new ImageIcon("Icons/wallpaper.png");
 		public final ImageIcon BACKGROUND2 = new ImageIcon("Icons/backgroundImage2.png");
+		public final ImageIcon BACKGROUND_HORIZONTAL = new ImageIcon("Icons/backgroundRect.png");
+		public final ImageIcon BACKGROUND_HORIZONTAL2 = new ImageIcon("Icons/backgroundRect2.png");
 	}
 }

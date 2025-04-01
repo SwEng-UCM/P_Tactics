@@ -138,11 +138,11 @@ public class MainWindow extends JFrame {
 			int x = (getWidth() - fm.stringWidth(getText())) / 2;
 			int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
 
-			// Sombra
+			// shadow
 			g2.setColor(_shadowColor);
 			g2.drawString(getText(), x + _shadowOffset, y + _shadowOffset);
 
-			// Texto principal
+			// principal text
 			g2.setColor(_textColor);
 			g2.drawString(getText(), x, y);
 
@@ -154,15 +154,17 @@ public class MainWindow extends JFrame {
 		SwingUtilities.invokeLater(() -> {
 			getContentPane().removeAll(); // delete everything before
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // same as game window
-			new GameWindow(_ctrl,this);			
+			new GameWindow(_ctrl,this);	
+			
+			// updates and redraws the components
 			revalidate();
 			repaint();
-			setExtendedState(JFrame.MAXIMIZED_BOTH);
+			setExtendedState(JFrame.MAXIMIZED_BOTH);	
 			
 			addComponentListener(new ComponentAdapter() {
 				public void componentResized(ComponentEvent e) {
 					if ((getExtendedState() & JFrame.MAXIMIZED_BOTH) == 0) {
-						pack();
+						pack();		// adjusts size of the window with the actual content
 					}				
 				}
 			});

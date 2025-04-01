@@ -18,6 +18,35 @@ public class BackgroundPanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(_backgroundImage != null) {
+			
+			int panelWidth = getWidth();
+			int panelHeight = getHeight();
+			
+			int imageWidth = _backgroundImage.getWidth(this);
+			int imageHeight = _backgroundImage.getHeight(this);
+			
+			
+//			double scale = Math.min(panelWidth / imageWidth, panelHeight / imageHeight);
+			double panelRatio = (double) panelWidth / panelHeight;
+			double imageRatio = (double) imageWidth / imageHeight;
+			
+			int drawWidth, drawHeight;
+			
+			if(panelRatio > imageRatio) {	// if the screen is wider than the image, expand the width
+				drawWidth = panelWidth;
+				drawHeight = (int) (panelWidth * imageRatio);
+			} else {	// is screen is taller than image, expand height
+				drawHeight = panelHeight;
+				drawWidth = (int) (panelHeight * imageRatio);
+			}
+			
+			int x = (panelWidth - drawWidth) / 2;
+			int y = (panelHeight - drawHeight) / 2;
+			
+			
+			g.drawImage(_backgroundImage,  x,  y,  drawWidth,  drawHeight, this);
+			
+			/*
 			int imageWidth = _backgroundImage.getWidth(this);
 			int imageHeight = _backgroundImage.getHeight(this);
 			
@@ -32,7 +61,7 @@ public class BackgroundPanel extends JPanel{
 			int x = (getWidth() - newImageWidth) / 2;
 			int y = (getHeight() - newImageHeight) / 2;
 			
-			g.drawImage(_backgroundImage,  x,  y,  newImageWidth,  newImageHeight, this);
+			g.drawImage(_backgroundImage,  x,  y,  newImageWidth,  newImageHeight, this);*/
 		}
 	}
 }
