@@ -25,9 +25,9 @@ public class GameBoardCell extends JButton implements GameObserver{
 		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
-		this.setPreferredSize(new Dimension(69, 69));
-		this.setMaximumSize(new Dimension(69, 69));;
-		this.setMinimumSize(new Dimension(69, 69));;
+		this.setPreferredSize(new Dimension(50, 50));
+		this.setMaximumSize(new Dimension(50, 50));;
+		this.setMinimumSize(new Dimension(50, 50));;
 		this.setBorderPainted(true);
 	}
 	public Position getPosition() 
