@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
-
+//lmao
 public class Wall extends GameObject  {
 
 	public Wall(Position pos) {
