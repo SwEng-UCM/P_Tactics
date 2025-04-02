@@ -18,15 +18,12 @@ public class BackgroundPanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(_backgroundImage != null) {
-			
 			int panelWidth = getWidth();
 			int panelHeight = getHeight();
 			
 			int imageWidth = _backgroundImage.getWidth(this);
 			int imageHeight = _backgroundImage.getHeight(this);
 			
-			
-//			double scale = Math.min(panelWidth / imageWidth, panelHeight / imageHeight);
 			double panelRatio = (double) panelWidth / panelHeight;
 			double imageRatio = (double) imageWidth / imageHeight;
 			
@@ -34,7 +31,7 @@ public class BackgroundPanel extends JPanel{
 			
 			if(panelRatio > imageRatio) {	// if the screen is wider than the image, expand the width
 				drawWidth = panelWidth;
-				drawHeight = (int) (panelWidth * imageRatio);
+				drawHeight = (int) (panelWidth / imageRatio);
 			} else {	// is screen is taller than image, expand height
 				drawHeight = panelHeight;
 				drawWidth = (int) (panelHeight * imageRatio);
@@ -45,23 +42,6 @@ public class BackgroundPanel extends JPanel{
 			
 			
 			g.drawImage(_backgroundImage,  x,  y,  drawWidth,  drawHeight, this);
-			
-			/*
-			int imageWidth = _backgroundImage.getWidth(this);
-			int imageHeight = _backgroundImage.getHeight(this);
-			
-			double panelWidth = getWidth();
-			double panelHeight = getHeight();
-			
-			double scale = Math.min(panelWidth / imageWidth, panelHeight / imageHeight);
-			
-			int newImageWidth = (int) (imageWidth * scale);
-			int newImageHeight = (int) (imageHeight * scale);
-			
-			int x = (getWidth() - newImageWidth) / 2;
-			int y = (getHeight() - newImageHeight) / 2;
-			
-			g.drawImage(_backgroundImage,  x,  y,  newImageWidth,  newImageHeight, this);*/
 		}
 	}
 }

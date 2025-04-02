@@ -60,5 +60,6 @@ public interface Icons {
 		public final ImageIcon BACKGROUND2 = new ImageIcon("Icons/backgroundImage2.png");
 		public final ImageIcon BACKGROUND_HORIZONTAL = new ImageIcon("Icons/backgroundRect.png");
 		public final ImageIcon BACKGROUND_HORIZONTAL2 = new ImageIcon("Icons/backgroundRect2.png");
+		public final ImageIcon GAMEBACKGROUND = new ImageIcon("Icons/gameBackground.png");
 	}
 }

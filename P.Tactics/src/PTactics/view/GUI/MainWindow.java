@@ -43,9 +43,10 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);		// full screen
 		setLocationRelativeTo(null); // center window
+		
 
 		// panel with background image
-		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.BACKGROUND2.getImage());
+		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.GAMEBACKGROUND.getImage());
 		backgroundPanel.setLayout(new BorderLayout());
 		setContentPane(backgroundPanel);
 		setBackground(Color.black);
