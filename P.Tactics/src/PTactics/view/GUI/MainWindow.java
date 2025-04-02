@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,18 +45,18 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);		// full screen
 		setLocationRelativeTo(null); // center window
-		
+		setBackground(Color.black);
 
 		// panel with background image
 		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.GAMEBACKGROUND.getImage());
-		backgroundPanel.setLayout(new BorderLayout());
+		backgroundPanel.setLayout(new GridBagLayout());
 		setContentPane(backgroundPanel);
-		setBackground(Color.black);
+//		setBackground(Color.black);
 
 		// wrapper centered with flowlayout
-		JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 100));
-		wrapper.setOpaque(false);
-		
+//		JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 100));
+//		wrapper.setOpaque(false);
+//		
 		// central panel that contains title and button
 		JPanel centerPanel = new JPanel();
 		centerPanel.setOpaque(false); // transparent background to see the image
@@ -64,15 +66,16 @@ public class MainWindow extends JFrame {
 //		JLabel title = new JLabel("P.Tactics");
 //		title.setFont(new Font("Algerian", Font.BOLD, 58));
 //		title.setForeground(Color.WHITE);
-		ShadowLabel title = new ShadowLabel("P.TACTICS", new Font("Algerian", Font.BOLD, 58), Color.WHITE, Color.BLACK, 3);
+		ShadowLabel title = new ShadowLabel("P.TACTICS", new Font("Algerian", Font.BOLD, 100), Color.WHITE, Color.BLACK, 4);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		centerPanel.add(title);
 
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 20))); 
+		// space between title and buttons
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 40))); 
 
 		// start button
 		JButton start = new JButton("START GAME");
-		start.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		start.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
 		start.setIcon(Icons.otherIcons.LABELBACKGROUND);
 		start.setContentAreaFilled(false);
@@ -82,11 +85,16 @@ public class MainWindow extends JFrame {
 		centerPanel.add(start);
 		
 		// add background
-		wrapper.add(centerPanel);
-		backgroundPanel.add(wrapper, BorderLayout.CENTER);
+//		wrapper.add(centerPanel);
+//		backgroundPanel.add(wrapper, BorderLayout.CENTER);
 		
-		pack();
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		pack();
+//		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		backgroundPanel.add(centerPanel, gbc);
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));	// default, min, max, step
