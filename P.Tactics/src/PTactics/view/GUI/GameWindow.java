@@ -1,5 +1,6 @@
 package PTactics.view.GUI;
 
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.Box;
@@ -15,11 +16,11 @@ import PTactics.model.game.Game;
 public class GameWindow {
 
 	private JPanel _gameWindowFrame;
-	private ControllerInterface _cntrl;
+	private ControllerInterface _ctrl;
 	private JFrame frame;
 
-	public GameWindow(Controller cntrl, JFrame frame) {
-		this._cntrl = cntrl;
+	public GameWindow(Controller ctrl, JFrame frame) {
+		this._ctrl = ctrl;
 		this.frame = frame;
 		initialize();
 	}
@@ -29,34 +30,37 @@ public class GameWindow {
 	}
 
 	private void initialize() {
-
-//		_gameWindowFrame = new JPanel(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		BackgroundPanel background = new BackgroundPanel(Icons.otherIcons.GAMEBACKGROUND2.getImage());
+		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 		
-		GameInfoPanel gameInfo = new GameInfoPanel(_cntrl, this);
-		// gameInfo.setBounds(0, 0, 1227, 60);
-		frame.add(gameInfo);
+		GameInfoPanel gameInfo = new GameInfoPanel(_ctrl, this);
+		ControlPanel control = new ControlPanel(_ctrl);
+		GameBoardPanel gameBoard = new GameBoardPanel(
+				PTactics.utils.Position._gameLength,
+				PTactics.utils.Position._gameWidth, _ctrl, control);
+
+
+		Dimension boardSize = new Dimension(Game._boardWidth * 50, Game._boardLength * 50);
+		gameBoard.setMaximumSize(boardSize);
+		gameBoard.setMinimumSize(boardSize);
 		
-		frame.add(Box.createRigidArea(new Dimension(10, 0)));
-		ControlPanel control = new ControlPanel(_cntrl);
-		// control.setBounds(0, 759, 1227, 158);
-
-		GameBoardPanel gameBoard = new GameBoardPanel(PTactics.utils.Position._gameLength,
-				PTactics.utils.Position._gameWidth, _cntrl, control);
-
-		gameBoard.setMaximumSize(new Dimension(Game._boardWidth * 69, Game._boardLength * 69));
-		gameBoard.setMinimumSize(new Dimension(Game._boardWidth * 69, Game._boardLength * 69));
-		// gameBoard.setBounds(250, 59, 700, 700);
-		frame.add(gameBoard);
-		frame.add(control);
-		gameInfo.setAlignmentX((float) 0.5);
-		gameBoard.setAlignmentX((float) 0.5);
-		control.setAlignmentX((float) 0.5);
-		_cntrl.update();
-
-		// frame.add(_gameWindowFrame);
-		// frame.setSize(1243, 956);
-		frame.setLocationRelativeTo(null); // center again
+		gameInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		gameBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
+		control.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		background.add(Box.createRigidArea(new Dimension(0, 10)));
+		background.add(gameInfo);
+		background.add(Box.createRigidArea(new Dimension(0, 10)));
+		background.add(gameBoard);
+		background.add(Box.createRigidArea(new Dimension(0, 10)));
+		background.add(control);
+		
+		frame.getContentPane().removeAll();
+		frame.setContentPane(background);
+		frame.revalidate();
+		frame.repaint();
+
+		_ctrl.update();	
 	}
 
 	public void showWinMessage(int PlayerNumber) {
