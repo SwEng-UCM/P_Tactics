@@ -30,7 +30,7 @@ public class GameWindow {
 
 	private void initialize() {
 
-		_gameWindowFrame = new JPanel(new BoxLayout(_gameWindowFrame, BoxLayout.Y_AXIS));
+//		_gameWindowFrame = new JPanel(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
 		GameInfoPanel gameInfo = new GameInfoPanel(_cntrl, this);
 		// gameInfo.setBounds(0, 0, 1227, 60);

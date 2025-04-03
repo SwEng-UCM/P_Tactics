@@ -48,24 +48,16 @@ public class MainWindow extends JFrame {
 		setBackground(Color.black);
 
 		// panel with background image
-		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.GAMEBACKGROUND.getImage());
+		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.GAMEBACKGROUND2.getImage());
 		backgroundPanel.setLayout(new GridBagLayout());
 		setContentPane(backgroundPanel);
-//		setBackground(Color.black);
-
-		// wrapper centered with flowlayout
-//		JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 100));
-//		wrapper.setOpaque(false);
-//		
+		
 		// central panel that contains title and button
 		JPanel centerPanel = new JPanel();
 		centerPanel.setOpaque(false); // transparent background to see the image
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
 		// centered title
-//		JLabel title = new JLabel("P.Tactics");
-//		title.setFont(new Font("Algerian", Font.BOLD, 58));
-//		title.setForeground(Color.WHITE);
 		ShadowLabel title = new ShadowLabel("P.TACTICS", new Font("Algerian", Font.BOLD, 100), Color.WHITE, Color.BLACK, 4);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		centerPanel.add(title);
@@ -84,17 +76,11 @@ public class MainWindow extends JFrame {
 		start.setForeground(Color.orange);
 		centerPanel.add(start);
 		
-		// add background
-//		wrapper.add(centerPanel);
-//		backgroundPanel.add(wrapper, BorderLayout.CENTER);
-		
-//		pack();
-//		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		backgroundPanel.add(centerPanel, gbc);
+		
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));	// default, min, max, step
