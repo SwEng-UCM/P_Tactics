@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.model.game.Board;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
@@ -13,7 +15,7 @@ import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
 
 public class LightTroop extends Troop {
-	int iFrames;
+	private int _iFrames;
 	
 	public LightTroop(Position pos, Player p) {
 		super(pos, p);
@@ -26,6 +28,14 @@ public class LightTroop extends Troop {
 		initVars();
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
+	
+	@Override
+	public JSONObject report() {
+		JSONObject troopReport = super.report();
+		troopReport.put("iFrames:", _iFrames);
+		return troopReport;
+	}
+	
 	public void initVars() 
 	{
 		this._visionRange = 4;
@@ -33,12 +43,12 @@ public class LightTroop extends Troop {
 		this._moveRange = 8; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 1;		//Why a 100?
-		this.iFrames = 0;
+		this._iFrames = 0;
 	}
 	@Override
 	public void activateAbility() {
 
-		this.iFrames = 3;
+		this._iFrames = 3;
 		this._abilityActive = true;
 		
 	}
@@ -73,13 +83,13 @@ public class LightTroop extends Troop {
 	
 	@Override
 	public void update() {
-		if(this.iFrames < 1 && this.isAbility()) this.deactivateAbility();
+		if(this._iFrames < 1 && this.isAbility()) this.deactivateAbility();
 		int moves = _movesLeft;
 		Move();
 		if (_player.getDanger(getPos()) && !this.isAbility()) {
 			onHit();
 		}
-		if(_movesLeft < moves) iFrames--;
+		if(_movesLeft < moves) _iFrames--;
 	}
 	@Override
 	public String toString() {

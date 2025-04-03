@@ -2,6 +2,8 @@ package PTactics.model.game;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.model.gameObjects.GameObject;
 import PTactics.utils.Position;
 
@@ -19,4 +21,5 @@ public interface BoardInterface{
 	public void smoke(Position pos);
 	public void nextTurn();
 	public ImageIcon toIcon(Position p);
+	public JSONObject report();
 }

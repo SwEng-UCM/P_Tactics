@@ -20,6 +20,8 @@ public interface Utils {
 	// Dedicated to walls
 	public static interface WallUtils {
 		public final String WALL_ICON = "■";
+		public final String WALL = "wall";
+		public final String SMOKE = "smoke";
 	}
 
 	// Dedicated to messages to the players of the game
@@ -76,10 +78,25 @@ public interface Utils {
 		public static final String COMMAND_SELECT_SHORTCUT = "s";
 		public static final String COMMAND_SELECT_DETAILS = "[s]elect";
 		public static final String COMMAND_SELECT_HELP = "selects a soldier to move, aim or do special action";
-		// Ability command (end the turn)
+		// Ability command
 		public static final String COMMAND_ABILITY_NAME = "ability";
 		public static final String COMMAND_ABILITY_SHORTCUT = "b";
 		public static final String COMMAND_ABILITY_DETAILS = "a[b]ility";
 		public static final String COMMAND_ABILITY_HELP = "activates the ability of selected troops";
+		// Ability command (end the turn)
+		public static final String COMMAND_UNDO_NAME = "undo";
+		public static final String COMMAND_UNDO_SHORTCUT = "s";
+		public static final String COMMAND_UNDO_DETAILS = "[u]ndo";
+		public static final String COMMAND_UNDO_HELP = "undoes the last action done by the player";
+		// Ability command (end the turn)
+		public static final String COMMAND_SAVE_NAME = "save";
+		public static final String COMMAND_SAVE_SHORTCUT = "v";
+		public static final String COMMAND_SAVE_DETAILS = "sa[v]e";
+		public static final String COMMAND_SAVE_HELP = "saves the current game";
+		// Ability command (end the turn)
+		public static final String COMMAND_LOAD_NAME = "load";
+		public static final String COMMAND_LOAD_SHORTCUT = "l";
+		public static final String COMMAND_LOAD_DETAILS = "[l]oad";
+		public static final String COMMAND_LOAD_HELP = "loads the game from a selected file";
 	}
 }

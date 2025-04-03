@@ -2,10 +2,13 @@ package PTactics.model.gameObjects;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.model.game.Board;
 import PTactics.utils.Position;
 
 public abstract class GameObject {
+	protected String _id;
 	protected Position pos;
 	protected boolean alive;
 	protected boolean active;
@@ -16,6 +19,9 @@ public abstract class GameObject {
 	public GameObject(Position pos) {
 		this.pos = pos;
 		this.active = true;
+	}
+	public String getId() {
+		return _id;
 	}
 	public Boolean isWalkable() 
 	{
@@ -60,4 +66,6 @@ public abstract class GameObject {
 	public abstract void nextTurn();
 
 	public abstract ImageIcon toIcon();
+	
+	public abstract JSONObject report();
 }

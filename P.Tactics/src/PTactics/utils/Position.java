@@ -34,5 +34,11 @@ public final  class Position {
 	  }
 	 public int hashCode() {
 	        return Objects.hash(X, Y);
-	    }
+	 }
+	 
+	 @Override
+	 public String toString() {	
+		 StringBuilder data = new StringBuilder();
+		 return data.append(String.valueOf(this.X)).append(" , ").append(String.valueOf(this.Y)).toString(); 
+	 }
 }

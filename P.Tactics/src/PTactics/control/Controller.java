@@ -4,6 +4,10 @@ import java.util.InputMismatchException;
 import java.util.List;
 
 import javax.swing.Icon;
+
+import PTactics.control.commands.Command;
+import PTactics.control.commands.CommandGenerator;
+import PTactics.control.maps.MapSelector;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Player;
@@ -14,9 +18,6 @@ import PTactics.utils.Utils;
 import PTactics.view.GameConsoleView;
 import PTactics.view.GameObserver;
 import PTactics.view.GUI.MainWindow;
-import PTactics.control.commands.Command;
-import PTactics.control.commands.CommandGenerator;
-import PTactics.control.maps.MapSelector;
 
 public class Controller implements ControllerInterface{
 	private Game _game;

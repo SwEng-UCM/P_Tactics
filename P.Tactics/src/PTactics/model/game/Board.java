@@ -9,6 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokeObject;
@@ -30,6 +33,15 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		}
 				
 		return _board;
+	}
+	
+	public JSONObject report() {
+		JSONObject mapReport = new JSONObject();
+		JSONArray j = new JSONArray();
+		for(GameObject g : this.values()) {
+			j.put(g.report());
+		}
+		return mapReport;
 	}
 	
 	public void addObj(Position p, GameObject o) {

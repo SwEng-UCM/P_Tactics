@@ -2,6 +2,8 @@ package PTactics.model.gameObjects;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
@@ -12,6 +14,7 @@ public class Wall extends GameObject  {
 		super(pos);
 		this.solid=true;
 		this.seeThrough=false;
+		this._id = Utils.WallUtils.WALL;
 	}
 
 	@Override
@@ -41,5 +44,13 @@ public class Wall extends GameObject  {
 	@Override
 	public void nextTurn() {
 		
+	}
+
+	@Override
+	public JSONObject report() {
+		JSONObject jo = new JSONObject();
+		jo.put("Id: ", this.getId());
+		jo.put("Position: ", this.getPos());
+		return jo;
 	}
 }

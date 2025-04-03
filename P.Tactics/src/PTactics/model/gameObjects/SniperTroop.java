@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.model.game.Board;
 import PTactics.model.game.Game;
 import PTactics.model.game.Player;
@@ -39,7 +41,15 @@ public class SniperTroop extends Troop {
         _droneSide = 1;
         _droneHeight = 1;
     }
-
+	
+	@Override
+	public JSONObject report() {
+		JSONObject troopReport = super.report();
+		//TODO: I do not know how this works
+		troopReport.put("Positions:", _droneArea);
+		return troopReport;
+	}
+	
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
 		

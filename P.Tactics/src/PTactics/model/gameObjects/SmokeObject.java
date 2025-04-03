@@ -2,8 +2,11 @@ package PTactics.model.gameObjects;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.model.game.Board;
 import PTactics.utils.Position;
+import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
 
 public class SmokeObject extends GameObject {
@@ -15,6 +18,7 @@ public class SmokeObject extends GameObject {
 		this.turnsLeft=3;
 		this.alive=false;
 		this.walkable=true;
+		this._id = Utils.WallUtils.SMOKE;
 	}
 	@Override
 	public boolean isAlive() {
@@ -49,6 +53,13 @@ public class SmokeObject extends GameObject {
 	@Override
 	public ImageIcon toIcon() {
 		return Icons.otherIcons.SMOKE;
+	}
+	@Override
+	public JSONObject report() {
+		JSONObject jo = new JSONObject();
+		jo.put("Id: ", this.getId());
+		jo.put("Position: ", this.getPos());
+		return jo;
 	}
 
 }

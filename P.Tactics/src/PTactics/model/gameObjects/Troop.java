@@ -10,6 +10,8 @@ import java.util.Set;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.model.game.Board;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
@@ -18,7 +20,6 @@ import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
 
 public abstract class Troop extends GameObject{
-	protected String _id;
 	List<Position> _moveQueue;
 	List<Position> _currentMove;
 	protected Direction _dir;
@@ -57,8 +58,15 @@ public abstract class Troop extends GameObject{
         _player.addTroops(this);
 	}
 	
-	public String getId() {
-		return _id;
+	public JSONObject report() {
+		JSONObject troopReport = new JSONObject();
+		troopReport.put("Id:", _id);
+		troopReport.put("Player:", this._player.getId());
+		troopReport.put("Position:", this.getPos());
+		troopReport.put("Direction:", this._dir);
+		troopReport.put("MoveLeft:", this._movesLeft);
+		troopReport.put("Abilities:", this._abilityUses);
+		return troopReport;
 	}
 	
 	@Override
