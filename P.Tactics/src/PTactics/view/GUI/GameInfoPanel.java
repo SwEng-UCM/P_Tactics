@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 public class GameInfoPanel extends JPanel implements GameObserver{
 
 	private static final long serialVersionUID = 1L;
-
+	private TutorialWindow tw;
 	/**
 	 * Create the panel.
 	 */
@@ -28,6 +28,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	public GameInfoPanel(ControllerInterface cntr,GameWindow gw) {
 		this._cntr=cntr;
 		this._cntr.addObserver(this);
+		tw = new TutorialWindow();
 		this.setOpaque(false);
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
@@ -62,6 +63,21 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		});
 	//	endTurnButton.setBounds(679, 6, 156, 56);
 		add(endTurnButton);
+		
+		JButton tutorial = new JButton("Tutorial");
+		tutorial.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		tutorial.setContentAreaFilled(false);
+		tutorial.setBorder(null);
+		tutorial.setHorizontalTextPosition(0);
+		tutorial.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		tutorial.setForeground(Color.orange);		
+		tutorial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tw.setVisible(true);
+			}
+		});
+	//	endTurnButton.setBounds(679, 6, 156, 56);
+		add(tutorial);
 		
 	}
 	@Override
