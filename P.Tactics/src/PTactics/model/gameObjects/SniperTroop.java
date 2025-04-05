@@ -45,8 +45,7 @@ public class SniperTroop extends Troop {
 	@Override
 	public JSONObject report() {
 		JSONObject troopReport = super.report();
-		//TODO: I do not know how this works
-		troopReport.put("Positions:", _droneArea);
+		troopReport.put("DroneArea:", _droneArea);
 		return troopReport;
 	}
 	

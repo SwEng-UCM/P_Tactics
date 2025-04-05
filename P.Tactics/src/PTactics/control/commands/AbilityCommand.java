@@ -42,7 +42,7 @@ public class AbilityCommand extends Command {
 				}
 			return this;
 		} 
-		else if(sa.length == 1) {
+		else if(sa.length == 1 && matchCommand(sa[0])) {
 			_posX = -1;
 			_posY = -1;
 			return this;

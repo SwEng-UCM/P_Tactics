@@ -52,6 +52,8 @@ public class Controller implements ControllerInterface{
 						 _gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 					 }
 			}
+			Tracker.getInstance(this).foo(_game);
+			Tracker.getInstance(this).save();
 			nextTurn();
 		}
 	}
@@ -68,36 +70,39 @@ public class Controller implements ControllerInterface{
 		correct=true;
 	}
 	private final void setup() {
-		//TODO: Give them to decide between maps or randomizer
 		this._game = new Game();
+		if (MODE == 1) {
+			initMainWindow();
+		}
+		else if(MODE == 0){
+			initConsole();
+			runConsole();
+		}
+	}
+	
+	public void initConsole() {
 		this._gameView = new GameConsoleView(_game);
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
-		if(MODE==1) 
-		{
-			initMainWindow();
-		}
-		else 
-		{
-			while(!correct) {
-				try {
-					_numPlayers = _gameView.getInt();
-					if(_numPlayers < 2 || _numPlayers > 4) throw new Exception();
-					correct = true;
-				}
-				catch (InputMismatchException inputError) {
-					_gameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
-					_gameView.get();	//Clearing the buffer to avoid infinite loop!
-					correct = false;
-				} 
-				catch (Exception e) {
-					_gameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
-					correct = false;
-				}
+		while(!correct) {
+			try {
+				_numPlayers = _gameView.getInt();
+				if(_numPlayers < 2 || _numPlayers > 4) throw new Exception();
+				correct = true;
 			}
-			setupPlayers();
+			catch (InputMismatchException inputError) {
+				_gameView.showMessage(Utils.MsgErrors.INVALID_INPUT);
+				_gameView.get();	//Clearing the buffer to avoid infinite loop!
+				correct = false;
+			} 
+			catch (Exception e) {
+				_gameView.showMessage(Utils.MsgErrors.INVALID_NUM_PLAYERS);
+				correct = false;
+			}
 		}
+		setupPlayers();
 	}
+	
 	public void setupPlayers()
 	{
 		if(!this._playersSetUp) 

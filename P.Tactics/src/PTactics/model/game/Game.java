@@ -7,6 +7,8 @@ import java.util.Objects;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.json.JSONObject;
+
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokerTroop;
@@ -34,6 +36,13 @@ public class Game implements Observable<GameObserver>{
 		this._players = new ArrayList<>();
 		this._currPlayer = 0;
 		_observers = new ArrayList<>();
+	}
+	
+	public JSONObject report() {
+		JSONObject report = new JSONObject();
+		report.put("Board", Board.getInstance().report());
+		report.put("Turn:", this.getNumPlayer()-1);
+		return report;
 	}
 
 	public void addNewElement(GameObject g, Position pos) {
