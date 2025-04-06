@@ -28,12 +28,13 @@ public class Tracker implements GameObserver {
 		return _record;
 	}
 	
+	//For testing
 	public void foo(Game game) {
 		undoGame = new Stack<>();
 		actionsGame.push(game.report());
 	}
 	
-	//TODO: Needs to be given a file
+	//TODO: Needs to be given a file direction
 	public void save() {
 		JSONObject gameState = actionsGame.pop();
 		try {

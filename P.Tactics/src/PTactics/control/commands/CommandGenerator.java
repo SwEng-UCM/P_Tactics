@@ -11,7 +11,11 @@ public class CommandGenerator {
 	       new AimCommand(),
 	       new ExitCommand(),
 	       new SelectTroopCommand(),
-	       new AbilityCommand()
+	       new AbilityCommand(),
+	       new SaveCommand(),
+	       new LoadCommand(),
+	       new UndoCommand(),
+	       new RedoCommand()
 	    );;
 	
 	CommandGenerator(){}

@@ -83,17 +83,22 @@ public interface Utils {
 		public static final String COMMAND_ABILITY_SHORTCUT = "b";
 		public static final String COMMAND_ABILITY_DETAILS = "a[b]ility";
 		public static final String COMMAND_ABILITY_HELP = "activates the ability of selected troops";
-		// Ability command (end the turn)
+		// Undo command
 		public static final String COMMAND_UNDO_NAME = "undo";
 		public static final String COMMAND_UNDO_SHORTCUT = "s";
 		public static final String COMMAND_UNDO_DETAILS = "[u]ndo";
 		public static final String COMMAND_UNDO_HELP = "undoes the last action done by the player";
-		// Ability command (end the turn)
+		// Redo command
+		public static final String COMMAND_REDO_NAME = "redo";
+		public static final String COMMAND_REDO_SHORTCUT = "r";
+		public static final String COMMAND_REDO_DETAILS = "[r]edo";
+		public static final String COMMAND_REDO_HELP = "redos something that was undone";
+		// Save command
 		public static final String COMMAND_SAVE_NAME = "save";
 		public static final String COMMAND_SAVE_SHORTCUT = "v";
 		public static final String COMMAND_SAVE_DETAILS = "sa[v]e";
 		public static final String COMMAND_SAVE_HELP = "saves the current game";
-		// Ability command (end the turn)
+		// Load command
 		public static final String COMMAND_LOAD_NAME = "load";
 		public static final String COMMAND_LOAD_SHORTCUT = "l";
 		public static final String COMMAND_LOAD_DETAILS = "[l]oad";
