@@ -1,10 +1,8 @@
 package PTactics.view.GUI;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -94,7 +92,6 @@ public class MainWindow extends JFrame {
 				if (result == JOptionPane.OK_OPTION) {
 					int numPlayers = (Integer) spinner.getValue();
 					_ctrl.setPlayerNum(numPlayers);
-					_ctrl.setCorrect();
 					_ctrl.setupPlayers();
 
 					// replace content of mainwindow for gamewindow

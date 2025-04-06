@@ -27,7 +27,8 @@ public class MoveCommand extends Command {
 		this._posY = y;
 	}
 
-	private void foo(ControllerInterface CI) {
+	@Override
+	public void execute(ControllerInterface CI) {
 		if (CI.isTroopSelected()) {
 			boolean movesLeft = true;
 			Position pos = new Position(_posX, _posY);
@@ -43,7 +44,7 @@ public class MoveCommand extends Command {
 				e.printStackTrace();
 			}
 			if (movesLeft && CI.canMove(pos)) {
-				SwingUtilities.invokeLater(() -> foo(CI));				
+				SwingUtilities.invokeLater(() -> execute(CI));				
 			}
 			else if (!CI.currTroop().isAlive()) {
 				CI.setTroop(null);
@@ -51,23 +52,6 @@ public class MoveCommand extends Command {
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
 		}
-
-	}
-
-	@Override
-	public void execute(ControllerInterface CI) {
-
-		foo(CI);
-
-		/*
-		 * if(CI.isTroopSelected()) { Position pos = new Position(_posX, _posY); while
-		 * (CI.canMove(pos)) { try { CI.moveTroop(pos); } catch
-		 * (IllegalArgumentException iae) { System.out.println(iae); break; } try {
-		 * TimeUnit.MILLISECONDS.sleep(500); } catch (InterruptedException e) {
-		 * e.printStackTrace(); } } } else { System.out.
-		 * println("Select a troop before executing a troop command, current troop selection is none"
-		 * ); }
-		 */
 	}
 
 	@Override
