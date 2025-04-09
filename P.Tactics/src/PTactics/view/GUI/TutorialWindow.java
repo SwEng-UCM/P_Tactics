@@ -16,6 +16,9 @@ public class TutorialWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private TroopTutorial tt;
+	private ControlsTutorial ct;
+	private WinTutorial wt;
 
 
 	/**
@@ -24,6 +27,9 @@ public class TutorialWindow extends JDialog {
 	public TutorialWindow() {
 		setVisible(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		tt = new TroopTutorial();
+		ct = new ControlsTutorial();
+		wt = new WinTutorial();
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -31,19 +37,30 @@ public class TutorialWindow extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Board");
+		JButton btnNewButton = new JButton("Troops");
+		btnNewButton.addActionListener(
+				e -> {
+					tt.setVisible(true);
+				}
+			);
 		btnNewButton.setBounds(172, 67, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Controls");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnNewButton_1.addActionListener(
+			e -> {
+				ct.setVisible(true);
 			}
-		});
+		);
 		btnNewButton_1.setBounds(172, 119, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Mechanics");
+		JButton btnNewButton_2 = new JButton("How to win!");
+		btnNewButton_2.addActionListener(
+				e -> {
+					wt.setVisible(true);
+				}
+			);
 		btnNewButton_2.setBounds(172, 171, 89, 23);
 		contentPane.add(btnNewButton_2);
 	}
