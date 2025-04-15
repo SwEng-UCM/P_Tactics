@@ -46,7 +46,7 @@ public class MainWindow extends JFrame {
 		setBackground(Color.black);
 
 		// panel with background image
-		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.GAMEBACKGROUND2.getImage());
+		BackgroundPanel backgroundPanel = new BackgroundPanel(otherIcons.BG_BUILDING2.getImage());
 		backgroundPanel.setLayout(new GridBagLayout());
 		setContentPane(backgroundPanel);
 		
@@ -65,7 +65,7 @@ public class MainWindow extends JFrame {
 
 		// start button
 		JButton start = new JButton("START GAME");
-		start.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		start.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		start.setAlignmentX(Component.CENTER_ALIGNMENT);
 		start.setIcon(Icons.otherIcons.LABELBACKGROUND);
 		start.setContentAreaFilled(false);
@@ -74,6 +74,7 @@ public class MainWindow extends JFrame {
 		start.setForeground(Color.orange);
 		centerPanel.add(start);
 		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -99,6 +100,10 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
+		
+		
+		
+		
 
 		setVisible(true);
 	}

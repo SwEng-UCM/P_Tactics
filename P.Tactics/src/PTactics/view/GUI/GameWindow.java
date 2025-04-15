@@ -30,7 +30,7 @@ public class GameWindow {
 	}
 
 	private void initialize() {
-		BackgroundPanel background = new BackgroundPanel(Icons.otherIcons.GAMEBACKGROUND2.getImage());
+		BackgroundPanel background = new BackgroundPanel(Icons.otherIcons.BG_BUILDING2.getImage());
 		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 		
 		GameInfoPanel gameInfo = new GameInfoPanel(_ctrl, this);
