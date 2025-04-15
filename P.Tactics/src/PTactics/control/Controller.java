@@ -1,5 +1,6 @@
 package PTactics.control;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import PTactics.control.maps.MapSelector;
@@ -16,6 +17,7 @@ public abstract class Controller implements ControllerInterface {
 	protected boolean _endTurn;
 	public static int mapSelected = 1;
 	protected int _numPlayers = 0;
+	private List<String> _playerNames = new ArrayList<>();
 	
 	public Controller() {
 		_game = new Game();
@@ -26,6 +28,14 @@ public abstract class Controller implements ControllerInterface {
 		this._numPlayers = playerNum;
 	}
 
+	public void setPlayerNames(List<String> names) {
+		_playerNames = names;
+	}
+	
+	public List<String> getPlayerNames(){
+		return _playerNames;
+	}
+	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
 	// troops...
 	public boolean isFinish() {

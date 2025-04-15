@@ -14,10 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Arrays;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -63,24 +65,54 @@ public class MainWindow extends JFrame {
 		// space between title and buttons
 		centerPanel.add(Box.createRigidArea(new Dimension(0, 40))); 
 
-		// start button
-		JButton start = new JButton("START GAME");
-		start.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		start.setAlignmentX(Component.CENTER_ALIGNMENT);
-		start.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		start.setContentAreaFilled(false);
-		start.setBorder(null);
-		start.setHorizontalTextPosition(0);
-		start.setForeground(Color.orange);
-		centerPanel.add(start);
+		// loadGame button
+		JButton loadGame = new JButton("LOAD GAME");
+		loadGame.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		loadGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+		loadGame.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		loadGame.setContentAreaFilled(false);
+		loadGame.setBorder(null);
+		loadGame.setHorizontalTextPosition(0);
+		loadGame.setForeground(Color.orange);
+		centerPanel.add(loadGame);
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));		// space between buttons
 		
+		// newPlayer button
+		JButton newPlayer = new JButton("NEW PLAYER");
+		newPlayer.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+		newPlayer.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		newPlayer.setContentAreaFilled(false);
+		newPlayer.setBorder(null);
+		newPlayer.setHorizontalTextPosition(0);
+		newPlayer.setForeground(Color.orange);
+		centerPanel.add(newPlayer);
+				
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		backgroundPanel.add(centerPanel, gbc);
 		
-		start.addActionListener(new ActionListener() {
+		loadGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Select a saved game file (.json)");
+				int result = fileChooser.showOpenDialog(MainWindow.this);
+				if(result == JFileChooser.APPROVE_OPTION) {
+					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+					if(!filePath.toLowerCase().endsWith(".json")) {
+						JOptionPane.showMessageDialog(MainWindow.this,  "Invalid file type. Please select a .json file.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					JOptionPane.showMessageDialog(MainWindow.this, "Selected JSON file: \n" + filePath);
+				}
+				
+			}
+		});
+		
+		
+		newPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));	// default, min, max, step
 				int result = JOptionPane.showConfirmDialog(
@@ -95,6 +127,17 @@ public class MainWindow extends JFrame {
 					_ctrl.setPlayerNum(numPlayers);
 					_ctrl.setupPlayers();
 
+					String[] names = new String[numPlayers];
+					for(int i = 0; i < numPlayers; i++) {
+						String name;
+						do {
+							name = JOptionPane.showInputDialog(MainWindow.this, "Enter name for Player " + (i + 1) + ":");
+						} while(name == null || name.trim().isEmpty());
+						names[i] = name.trim();
+					}
+					
+					_ctrl.setPlayerNames(Arrays.asList(names));
+					_ctrl.setupPlayers();
 					// replace content of mainwindow for gamewindow
 					swapToGameWindow();
 				}
