@@ -42,7 +42,7 @@ public class LightTroop extends Troop {
 		this._shootRange = 4;
 		this._moveRange = 8; 
 		this._movesLeft = this._moveRange; 
-		this._abilityUses = 1;		//Why a 100?
+		this._abilityUses = 1;
 		this._iFrames = 0;
 	}
 	@Override
@@ -51,12 +51,14 @@ public class LightTroop extends Troop {
 		this._iFrames = 3;
 		this._abilityActive = true;
 		
+		
 	}
 
 	@Override
 	public void deactivateAbility() {
 		//iFrames = 0;
 		this._abilityActive = false;
+		this._abilityUses--;
 	}
 
 	public List<Position> dangerPositions() {
@@ -99,8 +101,8 @@ public class LightTroop extends Troop {
 	@Override
 	public void nextTurn() {
 		this._movesLeft = this._moveRange;
-		this._abilityUses = 1;
 		deactivateAbility();
+		this._abilityUses = 1;
 	}
 	
 	
@@ -108,16 +110,16 @@ public class LightTroop extends Troop {
 	public ImageIcon toIcon() {
 		if (_player.isMyTurn()) {
 			if(_dir == Direction.UP) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
 			}
 			else if(_dir == Direction.DOWN) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN;
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN;
 			}
 			else if(_dir == Direction.LEFT) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT;
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT;
 			}
 			else if(_dir == Direction.RIGHT) {
-				return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT;
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT;
 			}
 		} else {
 			if(_dir == Direction.UP) {

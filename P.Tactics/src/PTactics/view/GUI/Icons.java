@@ -38,6 +38,10 @@ public interface Icons {
 			public final ImageIcon TROOP_FACING_DOWN = new ImageIcon("Icons/LightTroop_down.png"); 
 			public final ImageIcon TROOP_FACING_LEFT = new ImageIcon("Icons/LightTroop_left.png");
 			public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon("Icons/LightTroop_right.png");
+			public final ImageIcon TROOP_FACING_UP_DASH = new ImageIcon("Icons/LightTroop_up_dash.png");
+			public final ImageIcon TROOP_FACING_DOWN_DASH = new ImageIcon("Icons/LightTroop_down_dash.png"); 
+			public final ImageIcon TROOP_FACING_LEFT_DASH = new ImageIcon("Icons/LightTroop_left_dash.png");
+			public final ImageIcon TROOP_FACING_RIGHT_DASH = new ImageIcon("Icons/LightTroop_right_dash.png");
 			public final ImageIcon ENEMY_TROOP_FACING_UP = new ImageIcon("Icons/lightTroop_up_enemy.png");
 			public final ImageIcon ENEMY_TROOP_FACING_DOWN = new ImageIcon("Icons/lightTroop_down_enemy.png");
 			public final ImageIcon ENEMY_TROOP_FACING_LEFT = new ImageIcon("Icons/lightTroop_left_enemy.png");
