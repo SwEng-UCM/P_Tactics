@@ -71,4 +71,6 @@ public interface ControllerInterface {
 	public void setPlayerNames(List<String> names);
 	
 	public List<String> getPlayerNames();
+	
+	public String getCurrentPlayerName();
 }

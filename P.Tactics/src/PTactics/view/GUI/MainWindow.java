@@ -41,7 +41,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void initGUI() {
-		setTitle("P.TACTICS");
+		setTitle("HOLDFIRE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);		// full screen
 		setLocationRelativeTo(null); // center window
@@ -63,31 +63,31 @@ public class MainWindow extends JFrame {
 		centerPanel.add(title);
 
 		// space between title and buttons
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 30))); 
-
-		// loadGame button
-		JButton loadGame = new JButton("LOAD GAME");
-		loadGame.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		loadGame.setAlignmentX(Component.CENTER_ALIGNMENT);
-		loadGame.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		loadGame.setContentAreaFilled(false);
-		loadGame.setBorder(null);
-		loadGame.setHorizontalTextPosition(0);
-		loadGame.setForeground(Color.orange);
-		centerPanel.add(loadGame);
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));		// space between buttons
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 20))); 
 		
-		// newPlayer button
-		JButton newPlayer = new JButton("NEW PLAYER");
-		newPlayer.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
-		newPlayer.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		newPlayer.setContentAreaFilled(false);
-		newPlayer.setBorder(null);
-		newPlayer.setHorizontalTextPosition(0);
-		newPlayer.setForeground(Color.orange);
-		centerPanel.add(newPlayer);
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));		// space between buttons
+		// startGame button
+		JButton startGame = new JButton("START");
+		startGame.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		startGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+		startGame.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		startGame.setContentAreaFilled(false);
+		startGame.setBorder(null);
+		startGame.setHorizontalTextPosition(0);
+		startGame.setForeground(Color.orange);
+		centerPanel.add(startGame);
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
+		
+		// continueGame button
+		JButton continueGame = new JButton("CONTINUE");
+		continueGame.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		continueGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+		continueGame.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		continueGame.setContentAreaFilled(false);
+		continueGame.setBorder(null);
+		continueGame.setHorizontalTextPosition(0);
+		continueGame.setForeground(Color.orange);
+		centerPanel.add(continueGame);
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
 		
 		// multiplayer button
 		JButton multiPlayer = new JButton("ONLINE");
@@ -99,17 +99,40 @@ public class MainWindow extends JFrame {
 		multiPlayer.setHorizontalTextPosition(0);
 		multiPlayer.setForeground(Color.orange);
 		centerPanel.add(multiPlayer);
-				
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
+			
+		// AI button
+		JButton aiButton = new JButton("PLAY VS AI");
+		aiButton.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		aiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		aiButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		aiButton.setContentAreaFilled(false);
+		aiButton.setBorder(null);
+		aiButton.setHorizontalTextPosition(0);
+		aiButton.setForeground(Color.orange);
+		centerPanel.add(aiButton);	
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
+		
+		// exit button
+		JButton exitButton = new JButton("EXIT");
+		exitButton.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		exitButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		exitButton.setContentAreaFilled(false);
+		exitButton.setBorder(null);
+		exitButton.setHorizontalTextPosition(0);
+		exitButton.setForeground(Color.orange);
+		centerPanel.add(exitButton);	
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		backgroundPanel.add(centerPanel, gbc);
 		
-		loadGame.addActionListener(new ActionListener() {
+		continueGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setDialogTitle("Select a saved game file (.json)");
+				fileChooser.setDialogTitle("Load a saved game (.json)");
 				int result = fileChooser.showOpenDialog(MainWindow.this);
 				if(result == JFileChooser.APPROVE_OPTION) {
 					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
@@ -117,14 +140,14 @@ public class MainWindow extends JFrame {
 						JOptionPane.showMessageDialog(MainWindow.this,  "Invalid file type. Please select a .json file.", "Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					JOptionPane.showMessageDialog(MainWindow.this, "Selected JSON file: \n" + filePath);
+					JOptionPane.showMessageDialog(MainWindow.this, "Selected game: \n" + filePath);
 				}
 				
 			}
 		});
 		
 		
-		newPlayer.addActionListener(new ActionListener() {
+		startGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));	// default, min, max, step
 				int result = JOptionPane.showConfirmDialog(

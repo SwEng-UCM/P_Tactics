@@ -1,48 +1,63 @@
 package PTactics.view.GUI;
 
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.view.GameObserver;
 
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 public class GameInfoPanel extends JPanel implements GameObserver{
 
 	private static final long serialVersionUID = 1L;
 	private TutorialWindow tw;
-	/**
-	 * Create the panel.
-	 */
 	public ControllerInterface _ctrl;
-	JLabel playerTurnText;
-	public GameInfoPanel(ControllerInterface cntr,GameWindow gw) {
-		this._ctrl=cntr;
+	private JLabel playerTurnText;
+	private JPanel turnPanel; 
+	
+	public GameInfoPanel(ControllerInterface ctrl, GameWindow gw) {
+		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
 		tw = new TutorialWindow();
 		this.setOpaque(false);
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
-		playerTurnText = new JLabel(Icons.otherIcons.LABELBACKGROUND);
 
-	//	playerTurnText.setBounds(23, 22, 148, 29);
-		playerTurnText.setText("Player: "+ this._ctrl.getPlayerNames()+" turn");
+		playerTurnText = new JLabel("Player: [" + _ctrl.getCurrentPlayerName() + "] turn");
 		playerTurnText.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		playerTurnText.setForeground(Color.getHSBColor(0, 0, 0));
-		playerTurnText.setAlignmentX(CENTER_ALIGNMENT);
-		playerTurnText.setHorizontalTextPosition(0);
 		playerTurnText.setForeground(Color.orange);
-		playerTurnText.setFocusable(false);  // disables focus (no caret or selection)
-		add(playerTurnText);
+		playerTurnText.setFocusable(false);
+		playerTurnText.setHorizontalAlignment(SwingConstants.CENTER);
+		playerTurnText.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));	// padding
+		
+		// panel to hold the label with background
+		turnPanel = new JPanel(new BorderLayout()) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		
+		turnPanel.setOpaque(false);
+		turnPanel.add(playerTurnText, BorderLayout.CENTER);
+		
+		int standardButtonHeight = 150;
+		turnPanel.setPreferredSize(new Dimension(playerTurnText.getPreferredSize().width + 40, standardButtonHeight));
+		turnPanel.setMaximumSize(turnPanel.getPreferredSize());
+		add(turnPanel);
 		
 		add(Box.createRigidArea(new Dimension(400, 0))); 
 		
@@ -58,13 +73,13 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				_ctrl.nextTurn();
 				if(_ctrl.isFinish()) 
 				{
-					gw.showWinMessage(_ctrl.getNumPlayer()-1);
+					gw.showWinMessage(_ctrl.getNumPlayer() - 1);
 				}
 			}
 		});
-	//	endTurnButton.setBounds(679, 6, 156, 56);
 		add(endTurnButton);
 		
+		// tutorial button
 		JButton tutorial = new JButton("Tutorial");
 		tutorial.setIcon(Icons.otherIcons.LABELBACKGROUND);
 		tutorial.setContentAreaFilled(false);
@@ -77,7 +92,6 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				tw.setVisible(true);
 			}
 		});
-	//	endTurnButton.setBounds(679, 6, 156, 56);
 		add(tutorial);
 		
 	}
@@ -103,8 +117,12 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	}
 	@Override
 	public void onNextTurn(Game game) {
-		// TODO Auto-generated method stub
-		playerTurnText.setText("Player: "+ this._ctrl.getPlayerNames()+" turn");
+		playerTurnText.setText("Player: ["+ _ctrl.getCurrentPlayerName()+"] turn");
+		int standardButtonHeight = 150;
+		turnPanel.setPreferredSize(new Dimension(playerTurnText.getPreferredSize().width + 40, standardButtonHeight));
+		turnPanel.setMaximumSize(turnPanel.getPreferredSize());
+		turnPanel.revalidate();
+		repaint();
 	}
 	@Override
 	public void onTroopUnSelection(Game game) {

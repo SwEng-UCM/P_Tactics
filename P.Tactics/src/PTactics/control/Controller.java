@@ -36,6 +36,18 @@ public abstract class Controller implements ControllerInterface {
 		return _playerNames;
 	}
 	
+	public String getCurrentPlayerName() {
+		/*if(_playerNames != null && !_playerNames.isEmpty()) {
+			int currentPlayer = _game.getNumPlayer() - 1;
+			if(currentPlayer >= 0 && currentPlayer < _playerNames.size()) {
+				return _playerNames.get(currentPlayer);
+			}
+		}*/
+		int idxPlayer = _game.getNumPlayer() - 1;
+		return _playerNames.get(idxPlayer);
+		
+	}
+	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
 	// troops...
 	public boolean isFinish() {
