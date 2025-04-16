@@ -58,12 +58,12 @@ public class MainWindow extends JFrame {
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
 		// centered title
-		ShadowLabel title = new ShadowLabel("P.TACTICS", new Font("Algerian", Font.BOLD, 100), Color.WHITE, Color.BLACK, 4);
+		ShadowLabel title = new ShadowLabel("HOLDFIRE", new Font("Algerian", Font.BOLD, 100), Color.WHITE, Color.BLACK, 4);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		centerPanel.add(title);
 
 		// space between title and buttons
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 40))); 
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 30))); 
 
 		// loadGame button
 		JButton loadGame = new JButton("LOAD GAME");
@@ -75,7 +75,7 @@ public class MainWindow extends JFrame {
 		loadGame.setHorizontalTextPosition(0);
 		loadGame.setForeground(Color.orange);
 		centerPanel.add(loadGame);
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));		// space between buttons
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));		// space between buttons
 		
 		// newPlayer button
 		JButton newPlayer = new JButton("NEW PLAYER");
@@ -87,6 +87,18 @@ public class MainWindow extends JFrame {
 		newPlayer.setHorizontalTextPosition(0);
 		newPlayer.setForeground(Color.orange);
 		centerPanel.add(newPlayer);
+		centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));		// space between buttons
+		
+		// multiplayer button
+		JButton multiPlayer = new JButton("ONLINE");
+		multiPlayer.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		multiPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+		multiPlayer.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		multiPlayer.setContentAreaFilled(false);
+		multiPlayer.setBorder(null);
+		multiPlayer.setHorizontalTextPosition(0);
+		multiPlayer.setForeground(Color.orange);
+		centerPanel.add(multiPlayer);
 				
 
 		GridBagConstraints gbc = new GridBagConstraints();

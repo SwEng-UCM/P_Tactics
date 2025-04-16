@@ -67,4 +67,8 @@ public interface ControllerInterface {
 	List<Position> hoverPath(Position pos);
 
 	public boolean isFinish();
+	
+	public void setPlayerNames(List<String> names);
+	
+	public List<String> getPlayerNames();
 }

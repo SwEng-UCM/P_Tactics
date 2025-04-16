@@ -23,11 +23,11 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	/**
 	 * Create the panel.
 	 */
-	public ControllerInterface _cntr;
+	public ControllerInterface _ctrl;
 	JLabel playerTurnText;
 	public GameInfoPanel(ControllerInterface cntr,GameWindow gw) {
-		this._cntr=cntr;
-		this._cntr.addObserver(this);
+		this._ctrl=cntr;
+		this._ctrl.addObserver(this);
 		tw = new TutorialWindow();
 		this.setOpaque(false);
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -35,11 +35,12 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		playerTurnText = new JLabel(Icons.otherIcons.LABELBACKGROUND);
 
 	//	playerTurnText.setBounds(23, 22, 148, 29);
-		playerTurnText.setText("Player: "+ this._cntr.getNumPlayer()+" turn");
-		playerTurnText.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		playerTurnText.setText("Player: "+ this._ctrl.getPlayerNames()+" turn");
+		playerTurnText.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		playerTurnText.setForeground(Color.getHSBColor(0, 0, 0));
 		playerTurnText.setAlignmentX(CENTER_ALIGNMENT);
 		playerTurnText.setHorizontalTextPosition(0);
+		playerTurnText.setForeground(Color.orange);
 		playerTurnText.setFocusable(false);  // disables focus (no caret or selection)
 		add(playerTurnText);
 		
@@ -50,14 +51,14 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		endTurnButton.setContentAreaFilled(false);
 		endTurnButton.setBorder(null);
 		endTurnButton.setHorizontalTextPosition(0);
-		endTurnButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		endTurnButton.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		endTurnButton.setForeground(Color.orange);		
 		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				_cntr.nextTurn();
-				if(_cntr.isFinish()) 
+				_ctrl.nextTurn();
+				if(_ctrl.isFinish()) 
 				{
-					gw.showWinMessage(_cntr.getNumPlayer()-1);
+					gw.showWinMessage(_ctrl.getNumPlayer()-1);
 				}
 			}
 		});
@@ -69,7 +70,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		tutorial.setContentAreaFilled(false);
 		tutorial.setBorder(null);
 		tutorial.setHorizontalTextPosition(0);
-		tutorial.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		tutorial.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		tutorial.setForeground(Color.orange);		
 		tutorial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,7 +104,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	@Override
 	public void onNextTurn(Game game) {
 		// TODO Auto-generated method stub
-		playerTurnText.setText("Player: "+ this._cntr.getNumPlayer()+" turn");
+		playerTurnText.setText("Player: "+ this._ctrl.getPlayerNames()+" turn");
 	}
 	@Override
 	public void onTroopUnSelection(Game game) {

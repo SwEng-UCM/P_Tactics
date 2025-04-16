@@ -55,6 +55,7 @@ public interface Icons {
 		public final ImageIcon SMOKE= new ImageIcon("Icons/SmokedFloor.png");
 		
 		public final ImageIcon LABELBACKGROUND = new ImageIcon("Icons/InfoPanelLabel_bg.png");
+		public final ImageIcon LABEL_BG = new ImageIcon("Icons/brickButton.png");
 		public final ImageIcon TEXTAREABACKGROUND = new ImageIcon("Icons/TextArea_bg.png");
 		public final ImageIcon BACKGROUND = new ImageIcon("Icons/wallpaper.png");
 		public final ImageIcon BACKGROUND2 = new ImageIcon("Icons/backgroundImage2.png");
