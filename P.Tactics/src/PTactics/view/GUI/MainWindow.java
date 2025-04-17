@@ -13,7 +13,9 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -151,7 +153,13 @@ public class MainWindow extends JFrame {
 		// play VS ai button
 		_animatedButtons[3].addActionListener(e -> {
 			JOptionPane.showMessageDialog(this, "AI mode coming soon!");
-//			swapToGameWindow();			// no needed for now
+			_ctrl.setPlayerNum(2);
+			List<String> names= new ArrayList<String>();
+			names.add("Player");
+			names.add("CPU");
+			_ctrl.setPlayerNames(names);
+			_ctrl.SetupPlayerWithCPU(0); //make this a COMBO box selector
+			swapToGameWindow();			// no needed for now
 		});
 		// exit button
 		_animatedButtons[4].addActionListener(e -> System.exit(0));

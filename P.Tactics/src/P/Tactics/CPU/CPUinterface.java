@@ -34,4 +34,7 @@ public abstract class  CPUinterface {
 	    };
 	    return dirtoAim;
 	}
+	protected  double manhattanDistance(double x1, double y1, double x2, double y2) {
+	    return Math.abs(x2 - x1) + Math.abs(y2 - y1);
+	}
 }

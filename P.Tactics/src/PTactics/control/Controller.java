@@ -3,6 +3,9 @@ package PTactics.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import P.Tactics.CPU.EasyCPU;
+import P.Tactics.CPU.HardCPU;
+import P.Tactics.CPU.MediumCPU;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
@@ -69,6 +72,53 @@ public abstract class Controller implements ControllerInterface {
 					_game.addNewElement(t, t.getPos());
 				}
 				_game.addPlayer(p);
+			}
+			_game.inicialize();
+			playersSetUp = true;
+		}
+	}
+	public void SetupPlayerWithCPU(int difficulty)//0 ez 1 med 2 hi
+	{
+		boolean playersSetUp = false;
+
+		if (!playersSetUp) {
+			DangerMediator dangerMediator = new DangerMediator();
+			for (Integer i = 1; i <= _numPlayers; ++i) {
+				if(i>1) 
+				{
+					switch (difficulty) 
+					{
+					case 0:
+						Player cpu = new Player(i.toString(), dangerMediator, new EasyCPU(this));
+						for (Troop t : MapSelector.getTroops(cpu)) {
+							_game.addNewElement(t, t.getPos());
+						}
+						_game.addPlayer(cpu);
+						break;
+					case 1:
+						Player cpu1 = new Player(i.toString(), dangerMediator, new MediumCPU(this));
+						for (Troop t : MapSelector.getTroops(cpu1)) {
+							_game.addNewElement(t, t.getPos());
+						}
+						_game.addPlayer(cpu1);
+						break;
+					case 2:
+						Player cpu2 = new Player(i.toString(), dangerMediator, new HardCPU(this));
+						for (Troop t : MapSelector.getTroops(cpu2)) {
+							_game.addNewElement(t, t.getPos());
+						}
+						_game.addPlayer(cpu2);
+						break;
+					}
+				}
+				else 
+				{
+					Player p = new Player(i.toString(), dangerMediator);
+					for (Troop t : MapSelector.getTroops(p)) {
+						_game.addNewElement(t, t.getPos());
+					}
+					_game.addPlayer(p);
+				}
 			}
 			_game.inicialize();
 			playersSetUp = true;

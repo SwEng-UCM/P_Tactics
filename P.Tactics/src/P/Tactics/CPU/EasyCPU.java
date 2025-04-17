@@ -27,13 +27,14 @@ public class EasyCPU extends CPUinterface{
 			s.execute(ci);
 			int randomX= random.nextInt(Position._gameWidth);
 			int randomY= random.nextInt(Position._gameLength);
-			while(!ci.canMove(new Position(randomX,randomY))) 
+			Position oldPos=t.getPos();
+			while(t.getPos().equals(oldPos))
 			{
 				randomX= random.nextInt(Position._gameWidth);
 				randomY= random.nextInt(Position._gameLength);
+				MoveCommand move= new MoveCommand(randomX, randomY);
+				move.execute(ci);
 			}
-			MoveCommand move= new MoveCommand(randomX, randomY);
-			move.execute(ci);
 			randomX= random.nextInt(Position._gameWidth);
 			randomY= random.nextInt(Position._gameLength);
 			Position abilityPos= new Position(randomX,randomY);
