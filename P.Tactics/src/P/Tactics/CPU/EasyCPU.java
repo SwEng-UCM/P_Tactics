@@ -23,25 +23,28 @@ public class EasyCPU extends CPUinterface{
 		Random random = new Random();
 		for(Troop t: p.getTroops()) 
 		{
-			SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
-			s.execute(ci);
-			int randomX= random.nextInt(Position._gameWidth);
-			int randomY= random.nextInt(Position._gameLength);
-			Position oldPos=t.getPos();
-			while(t.getPos().equals(oldPos))
+			if(t.isAlive()) 
 			{
+				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
+				s.execute(ci);
+				int randomX= random.nextInt(Position._gameWidth);
+				int randomY= random.nextInt(Position._gameLength);
+				Position oldPos=t.getPos();
+				while(t.getPos().equals(oldPos))
+				{
+					randomX= random.nextInt(Position._gameWidth);
+					randomY= random.nextInt(Position._gameLength);
+					MoveCommand move= new MoveCommand(randomX, randomY);
+					move.execute(ci);
+				}
 				randomX= random.nextInt(Position._gameWidth);
 				randomY= random.nextInt(Position._gameLength);
-				MoveCommand move= new MoveCommand(randomX, randomY);
-				move.execute(ci);
+				Position abilityPos= new Position(randomX,randomY);
+				AbilityCommand ability= new AbilityCommand(randomX,randomY);
+				ability.execute(ci);
+				AimCommand aim = new AimCommand(this.RandomAim());
+				aim.execute(ci);
 			}
-			randomX= random.nextInt(Position._gameWidth);
-			randomY= random.nextInt(Position._gameLength);
-			Position abilityPos= new Position(randomX,randomY);
-			AbilityCommand ability= new AbilityCommand(randomX,randomY);
-			ability.execute(ci);
-			AimCommand aim = new AimCommand(this.RandomAim());
-			aim.execute(ci);
 		}
 		ci.nextTurn();
 	}
