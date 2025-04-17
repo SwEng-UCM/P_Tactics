@@ -4,10 +4,12 @@ import java.util.Random;
 
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
+import PTactics.control.commands.AimCommand;
 import PTactics.control.commands.MoveCommand;
 import PTactics.control.commands.SelectTroopCommand;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
+import PTactics.utils.Direction;
 import PTactics.utils.Position;
 
 public class EasyCPU extends CPUinterface{
@@ -37,6 +39,24 @@ public class EasyCPU extends CPUinterface{
 			Position abilityPos= new Position(randomX,randomY);
 			AbilityCommand ability= new AbilityCommand(randomX,randomY);
 			ability.execute(ci);
+			int dirRand= random.nextInt(3)+1; //between 1 and 4
+			Direction dirtoAim = Direction.NONE;
+			switch (dirRand) {
+			case 1:
+				dirtoAim= Direction.UP;
+				break;
+			case 2:
+				dirtoAim= Direction.DOWN;
+				break;
+			case 3:
+				dirtoAim= Direction.LEFT;
+				break;
+			case 4:
+				dirtoAim= Direction.RIGHT;
+				break;
+		    };
+			AimCommand aim = new AimCommand(dirtoAim);
+			aim.execute(ci);
 		}
 	}
 
