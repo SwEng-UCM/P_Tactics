@@ -10,10 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.ImageIcon;
 
 import org.json.JSONArray;
+
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokeObject;
 import PTactics.model.gameObjects.Wall;
+import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.view.GUI.Icons;
 
@@ -96,7 +98,6 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 	    	_board.remove(p);
 	    }
 	}
-
 	public String toString(Position p) {
 		if(this.containsKey(p)) return this.get(p).toString();
 		return " ";
@@ -132,5 +133,26 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 		for(Position p : MapSelector.getWalls()) {
 			this.addObj(p, new Wall(p));
 		}
+	}
+	//Given a position of the target and the aim range of the CPU troop calculates the list of Positions where you can reach the troop
+	public List<Position> shootablePositions(Position target, int aimRange)
+	{
+		List<Position> shootablePosList= new ArrayList<Position>();
+		for(int i=0; i<aimRange;i++) 
+		{
+			List<Position> dirPosList=new ArrayList<Position>();
+			dirPosList.add(new Position(target.getX()+Direction.UP.getX()* i, target.getY()+Direction.UP.getY()* i)); 
+			dirPosList.add(new Position(target.getX()+Direction.DOWN.getX()* i, target.getY()+Direction.DOWN.getY()* i));
+			dirPosList.add(new Position(target.getX()+Direction.LEFT.getX()* i, target.getY()+Direction.LEFT.getY()* i));
+			dirPosList.add(new Position(target.getX()+Direction.RIGHT.getX()* i, target.getY()+Direction.RIGHT.getY()* i));
+			for(Position pos: dirPosList) 
+			{
+				if(pos.isValid() && !this.isSolid(pos)) 
+				{
+					shootablePosList.add(pos);
+				}
+			}
+		}
+		return shootablePosList;
 	}
 }

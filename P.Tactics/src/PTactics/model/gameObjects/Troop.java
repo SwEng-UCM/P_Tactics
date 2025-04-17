@@ -258,6 +258,7 @@ public abstract class Troop extends GameObject{
 	public void addPlayer(Player p) { // is this for debug? (dm Arturo your answer)(or a feet pic)
 		_player = p;
 	}
+
 	
 	public List<Position> dangerPositions() {
 		List<Position> dangerPositions = new ArrayList<>();
@@ -288,10 +289,13 @@ public abstract class Troop extends GameObject{
 		_aiming = false;
 	}
 	
-	public String getPlayer() {
+	public String getPlayerID() {
 		return this._player.getId();
 	}
-	
+	public Boolean isTurn() 
+	{
+		return this._player.isMyTurn();
+	}
 	@Override
 	public boolean isAlive() {
 		return active;
@@ -349,6 +353,10 @@ public abstract class Troop extends GameObject{
 		this._movesLeft = this._moveRange; // resets move range and abilities
 		this._abilityUses = 1;
 
+	}
+	public int getShootRange() 
+	{
+		return this._shootRange;
 	}
 }
 
