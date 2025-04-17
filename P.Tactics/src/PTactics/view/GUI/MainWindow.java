@@ -145,13 +145,13 @@ public class MainWindow extends JFrame {
 		// online button
 		_animatedButtons[2].addActionListener(e -> {
 			JOptionPane.showMessageDialog(this, "ONLINE mode coming soon!");
-			swapToGameWindow();
+//			swapToGameWindow();			// not needed for now
 		});
 				
 		// play VS ai button
 		_animatedButtons[3].addActionListener(e -> {
 			JOptionPane.showMessageDialog(this, "AI mode coming soon!");
-			swapToGameWindow();
+//			swapToGameWindow();			// no needed for now
 		});
 		// exit button
 		_animatedButtons[4].addActionListener(e -> System.exit(0));
@@ -227,159 +227,4 @@ public class MainWindow extends JFrame {
 		}
 	}
 	
-		/*
-		// central panel that contains title and button
-//		JPanel centerPanel = new JPanel();
-		centerPanel.setOpaque(false); // transparent background to see the image
-		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-
-		// centered title
-		ShadowLabel title = new ShadowLabel("HOLDFIRE", new Font("Algerian", Font.BOLD, 100), Color.WHITE, Color.BLACK, 4);
-		title.setAlignmentX(Component.CENTER_ALIGNMENT);
-		centerPanel.add(title);
-
-		// space between title and buttons
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 20))); 
-		
-		// startGame button
-		JButton startGame = new JButton("START");
-		startGame.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		startGame.setAlignmentX(Component.CENTER_ALIGNMENT);
-		startGame.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		startGame.setContentAreaFilled(false);
-		startGame.setBorder(null);
-		startGame.setHorizontalTextPosition(0);
-		startGame.setForeground(Color.orange);
-		centerPanel.add(startGame);
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
-		
-		// continueGame button
-		JButton continueGame = new JButton("CONTINUE");
-		continueGame.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		continueGame.setAlignmentX(Component.CENTER_ALIGNMENT);
-		continueGame.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		continueGame.setContentAreaFilled(false);
-		continueGame.setBorder(null);
-		continueGame.setHorizontalTextPosition(0);
-		continueGame.setForeground(Color.orange);
-		centerPanel.add(continueGame);
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
-		
-		// multiplayer button
-		JButton multiPlayer = new JButton("ONLINE");
-		multiPlayer.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		multiPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
-		multiPlayer.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		multiPlayer.setContentAreaFilled(false);
-		multiPlayer.setBorder(null);
-		multiPlayer.setHorizontalTextPosition(0);
-		multiPlayer.setForeground(Color.orange);
-		centerPanel.add(multiPlayer);
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
-			
-		// AI button
-		JButton aiButton = new JButton("PLAY VS AI");
-		aiButton.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		aiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		aiButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		aiButton.setContentAreaFilled(false);
-		aiButton.setBorder(null);
-		aiButton.setHorizontalTextPosition(0);
-		aiButton.setForeground(Color.orange);
-		centerPanel.add(aiButton);	
-		centerPanel.add(Box.createRigidArea(new Dimension(0, 2)));		// space between buttons
-		
-		// exit button
-		JButton exitButton = new JButton("EXIT");
-		exitButton.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		exitButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		exitButton.setContentAreaFilled(false);
-		exitButton.setBorder(null);
-		exitButton.setHorizontalTextPosition(0);
-		exitButton.setForeground(Color.orange);
-		centerPanel.add(exitButton);	
-
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		backgroundPanel.add(centerPanel, gbc);
-		
-		continueGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setDialogTitle("Load a saved game (.json)");
-				int result = fileChooser.showOpenDialog(MainWindow.this);
-				if(result == JFileChooser.APPROVE_OPTION) {
-					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-					if(!filePath.toLowerCase().endsWith(".json")) {
-						JOptionPane.showMessageDialog(MainWindow.this,  "Invalid file type. Please select a .json file.", "Error", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					JOptionPane.showMessageDialog(MainWindow.this, "Selected game: \n" + filePath);
-				}
-				
-			}
-		});
-		
-		
-		startGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));	// default, min, max, step
-				int result = JOptionPane.showConfirmDialog(
-						MainWindow.this,
-						spinner,
-						"Select number of players",
-						JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-
-				if (result == JOptionPane.OK_OPTION) {
-					int numPlayers = (Integer) spinner.getValue();
-					_ctrl.setPlayerNum(numPlayers);
-					_ctrl.setupPlayers();
-
-					String[] names = new String[numPlayers];
-					for(int i = 0; i < numPlayers; i++) {
-						String name;
-						do {
-							name = JOptionPane.showInputDialog(MainWindow.this, "Enter name for Player " + (i + 1) + ":");
-						} while(name == null || name.trim().isEmpty());
-						names[i] = name.trim();
-					}
-					
-					_ctrl.setPlayerNames(Arrays.asList(names));
-					_ctrl.setupPlayers();
-					// replace content of mainwindow for gamewindow
-					swapToGameWindow();
-				}
-			}
-		});
-		
-		
-		
-		
-
-		setVisible(true);
-	}*/
-	
-	/*private void swapToGameWindow() {
-		SwingUtilities.invokeLater(() -> {
-			getContentPane().removeAll(); // delete everything before
-			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // same as game window
-			new GameWindow(_ctrl,this);	
-			
-			// updates and redraws the components
-			revalidate();
-			repaint();
-			setExtendedState(JFrame.MAXIMIZED_BOTH);	
-			
-			addComponentListener(new ComponentAdapter() {
-				public void componentResized(ComponentEvent e) {
-					if ((getExtendedState() & JFrame.MAXIMIZED_BOTH) == 0) {
-						pack();		// adjusts size of the window with the actual content
-					}				
-				}
-			});
-		});
-	}*/
 }
