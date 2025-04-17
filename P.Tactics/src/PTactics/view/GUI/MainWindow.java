@@ -36,7 +36,7 @@ public class MainWindow extends JFrame {
 	
 	private Controller _ctrl;
 	private JButton[] _animatedButtons;
-	private String[] _buttonTexts = { "START", "CONTINUE", "ONLINE", "PLAY VS AI", "EXIT"};
+	private String[] _buttonTexts = { "START", "CONTINUE", "ONLINE", "PLAY VS CPU", "EXIT"};
 	private JPanel _buttonPanel;
 
 	public MainWindow(Controller ctrl) {
@@ -150,9 +150,34 @@ public class MainWindow extends JFrame {
 				
 		// play VS ai button
 		_animatedButtons[3].addActionListener(e -> {
-			JOptionPane.showMessageDialog(this, "AI mode coming soon!");
-//			swapToGameWindow();			// no needed for now
+			String playerName = null;
+			
+			do {
+				playerName = JOptionPane.showInputDialog(this, "Enter name of the player: ");
+				if(playerName == null) return;	// cancel if there is no name written
+			} while(playerName.trim().isEmpty());
+			
+			JOptionPane.showMessageDialog(this, "Player [" + playerName + "] VS CPU");
+			
+			String[] difficulties = {"Easy", "Medium", "Hard"};
+			int levelDifficulty = JOptionPane.showOptionDialog(
+					this, 
+					"Choose CPU difficulty: ",
+					"CPU Difficulty",
+					JOptionPane.DEFAULT_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					difficulties,
+					difficulties[0]
+			);
+			
+			if(levelDifficulty != -1) {
+				_ctrl.setPlayerNum(2);		// realPlayer + CPU
+				_ctrl.setUpPlayerVsCPU(playerName.trim(), levelDifficulty);
+				swapToGameWindow();
+			}
 		});
+		
 		// exit button
 		_animatedButtons[4].addActionListener(e -> System.exit(0));
 	}

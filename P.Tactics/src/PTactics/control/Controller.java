@@ -3,6 +3,10 @@ package PTactics.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import P.Tactics.CPU.CPUinterface;
+import P.Tactics.CPU.EasyCPU;
+import P.Tactics.CPU.HardCPU;
+import P.Tactics.CPU.MediumCPU;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
@@ -18,6 +22,7 @@ public abstract class Controller implements ControllerInterface {
 	public static int mapSelected = 1;
 	protected int _numPlayers = 0;
 	private List<String> _playerNames = new ArrayList<>();
+	protected CPUinterface _cpuInterface;
 	
 	public Controller() {
 		_game = new Game();
@@ -37,15 +42,46 @@ public abstract class Controller implements ControllerInterface {
 	}
 	
 	public String getCurrentPlayerName() {
-		/*if(_playerNames != null && !_playerNames.isEmpty()) {
-			int currentPlayer = _game.getNumPlayer() - 1;
-			if(currentPlayer >= 0 && currentPlayer < _playerNames.size()) {
-				return _playerNames.get(currentPlayer);
-			}
-		}*/
 		int idxPlayer = _game.getNumPlayer() - 1;
 		return _playerNames.get(idxPlayer);
 		
+	}
+	
+	public void setUpPlayerVsCPU(String playerName, int levelCPU) {
+		DangerMediator dangerMediator = new DangerMediator();
+		
+		// for a real player
+		Player realPlayer = new Player(playerName, dangerMediator);
+		for (Troop troop : MapSelector.getTroops(realPlayer)) {
+			_game.addNewElement(troop, troop.getPos());		// assign troops
+		}
+		_game.addPlayer(realPlayer);
+		
+		// for the CPU player
+		Player cpuPlayer = new Player("CPU", dangerMediator);
+		for (Troop troop : MapSelector.getTroops(cpuPlayer)) {
+			_game.addNewElement(troop, troop.getPos());
+		}
+		_game.addPlayer(cpuPlayer);
+		
+		// level difficulty
+		switch(levelCPU) {
+		case 0:
+			_cpuInterface = new EasyCPU(this);
+			break;
+		case 1:
+			_cpuInterface = new MediumCPU(this);
+			break;
+		case 2:
+			_cpuInterface = new HardCPU(this);
+			break;
+		}
+		
+		_game.inicialize();
+		/*
+		if(_numPlayers == 2) {
+			_cpuInterface.ComputeTurn(_game.getPlayer());
+		}*/
 	}
 	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
