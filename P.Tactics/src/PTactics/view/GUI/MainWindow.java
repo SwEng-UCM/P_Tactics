@@ -158,7 +158,7 @@ public class MainWindow extends JFrame {
 			names.add("Player");
 			names.add("CPU");
 			_ctrl.setPlayerNames(names);
-			_ctrl.SetupPlayerWithCPU(1); //make this a COMBO box selector
+			_ctrl.SetupPlayerWithCPU(2); //make this a COMBO box selector
 			swapToGameWindow();			// no needed for now
 		});
 		// exit button
