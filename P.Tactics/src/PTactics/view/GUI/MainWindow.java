@@ -152,13 +152,13 @@ public class MainWindow extends JFrame {
 				
 		// play VS ai button
 		_animatedButtons[3].addActionListener(e -> {
-			JOptionPane.showMessageDialog(this, "AI mode coming soon!");
+			//JOptionPane.showMessageDialog(this, "AI mode coming soon!");
 			_ctrl.setPlayerNum(2);
 			List<String> names= new ArrayList<String>();
 			names.add("Player");
 			names.add("CPU");
 			_ctrl.setPlayerNames(names);
-			_ctrl.SetupPlayerWithCPU(0); //make this a COMBO box selector
+			_ctrl.SetupPlayerWithCPU(1); //make this a COMBO box selector
 			swapToGameWindow();			// no needed for now
 		});
 		// exit button
