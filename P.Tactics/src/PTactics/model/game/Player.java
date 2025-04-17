@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import P.Tactics.CPU.CPUinterface;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
 
@@ -17,6 +18,7 @@ public class Player implements DangerObject{
 	private List<Troop> _troops;
 	private DangerMediator _dangerMediator;
 	private boolean _turn;
+	private CPUinterface _cpu;
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
@@ -27,6 +29,26 @@ public class Player implements DangerObject{
 		_dangerMediator.registerComponent(this);
 		_lastTurnKills = new HashMap<>();
 		_turn = false;
+		_cpu=null;
+	}
+	//constructor for a CPU 
+	public Player(String id, DangerMediator dm, CPUinterface cpu) {
+		this._id = id;
+		_visibility = new boolean[Game._boardWidth][Game._boardLength];
+		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		this._troops = new ArrayList<>();
+		_dangerMediator = dm;
+		_dangerMediator.registerComponent(this);
+		_lastTurnKills = new HashMap<>();
+		_turn = false;
+		_cpu=cpu;
+	}
+	public void ComputeTurn() 
+	{
+		if(this._cpu!=null) 
+		{
+			_cpu.ComputeTurn(this);
+		}
 	}
 
 	public boolean isVisible(int x, int y) {

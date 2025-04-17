@@ -205,6 +205,7 @@ public class Game implements Observable<GameObserver>{
 		for (GameObserver o : _observers) {
 			o.onNextTurn(this);
 		}
+		_players.get(_currPlayer).ComputeTurn();
 	}
 	
 	public boolean isTroopSelected() {
