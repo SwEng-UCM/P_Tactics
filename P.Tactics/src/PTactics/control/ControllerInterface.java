@@ -73,4 +73,6 @@ public interface ControllerInterface {
 	public List<String> getPlayerNames();
 	
 	public String getCurrentPlayerName();
+	
+	public List<Position> getEnemyTroopsPos();
 }

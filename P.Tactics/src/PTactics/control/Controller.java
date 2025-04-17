@@ -157,4 +157,8 @@ public abstract class Controller implements ControllerInterface {
 	public List<Position> hoverPath(Position pos) {
 		return _game.hoverPath(pos);
 	}
+	public List<Position> getEnemyTroopsPos()
+	{
+		return this._game.getEnemyTroops();
+	}
 }

@@ -216,7 +216,7 @@ public class Game implements Observable<GameObserver>{
 		GameObject t = Board.getInstance().getGameObject(pos);
 		if(!Objects.isNull(t) && t.isAlive()&& t.isSeeThrough()) 
 		{
-			return ((Troop) t).getPlayer().equals(_players.get(_currPlayer).getId());
+			return ((Troop) t).getPlayerID().equals(_players.get(_currPlayer).getId());
 		}
 		return false;
 	}
@@ -229,7 +229,7 @@ public class Game implements Observable<GameObserver>{
 			throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check if it is a troop alive (walls
 																	// and dead troops will return false)
 		}
-		if (!((Troop) t).getPlayer().equals(_players.get(_currPlayer).getId())) {
+		if (!((Troop) t).getPlayerID().equals(_players.get(_currPlayer).getId())) {
 			throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check that it belongs to the player
 																	// (sorry for the casting)
 		}		
@@ -342,6 +342,21 @@ public class Game implements Observable<GameObserver>{
 	
 	public List<Position> hoverPath(Position pos) {
 		return _currTroop == null? null : _currTroop.hoverPath(pos);
+	}
+	public List<Position> getEnemyTroops()
+	{
+		List<Position> returnList= new ArrayList<Position>();
+		for(Player p: this._players) 
+		{
+			if(!p.isMyTurn()) 
+			{
+				for(Troop t : p.getTroops()) 
+				{
+					returnList.add(t.getPos());
+				}
+			}
+		}
+		return returnList;
 	}
 	
 }

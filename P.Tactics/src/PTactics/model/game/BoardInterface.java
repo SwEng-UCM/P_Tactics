@@ -1,5 +1,7 @@
 package PTactics.model.game;
 
+import java.util.List;
+
 import javax.swing.ImageIcon;
 
 import org.json.JSONArray;
@@ -21,4 +23,5 @@ public interface BoardInterface{
 	public void nextTurn();
 	public ImageIcon toIcon(Position p);
 	public JSONArray report();
+	public List<Position> shootablePositions(Position target, int aimRange);
 }
