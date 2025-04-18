@@ -26,12 +26,16 @@ public abstract class Controller implements ControllerInterface {
 	protected boolean _endTurn;
 	public static int mapSelected = 1;
 	protected int _numPlayers = 0;
-	private List<String> _playerNames = new ArrayList<>();
+	protected List<String> _playerNames = new ArrayList<>();
 	protected CPUinterface _cpuInterface;
 	
 	public Controller() {
 		_game = new Game();
 		_endTurn = false;
+	}
+	
+	public JSONObject report() {
+		return this.getGame().report();
 	}
 	
 	public void setPlayerNum(int playerNum) {
@@ -202,9 +206,9 @@ public abstract class Controller implements ControllerInterface {
 	@Override
 	public void load(InputStream is) {
 		JSONObject gameState = new JSONObject(new JSONTokener(is));
-		this._numPlayers = gameState.getInt("Players");
+		 _loadController(gameState);
 		_loadPlayers(gameState);
-		_endTurn = false;
+		_loadBoard(gameState);
 	}
 
 	private void _loadPlayers(JSONObject gameState) {
@@ -220,11 +224,18 @@ public abstract class Controller implements ControllerInterface {
 			_game.inicialize();
 			playersSetUp = true;
 		}
-		
+	}
+	
+	private void _loadBoard(JSONObject gameState) {
 		for (int i1 = 0; i1 < gameState.getJSONArray("Board").length(); i1++) {
 			JSONObject jo = (JSONObject) gameState.getJSONArray("Board").get(i1);
 			_game.addNewElement(GameObjectCreator.createGameObject(jo, this),
 					new Position(jo.getInt("PositionX"), jo.getInt("PositionY")));
 		}
+	}
+	
+	protected void _loadController(JSONObject gameState) {
+		this._numPlayers = gameState.getInt("Players");
+		_endTurn = false;
 	}
 }

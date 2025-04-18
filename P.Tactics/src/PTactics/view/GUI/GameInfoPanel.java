@@ -4,14 +4,19 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import PTactics.control.ControllerInterface;
+import PTactics.control.commands.Command;
+import PTactics.control.commands.CommandGenerator;
 import PTactics.model.game.Game;
 import PTactics.view.GameObserver;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,7 +31,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 	private TutorialWindow tw;
 	public ControllerInterface _ctrl;
 	private JLabel playerTurnText;
-	private JPanel turnPanel; 
+	private JPanel turnPanel;
 	
 	public GameInfoPanel(ControllerInterface ctrl, GameWindow gw) {
 		this._ctrl = ctrl;
@@ -61,6 +66,40 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		
 		add(Box.createRigidArea(new Dimension(400, 0))); 
 		
+		//Save button
+		JButton save = new JButton("Save");
+		save.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		save.setContentAreaFilled(false);
+		save.setBorder(null);
+		save.setHorizontalTextPosition(0);
+		save.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		save.setForeground(Color.orange);		
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				// Ensures the user can only select directories
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+				// Sets the current directory to the directory where the program is running
+				fileChooser.setCurrentDirectory(new java.io.File(".")); 
+				fileChooser.setDialogTitle("Select folder");
+				
+				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+					//Hardcoding save instruction
+					String cmdLine = "save " + filePath;
+					String[] cmdArgs = cmdLine.trim().split("\\s+");
+					Command command = CommandGenerator.parse(cmdArgs);
+					command.execute(_ctrl);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}
+		});
+		add(save);
+		
+		//End Turn
 		JButton endTurnButton = new JButton("End Turn");
 		endTurnButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
 		endTurnButton.setContentAreaFilled(false);
@@ -93,7 +132,6 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 			}
 		});
 		add(tutorial);
-		
 	}
 	@Override
 	public void onPlayersUpdate(Game game) {

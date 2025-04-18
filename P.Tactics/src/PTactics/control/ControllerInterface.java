@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.Icon;
 
+import org.json.JSONObject;
+
 import PTactics.model.game.Game;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -78,4 +80,6 @@ public interface ControllerInterface {
 	public void setUpPlayerVsCPU(String playerName, int levelCPU);
 
 	public void load(InputStream is);
+	
+	public JSONObject report();
 }

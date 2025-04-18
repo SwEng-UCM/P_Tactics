@@ -32,7 +32,7 @@ public class History {
 	public void save() {
 		try {
             FileWriter myWriter = new FileWriter(_outFile);
-            myWriter.write(_ctrl.getGame().report().toString());
+            myWriter.write(_ctrl.report().toString());
             myWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

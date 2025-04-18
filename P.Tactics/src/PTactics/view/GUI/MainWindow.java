@@ -29,6 +29,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import PTactics.control.Controller;
+import PTactics.control.commands.Command;
+import PTactics.control.commands.CommandGenerator;
 import PTactics.view.GUI.Icons.otherIcons;
 
 @SuppressWarnings("serial")
@@ -129,6 +131,10 @@ public class MainWindow extends JFrame {
 		// continue button
 		_animatedButtons[1].addActionListener(e -> {
 			JFileChooser fileChooser = new JFileChooser();
+			// Ensures the user can only select directories
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+			// Sets the current directory to the directory where the program is running
+			fileChooser.setCurrentDirectory(new java.io.File(".")); 
 			fileChooser.setDialogTitle("Load a saved game (.json)");
 			int result = fileChooser.showOpenDialog(this);
 			if (result == JFileChooser.APPROVE_OPTION) {
@@ -138,6 +144,13 @@ public class MainWindow extends JFrame {
 					return;
 				}
 				JOptionPane.showMessageDialog(this, "Selected game: \n" + filePath);
+				
+				//Hardcoding load instruction
+				String cmdLine = "load " + filePath;
+				String[] cmdArgs = cmdLine.trim().split("\\s+");
+				Command command = CommandGenerator.parse(cmdArgs);
+				command.execute(_ctrl);
+				
 				swapToGameWindow();
 			}
 		});
