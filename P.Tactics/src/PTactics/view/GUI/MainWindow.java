@@ -163,7 +163,7 @@ public class MainWindow extends JFrame {
 //			swapToGameWindow();			// not needed for now
 		});
 				
-		// play VS ai button
+		// play VS CPU button
 		_animatedButtons[3].addActionListener(e -> {
 			String playerName = null;
 			
