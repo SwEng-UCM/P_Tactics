@@ -20,36 +20,36 @@ public class HardCPU extends CPUinterface {
 
 	@Override
 	public void ComputeTurn(Player p) {
-//		for(Troop t: p.getTroops()) {
-//			if(t.isAlive()) 
-//			{
-//				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
-//				s.execute(ci);
-//				List<Position> enemyPositions= ci.getEnemyTroopsPos();
-//				for(Position enemyPos:enemyPositions) 
-//				{
-//					boolean moved=false;
-//					List<Position> killDistancePositions=Board.getInstance().shootablePositions(enemyPos,t.getShootRange() );
-//					for(Position killPos: killDistancePositions) 
-//					{
-//						if(ci.canMove(killPos)) 
-//						{
-//							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-//							move.execute(ci);
-//							moved=true;
-//							break;
-//						}
-//					}
-//					AimCommand aim = new AimCommand(this.posToDir(enemyPos, t.getPos()));
-//					aim.execute(ci);
-//					if(moved) 
-//					{
-//						break;
-//					}
-//				}
-//			}
-//		}
-//		ci.nextTurn();
+		for(Troop t: p.getTroops()) {
+			if(t.isAlive()) 
+			{
+				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
+				s.execute(ci);
+				List<Position> enemyPositions= ci.getGame().getEnemyTroops();
+				for(Position enemyPos:enemyPositions) 
+				{
+					boolean moved=false;
+					List<Position> killDistancePositions=Board.getInstance().shootablePositions(enemyPos,t.getShootRange() );
+					for(Position killPos: killDistancePositions) 
+					{
+						if(ci.canMove(killPos)) 
+						{
+							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
+							move.execute(ci);
+							moved=true;
+							break;
+						}
+					}
+					AimCommand aim = new AimCommand(this.posToDir(enemyPos, t.getPos()));
+					aim.execute(ci);
+					if(moved) 
+					{
+						break;
+					}
+				}
+			}
+		}
+		ci.nextTurn();
 	}
 
 }

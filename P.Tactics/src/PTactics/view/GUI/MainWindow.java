@@ -13,7 +13,9 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -185,8 +187,12 @@ public class MainWindow extends JFrame {
 			);
 			
 			if(levelDifficulty != -1) {
+				List<String> playerNames= new ArrayList<String>();
+				playerNames.add(playerName);
+				playerNames.add("CPU");
+				_ctrl.setPlayerNames(playerNames);
 				_ctrl.setPlayerNum(2);		// realPlayer + CPU
-				_ctrl.setUpPlayerVsCPU(playerName.trim(), levelDifficulty);
+				_ctrl.setUpPlayerVsCPU(levelDifficulty);
 				swapToGameWindow();
 			}
 		});

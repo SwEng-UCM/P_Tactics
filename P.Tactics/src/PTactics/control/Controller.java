@@ -27,7 +27,6 @@ public abstract class Controller implements ControllerInterface {
 	public static int mapSelected = 1;
 	protected int _numPlayers = 0;
 	protected List<String> _playerNames = new ArrayList<>();
-	protected CPUinterface _cpuInterface;
 	
 	public Controller() {
 		_game = new Game();
@@ -56,41 +55,52 @@ public abstract class Controller implements ControllerInterface {
 		
 	}
 	
-	public void setUpPlayerVsCPU(String playerName, int levelCPU) {
-		DangerMediator dangerMediator = new DangerMediator();
-		
-		// for a real player
-		Player realPlayer = new Player(playerName, dangerMediator);
-		for (Troop troop : MapSelector.getTroops(realPlayer)) {
-			_game.addNewElement(troop, troop.getPos());		// assign troops
+	public void setUpPlayerVsCPU(int levelCPU) {
+		boolean playersSetUp = false;
+
+		if (!playersSetUp) {
+			DangerMediator dangerMediator = new DangerMediator();
+			for (Integer i = 1; i <= _numPlayers; ++i) {
+				if(i<=1) 
+				{
+					Player p = new Player(i.toString(), dangerMediator);
+					for (Troop t : MapSelector.getTroops(p)) {
+						_game.addNewElement(t, t.getPos());
+					}
+					_game.addPlayer(p);
+				}
+				else 
+				{
+					switch(levelCPU) 
+					{
+					case 0:
+						Player cpu = new Player(i.toString(), dangerMediator, new EasyCPU(this));
+						for (Troop t : MapSelector.getTroops(cpu)) {
+							_game.addNewElement(t, t.getPos());
+						}
+						_game.addPlayer(cpu);
+						break;
+					case 1:
+						Player cpu1 = new Player(i.toString(), dangerMediator, new MediumCPU(this));
+						for (Troop t : MapSelector.getTroops(cpu1)) {
+							_game.addNewElement(t, t.getPos());
+						}
+						_game.addPlayer(cpu1);
+						break;
+					case 2:
+						Player cpu2 = new Player(i.toString(), dangerMediator, new HardCPU(this));
+						for (Troop t : MapSelector.getTroops(cpu2)) {
+							_game.addNewElement(t, t.getPos());
+						}
+						_game.addPlayer(cpu2);
+						break;
+					
+					}
+				}
+			}
+			_game.inicialize();
+			playersSetUp = true;
 		}
-		_game.addPlayer(realPlayer);
-		
-		// for the CPU player
-		Player cpuPlayer = new Player("CPU", dangerMediator);
-		for (Troop troop : MapSelector.getTroops(cpuPlayer)) {
-			_game.addNewElement(troop, troop.getPos());
-		}
-		_game.addPlayer(cpuPlayer);
-		
-		// level difficulty
-		switch(levelCPU) {
-		case 0:
-			_cpuInterface = new EasyCPU(this);
-			break;
-		case 1:
-			_cpuInterface = new MediumCPU(this);
-			break;
-		case 2:
-			_cpuInterface = new HardCPU(this);
-			break;
-		}
-		
-		_game.inicialize();
-		/*
-		if(_numPlayers == 2) {
-			_cpuInterface.ComputeTurn(_game.getPlayer());
-		}*/
 	}
 	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
