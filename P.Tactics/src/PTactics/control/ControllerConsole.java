@@ -33,8 +33,6 @@ public class ControllerConsole extends Controller {
 					_gameView.showError(Utils.MsgErrors.UNKNOWN_COMMAND);
 				}
 			}
-//			Tracker.getInstance(this).foo(_game);
-//			Tracker.getInstance(this).save();
 			nextTurn();
 		}
 	}

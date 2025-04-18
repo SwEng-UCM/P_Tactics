@@ -29,10 +29,18 @@ public class LightTroop extends Troop {
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
 	
+	public LightTroop(Position pos, Player p, Direction dir, int iFrames) {
+		super(pos, p, dir);
+		initVars();
+		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
+		this._abilityUses = 0;		
+		this._iFrames = iFrames;
+	}
+	
 	@Override
 	public JSONObject report() {
 		JSONObject troopReport = super.report();
-		troopReport.put("iFrames:", _iFrames);
+		troopReport.put("iFrames", _iFrames);
 		return troopReport;
 	}
 	
@@ -45,15 +53,13 @@ public class LightTroop extends Troop {
 		this._abilityUses = 1;
 		this._iFrames = 0;
 	}
+	
 	@Override
 	public void activateAbility() {
-
 		this._iFrames = 3;
 		this._abilityActive = true;
-		
-		
 	}
-
+	
 	@Override
 	public void deactivateAbility() {
 		//iFrames = 0;

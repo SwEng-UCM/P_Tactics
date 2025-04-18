@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import PTactics.model.game.Board;
@@ -31,6 +32,16 @@ public class SniperTroop extends Troop {
 		initVars();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
+	
+	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
+		super(pos, p, dir);
+		initVars();
+		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
+		_droneArea = area;
+		this._abilityActive = true;
+		this._abilityUses = 0;
+	}
+	
 	public void initVars() 
 	{
 		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
@@ -40,12 +51,24 @@ public class SniperTroop extends Troop {
         _movesLeft = _moveRange;
         _droneSide = 1;
         _droneHeight = 1;
+        _droneArea = new ArrayList<>();
     }
 	
 	@Override
 	public JSONObject report() {
 		JSONObject troopReport = super.report();
-		troopReport.put("DroneArea:", _droneArea);
+		
+		if(!_droneArea.isEmpty()) {
+			JSONArray droneArea = new JSONArray();
+			for(Position p : _droneArea) {
+				JSONObject jo = new JSONObject();
+				jo.put("PositionX", p.getX());
+				jo.put("PositionY", p.getY());
+				droneArea.put(jo);
+			}
+			troopReport.put("DroneArea", droneArea);
+		}
+		
 		return troopReport;
 	}
 	

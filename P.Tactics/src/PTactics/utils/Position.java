@@ -39,6 +39,6 @@ public final  class Position {
 	 @Override
 	 public String toString() {	
 		 StringBuilder data = new StringBuilder();
-		 return data.append(String.valueOf(this.X)).append(" , ").append(String.valueOf(this.Y)).toString(); 
+		 return data.append(String.valueOf(this.X)).append(",").append(String.valueOf(this.Y)).toString(); 
 	 }
 }

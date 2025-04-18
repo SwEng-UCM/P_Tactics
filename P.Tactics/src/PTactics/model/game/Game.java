@@ -23,9 +23,10 @@ import PTactics.view.GUI.Icons;
 public class Game implements Observable<GameObserver>{
 	public static int _boardLength; // This is the first value (y)
 	public static int _boardWidth; // This is the second value (x)
-	private List<Player> _players;
 	private int _currPlayer;
 	private Troop _currTroop;
+	
+	private List<Player> _players;
 	private List<GameObserver> _observers;
 
 	public Game() {
@@ -38,10 +39,23 @@ public class Game implements Observable<GameObserver>{
 		_observers = new ArrayList<>();
 	}
 	
+	public void set(JSONObject gameState) {
+		Position._gameLength = gameState.getInt("BoardLenght");
+		Position._gameWidth = gameState.getInt("BoardWidth");
+		_boardLength = gameState.getInt("BoardLenght");
+		_boardWidth = gameState.getInt("BoardWidth");
+		_currPlayer = gameState.getInt("Turn");
+		this._players = new ArrayList<>();
+		_currTroop = null;
+	}
+	
 	public JSONObject report() {
 		JSONObject report = new JSONObject();
+		report.put("Players", _players.size());
+		report.put("BoardLenght", _boardLength);
+		report.put("BoardWidth", _boardWidth);
+		report.put("Turn", this.getNumPlayer()-1);
 		report.put("Board", Board.getInstance().report());
-		report.put("Turn:", this.getNumPlayer()-1);
 		return report;
 	}
 
@@ -134,6 +148,10 @@ public class Game implements Observable<GameObserver>{
 
 	public Player getPlayer() {
 		return this._players.get(_currPlayer);
+	}
+	
+	public Player getPlayer(int idx) {
+		return this._players.get(idx-1);
 	}
 
 	public void addTroops(Troop t) {
@@ -343,6 +361,7 @@ public class Game implements Observable<GameObserver>{
 	public List<Position> hoverPath(Position pos) {
 		return _currTroop == null? null : _currTroop.hoverPath(pos);
 	}
+
 	public List<Position> getEnemyTroops()
 	{
 		List<Position> returnList= new ArrayList<Position>();
@@ -358,5 +377,4 @@ public class Game implements Observable<GameObserver>{
 		}
 		return returnList;
 	}
-	
 }

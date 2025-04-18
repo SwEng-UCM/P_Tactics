@@ -1,5 +1,6 @@
 package PTactics.control;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -75,4 +76,6 @@ public interface ControllerInterface {
 	public String getCurrentPlayerName();
 	
 	public void setUpPlayerVsCPU(String playerName, int levelCPU);
+
+	public void load(InputStream is);
 }

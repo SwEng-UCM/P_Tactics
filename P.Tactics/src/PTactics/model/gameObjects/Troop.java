@@ -59,13 +59,11 @@ public abstract class Troop extends GameObject{
 	}
 	
 	public JSONObject report() {
-		JSONObject troopReport = new JSONObject();
-		troopReport.put("Id:", _id);
-		troopReport.put("Player:", this._player.getId());
-		troopReport.put("Position:", this.getPos());
-		troopReport.put("Direction:", this._dir);
-		troopReport.put("MoveLeft:", this._movesLeft);
-		troopReport.put("Abilities:", this._abilityUses);
+		JSONObject troopReport = super.report();
+		troopReport.put("Player", this._player.getId());
+		troopReport.put("Direction", this._dir.toString());
+		troopReport.put("MoveLeft", this._movesLeft);
+		troopReport.put("Abilities", this._abilityUses);
 		return troopReport;
 	}
 	

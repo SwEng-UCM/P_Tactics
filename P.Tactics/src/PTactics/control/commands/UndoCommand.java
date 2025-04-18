@@ -1,7 +1,6 @@
 package PTactics.control.commands;
 
 import PTactics.control.ControllerInterface;
-import PTactics.control.Tracker;
 import PTactics.utils.Utils;
 
 public class UndoCommand extends Command {
@@ -17,7 +16,7 @@ public class UndoCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI) {
-		Tracker.getInstance(CI).undo();
+		//Tracker.getInstance(CI).undo();
 	}
 
 	@Override

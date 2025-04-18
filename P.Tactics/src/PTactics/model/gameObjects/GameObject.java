@@ -14,19 +14,22 @@ public abstract class GameObject {
 	protected boolean active;
 	protected boolean solid;
 	protected String icon;
-	protected Boolean seeThrough=true;
-	protected Boolean walkable=false;
+	protected Boolean seeThrough = true;
+	protected Boolean walkable = false;
+
 	public GameObject(Position pos) {
 		this.pos = pos;
 		this.active = true;
 	}
+
 	public String getId() {
 		return _id;
 	}
-	public Boolean isWalkable() 
-	{
+
+	public Boolean isWalkable() {
 		return this.walkable;
 	}
+
 	public void setPosition(Position setter) {
 		Board.getInstance().setPosition(this.pos, setter, this);
 		pos = setter;
@@ -51,21 +54,36 @@ public abstract class GameObject {
 	public boolean isSolid() {
 		return solid;
 	}
+
 	public boolean isSeeThrough() {
 		return seeThrough;
 	}
-	public String toString() 
-	{
+
+	public String toString() {
 		return icon;
 	}
+
 	public abstract boolean isAlive();
+
 	public abstract void onHit();
-	public void AddToMove(Position pos) {};
-	public void CalcNewMove(Position pos) {};
+
+	public void AddToMove(Position pos) {
+	};
+
+	public void CalcNewMove(Position pos) {
+	};
+
 	public abstract void update();
+
 	public abstract void nextTurn();
 
 	public abstract ImageIcon toIcon();
-	
-	public abstract JSONObject report();
+
+	public JSONObject report() {
+		JSONObject jo = new JSONObject();
+		jo.put("Id", this.getId());
+		jo.put("PositionX", this.getPos().getX());
+		jo.put("PositionY", this.getPos().getY());
+		return jo;
+	}
 }

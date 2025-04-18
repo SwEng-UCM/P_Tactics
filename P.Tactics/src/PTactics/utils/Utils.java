@@ -2,7 +2,7 @@ package PTactics.utils;
 
 //Dedicated to store constants in our program such as messages, icons, etc..
 public interface Utils {
-
+	    
 	// Dedicated to troops
 	public static interface TroopUtils {
 		public final String TROOP_FACING_UP = "▲";

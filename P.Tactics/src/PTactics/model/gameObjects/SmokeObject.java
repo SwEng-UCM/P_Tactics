@@ -56,10 +56,7 @@ public class SmokeObject extends GameObject {
 	}
 	@Override
 	public JSONObject report() {
-		JSONObject jo = new JSONObject();
-		jo.put("Id: ", this.getId());
-		jo.put("Position: ", this.getPos());
-		return jo;
+		return super.report();
 	}
 
 }
