@@ -1,7 +1,11 @@
 package PTactics.control;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import P.Tactics.CPU.CPUinterface;
 import P.Tactics.CPU.EasyCPU;
@@ -13,6 +17,7 @@ import PTactics.model.game.Game;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
+import PTactics.utils.GameObjectCreator;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
 
@@ -192,5 +197,34 @@ public abstract class Controller implements ControllerInterface {
 
 	public List<Position> hoverPath(Position pos) {
 		return _game.hoverPath(pos);
+	}
+	
+	@Override
+	public void load(InputStream is) {
+		JSONObject gameState = new JSONObject(new JSONTokener(is));
+		this._numPlayers = gameState.getInt("Players");
+		_loadPlayers(gameState);
+		_endTurn = false;
+	}
+
+	private void _loadPlayers(JSONObject gameState) {
+		boolean playersSetUp = false;
+		_game.set(gameState);
+
+		if (!playersSetUp) {
+			DangerMediator dangerMediator = new DangerMediator();
+			for (Integer i = 1; i <= _numPlayers; ++i) {
+				Player p = new Player(i.toString(), dangerMediator);
+				_game.addPlayer(p);
+			}
+			_game.inicialize();
+			playersSetUp = true;
+		}
+		
+		for (int i1 = 0; i1 < gameState.getJSONArray("Board").length(); i1++) {
+			JSONObject jo = (JSONObject) gameState.getJSONArray("Board").get(i1);
+			_game.addNewElement(GameObjectCreator.createGameObject(jo, this),
+					new Position(jo.getInt("PositionX"), jo.getInt("PositionY")));
+		}
 	}
 }
