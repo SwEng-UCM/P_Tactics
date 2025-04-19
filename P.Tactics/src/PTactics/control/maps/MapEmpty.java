@@ -13,7 +13,7 @@ import PTactics.utils.Position;
 
 public class MapEmpty implements Map{
 	public static int SERIAL_ID = 0;
-	private int _game_width = 10;
+	private int _game_width = 20;
 	private int _game_lenght = 10;
 	
 	@Override

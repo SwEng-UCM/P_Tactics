@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
+import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
@@ -25,9 +26,9 @@ public class GameBoardCell extends JButton implements GameObserver{
 		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
-		this.setPreferredSize(new Dimension(50, 50));
-		this.setMaximumSize(new Dimension(50, 50));;
-		this.setMinimumSize(new Dimension(50, 50));;
+		this.setPreferredSize(new Dimension(Controller.tileSize, Controller.tileSize));
+		this.setMaximumSize(new Dimension(Controller.tileSize, Controller.tileSize));;
+		this.setMinimumSize(new Dimension(Controller.tileSize, Controller.tileSize));;
 		this.setBorderPainted(true);
 	}
 	public Position getPosition() 

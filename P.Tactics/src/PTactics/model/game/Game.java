@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 
 import org.json.JSONObject;
 
+import PTactics.control.Controller;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokerTroop;
@@ -111,7 +112,7 @@ public class Game implements Observable<GameObserver>{
 	public Icon positionToIcon(Position p) { 
 		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
 		if (Board.getInstance().getGameObject(p)!=null&&Board.getInstance().getGameObject(p).isSolid()&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
-			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(69, 69, 2));
+			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
 		}
 		
 		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
@@ -127,9 +128,9 @@ public class Game implements Observable<GameObserver>{
 			}
 			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
 				if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
-					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(69, 69, 2));		//Returning actual soldiers (alive not solid)					
+					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));		//Returning actual soldiers (alive not solid)					
 				}
-				return Board.getInstance().toIcon(p);
+				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
 			}
 			
 		}
@@ -139,7 +140,7 @@ public class Game implements Observable<GameObserver>{
 				return Icons.TroopIcons.DEAD;
 			}
 		}
-		return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(69, 69, 2));												//Returning fog of war	(not visible)
+		return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));												//Returning fog of war	(not visible)
 	}
 
 	public void addPlayer(Player p) {

@@ -24,7 +24,8 @@ import PTactics.view.GameObserver;
 public abstract class Controller implements ControllerInterface {
 	protected Game _game;
 	protected boolean _endTurn;
-	public static int mapSelected = 1;
+	public static int mapSelected = 0;
+	public static int tileSize = 69;
 	protected int _numPlayers = 0;
 	protected List<String> _playerNames = new ArrayList<>();
 	
