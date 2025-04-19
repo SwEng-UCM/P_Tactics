@@ -1,10 +1,11 @@
 package PTactics.control.commands;
 
 import PTactics.control.ControllerInterface;
+import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 
-public class AbilityCommand extends Command {
+public class AbilityCommand extends ReportCommand {
 	private static final String NAME = Utils.CommandInfo.COMMAND_ABILITY_NAME;
 	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_ABILITY_SHORTCUT;
 	private static final String DETAILS = Utils.CommandInfo.COMMAND_ABILITY_DETAILS;
@@ -26,8 +27,9 @@ public class AbilityCommand extends Command {
 		try {
 			CI.troopAbility(new Position(_posX, _posY));
 			CI.update();
+			super.execute(CI);
 		} catch (Exception e) {
-			e.printStackTrace();;
+			e.printStackTrace();
 		}
 	}
 
@@ -48,5 +50,38 @@ public class AbilityCommand extends Command {
 			return this;
 		}
 		return null;
+	}
+
+	@Override
+	protected Snapshot getSnap(ControllerInterface CI) {
+		return new AbilitySnapshot(CI);
+	}
+	
+	private class AbilitySnapshot implements Snapshot {
+		private String _commandId;
+		private Position _abilityPos;
+		private Troop _troopUsed;
+		private ControllerInterface _ctrl;
+		
+		private AbilitySnapshot(ControllerInterface CI) {
+			_ctrl = CI;
+			_commandId = NAME;
+			_abilityPos = new Position(_posX, _posY);
+			_troopUsed = CI.getGame().currentTroop();
+		}
+		
+		@Override
+		public void restore() {
+			_troopUsed.undoAbility(_abilityPos);
+			_ctrl.update();
+		}
+
+		@Override
+		public void executeAgain() {
+			_ctrl.selectTroop(_troopUsed);
+			String[] s = {_commandId, String.valueOf(_abilityPos.getX()+1), String.valueOf(_abilityPos.getY()+1) };
+			Command c = CommandGenerator.parse(s);
+			c.execute(_ctrl);
+		}
 	}
 }

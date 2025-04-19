@@ -167,6 +167,11 @@ public abstract class Controller implements ControllerInterface {
 	public void selectTroop(Position pos) throws Exception {
 		_game.selectTroop(pos);
 	}
+	
+	@Override
+	public void selectTroop(Troop t) {
+		_game.selectTroop(t);
+	}
 
 	public boolean isTroopSelected() {
 		return _game.isTroopSelected();

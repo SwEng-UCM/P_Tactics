@@ -259,6 +259,14 @@ public class Game implements Observable<GameObserver>{
 		}		
 	}
 	
+	public void selectTroop(Troop t) {
+		_currTroop = t;
+		
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(this);
+		}
+	}
+	
 	public boolean canMove(Position pos) {
 		return _currTroop.isAlive() && (!(_currTroop.getPos().getX() == pos.getX()) || !(_currTroop.getPos().getY() == pos.getY())) && (this.getBoard().getGameObject(pos)==null||this.getBoard().getGameObject(pos).isWalkable());
 	}

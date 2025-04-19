@@ -82,4 +82,6 @@ public interface ControllerInterface {
 	public void load(InputStream is);
 	
 	public JSONObject report();
+
+	void selectTroop(Troop t);
 }

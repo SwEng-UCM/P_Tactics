@@ -3,10 +3,11 @@ package PTactics.control.commands;
 import java.util.zip.DataFormatException;
 
 import PTactics.control.ControllerInterface;
+import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Utils;
 
-public class AimCommand extends Command {
+public class AimCommand extends ReportCommand {
 	private static final String NAME = Utils.CommandInfo.COMMAND_AIM_NAME;
 	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_AIM_SHORTCUT;
 	private static final String DETAILS = Utils.CommandInfo.COMMAND_AIM_DETAILS;
@@ -22,11 +23,12 @@ public class AimCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI) {
-		try {
+		if(CI.isTroopSelected()) {
+			super.execute(CI);
 			CI.takeAim(_dirToAim);
 			CI.updatePlayers();
-			}
-		catch(NullPointerException e) {
+		}
+		else {
 			System.out.println(Utils.MsgErrors.UNSELECTED_TROOP);
 		}
 	}
@@ -46,5 +48,41 @@ public class AimCommand extends Command {
 				}
 				else return null;
 	}
+	
+	@Override
+	protected Snapshot getSnap(ControllerInterface CI) {
+		return new AimSnapshot(CI);
+	}
 
+	private class AimSnapshot implements Snapshot {
+		private String _commandId;
+		private Direction _initialDir;
+		private Direction _finalDir;
+		private Troop _troopUsed;
+		private ControllerInterface _ctrl;
+		
+		private AimSnapshot(ControllerInterface CI) {
+			_ctrl = CI;
+			_commandId = NAME;
+			_initialDir = CI.getGame().currentTroop().getDir();
+			_finalDir = _dirToAim;
+			_troopUsed = CI.getGame().currentTroop();
+		}
+		
+		@Override
+		public void restore() {
+			_troopUsed.takeAim(_initialDir);
+			_ctrl.updatePlayers();
+		}
+
+		@Override
+		public void executeAgain() {
+			_ctrl.selectTroop(_troopUsed);
+			String[] s = {_commandId, _finalDir.toString() };
+			Command c = CommandGenerator.parse(s);
+			c.execute(_ctrl);
+		}
+		
+	}
 }
+

@@ -104,4 +104,11 @@ public class SmokerTroop extends Troop {
 		
 		return Icons.TroopIcons.SmokerIcons.TROOP_FACING_UP;
 	}
+
+	@Override
+	public void undoAbility(Position _abilityPos) {
+		_abilityUses++;
+		Board.getInstance().unsmoke(_abilityPos);
+
+	}
 }

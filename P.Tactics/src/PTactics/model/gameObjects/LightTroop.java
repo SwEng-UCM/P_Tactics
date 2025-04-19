@@ -144,4 +144,10 @@ public class LightTroop extends Troop {
 		
 		return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
 	}
+
+	@Override
+	public void undoAbility(Position _abilityPos) {
+		_iFrames = 0;
+		_abilityUses++;
+	}
 }

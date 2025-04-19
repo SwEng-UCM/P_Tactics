@@ -187,4 +187,11 @@ public class SniperTroop extends Troop {
 			deactivateAbility();
 		}
 	}
+
+	@Override
+	public void undoAbility(Position _abilityPos) {
+		deactivateAbility();
+		_droneArea.clear();
+		_abilityUses++;
+	}
 }

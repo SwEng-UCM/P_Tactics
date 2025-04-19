@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import org.json.JSONArray;
+
 import PTactics.model.gameObjects.GameObject;
 import PTactics.utils.Position;
 
@@ -24,4 +25,5 @@ public interface BoardInterface{
 	public ImageIcon toIcon(Position p);
 	public JSONArray report();
 	public List<Position> shootablePositions(Position target, int aimRange);
+	public void unsmoke(Position _abilityPos);
 }

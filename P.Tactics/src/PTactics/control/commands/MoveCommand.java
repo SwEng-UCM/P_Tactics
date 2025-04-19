@@ -5,16 +5,18 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 
 import PTactics.control.ControllerInterface;
+import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 
-public class MoveCommand extends Command {
+public class MoveCommand extends ReportCommand {
 	private static final String NAME = Utils.CommandInfo.COMMAND_MOVE_NAME;
 	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_MOVE_SHORTCUT;
 	private static final String DETAILS = Utils.CommandInfo.COMMAND_MOVE_DETAILS;
 	private static final String HELP = Utils.CommandInfo.COMMAND_MOVE_HELP;
 	private int _posX;
 	private int _posY;
+	private boolean snapTaken;
 
 	public MoveCommand() {
 		super(NAME, SHORTCUT, DETAILS, HELP);
@@ -25,6 +27,12 @@ public class MoveCommand extends Command {
 		super(NAME, SHORTCUT, DETAILS, HELP);
 		this._posX = x;
 		this._posY = y;
+		snapTaken = false;
+	}
+	
+	@Override
+	protected Snapshot getSnap(ControllerInterface CI) {
+		return new MoveSnapshot(CI);
 	}
 
 	@Override
@@ -33,10 +41,15 @@ public class MoveCommand extends Command {
 			boolean movesLeft = true;
 			Position pos = new Position(_posX, _posY);
 			try {
+				if(!snapTaken) {
+					super.execute(CI);
+					snapTaken = true;
+				}
 				CI.moveTroop(pos);
 			} catch (IllegalArgumentException iae) {
 				System.out.println(iae);
 				movesLeft = false;
+				super.eraseSnap(CI);
 			}
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
@@ -44,7 +57,7 @@ public class MoveCommand extends Command {
 				e.printStackTrace();
 			}
 			if (movesLeft && CI.canMove(pos)) {
-				SwingUtilities.invokeLater(() -> execute(CI));				
+				SwingUtilities.invokeLater(() -> execute(CI));
 			}
 			else if (!CI.currTroop().isAlive()) {
 				CI.setTroop(null);
@@ -64,9 +77,44 @@ public class MoveCommand extends Command {
 			} catch (NumberFormatException n) {
 				return null;
 			}
+			snapTaken = false;
 			return this;
 		} else
 			return null;
 	}
-
+	
+	
+	private class MoveSnapshot implements Snapshot {
+		private String _commandId;
+		private Position _initialPos;
+		private Position _finalPos;
+		private int _movesLeftBefore;
+		private Troop _troopUsed;
+		private ControllerInterface _ctrl;
+		
+		private MoveSnapshot(ControllerInterface CI) {
+			_ctrl = CI;
+			_commandId = NAME;
+			_troopUsed = CI.getGame().currentTroop();
+			_initialPos = _troopUsed.getPos();
+			_finalPos = new Position(_posX, _posY);
+			_movesLeftBefore = _troopUsed.getMovesLeft();			
+		}
+		
+		@Override
+		public void restore() {
+			_troopUsed.setPosition(_initialPos);
+			if(!_troopUsed.isAlive()) { _troopUsed.revive(); }
+			_troopUsed.setMovesLeft(_movesLeftBefore);
+			_ctrl.updatePlayers();
+		}
+		
+		@Override
+		public void executeAgain() {
+			_ctrl.selectTroop(_troopUsed);
+			String[] s = {_commandId, String.valueOf(_finalPos.getX() +1), String.valueOf(_finalPos.getY()+1) };
+			Command c = CommandGenerator.parse(s);
+			c.execute(_ctrl);
+		}
+	}
 }

@@ -67,6 +67,10 @@ public abstract class Troop extends GameObject{
 		return troopReport;
 	}
 	
+	public Direction getDir() {
+		return this._dir;
+	}
+	
 	@Override
 	public void AddToMove(Position pos) 
 	{
@@ -355,6 +359,19 @@ public abstract class Troop extends GameObject{
 	public int getShootRange() 
 	{
 		return this._shootRange;
+	}
+
+	public abstract void undoAbility(Position _abilityPos);
+	
+	public void revive() { 
+		this.alive = true;
+	}
+	
+	public void setMovesLeft(int ml) {
+		if(ml > this._moveRange) {
+			throw new IllegalArgumentException("The new moves left cannot be larger than moveRange");
+		}
+		this._movesLeft = ml;
 	}
 }
 

@@ -1,6 +1,9 @@
 package PTactics.control.commands;
 
+import java.util.Objects;
+
 import PTactics.control.ControllerInterface;
+import PTactics.control.Tracker;
 import PTactics.utils.Utils;
 
 public class RedoCommand extends Command {
@@ -16,7 +19,10 @@ public class RedoCommand extends Command {
 
 	@Override
 	public void execute(ControllerInterface CI) {
-		//Tracker.getInstance(CI).redo();
+		Snapshot s = Tracker.getTracker(CI).popRedo();
+		if(!Objects.isNull(s)) {
+			s.executeAgain();
+		}
 	}
 
 	@Override

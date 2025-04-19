@@ -17,6 +17,7 @@ import PTactics.model.gameObjects.SmokeObject;
 import PTactics.model.gameObjects.Wall;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
+import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
 
 public class Board extends ConcurrentHashMap  <Position,GameObject>implements BoardInterface {
@@ -154,5 +155,18 @@ public class Board extends ConcurrentHashMap  <Position,GameObject>implements Bo
 			}
 		}
 		return shootablePosList;
+	}
+	
+	@Override
+	public void unsmoke(Position _abilityPos) {
+			int range = 1;
+			for (int dx = -range; dx <= range; dx++) {
+		        for (int dy = -range; dy <= range; dy++) {
+		            Position unsmokePos = new Position(_abilityPos.getX() + dx, _abilityPos.getY() + dy);
+		            if (this.get(unsmokePos).getId() == Utils.WallUtils.SMOKE) {
+		                this.eraseFromPos(unsmokePos);
+		            }
+		        }
+		    }
 	}
 }
