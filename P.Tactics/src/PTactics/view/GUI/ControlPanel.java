@@ -40,7 +40,7 @@ public class ControlPanel extends JPanel implements GameObserver {
 		this._cntr.addObserver(this);
 		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
-		this.setMaximumSize(new Dimension(1200, 100));
+		//this.setMaximumSize(new Dimension(1200, 100));
 		
 		txtrCurrentSelectedTroop = new JLabel();
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");

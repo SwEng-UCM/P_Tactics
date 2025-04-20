@@ -40,7 +40,7 @@ public class GameWindow {
 				PTactics.utils.Position._gameLength, _ctrl, control);
 
 		// board is smaller
-		Dimension boardSize = new Dimension(Game._boardLength * 50, Game._boardWidth * 50);
+		Dimension boardSize = new Dimension(Game._boardLength * Controller.tileSize, Game._boardWidth * Controller.tileSize);
 		gameBoard.setMaximumSize(boardSize);
 		gameBoard.setMinimumSize(boardSize);
 		
