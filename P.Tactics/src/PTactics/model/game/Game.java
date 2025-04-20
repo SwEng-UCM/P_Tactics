@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import org.json.JSONObject;
 
 import PTactics.control.Controller;
+import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.SmokerTroop;
@@ -21,23 +22,25 @@ import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
 import PTactics.view.GUI.Icons;
 
-public class Game implements Observable<GameObserver>{
+public class Game /*implements Observable<GameObserver>*/{
 	public static int _boardLength; // This is the first value (y)
 	public static int _boardWidth; // This is the second value (x)
 	private int _currPlayer;
 	private Troop _currTroop;
 	
 	private List<Player> _players;
-	private List<GameObserver> _observers;
+//	private List<GameObserver> _observers;
+	private ControllerInterface ctrl;
 
-	public Game() {
+	public Game(ControllerInterface ctrl) {
 		Game._boardLength = MapSelector.getLength();
 		Game._boardWidth = MapSelector.getWidth();
 		Position._gameLength = MapSelector.getLength();
 		Position._gameWidth = MapSelector.getWidth();
 		this._players = new ArrayList<>();
 		this._currPlayer = 0;
-		_observers = new ArrayList<>();
+		//_observers = new ArrayList<>();
+		this.ctrl = ctrl;
 	}
 	
 	public void set(JSONObject gameState) {
@@ -164,9 +167,7 @@ public class Game implements Observable<GameObserver>{
 		for (Player p : _players) {
 			p.update();
 		}
-		for (GameObserver o : _observers) {
-			o.onPlayersUpdate(this);
-		}
+		updateOnPlayersUpdate();
 	}
 	
 	private void inicializePlayers() {
@@ -188,9 +189,7 @@ public class Game implements Observable<GameObserver>{
 	
 	public void updateBoard() {
 		Board.getInstance().update();
-		for (GameObserver o : _observers) {
-			o.onBoardUpdate(this);
-		}
+		updateOnBoardUpdate();
 	}
 
 	public GameObject objectInPos(Position pos) {
@@ -221,9 +220,7 @@ public class Game implements Observable<GameObserver>{
 		}
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();	
-		for (GameObserver o : _observers) {
-			o.onNextTurn(this);
-		}
+		updateOnNextTurn();
 		_players.get(_currPlayer).ComputeTurn();
 	}
 	
@@ -255,17 +252,14 @@ public class Game implements Observable<GameObserver>{
 		
 		_currTroop = (Troop) t;
 		
-		for (GameObserver o : _observers) {
-			o.onTroopSelection(this);
-		}		
+		updateOnTroopSelection();
+	
 	}
 	
 	public void selectTroop(Troop t) {
 		_currTroop = t;
 		
-		for (GameObserver o : _observers) {
-			o.onTroopSelection(this);
-		}
+		updateOnTroopSelection();
 	}
 	
 	public boolean canMove(Position pos) {
@@ -276,9 +270,7 @@ public class Game implements Observable<GameObserver>{
 		_currTroop.AddToMove(pos);
 		_currTroop.update();
 		updatePlayers();
-		for (GameObserver o : _observers) {
-			o.onTroopAction(this);
-		}
+		updateOnTroopAction();
 	}
 
 	public void troopAbility(Position pos) throws Exception {
@@ -303,37 +295,27 @@ public class Game implements Observable<GameObserver>{
 			}
 		}
 		
-		for (GameObserver o : _observers) {
-			o.onTroopAction(this);
-		}
+		updateOnTroopAction();
 	}
 
 	public void takeAim(Direction _dirToAim) {
 		_currTroop.takeAim(_dirToAim);
-		for (GameObserver o : _observers) {
-			o.onTroopAction(this);
-		}	
+		updateOnTroopAction();
 	}
 	
 	public void troopLook(Direction dir) {
 		_currTroop.setDirection(dir);
-		for (GameObserver o : _observers) {
-			o.onTroopAction(this);
-		}
+		updateOnTroopAction();
 	}
 
 	public void dropTroop() {
 		_currTroop = null;
-		for (GameObserver o : _observers) {
-			o.onTroopUnSelection(this);
-		}
+		updateOnTroopSelection();
 	}
 
 	public void setTroop(Troop t) {
 		_currTroop = t;
-		for (GameObserver o : _observers) {
-			o.onTroopSelection(this);
-		}
+		updateOnTroopSelection();
 	}
 	
 	public void onDeadTroopSelected() {
@@ -350,14 +332,13 @@ public class Game implements Observable<GameObserver>{
 		_players.get(0).startTurn();		
 	}
 
-	@Override
 	public void addObserver(GameObserver o) {
-		_observers.add(o);	
+		ctrl.addObserver(o);
 	}
 
-	@Override
+
 	public void removeObserver(GameObserver o) {
-		_observers.remove(o);
+		ctrl.removeObserver(o);
 	}
 	public boolean dangerTile(Position pos) {
 		return _players.get(_currPlayer).isInDanger(pos);
@@ -385,5 +366,23 @@ public class Game implements Observable<GameObserver>{
 			}
 		}
 		return returnList;
+	}
+	void updateOnPlayersUpdate() {
+		ctrl.updateOnPlayersUpdate();
+	}
+	void updateOnBoardUpdate() {
+		ctrl.updateOnBoardUpdate();
+	}
+	void updateOnTroopAction() {
+		ctrl.updateOnTroopAction();
+	}
+	void updateOnTroopSelection() {
+		ctrl.updateOnTroopSelection();
+	}
+	void updateOnNextTurn() {
+		ctrl.updateOnNextTurn();	
+	}
+	void updateOnTroopUnSelection() {
+		ctrl.updateOnTroopUnSelection();
 	}
 }

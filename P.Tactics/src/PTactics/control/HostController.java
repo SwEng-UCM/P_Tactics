@@ -280,6 +280,48 @@ public class HostController implements ControllerInterface {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void removeObserver(GameObserver o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOnPlayersUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOnBoardUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOnTroopAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOnTroopSelection() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOnNextTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOnTroopUnSelection() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/* IMPORTANTE AÑADIR
 	 try

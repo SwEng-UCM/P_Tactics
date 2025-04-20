@@ -46,6 +46,7 @@ public interface ControllerInterface {
 	int getNumPlayer();
 
 	public void addObserver(GameObserver o);
+	public void removeObserver(GameObserver o);
 
 	String positionToString(Position _pos);
 
@@ -84,4 +85,12 @@ public interface ControllerInterface {
 	public JSONObject report();
 
 	void selectTroop(Troop t);
+	
+	
+	void updateOnPlayersUpdate();
+	void updateOnBoardUpdate();
+	void updateOnTroopAction();
+	void updateOnTroopSelection();
+	void updateOnNextTurn();
+	void updateOnTroopUnSelection();
 }

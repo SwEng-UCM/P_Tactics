@@ -14,6 +14,7 @@ import P.Tactics.CPU.MediumCPU;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
+import PTactics.model.game.Observable;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -21,17 +22,19 @@ import PTactics.utils.GameObjectCreator;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
 
-public abstract class Controller implements ControllerInterface {
+public abstract class Controller implements ControllerInterface,Observable<GameObserver> {
 	protected Game _game;
 	protected boolean _endTurn;
 	public static int mapSelected = 0;
 	public static int tileSize = 50;
 	protected int _numPlayers = 0;
 	protected List<String> _playerNames = new ArrayList<>();
+	private List<GameObserver> _observers;
 	
 	public Controller() {
-		_game = new Game();
+		_game = new Game(this);
 		_endTurn = false;
+		_observers = new ArrayList<>();
 	}
 	
 	public JSONObject report() {
@@ -161,9 +164,12 @@ public abstract class Controller implements ControllerInterface {
 	}
 
 	public void addObserver(GameObserver o) {
-		this._game.addObserver(o);
+		_observers.add(o);
 	}
-
+	public void removeObserver(GameObserver o) {
+		_observers.remove(o);
+	}
+	
 	@Override
 	public void selectTroop(Position pos) throws Exception {
 		_game.selectTroop(pos);
@@ -253,5 +259,35 @@ public abstract class Controller implements ControllerInterface {
 	protected void _loadController(JSONObject gameState) {
 		this._numPlayers = gameState.getInt("Players");
 		_endTurn = false;
+	}
+	public void updateOnPlayersUpdate() {
+		for (GameObserver o : _observers) {
+			o.onPlayersUpdate(_game);
+		}
+	}
+	public void updateOnBoardUpdate() {
+		for (GameObserver o : _observers) {
+			o.onBoardUpdate(_game);
+		}
+	}
+	public void updateOnTroopAction() {
+		for (GameObserver o : _observers) {
+			o.onTroopAction(_game);
+		}
+	}
+	public void updateOnTroopSelection() {
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(_game);
+		}	
+	}
+	public void updateOnNextTurn() {
+		for (GameObserver o : _observers) {
+			o.onNextTurn(_game);
+		}	
+	}
+	public void updateOnTroopUnSelection() {
+		for (GameObserver o : _observers) {
+			o.onTroopUnSelection(_game);
+		}	
 	}
 }
