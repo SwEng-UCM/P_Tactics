@@ -1,14 +1,22 @@
 package PTactics.view.GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
 import PTactics.model.game.Game;
@@ -19,10 +27,6 @@ public class ControlPanel extends JPanel implements GameObserver {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the panel.
-	 */
-	
 	private JLabel txtrCurrentSelectedTroop;
 	JToggleButton moveButton;
 	JToggleButton aimButton;
@@ -34,66 +38,80 @@ public class ControlPanel extends JPanel implements GameObserver {
 	public ControlPanel(ControllerInterface cntr) {
 		this._cntr = cntr;
 		this._cntr.addObserver(this);
-		this.setMaximumSize(new Dimension(1000, 300));
-		setLayout(new FlowLayout());
-		this.setAlignmentX(CENTER_ALIGNMENT);
+		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
+		this.setMaximumSize(new Dimension(1200, 100));
 		
-		txtrCurrentSelectedTroop = new JLabel(Icons.otherIcons.TEXTAREABACKGROUND);
-		txtrCurrentSelectedTroop.setBackground(new Color(1,1,1, (float) 0.01));
+		txtrCurrentSelectedTroop = new JLabel();
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
 		txtrCurrentSelectedTroop.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		txtrCurrentSelectedTroop.setForeground(Color.getHSBColor(0, 0, 0));
-		txtrCurrentSelectedTroop.setMaximumSize(new Dimension(175, 100));
-		txtrCurrentSelectedTroop.setMinimumSize(new Dimension(175, 100));
-		txtrCurrentSelectedTroop.setBorder(null);
-		txtrCurrentSelectedTroop.setAlignmentX(CENTER_ALIGNMENT);
-		txtrCurrentSelectedTroop.setHorizontalTextPosition(0);
-		add(txtrCurrentSelectedTroop);
+		txtrCurrentSelectedTroop.setHorizontalAlignment(SwingConstants.CENTER);
+		txtrCurrentSelectedTroop.setVerticalAlignment(SwingConstants.CENTER);
 
-		add(Box.createRigidArea(new Dimension(30, 0))); 		
+		JPanel gameInfoPanel = new JPanel(new BorderLayout()) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image img = Icons.otherIcons.LABELBACKGROUND.getImage();
+				int imgWidth = img.getWidth(this);
+				int imgHeight = img.getHeight(this);
+
+				double scaleX = getWidth() / (double) imgWidth;
+				double scaleY = getHeight() / (double) imgHeight;
+				double scale = Math.min(scaleX, scaleY); 	// to maintain proportion
+
+				int drawWidth = (int) (imgWidth * scale);
+				int drawHeight = (int) (imgHeight * scale);
+				int x = (getWidth() - drawWidth) / 2;
+				int y = (getHeight() - drawHeight) / 2;
+				
+				g.drawImage(img, x, y, drawWidth, drawHeight, this);
+			}
+		};
 		
-		moveButton = new JToggleButton("Move");
-//		moveButton.setBounds(270, 26, 148, 82);
-		moveButton.setAlignmentX(CENTER_ALIGNMENT);
-		moveButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		moveButton.setContentAreaFilled(false);
-		moveButton.setBorder(null);
-		moveButton.setHorizontalTextPosition(0);
-		moveButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		moveButton.setForeground(Color.orange);
-		add(moveButton);
-
-		add(Box.createRigidArea(new Dimension(30, 0))); 
+		gameInfoPanel.setOpaque(false);
+		gameInfoPanel.setPreferredSize(new Dimension(260, 100));
+		gameInfoPanel.add(txtrCurrentSelectedTroop, BorderLayout.CENTER);
+		this.add(gameInfoPanel, BorderLayout.WEST);
 		
-		aimButton = new JToggleButton("Aim");
-		// aimButton.setBounds(446, 25, 148, 83);
-		aimButton.setAlignmentX(CENTER_ALIGNMENT);
-		aimButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		aimButton.setContentAreaFilled(false);
-		aimButton.setBorder(null);
-		aimButton.setHorizontalTextPosition(0);
-		aimButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		aimButton.setForeground(Color.orange);
-		add(aimButton);
-
-		add(Box.createRigidArea(new Dimension(30, 0))); 
+		// bottom right buttons
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
+		buttonsPanel.setOpaque(false);
+		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
+		buttonsPanel.add(Box.createHorizontalGlue());	// push buttons to the right
 		
-		abilityButton = new JToggleButton("Ability");
-		// abilityButton.setBounds(624, 25, 148, 83);
-		abilityButton.setAlignmentX(CENTER_ALIGNMENT);
-		abilityButton.setIcon(Icons.otherIcons.LABELBACKGROUND);
-		abilityButton.setContentAreaFilled(false);
-		abilityButton.setBorder(null);
-		abilityButton.setHorizontalTextPosition(0);
-		abilityButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		abilityButton.setForeground(Color.orange);
-		add(abilityButton);
-
-		toggleGroup = new ButtonGroup(); // makes the buttons mutually exclusive
+		moveButton = createToggle("Move");
+		buttonsPanel.add(moveButton);
+		buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+		
+		aimButton = createToggle("Aim");
+		buttonsPanel.add(aimButton);
+		buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+		
+		abilityButton = createToggle("Ability");
+		buttonsPanel.add(abilityButton);
+		
+		toggleGroup = new ButtonGroup();
 		toggleGroup.add(moveButton);
 		toggleGroup.add(aimButton);
 		toggleGroup.add(abilityButton);
+		
+		this.add(buttonsPanel, BorderLayout.CENTER);
+	}
+
+	// generic method for the creation of buttons
+	private JToggleButton createToggle(String text) {
+		JToggleButton btn = new JToggleButton(text);
+		btn.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		btn.setForeground(Color.orange);
+		btn.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		btn.setContentAreaFilled(false);
+		btn.setBorder(null);
+		btn.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		return btn;
 	}
 
 	public int getControlSelection() { // 0 move 1 aim 2 ability : in order from left to right
@@ -126,7 +144,6 @@ public class ControlPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onTroopAction(Game game) {
-
 		updateText();
 	}
 
@@ -146,11 +163,14 @@ public class ControlPanel extends JPanel implements GameObserver {
 			return;
 		}
 		
-		String selectedTroopInfo = "Current Troop Selected" + "<br>" + this._cntr.getGame().getTroop().getId().toUpperCase()
-				+ "<br>" + "Moves Left: " + this._cntr.getGame().getTroop().getMovesLeft() 
-				+ "<br>" + "Ability Uses Left: " + this._cntr.getGame().getTroop().abilityUsesLeft();
+		String htmlInfo = "<html><div style='text-align: center;'>"
+				+ "Current Troop Selected<br>"
+				+ _cntr.getGame().getTroop().getId().toUpperCase() + "<br>"
+				+ "Moves Left: " + _cntr.getGame().getTroop().getMovesLeft() + "<br>"
+				+ "Ability Uses Left: " + _cntr.getGame().getTroop().abilityUsesLeft()
+				+ "</div></html>";
 		
-		this.txtrCurrentSelectedTroop.setText("<html>" + selectedTroopInfo + "</html>");
+		txtrCurrentSelectedTroop.setText(htmlInfo);
 	}
 
 	@Override
