@@ -25,7 +25,6 @@ public class LoadCommand extends Command {
 			History.getInstance(CI).load();
 		}
 		finally {
-			CI.update();
 			path = "";
 		}
 	}

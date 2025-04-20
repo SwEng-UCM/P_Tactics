@@ -35,7 +35,7 @@ public class History {
             myWriter.write(_ctrl.report().toString());
             myWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+        	System.out.println("Error writing to file: " + e.getMessage());
         }
 	}
 	
@@ -50,8 +50,8 @@ public class History {
 		}
 	}
 	
-	public void setOutFile(String path) {
-		_outFile = new File(path);
+	public void setOutFile(String directory, String name) {
+		_outFile = new File(directory, name);
 	}
 	
 	public void setInFile(String path) {

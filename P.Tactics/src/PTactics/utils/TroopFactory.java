@@ -19,6 +19,7 @@ public class TroopFactory implements Factory {
 	private Player p = null;
 	private Position pos = null;
 	private Direction dir = null;
+	private boolean aim;
 
 	public boolean getData(JSONObject j, ControllerInterface CI) {
 		if (!j.has("Player")) {
@@ -28,7 +29,7 @@ public class TroopFactory implements Factory {
 			p = CI.getGame().getPlayer(j.getInt("Player"));
 			dir = Direction.toDir((String) j.get("Direction"));
 			pos = new Position(j.getInt("PositionX"), j.getInt("PositionY"));
-
+			aim = j.getBoolean("Aim");
 			return true;
 		}
 	}
@@ -62,7 +63,8 @@ public class TroopFactory implements Factory {
 					t = new SniperTroop(pos, p, dir);
 				}
 			}
-			t.takeAim(dir);
+			if (aim)
+				t.takeAim(dir);
 			
 			return t;
 		}

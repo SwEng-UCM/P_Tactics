@@ -63,6 +63,7 @@ public abstract class Troop extends GameObject{
 		troopReport.put("Player", this._player.getId());
 		troopReport.put("Direction", this._dir.toString());
 		troopReport.put("MoveLeft", this._movesLeft);
+		troopReport.put("Aim", this._aiming);
 		troopReport.put("Abilities", this._abilityUses);
 		return troopReport;
 	}

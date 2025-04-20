@@ -19,7 +19,13 @@ public class SaveCommand extends Command {
 	@Override
 	public void execute(ControllerInterface CI) {
 		if(!path.isEmpty()) {
-			History.getInstance(CI).setOutFile(path);
+			StringBuilder fileName = new StringBuilder();
+			fileName.append("/JSONgame");  
+			for(String s : CI.getPlayerNames()) {
+				fileName.append(s);
+			}
+			fileName.append(".json");
+			History.getInstance(CI).setOutFile(path, fileName.toString());
 		}
 		
 		History.getInstance(CI).save();
