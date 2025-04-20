@@ -1,8 +1,10 @@
 package PTactics.view.GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,114 +18,175 @@ import javax.swing.JScrollPane;
 public class TutorialWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-
+	private static final Color BG_COLOR = new Color(60, 40, 20);		// dark brown
 
 	public TutorialWindow() {
 		setVisible(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        setSize(500,500);
+		setSize(520, 600);
+		setLocationRelativeTo(null);		// to center
         
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBackground(Color.WHITE);
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBackground(BG_COLOR);
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
+        // header welcome message
+        contentPanel.add(createHeaderWelcomeLabel("WELCOME TO HOLDFIRE TUTORIAL"));
+        contentPanel.add(Box.createVerticalStrut(5));
+        
+        // header
         contentPanel.add(createHeaderLabel("CONTROLS"));
 
         // select command
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ Select command:"));
-        contentPanel.add(createIndentedLabel(" -Shortcut: none"));
-        contentPanel.add(createIndentedLabel(" -Description: Left click on an ally troop to select said troop."));
-
+        contentPanel.add(createSection(
+        		"Select command:",
+        		" -Shortcut: none",
+				" -Description: Left click on an ally troop to select said troop.",
+				null
+        ));
+        
         // move command
-        contentPanel.add(Box.createVerticalStrut(20));
-        contentPanel.add(new JLabel(new ImageIcon("Icons/move_icon.png")));
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ Move command:"));
-        contentPanel.add(createIndentedLabel(" -Shortcut: m"));
-        contentPanel.add(createIndentedLabel(" -Description: Shows the path the selected troop will take and executes when destination is selected."));
-
+        contentPanel.add(createSection(
+				"Move command:",
+				" -Shortcut: m",
+				" -Description: Shows the path the selected troop will take and executes when destination is selected.",
+				"Icons/move_icon.png"
+		));
+        
         // aim command
-        contentPanel.add(Box.createVerticalStrut(20));
-        contentPanel.add(new JLabel(new ImageIcon("Icons/aim_icon.png")));
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ Aim:"));
-        contentPanel.add(createIndentedLabel(" -Shortcut: a"));
-        contentPanel.add(createIndentedLabel(" -Description: Press to enter aiming mode and select a board cell to aim in that direction"));
-        contentPanel.add(createIndentedLabel(" -Warning!: No diagonal aiming."));
-
+        contentPanel.add(createSection(
+				"Aim:",
+				" -Shortcut: a",
+				" -Description: Press to enter aiming mode and select a board cell to aim in that direction",
+				"Icons/aim_icon.png"
+		));
+        
         // ability command
-        contentPanel.add(Box.createVerticalStrut(20));
-        contentPanel.add(new JLabel(new ImageIcon("Icons/ability_icon.png")));
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ Ability:"));
-        contentPanel.add(createIndentedLabel(" -Shortcut: b"));
-        contentPanel.add(createIndentedLabel(" -Description: Press to enter ability mode, then select a cell to deploy the ability in."));
-
+        contentPanel.add(createSection(
+				"Ability:",
+				" -Shortcut: b",
+				" -Description: Press to enter ability mode, then select a cell to deploy the ability in.",
+				"Icons/ability_icon.png"
+		));
+        
         // endTurn command
-        contentPanel.add(Box.createVerticalStrut(20));
-        contentPanel.add(new JLabel(new ImageIcon("Icons/endTurn_icon.png")));
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ End turn:"));
-        contentPanel.add(createIndentedLabel( "Gives control of the board to the next player."));
-
-        contentPanel.add(Box.createVerticalStrut(30));
+        contentPanel.add(createSection(
+				"End Turn:",
+				" -No shortcut",
+				" -Gives control of the board to the next player.",
+				"Icons/endTurn_icon.png"
+		));
+        
+        contentPanel.add(Box.createVerticalStrut(35));
         contentPanel.add(createHeaderLabel("TROOPS & ABILITIES"));
+        
+        contentPanel.add(createTroopInfo(
+				"LightTroop (dash):",
+				" -Description: Advance 3 blocks in an invulnerable state",
+				"Icons/LightTroop_down.png"
+		));
 
-        // lightTroop description
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ LightTroop (dash):"));
-        contentPanel.add(createIndentedLabel(" -Description: Advance 3 blocks in an invulnerable state"));
-        contentPanel.add(Box.createVerticalStrut(10));
-        JLabel lightTroopIcon = new JLabel(new ImageIcon("Icons/LightTroop_down.png"));
-        contentPanel.add(lightTroopIcon);
-     
-        
-        // sniperTroop description
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ Sniper (drone):"));
-        contentPanel.add(createIndentedLabel(" -Description: Deploy a 3x3 visibility zone"));
-        contentPanel.add(Box.createVerticalStrut(10));
-        JLabel sniperIcon = new JLabel(new ImageIcon("Icons/sniper_down.png"));
-        contentPanel.add(sniperIcon);
-        
-        // smokerTroop description
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(createBoldLabel("➙ Smoker (smoke):"));
-        contentPanel.add(createIndentedLabel(" -Description: Deploy a 3x3 smoke zone"));
-        contentPanel.add(Box.createVerticalStrut(10));
-        JLabel smokerTroopIcon = new JLabel(new ImageIcon("Icons/Smoker_down.png"));
-        contentPanel.add(smokerTroopIcon);
-      
-        
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBorder(null); // Optional: removes border
+		contentPanel.add(createTroopInfo(
+				"Sniper (drone):",
+				" -Description: Deploy a 3x3 visibility zone",
+				"Icons/sniper_down.png"
+		));
 
-        getContentPane().add(scrollPane);
-    
+		contentPanel.add(createTroopInfo(
+				"Smoker (smoke):",
+				" -Description: Deploy a 3x3 smoke zone",
+				"Icons/Smoker_down.png"
+		));
+		
+		JScrollPane scrollPane = new JScrollPane(contentPanel);
+		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);		// scroll faster
+		
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
-	private JLabel createHeaderLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Times New Roman", Font.BOLD, 20));
-        label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return label;
-    }
-
-    private JLabel createBoldLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return label;
-    }
-
-    private JLabel createIndentedLabel(String text) {
-        JLabel label = new JLabel("    " + text); // Indentation via spaces
-        label.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return label;
-    }
 	
+	private Component createHeaderLabel(String title) {
+		JLabel label = new JLabel(title);
+		label.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		label.setForeground(Color.WHITE);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		
+		return label;
+	}
+	
+	private Component createHeaderWelcomeLabel(String title) {
+		JLabel label = new JLabel("<html><div style='padding-bottom:6px;'><u>" + title + "</u></div></html>");
+		label.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		label.setForeground(Color.WHITE);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+		return label;
+	}
+
+	private Component createSection(String title, String line1, String line2, String icon) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(BG_COLOR);
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		panel.add(createBoldLabel("➙ " + title));
+		panel.add(createIndentedLabel(line1));
+		panel.add(createIndentedLabel(line2));
+		
+		if (icon != null) {
+			panel.add(Box.createVerticalStrut(10));
+			JLabel iconLabel = new JLabel(resizeIcon(icon, 130, 45));
+			iconLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(iconLabel);
+		}
+		
+		panel.add(Box.createVerticalStrut(20));
+		
+		return panel;
+	}
+	
+	private JLabel createIndentedLabel(String text) {
+		JLabel label = new JLabel("    " + text);
+		label.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		label.setForeground(Color.LIGHT_GRAY);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		return label;
+	}
+
+	private JLabel createBoldLabel(String text) {
+		JLabel label = new JLabel(text);
+		label.setFont(new Font("Times New Roman", Font.BOLD, 19));
+		label.setForeground(Color.WHITE);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		return label;
+	}
+
+	private Component createTroopInfo(String title, String description, String imagePath) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(BG_COLOR);
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		panel.add(createBoldLabel("➙ " + title));
+		panel.add(createIndentedLabel(description));
+		panel.add(Box.createVerticalStrut(8));
+		
+		JLabel img = new JLabel(resizeIcon(imagePath, 64, 64));
+		img.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.add(img);
+		panel.add(Box.createVerticalStrut(15));
+		
+		return panel;
+	}
+	
+	private ImageIcon resizeIcon(String path, int width, int height) {
+		ImageIcon originalIcon = new ImageIcon(path);
+		Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		return new ImageIcon(scaledImage);
+	}
 }
