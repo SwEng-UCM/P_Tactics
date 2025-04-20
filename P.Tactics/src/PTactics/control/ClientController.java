@@ -1,5 +1,6 @@
 package PTactics.control;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -13,6 +14,7 @@ import P.Tactics.CPU.MediumCPU;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
+import PTactics.model.game.Observable;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -24,15 +26,16 @@ import PTactics.view.GameObserver;
 import java.net.*; 
 import java.io.*;
 
-public class ClientController implements ControllerInterface {
+public class ClientController implements ControllerInterface,Observable<GameObserver> {
 	private Socket socket;
 	private DataOutputStream out;
 	private DataInput in;
 	Player player;
-	
+	private List<GameObserver> _observers;
 	// constructor that takes the IP Address and the Port
 	public ClientController(String address, int port) 
 	{ 
+		_observers = new ArrayList<>();
 		// we try to establish a connection 
 		try
 		{ 
@@ -113,10 +116,6 @@ public class ClientController implements ControllerInterface {
 	public int getNumPlayer() {
 		//communicate in
 		return 0;
-	}
-
-	public void addObserver(GameObserver o) {
-		//restructure
 	}
 
 	@Override
@@ -244,46 +243,42 @@ public class ClientController implements ControllerInterface {
 		return null;
 	}
 
-	@Override
+	public void addObserver(GameObserver o) {
+		_observers.add(o);
+	}
 	public void removeObserver(GameObserver o) {
-		// TODO Auto-generated method stub
-		
+		_observers.remove(o);
 	}
-
-	@Override
+	
 	public void updateOnPlayersUpdate() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onPlayersUpdate(null);
+		}
 	}
-
-	@Override
 	public void updateOnBoardUpdate() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onBoardUpdate(null);
+		}
 	}
-
-	@Override
 	public void updateOnTroopAction() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onTroopAction(null);
+		}
 	}
-
-	@Override
 	public void updateOnTroopSelection() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(null);
+		}	
 	}
-
-	@Override
 	public void updateOnNextTurn() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onNextTurn(null);
+		}	
 	}
-
-	@Override
 	public void updateOnTroopUnSelection() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onTroopUnSelection(null);
+		}	
 	}
 	
 
