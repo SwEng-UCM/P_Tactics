@@ -6,6 +6,7 @@ import javax.swing.SwingConstants;
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
+import PTactics.control.commands.RedoCommand;
 import PTactics.model.game.Game;
 import PTactics.view.GameObserver;
 
@@ -29,6 +30,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 
 	private static final long serialVersionUID = 1L;
 	private TutorialWindow tw;
+	private RedoCommand rc;
 	public ControllerInterface _ctrl;
 	private JLabel playerTurnText;
 	private JPanel turnPanel;
@@ -132,6 +134,21 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 			}
 		});
 		add(tutorial);
+		
+		// undo/redo button
+		JButton undo = new JButton("Undo");
+		undo.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		undo.setContentAreaFilled(false);
+		undo.setBorder(null);
+		undo.setHorizontalTextPosition(0);
+		undo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		undo.setForeground(Color.orange);
+		undo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rc.execute(_ctrl);
+			}
+		});
+		add(undo);
 	}
 	@Override
 	public void onPlayersUpdate(Game game) {
