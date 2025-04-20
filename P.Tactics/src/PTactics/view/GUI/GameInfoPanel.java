@@ -8,6 +8,7 @@ import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.commands.RedoCommand;
 import PTactics.model.game.Game;
+import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
 
 import javax.swing.JLabel;
@@ -30,7 +31,6 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 
 	private static final long serialVersionUID = 1L;
 	private TutorialWindow tw;
-	private RedoCommand rc;
 	public ControllerInterface _ctrl;
 	private JLabel playerTurnText;
 	private JPanel turnPanel;
@@ -88,8 +88,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 					//Hardcoding save instruction
-					String cmdLine = "save " + filePath;
-					String[] cmdArgs = cmdLine.trim().split("\\s+");
+					String[] cmdArgs = {Utils.CommandInfo.COMMAND_SAVE_NAME, filePath};
 					Command command = CommandGenerator.parse(cmdArgs);
 					command.execute(_ctrl);
 				}
@@ -145,10 +144,31 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		undo.setForeground(Color.orange);
 		undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rc.execute(_ctrl);
+				//Hardcoding undo instruction
+				String[] cmdArgs = {Utils.CommandInfo.COMMAND_UNDO_NAME};
+				Command command = CommandGenerator.parse(cmdArgs);
+				command.execute(_ctrl);
 			}
 		});
 		add(undo);
+		
+		// Redo button
+		JButton redo = new JButton("Redo");
+		redo.setIcon(Icons.otherIcons.LABELBACKGROUND);
+		redo.setContentAreaFilled(false);
+		redo.setBorder(null);
+		redo.setHorizontalTextPosition(0);
+		redo.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		redo.setForeground(Color.orange);
+		redo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Hardcoding redo instruction
+				String[] cmdArgs = {Utils.CommandInfo.COMMAND_REDO_NAME};
+				Command command = CommandGenerator.parse(cmdArgs);
+				command.execute(_ctrl);
+			}
+		});
+		add(redo);
 	}
 	@Override
 	public void onPlayersUpdate(Game game) {
