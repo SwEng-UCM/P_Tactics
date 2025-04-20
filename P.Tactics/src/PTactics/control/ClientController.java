@@ -1,0 +1,248 @@
+package PTactics.control;
+
+import java.util.List;
+
+import javax.swing.Icon;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import P.Tactics.CPU.EasyCPU;
+import P.Tactics.CPU.HardCPU;
+import P.Tactics.CPU.MediumCPU;
+import PTactics.control.maps.MapSelector;
+import PTactics.model.game.DangerMediator;
+import PTactics.model.game.Game;
+import PTactics.model.game.Player;
+import PTactics.model.gameObjects.Troop;
+import PTactics.utils.Direction;
+import PTactics.utils.GameObjectCreator;
+import PTactics.utils.Position;
+import PTactics.view.GameObserver;
+
+
+import java.net.*; 
+import java.io.*;
+
+public class ClientController implements ControllerInterface {
+	private Socket socket;
+	private DataOutputStream out;
+	private DataInput in;
+	Player player;
+	
+	// constructor that takes the IP Address and the Port
+	public ClientController(String address, int port) 
+	{ 
+		// we try to establish a connection 
+		try
+		{ 
+			// creates a socket with the given information
+			socket = new Socket(address, port); 
+			// pop connected! in gui
+
+			out = new DataOutputStream(socket.getOutputStream()); 
+			in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+			
+		} 
+		catch(UnknownHostException u) 
+		{ 
+			System.out.println(u); 
+			// error messager in gui
+		} 
+		catch(IOException i) 
+		{ 
+			System.out.println(i); 
+		} 
+
+		// close the connection 
+		// setup players
+	} 
+
+	@Override
+	
+	public void setPlayerNum(int playerNum) {
+		// no hace na
+	}
+
+	public void setPlayerNames(List<String> names) {
+		//no hace na
+	}
+	
+	public List<String> getPlayerNames(){
+		//no hace na
+		return null;
+	}
+	
+	public String getCurrentPlayerName() {
+			return player.getId(); 
+	}
+	
+	// In principle, we do like player 0 turn --> check if player 1 has alive
+	// troops...
+	public boolean isFinish() {
+		//communicate in
+		return false;
+	}
+	
+	
+
+	@Override
+	public void endTurn() {
+		//communicate out
+	}
+
+	public void nextTurn() {
+		//communicate out
+	}
+
+	@Override
+	public void setTroop(Troop t) {
+		//communicate out
+	}
+
+	@Override
+	public void update() {
+		//communicate out
+	}
+
+	public void updatePlayers() {
+		//communicate out
+	}
+
+	@Override
+	public int getNumPlayer() {
+		//communicate in
+		return 0;
+	}
+
+	public void addObserver(GameObserver o) {
+		//restructure
+	}
+
+	@Override
+	public void selectTroop(Position pos) throws Exception {
+		//communicate out
+	}
+	
+	@Override
+	public void selectTroop(Troop t) {
+		//communicate out
+	}
+
+	public boolean isTroopSelected() {
+		//communicate in
+		return false;
+	}
+
+	public boolean canMove(Position pos) {
+		//communicate inout
+		return false;
+	}
+
+	public void moveTroop(Position pos) throws IllegalArgumentException {
+		//communicate out
+	}
+
+	public void troopAbility(Position pos) throws Exception {
+		//communicate out
+	}
+
+	public void takeAim(Direction _dirToAim) {
+		//communicate out
+	}
+
+	public Boolean isTroop(Position pos) {
+		//communicate in
+		return false;
+	}
+
+	public Game getGame() {
+		//restructure
+		return null;
+	}
+
+	public Troop currTroop() {
+		return null;
+		//communicate in
+	}
+
+	public boolean dangerTile(Position pos) {
+		return false;
+		//communicate in
+	}
+
+	@Override
+	public List<Position> getPath(Position pos) {
+		return null;
+		//communicate in
+	}
+
+	public List<Position> hoverPath(Position pos) {
+		return null;
+		//communicate in
+	}
+	
+	@Override
+	public Icon getIcon(Position _pos) {
+		//communicate in
+		return null;
+	}
+//-------------------------------------------------------------------------------------------------------------------
+	@Override
+	public void showGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String[] getPrompt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void showMessage(String msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getInt() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String positionToString(Position _pos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setupPlayers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void setUpPlayerVsCPU(int levelCPU) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load(InputStream is) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public JSONObject report() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+}

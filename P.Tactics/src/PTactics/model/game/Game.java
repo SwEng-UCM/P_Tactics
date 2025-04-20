@@ -352,7 +352,7 @@ public class Game implements Observable<GameObserver>{
 
 	@Override
 	public void addObserver(GameObserver o) {
-		_observers.add(o);		
+		_observers.add(o);	
 	}
 
 	@Override
