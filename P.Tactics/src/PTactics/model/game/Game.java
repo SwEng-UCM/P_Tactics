@@ -274,25 +274,19 @@ public class Game /*implements Observable<GameObserver>*/{
 	}
 
 	public void troopAbility(Position pos) throws Exception {
-		if (_currTroop.isAbility() && _currTroop.getId() != Utils.TroopUtils.LIGHT_TROOP_ID) {
-			throw new Exception("Ability is already in use");
+		if (_currTroop.abilityUsesLeft() == 0) {
+			throw new Exception("No uses left for the ability");
 		}
-		else {
-			
-			if (_currTroop.abilityUsesLeft() == 0) {
-				throw new Exception("No uses left for the ability");
-			}
-			if(_currTroop.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
-				if(!_currTroop.isAbility()) _currTroop.activateAbility();
-			}
-			if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
-				SniperTroop st = (SniperTroop) _currTroop;
-				st.activateAbility(pos);
-			}
-			if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
-				SmokerTroop st = (SmokerTroop) _currTroop;
-				st.activateAbility(pos);
-			}
+		if(_currTroop.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
+			if(!_currTroop.isAbility()) _currTroop.activateAbility();
+		}
+		if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
+			SniperTroop st = (SniperTroop) _currTroop;
+			st.activateAbility(pos);
+		}
+		if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
+			SmokerTroop st = (SmokerTroop) _currTroop;
+			st.activateAbility(pos);
 		}
 		
 		updateOnTroopAction();
