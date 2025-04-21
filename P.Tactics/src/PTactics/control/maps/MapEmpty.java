@@ -54,12 +54,12 @@ public class MapEmpty implements Map{
 
 	@Override
 	public int getLength() {
-		return _game_width;
+		return _game_lenght;
 	}
 
 	@Override
 	public int getWidth() {
-		return _game_lenght;
+		return _game_width;
 	}
 
 }

@@ -36,11 +36,11 @@ public class GameWindow {
 		GameInfoPanel gameInfo = new GameInfoPanel(_ctrl, this);
 		ControlPanel control = new ControlPanel(_ctrl);
 		GameBoardPanel gameBoard = new GameBoardPanel(
-				PTactics.utils.Position._gameWidth, 
-				PTactics.utils.Position._gameLength, _ctrl, control);
+				PTactics.utils.Position._gameLength, 
+				PTactics.utils.Position._gameWidth, _ctrl, control);
 
 		// board is smaller
-		Dimension boardSize = new Dimension(Game._boardLength * Controller.tileSize, Game._boardWidth * Controller.tileSize);
+		Dimension boardSize = new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize);
 		gameBoard.setMaximumSize(boardSize);
 		gameBoard.setMinimumSize(boardSize);
 		
