@@ -13,7 +13,7 @@ import PTactics.utils.Position;
 
 public class Map1 implements Map {
 	public static int SERIAL_ID = 1;
-	private int _game_width = 10;
+	private int _game_width = 20;
 	private int _game_lenght = 10;
 
 	@Override
@@ -21,17 +21,56 @@ public class Map1 implements Map {
 		List<Position> walls = new ArrayList<Position>();
 
 		// Inner walls forming rooms
+		walls.add(new Position(9, 0));
+		walls.add(new Position(10, 0));
+		walls.add(new Position(6, 1));
+		walls.add(new Position(7, 1));
+		walls.add(new Position(12, 1));
+		walls.add(new Position(13, 1));
+		walls.add(new Position(0, 2));
+		walls.add(new Position(7, 2));
+		walls.add(new Position(8, 2));
+		walls.add(new Position(11, 2));
+		walls.add(new Position(12, 2));
+		walls.add(new Position(19, 2));
 		walls.add(new Position(3, 3));
+		walls.add(new Position(4, 3));
+		walls.add(new Position(7, 3));
+		walls.add(new Position(12, 3));
+		walls.add(new Position(15, 3));
+		walls.add(new Position(16, 3));
+		walls.add(new Position(1, 4));
+		walls.add(new Position(2, 4));
 		walls.add(new Position(3, 4));
+		walls.add(new Position(16, 4));
+		walls.add(new Position(17, 4));
+		walls.add(new Position(18, 4));
+		
+		walls.add(new Position(9, 9));
+		walls.add(new Position(10, 9));
+		walls.add(new Position(6, 8));
+		walls.add(new Position(7, 8));
+		walls.add(new Position(12, 8));
+		walls.add(new Position(13, 8));
+		walls.add(new Position(0, 7));
+		walls.add(new Position(7, 7));
+		walls.add(new Position(8, 7));
+		walls.add(new Position(11, 7));
+		walls.add(new Position(12, 7));
+		walls.add(new Position(19, 7));
 		walls.add(new Position(3, 6));
-		walls.add(new Position(3, 7));
-		walls.add(new Position(5, 2));
-		walls.add(new Position(5, 8));
-		walls.add(new Position(6, 3));
-		walls.add(new Position(6, 4));
-		walls.add(new Position(6, 6));
-		walls.add(new Position(6, 7));
-		walls.add(new Position(8, 5));
+		walls.add(new Position(4, 6));
+		walls.add(new Position(7, 6));
+		walls.add(new Position(12, 6));
+		walls.add(new Position(15, 6));
+		walls.add(new Position(16, 6));
+		walls.add(new Position(1, 5));
+		walls.add(new Position(2, 5));
+		walls.add(new Position(3, 5));
+		walls.add(new Position(16, 5));
+		walls.add(new Position(17, 5));
+		walls.add(new Position(18, 5));
+
 		
 		return walls;
 
@@ -43,14 +82,27 @@ public class Map1 implements Map {
 		List<Troop> troops = new ArrayList<Troop>(); 
 
 		if (player.getId().equals("1")) {
-		    troops.add(new SniperTroop(new Position(1, 2), player, Direction.DOWN));
-		    troops.add(new SmokerTroop(new Position(7, 9), player, Direction.DOWN));
-		    troops.add(new LightTroop(new Position(9, 3), player, Direction.DOWN));
+		    troops.add(new SniperTroop(new Position(0, 9), player, Direction.RIGHT));
+		    troops.add(new SmokerTroop(new Position(1, 9), player, Direction.RIGHT));
+		    troops.add(new LightTroop(new Position(0, 8), player, Direction.RIGHT));
 		}
+		
 		else if (player.getId().equals("2")) {
-		    troops.add(new SniperTroop(new Position(1, 9), player, Direction.UP));
-		    troops.add(new SmokerTroop(new Position(7, 2), player, Direction.UP));
-		    troops.add(new LightTroop(new Position(9, 8), player, Direction.UP));
+		    troops.add(new SniperTroop(new Position(19, 0), player, Direction.LEFT));
+		    troops.add(new SmokerTroop(new Position(18, 0), player, Direction.LEFT));
+		    troops.add(new LightTroop(new Position(19, 1), player, Direction.LEFT));
+		}
+		
+		else if (player.getId().equals("3")) {
+		    troops.add(new SniperTroop(new Position(0, 0), player, Direction.RIGHT));
+		    troops.add(new SmokerTroop(new Position(1, 0), player, Direction.RIGHT));
+		    troops.add(new LightTroop(new Position(0, 1), player, Direction.RIGHT));
+		}
+		
+		else if (player.getId().equals("4")) {
+		    troops.add(new SniperTroop(new Position(19, 9), player, Direction.LEFT));
+		    troops.add(new SmokerTroop(new Position(18, 9), player, Direction.LEFT));
+		    troops.add(new LightTroop(new Position(19, 8), player, Direction.LEFT));
 		}
 
 		return troops;
