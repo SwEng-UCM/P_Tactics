@@ -33,6 +33,7 @@ import javax.swing.Timer;
 import PTactics.control.Controller;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
+import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons.otherIcons;
 
 @SuppressWarnings("serial")
@@ -148,8 +149,7 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog(this, "Selected game: \n" + filePath);
 				
 				//Hardcoding load instruction
-				String cmdLine = "load " + filePath;
-				String[] cmdArgs = cmdLine.trim().split("\\s+");
+				String[] cmdArgs = {Utils.CommandInfo.COMMAND_LOAD_NAME, filePath};
 				Command command = CommandGenerator.parse(cmdArgs);
 				command.execute(_ctrl);
 				

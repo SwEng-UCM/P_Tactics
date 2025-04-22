@@ -126,8 +126,7 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 					//Hardcoding save instruction
-					String cmdLine = "save " + filePath;
-					String[] cmdArgs = cmdLine.trim().split("\\s+");
+					String[] cmdArgs = {Utils.CommandInfo.COMMAND_SAVE_NAME, filePath};
 					Command command = CommandGenerator.parse(cmdArgs);
 					command.execute(_ctrl);
 				} else {
