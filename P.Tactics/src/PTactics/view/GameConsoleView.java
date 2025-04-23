@@ -49,7 +49,7 @@ public class GameConsoleView implements GameObserver {
 	}
 	
 	private void showMiddle(Game _game) {
-		for (int i = 0; i < Game._boardWidth; i++) {
+		for (int i = 0; i < Game._boardLength; i++) {
 			System.out.print(StringUtils.leftPad(i + 1, _INITIAL_SPACE) + _VERTICAL_LINE);
 			for (int j = 0; j < Game._boardWidth; j++) {
 				Position pos = new Position(j, i);
