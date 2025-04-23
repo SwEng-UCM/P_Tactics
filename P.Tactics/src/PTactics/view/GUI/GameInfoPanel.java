@@ -24,14 +24,14 @@ import PTactics.model.game.Game;
 import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
 
-public class GameInfoPanel extends JPanel implements GameObserver{
+public class GameInfoPanel extends JPanel implements GameObserver {
 
 	private static final long serialVersionUID = 1L;
 	private TutorialWindow tw;
 	public ControllerInterface _ctrl;
 	private JLabel playerTurnText;
 	private JPanel turnPanel;
-	
+
 	public GameInfoPanel(ControllerInterface ctrl, GameWindow gw) {
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
@@ -45,8 +45,8 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		playerTurnText.setForeground(Color.orange);
 		playerTurnText.setFocusable(false);
 		playerTurnText.setHorizontalAlignment(SwingConstants.CENTER);
-		playerTurnText.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));	// padding
-		
+		playerTurnText.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20)); // padding
+
 		// panel to hold the label with background
 		turnPanel = new JPanel(new BorderLayout()) {
 			@Override
@@ -55,54 +55,54 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 		};
-		
+
 		turnPanel.setOpaque(false);
 		turnPanel.add(playerTurnText, BorderLayout.CENTER);
-		
+
 		int standardButtonHeight = 60;
 		turnPanel.setPreferredSize(new Dimension(playerTurnText.getPreferredSize().width + 40, standardButtonHeight));
 		this.add(turnPanel, BorderLayout.WEST);
-		
+
 		// button Panel (top-right)
 		JPanel gameInfoButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		gameInfoButtons.setOpaque(false);
-		
+
 		// undo button
 		JButton undo = createButton("Undo");
 		undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Hardcoding undo instruction
-				String[] cmdArgs = {Utils.CommandInfo.COMMAND_UNDO_NAME};
+				// Hardcoding undo instruction
+				String[] cmdArgs = { Utils.CommandInfo.COMMAND_UNDO_NAME };
 				Command command = CommandGenerator.parse(cmdArgs);
 				command.execute(_ctrl);
 			}
 		});
 		gameInfoButtons.add(undo);
-		
+
 		// redo button
 		JButton redo = createButton("Redo");
-		undo.addActionListener(new ActionListener() {
+		redo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Hardcoding undo instruction
-				String[] cmdArgs = {Utils.CommandInfo.COMMAND_REDO_NAME};
+				// Hardcoding undo instruction
+				String[] cmdArgs = { Utils.CommandInfo.COMMAND_REDO_NAME };
 				Command command = CommandGenerator.parse(cmdArgs);
 				command.execute(_ctrl);
 			}
 		});
 		gameInfoButtons.add(redo);
-		
-		//End Turn
+
+		// End Turn
 		JButton endTurn = createButton("End Turn");
 		endTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_ctrl.nextTurn();
-				if(_ctrl.isFinish()) {
+				if (_ctrl.isFinish()) {
 					gw.showWinMessage(_ctrl.getNumPlayer() - 1);
 				}
 			}
 		});
 		gameInfoButtons.add(endTurn);
-			
+
 		// tutorial button
 		JButton tutorial = createButton("Tutorial");
 		tw = new TutorialWindow();
@@ -111,26 +111,27 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 				tw.setVisible(true);
 			}
 		});
-		gameInfoButtons.add(tutorial);	
-		
-		//Save button
+		gameInfoButtons.add(tutorial);
+
+		// Save button
 		JButton save = createButton("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				// Ensures the user can only select directories
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				// Sets the current directory to the directory where the program is running
-				fileChooser.setCurrentDirectory(new java.io.File(".")); 
+				fileChooser.setCurrentDirectory(new java.io.File("."));
 				fileChooser.setDialogTitle("Select folder");
 				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-					//Hardcoding save instruction
-					String[] cmdArgs = {Utils.CommandInfo.COMMAND_SAVE_NAME, filePath};
+					// Hardcoding save instruction
+					String[] cmdArgs = { Utils.CommandInfo.COMMAND_SAVE_NAME, filePath };
 					Command command = CommandGenerator.parse(cmdArgs);
 					command.execute(_ctrl);
 				} else {
-					JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 			}
@@ -138,8 +139,9 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		gameInfoButtons.add(save);
 
 		this.add(gameInfoButtons, BorderLayout.EAST);
-		
+
 	}
+
 	// generic method for creation of buttons
 	private JButton createButton(String text) {
 		JButton button = new JButton(text);
@@ -149,37 +151,43 @@ public class GameInfoPanel extends JPanel implements GameObserver{
 		button.setContentAreaFilled(false);
 		button.setBorder(null);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+
 		return button;
 	}
-		
+
 	@Override
 	public void onPlayersUpdate(Game game) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void onBoardUpdate(Game game) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void onTroopAction(Game game) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void onTroopSelection(Game game) {
 		// TODO Auto-generated method stub
 	}
+
 	@Override
 	public void onNextTurn(Game game) {
-		playerTurnText.setText("Player: ["+ _ctrl.getCurrentPlayerName()+"] turn");
+		playerTurnText.setText("Player: [" + _ctrl.getCurrentPlayerName() + "] turn");
 		// just to check if Swing does not update the playerName
-		/* 	turnPanel.revalidate();
-			repaint(); */
+		/*
+		 * turnPanel.revalidate(); repaint();
+		 */
 
 	}
+
 	@Override
 	public void onTroopUnSelection(Game game) {
 		// TODO Auto-generated method stub
