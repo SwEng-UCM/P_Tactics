@@ -50,6 +50,7 @@ public interface Icons {
 	}
 
 	public static interface otherIcons {
+		public final ImageIcon START = new ImageIcon("Icons/Holdfire.png");
 		public final ImageIcon WALL = new ImageIcon("Icons/inprogressWall.png");
 		//public final ImageIcon WALL = new ImageIcon("Icons/Wall.png");
 		public final ImageIcon FOG = new ImageIcon("Icons/FoggedFloor.png");

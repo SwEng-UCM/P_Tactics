@@ -82,7 +82,7 @@ public class AbilityCommand extends ReportCommand {
 			String[] s = {_commandId, String.valueOf(_abilityPos.getX()+1), String.valueOf(_abilityPos.getY()+1) };
 			Command c = CommandGenerator.parse(s);
 			c.execute(_ctrl);
-			_ctrl.updatePlayers();
+//			_ctrl.updatePlayers();
 		}
 	}
 }
