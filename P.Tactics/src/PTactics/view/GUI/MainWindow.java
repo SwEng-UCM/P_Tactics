@@ -13,6 +13,8 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 import PTactics.control.Controller;
 import PTactics.control.commands.Command;
@@ -199,6 +202,26 @@ public class MainWindow extends JFrame {
 		
 		// exit button
 		_animatedButtons[4].addActionListener(e -> System.exit(0));
+		
+		// mouse click
+		EmptyBorder normalBorder = new EmptyBorder(0, 0, 0, 0);
+		EmptyBorder pressedBorder = new EmptyBorder(6, 0, 0, 0); 	// content 6px down
+
+		for (JButton button : _animatedButtons) {
+		    button.setBorder(normalBorder);
+		    
+		    button.addMouseListener(new MouseAdapter() {
+		        @Override
+		        public void mousePressed(MouseEvent e) {
+		            button.setBorder(pressedBorder); // sink
+		        }
+
+		        @Override
+		        public void mouseReleased(MouseEvent e) {
+		            button.setBorder(normalBorder); // reset
+		        }
+		    });
+		}
 	}
 
 	private void animatedSlide() {

@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.Command;
@@ -137,7 +140,6 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 			}
 		});
 		gameInfoButtons.add(save);
-
 		this.add(gameInfoButtons, BorderLayout.EAST);
 
 	}
@@ -151,9 +153,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		button.setContentAreaFilled(false);
 		button.setBorder(null);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-
+		
 		return button;
-	}
+}
 
 	@Override
 	public void onPlayersUpdate(Game game) {
