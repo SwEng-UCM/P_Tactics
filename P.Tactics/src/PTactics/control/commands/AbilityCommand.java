@@ -6,18 +6,14 @@ import PTactics.utils.Position;
 import PTactics.utils.Utils;
 
 public class AbilityCommand extends ReportCommand {
-	private static final String NAME = Utils.CommandInfo.COMMAND_ABILITY_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_ABILITY_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_ABILITY_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_ABILITY_HELP;
 	private int _posX;
 	private int _posY;
 	public AbilityCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_ABILITY_NAME, Utils.CommandInfo.COMMAND_ABILITY_SHORTCUT, Utils.CommandInfo.COMMAND_ABILITY_DETAILS, Utils.CommandInfo.COMMAND_ABILITY_HELP);
 	}
 	
 	public AbilityCommand(int x, int y) {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_ABILITY_NAME, Utils.CommandInfo.COMMAND_ABILITY_SHORTCUT, Utils.CommandInfo.COMMAND_ABILITY_DETAILS, Utils.CommandInfo.COMMAND_ABILITY_HELP);
 		_posX = x;
 		_posY = y; 
 	}
@@ -65,7 +61,7 @@ public class AbilityCommand extends ReportCommand {
 		
 		private AbilitySnapshot(ControllerInterface CI) {
 			_ctrl = CI;
-			_commandId = NAME;
+			_commandId = getName();
 			_abilityPos = new Position(_posX, _posY);
 			_troopUsed = CI.getGame().currentTroop();
 		}

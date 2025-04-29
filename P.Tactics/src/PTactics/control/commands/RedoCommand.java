@@ -8,13 +8,8 @@ import PTactics.utils.Utils;
 
 public class RedoCommand extends Command {
 
-	private static final String NAME = Utils.CommandInfo.COMMAND_REDO_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_REDO_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_REDO_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_REDO_HELP;	
-	
 	public RedoCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_REDO_NAME, Utils.CommandInfo.COMMAND_REDO_SHORTCUT, Utils.CommandInfo.COMMAND_REDO_DETAILS, Utils.CommandInfo.COMMAND_REDO_HELP);
 	}
 
 	@Override

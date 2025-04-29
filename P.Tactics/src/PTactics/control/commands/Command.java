@@ -11,25 +11,25 @@ public abstract class Command {
 		this.details= d;
 		this.help=h;
 	}
-	public  String GetName() 
+	public  String getName() 
 	{
 		return name;
 	}
-	public  String GetShortCut() 
+	public  String getShorcut() 
 	{
 		return shortcut;
 	}
-	public  String GetDetails() 
+	public  String getDetails() 
 	{
 		return details;
 	}
-	public  String GetHelp() 
+	public  String getHelp() 
 	{
 		return help;
 	}
 	protected boolean matchCommand(String c) 
 	{
-		return c.equalsIgnoreCase(this.GetName()) || c.equalsIgnoreCase(this.GetShortCut()); 
+		return c.equalsIgnoreCase(this.getName()) || c.equalsIgnoreCase(this.getShorcut()); 
 	} 
 	public abstract void execute(ControllerInterface CI);
 	public abstract Command parse(String[] sa);

@@ -8,16 +8,12 @@ import PTactics.utils.Direction;
 import PTactics.utils.Utils;
 
 public class AimCommand extends ReportCommand {
-	private static final String NAME = Utils.CommandInfo.COMMAND_AIM_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_AIM_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_AIM_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_AIM_HELP;	
 	private Direction _dirToAim;
 	public AimCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_AIM_NAME, Utils.CommandInfo.COMMAND_AIM_SHORTCUT, Utils.CommandInfo.COMMAND_AIM_DETAILS, Utils.CommandInfo.COMMAND_AIM_HELP);
 	}
 	public AimCommand(Direction dir) {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_AIM_NAME, Utils.CommandInfo.COMMAND_AIM_SHORTCUT, Utils.CommandInfo.COMMAND_AIM_DETAILS, Utils.CommandInfo.COMMAND_AIM_HELP);
 		_dirToAim = dir;
 	}
 
@@ -63,7 +59,7 @@ public class AimCommand extends ReportCommand {
 		
 		private AimSnapshot(ControllerInterface CI) {
 			_ctrl = CI;
-			_commandId = NAME;
+			_commandId = getName();
 			_initialDir = CI.getGame().currentTroop().getDir();
 			_finalDir = _dirToAim;
 			_troopUsed = CI.getGame().currentTroop();

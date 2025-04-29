@@ -5,15 +5,10 @@ import PTactics.control.History;
 import PTactics.utils.Utils;
 
 public class LoadCommand extends Command {
-
-	private static final String NAME = Utils.CommandInfo.COMMAND_LOAD_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_LOAD_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_LOAD_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_LOAD_HELP;	
 	private String path = "";
 	
 	public LoadCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_LOAD_NAME, Utils.CommandInfo.COMMAND_LOAD_SHORTCUT, Utils.CommandInfo.COMMAND_LOAD_DETAILS, Utils.CommandInfo.COMMAND_LOAD_HELP);
 	}
 
 	@Override

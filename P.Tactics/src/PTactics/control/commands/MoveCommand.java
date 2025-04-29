@@ -10,21 +10,17 @@ import PTactics.utils.Position;
 import PTactics.utils.Utils;
 
 public class MoveCommand extends ReportCommand {
-	private static final String NAME = Utils.CommandInfo.COMMAND_MOVE_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_MOVE_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_MOVE_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_MOVE_HELP;
 	private int _posX;
 	private int _posY;
 	private boolean snapTaken;
 
 	public MoveCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_MOVE_NAME, Utils.CommandInfo.COMMAND_MOVE_SHORTCUT, Utils.CommandInfo.COMMAND_MOVE_DETAILS, Utils.CommandInfo.COMMAND_MOVE_HELP);
 	}
 
 	public MoveCommand(int x, int y) // for GUI implementation
 	{
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_MOVE_NAME, Utils.CommandInfo.COMMAND_MOVE_SHORTCUT, Utils.CommandInfo.COMMAND_MOVE_DETAILS, Utils.CommandInfo.COMMAND_MOVE_HELP);
 		this._posX = x;
 		this._posY = y;
 		snapTaken = false;
@@ -94,7 +90,7 @@ public class MoveCommand extends ReportCommand {
 		
 		private MoveSnapshot(ControllerInterface CI) {
 			_ctrl = CI;
-			_commandId = NAME;
+			_commandId = getName();
 			_troopUsed = CI.getGame().currentTroop();
 			_initialPos = _troopUsed.getPos();
 			_finalPos = new Position(_posX, _posY);

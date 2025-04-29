@@ -4,13 +4,9 @@ import PTactics.control.ControllerInterface;
 import PTactics.utils.Utils;
 
 public class ExitCommand extends Command {
-	private static final String NAME = Utils.CommandInfo.COMMAND_EXIT_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_EXIT_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_EXIT_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_EXIT_HELP;	
 	
 	public ExitCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_EXIT_NAME, Utils.CommandInfo.COMMAND_EXIT_SHORTCUT, Utils.CommandInfo.COMMAND_EXIT_DETAILS, Utils.CommandInfo.COMMAND_EXIT_HELP);
 	}
 
 	@Override

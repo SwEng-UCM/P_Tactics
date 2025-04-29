@@ -6,19 +6,15 @@ import PTactics.utils.Position;
 import PTactics.utils.Utils;
 
 public class SelectTroopCommand extends Command {
-	private static final String NAME = Utils.CommandInfo.COMMAND_SELECT_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_SELECT_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_SELECT_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_SELECT_HELP;
 	private int _posX;
 	private int _posY;
 
 	public SelectTroopCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_SELECT_NAME, Utils.CommandInfo.COMMAND_SELECT_SHORTCUT, Utils.CommandInfo.COMMAND_SELECT_DETAILS, Utils.CommandInfo.COMMAND_SELECT_HELP);
 	}
 	public SelectTroopCommand(int x, int y) //for GUI implementation
 	{
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_SELECT_NAME, Utils.CommandInfo.COMMAND_SELECT_SHORTCUT, Utils.CommandInfo.COMMAND_SELECT_DETAILS, Utils.CommandInfo.COMMAND_SELECT_HELP);
 		this._posX=x;
 		this._posY=y;
 	}

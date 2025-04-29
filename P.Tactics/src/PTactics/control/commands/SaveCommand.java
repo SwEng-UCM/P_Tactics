@@ -5,15 +5,10 @@ import PTactics.control.History;
 import PTactics.utils.Utils;
 
 public class SaveCommand extends Command {
-
-	private static final String NAME = Utils.CommandInfo.COMMAND_SAVE_NAME;
-	private static final String SHORTCUT = Utils.CommandInfo.COMMAND_SAVE_SHORTCUT;
-	private static final String DETAILS = Utils.CommandInfo.COMMAND_SAVE_DETAILS;
-	private static final String HELP = Utils.CommandInfo.COMMAND_SAVE_HELP;	
 	private String path = "";
 	
 	public SaveCommand() {
-		super(NAME, SHORTCUT, DETAILS, HELP);
+		super(Utils.CommandInfo.COMMAND_SAVE_NAME, Utils.CommandInfo.COMMAND_SAVE_SHORTCUT, Utils.CommandInfo.COMMAND_SAVE_DETAILS, Utils.CommandInfo.COMMAND_SAVE_HELP);
 	}
 
 	@Override
