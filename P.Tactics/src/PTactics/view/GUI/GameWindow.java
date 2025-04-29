@@ -2,9 +2,12 @@ package PTactics.view.GUI;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +25,32 @@ public class GameWindow {
 	public GameWindow(Controller ctrl, JFrame frame) {
 		this._ctrl = ctrl;
 		this.frame = frame;
+		
+		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				ImageIcon icon = new ImageIcon(Icons.otherIcons.HOLDFIRE_ICON5.getImage()
+						.getScaledInstance(48, 48, Image.SCALE_SMOOTH));
+				int choice = JOptionPane.showConfirmDialog(
+					frame,
+					"Do you want to return to the main menu without saving?",
+					"Exit to Main Menu",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE,
+					icon
+				);
+
+				if (choice == JOptionPane.YES_OPTION) {
+					// go to the mainWindow
+					frame.getContentPane().removeAll();
+					frame.revalidate();
+					frame.repaint();
+					new MainWindow((Controller) _ctrl);  
+				}
+			}
+		});
+		
 		initialize();
 	}
 

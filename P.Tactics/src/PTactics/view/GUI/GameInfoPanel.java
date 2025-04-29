@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -66,7 +67,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		turnPanel.setPreferredSize(new Dimension(playerTurnText.getPreferredSize().width + 40, standardButtonHeight));
 		this.add(turnPanel, BorderLayout.WEST);
 
-		// button Panel (top-right)
+//		 button Panel (top-right)
 		JPanel gameInfoButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		gameInfoButtons.setOpaque(false);
 
@@ -81,7 +82,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 			}
 		});
 		gameInfoButtons.add(undo);
-
+		
 		// redo button
 		JButton redo = createButton("Redo");
 		redo.addActionListener(new ActionListener() {

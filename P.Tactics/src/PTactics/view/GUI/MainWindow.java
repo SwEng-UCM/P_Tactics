@@ -63,7 +63,7 @@ public class MainWindow extends JFrame {
 		javax.swing.UIManager.put("OptionPane.errorIcon", icon);
 		
 		setTitle("HOLDFIRE");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);		// full screen
 		setLocationRelativeTo(null); // center window
 
@@ -97,7 +97,6 @@ public class MainWindow extends JFrame {
 		
 		// creation of buttons
 		_animatedButtons = new JButton[_buttonTexts.length];
-		
 		for (int i = 0; i < _buttonTexts.length; i++) {
 			JButton btn = new JButton(_buttonTexts[i]);
 			btn.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -199,7 +198,7 @@ public class MainWindow extends JFrame {
 			);
 			
 			if(levelDifficulty != -1) {
-				List<String> playerNames= new ArrayList<String>();
+				List<String> playerNames= new ArrayList<>();
 				playerNames.add(playerName);
 				playerNames.add("CPU");
 				_ctrl.setPlayerNames(playerNames);
@@ -218,7 +217,6 @@ public class MainWindow extends JFrame {
 
 		for (JButton button : _animatedButtons) {
 		    button.setBorder(normalBorder);
-		    
 		    button.addMouseListener(new MouseAdapter() {
 		        @Override
 		        public void mousePressed(MouseEvent e) {
