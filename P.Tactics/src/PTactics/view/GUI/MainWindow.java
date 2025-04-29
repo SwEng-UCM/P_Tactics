@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -53,6 +55,13 @@ public class MainWindow extends JFrame {
 	}
 
 	private void initGUI() {
+		ImageIcon icon = new ImageIcon(Icons.otherIcons.HOLDFIRE_ICON5.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH));
+
+		javax.swing.UIManager.put("OptionPane.informationIcon", icon);
+		javax.swing.UIManager.put("OptionPane.questionIcon", icon);
+		javax.swing.UIManager.put("OptionPane.warningIcon", icon);
+		javax.swing.UIManager.put("OptionPane.errorIcon", icon);
+		
 		setTitle("HOLDFIRE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);		// full screen
@@ -72,7 +81,7 @@ public class MainWindow extends JFrame {
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		centerPanel.setOpaque(false);
 		
-		ShadowLabel title = new ShadowLabel("HOLDFIRE", new Font("Algerian", Font.BOLD, 100), Color.WHITE, Color.BLACK, 4);
+		ShadowLabel title = new ShadowLabel("HOLDFIRE", new Font("Algerian", Font.BOLD, 100), Color.orange, Color.BLACK, 4);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		centerPanel.add(title);
 		centerPanel.add(Box.createRigidArea(new Dimension(0, 40)));

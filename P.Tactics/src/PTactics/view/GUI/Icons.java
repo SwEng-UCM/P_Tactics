@@ -70,5 +70,11 @@ public interface Icons {
 		public final ImageIcon GAMEBACKGROUND2 = new ImageIcon("Icons/gameBackground2.png");
 		public final ImageIcon BG_BUILDING = new ImageIcon("Icons/bgInsideBuilding.png");
 		public final ImageIcon BG_BUILDING2 = new ImageIcon("Icons/bgInsideBuilding2.png");
+		
+		public final ImageIcon HOLDFIRE_ICON = new ImageIcon("Icons/holdFire_icon.png");
+		public final ImageIcon HOLDFIRE_ICON2 = new ImageIcon("Icons/holdFire_icon2.png");
+		public final ImageIcon HOLDFIRE_ICON3 = new ImageIcon("Icons/holdFire_icon3.png");
+		public final ImageIcon HOLDFIRE_ICON4 = new ImageIcon("Icons/holdFire_icon4.png");
+		public final ImageIcon HOLDFIRE_ICON5 = new ImageIcon("Icons/holdFire_icon5.png");
 	}
 }
