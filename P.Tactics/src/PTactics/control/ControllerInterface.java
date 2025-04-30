@@ -86,6 +86,8 @@ public interface ControllerInterface {
 
 	void selectTroop(Troop t);
 	
+	void executeCommand(String[] args); // parses and executes command
+	
 	
 	void updateOnPlayersUpdate();
 	void updateOnBoardUpdate();

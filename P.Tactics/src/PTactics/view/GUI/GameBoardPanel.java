@@ -20,6 +20,7 @@ import PTactics.control.commands.MoveCommand;
 import PTactics.control.commands.SelectTroopCommand;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
+import PTactics.utils.Utils;
 
 @SuppressWarnings("serial")
 public class GameBoardPanel extends JPanel {
@@ -93,26 +94,37 @@ public class GameBoardPanel extends JPanel {
 		                //DEBUG: System.out.println("GameWidth: " + PTactics.utils.Position._gameWidth + " Cell " + btn.getPosition().getX() + ", " + btn.getPosition().getY());
 		            	if(this._cntr.isTroop(btn.getPosition())) 
 		            	{
-		            		SelectTroopCommand select= new SelectTroopCommand(btn.getPosition().getX(),btn.getPosition().getY());
-		            		select.execute(cntr);
+		            		String[] cmdArgs = { Utils.CommandInfo.COMMAND_SELECT_NAME , Integer.toString(btn.getPosition().getY() + 1) , Integer.toString(btn.getPosition().getX() + 1)};
+		    				// + 1 because parser assumes pos + 1
+		            		_cntr.executeCommand(cmdArgs);
+		            		/*SelectTroopCommand select= new SelectTroopCommand(btn.getPosition().getX(),btn.getPosition().getY());
+		            		select.execute(cntr);*/
 		            	}
 		            	else if(this._cPanel.getControlSelection()==0)
 		            	{
-		            		MoveCommand move = new MoveCommand(btn.getPosition().getX(),btn.getPosition().getY());
-		            		move.execute(cntr);
+		            		String[] cmdArgs = { Utils.CommandInfo.COMMAND_MOVE_NAME , Integer.toString(btn.getPosition().getY() + 1) , Integer.toString(btn.getPosition().getX() + 1)};
+		    				// + 1 because parser assumes pos + 1
+		            		_cntr.executeCommand(cmdArgs);
+		            		//MoveCommand move = new MoveCommand(btn.getPosition().getX(),btn.getPosition().getY());
+		            		//move.execute(cntr);
 		            		//_cPanel.resetControlSelection();
 		            	}
 		            	else if(this._cPanel.getControlSelection()==1)
 		            	{   		
-		            		AimCommand aim = new AimCommand(posToDir(btn.getPosition().getX(), btn.getPosition().getY()));
-		            		aim.execute(cntr);
+		            		String[] cmdArgs = { Utils.CommandInfo.COMMAND_AIM_NAME , posToDir(btn.getPosition().getX(), btn.getPosition().getY()).toString()};
+		            		_cntr.executeCommand(cmdArgs);
+		            		//AimCommand aim = new AimCommand(posToDir(btn.getPosition().getX(), btn.getPosition().getY()));
+		            		//aim.execute(cntr);
 		            		//_cPanel.resetControlSelection();
 
 		            	}
 		            	else if(this._cPanel.getControlSelection()==2)
 		            	{
-		            		AbilityCommand ability= new AbilityCommand(btn.getPosition().getX(),btn.getPosition().getY());
-		            		ability.execute(cntr);
+		            		String[] cmdArgs = { Utils.CommandInfo.COMMAND_ABILITY_NAME , Integer.toString(btn.getPosition().getY() + 1) , Integer.toString(btn.getPosition().getX() + 1)};
+		    				// + 1 because parser assumes pos + 1
+		            		_cntr.executeCommand(cmdArgs);
+		            		//AbilityCommand ability= new AbilityCommand(btn.getPosition().getX(),btn.getPosition().getY());
+		            		//ability.execute(cntr);
 		            		//_cPanel.resetControlSelection();
 		            	}
 		            });

@@ -186,6 +186,51 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		//communicate in
 		return null;
 	}
+	
+	public void addObserver(GameObserver o) {
+		_observers.add(o);
+	}
+	public void removeObserver(GameObserver o) {
+		_observers.remove(o);
+	}
+	
+	public void updateOnPlayersUpdate() {
+		for (GameObserver o : _observers) {
+			o.onPlayersUpdate(null);
+		}
+	}
+	public void updateOnBoardUpdate() {
+		for (GameObserver o : _observers) {
+			o.onBoardUpdate(null);
+		}
+	}
+	public void updateOnTroopAction() {
+		for (GameObserver o : _observers) {
+			o.onTroopAction(null);
+		}
+	}
+	public void updateOnTroopSelection() {
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(null);
+		}	
+	}
+	public void updateOnNextTurn() {
+		for (GameObserver o : _observers) {
+			o.onNextTurn(null);
+		}	
+	}
+	public void updateOnTroopUnSelection() {
+		for (GameObserver o : _observers) {
+			o.onTroopUnSelection(null);
+		}	
+	}
+
+	@Override
+	public void executeCommand(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 //-------------------------------------------------------------------------------------------------------------------
 	@Override
 	public void showGame() {
@@ -243,43 +288,6 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return null;
 	}
 
-	public void addObserver(GameObserver o) {
-		_observers.add(o);
-	}
-	public void removeObserver(GameObserver o) {
-		_observers.remove(o);
-	}
-	
-	public void updateOnPlayersUpdate() {
-		for (GameObserver o : _observers) {
-			o.onPlayersUpdate(null);
-		}
-	}
-	public void updateOnBoardUpdate() {
-		for (GameObserver o : _observers) {
-			o.onBoardUpdate(null);
-		}
-	}
-	public void updateOnTroopAction() {
-		for (GameObserver o : _observers) {
-			o.onTroopAction(null);
-		}
-	}
-	public void updateOnTroopSelection() {
-		for (GameObserver o : _observers) {
-			o.onTroopSelection(null);
-		}	
-	}
-	public void updateOnNextTurn() {
-		for (GameObserver o : _observers) {
-			o.onNextTurn(null);
-		}	
-	}
-	public void updateOnTroopUnSelection() {
-		for (GameObserver o : _observers) {
-			o.onTroopUnSelection(null);
-		}	
-	}
 	
 
 }

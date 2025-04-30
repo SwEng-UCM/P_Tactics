@@ -161,8 +161,7 @@ public class MainWindow extends JFrame {
 				
 				//Hardcoding load instruction
 				String[] cmdArgs = {Utils.CommandInfo.COMMAND_LOAD_NAME, filePath};
-				Command command = CommandGenerator.parse(cmdArgs);
-				command.execute(_ctrl);
+				_ctrl.executeCommand(cmdArgs);
 				
 				swapToGameWindow();
 			}

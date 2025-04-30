@@ -322,6 +322,12 @@ public class HostController implements ControllerInterface {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void executeCommand(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/* IMPORTANTE AÑADIR
 	 try
