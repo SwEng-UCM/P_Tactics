@@ -49,8 +49,7 @@ public class SniperTroop extends Troop {
 		this._abilityActive = true;
 	}
 	
-	public void initVars() 
-	{
+	public void initVars() {
 		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
 		_moveRange = 3;
 		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
@@ -64,26 +63,6 @@ public class SniperTroop extends Troop {
         _droneHeight = 1;
         _droneArea = new ArrayList<>();
     }
-	
-	@Override
-	public JSONObject report() {
-		JSONObject troopReport = super.report();
-		
-		if(!_droneArea.isEmpty()) {
-			JSONArray droneArea = new JSONArray();
-			for(List<Position> drone: _droneArea) {
-				for(Position p : drone) {
-					JSONObject jo = new JSONObject();
-					jo.put("PositionX", p.getX());
-					jo.put("PositionY", p.getY());
-					droneArea.put(jo);
-				}				
-			}
-			troopReport.put("DroneArea", droneArea);
-		}
-		
-		return troopReport;
-	}
 	
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
@@ -136,6 +115,55 @@ public class SniperTroop extends Troop {
 		
 		return dangerPositions;	
 	}
+
+	@Override
+	public void nextTurn() {
+		_movesLeft = _moveRange;
+		if (isAbility()) {
+			for (int i = 0; i < _droneArea.size(); i++) {
+				_abilityTime.set(i, _abilityTime.get(i) - 1);
+			}
+		}
+		
+		while (!_abilityTime.isEmpty() && _abilityTime.getFirst() == 0) {
+			deactivateAbility();
+		}
+	}
+	
+	public void activateAbility(Position pos) {
+		_abilityActive = true;
+		_abilityUses--;
+		
+		List<Position> drone = new ArrayList<>();
+		for (int i = -_droneSide; i <= _droneSide; i++) {
+			for (int j = -_droneHeight; j <= _droneHeight; j++) {
+				Position areaPos = new Position(pos.getX() + i, pos.getY() + j);
+				if (areaPos.isValid()) {
+					drone.add(new Position(pos.getX() + i, pos.getY() + j));					
+				}
+			}				
+		}
+		
+		_droneArea.add(drone);
+	}
+	
+	@Override
+	public void deactivateAbility() {
+		if (_droneArea.size() == 1) {
+			_abilityActive = false;			
+		}	
+		_droneArea.removeFirst();
+		_abilityTime.removeFirst();
+	}
+	
+	@Override
+	public void undoAbility(Position _abilityPos) {
+		deactivateAbility();
+		_droneArea.clear();
+		for (int i = 0; i < _droneArea.size(); i++) {
+			_abilityTime.set(i, _abilityTime.get(i) + 1);
+		}
+	}
 	
 	public String toString() {
 		return "F" + super.toString();
@@ -173,52 +201,23 @@ public class SniperTroop extends Troop {
 		return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
 	}
 	
-	public void activateAbility(Position pos) {
-		_abilityActive = true;
-		_abilityUses--;
-		
-		List<Position> drone = new ArrayList<>();
-		for (int i = -_droneSide; i <= _droneSide; i++) {
-			for (int j = -_droneHeight; j <= _droneHeight; j++) {
-				Position areaPos = new Position(pos.getX() + i, pos.getY() + j);
-				if (areaPos.isValid()) {
-					drone.add(new Position(pos.getX() + i, pos.getY() + j));					
-				}
-			}				
-		}
-		
-		_droneArea.add(drone);
-	}
-
 	@Override
-	public void deactivateAbility() {
-		if (_droneArea.size() == 1) {
-			_abilityActive = false;			
-		}	
-		_droneArea.removeFirst();
-		_abilityTime.removeFirst();
-	}
-
-	@Override
-	public void nextTurn() {
-		_movesLeft = _moveRange;
-		if (isAbility()) {
-			for (int i = 0; i < _droneArea.size(); i++) {
-				_abilityTime.set(i, _abilityTime.get(i) - 1);
+	public JSONObject report() {
+		JSONObject troopReport = super.report();
+		
+		if(!_droneArea.isEmpty()) {
+			JSONArray droneArea = new JSONArray();
+			for(List<Position> drone: _droneArea) {
+				for(Position p : drone) {
+					JSONObject jo = new JSONObject();
+					jo.put("PositionX", p.getX());
+					jo.put("PositionY", p.getY());
+					droneArea.put(jo);
+				}				
 			}
+			troopReport.put("DroneArea", droneArea);
 		}
 		
-		while (!_abilityTime.isEmpty() && _abilityTime.getFirst() == 0) {
-			deactivateAbility();
-		}
-	}
-
-	@Override
-	public void undoAbility(Position _abilityPos) {
-		deactivateAbility();
-		_droneArea.clear();
-		for (int i = 0; i < _droneArea.size(); i++) {
-			_abilityTime.set(i, _abilityTime.get(i) + 1);
-		}
+		return troopReport;
 	}
 }

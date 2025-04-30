@@ -19,52 +19,37 @@ public class LightTroop extends Troop {
 	
 	public LightTroop(Position pos, Player p) {
 		super(pos, p);
-		initVars();
-		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
-	}
-	
-	public LightTroop(Position pos, Player p, Direction dir) {
-		super(pos, p, dir);
-		initVars();
-		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
-	}
-	
-	public LightTroop(Position pos, Player p, Direction dir, int iFrames) {
-		super(pos, p, dir);
-		initVars();
-		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
-		this._abilityUses = 0;		
-		this._iFrames = iFrames;
-	}
-	
-	@Override
-	public JSONObject report() {
-		JSONObject troopReport = super.report();
-		troopReport.put("iFrames", _iFrames);
-		return troopReport;
-	}
-	
-	public void initVars() 
-	{
 		this._visionRange = 4;
 		this._shootRange = 4;
 		this._moveRange = 8; 
 		this._movesLeft = this._moveRange; 
 		this._abilityUses = 1;
 		this._iFrames = 0;
+		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
 	
-	@Override
-	public void activateAbility() {
-		this._iFrames = 3;
-		this._abilityActive = true;
+	public LightTroop(Position pos, Player p, Direction dir) {
+		super(pos, p, dir);
+		this._visionRange = 4;
+		this._shootRange = 4;
+		this._moveRange = 8; 
+		this._movesLeft = this._moveRange; 
+		this._abilityUses = 1;
+		this._iFrames = 0;
+		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
 	
-	@Override
-	public void deactivateAbility() {
-		//iFrames = 0;
-		this._abilityActive = false;
-		this._abilityUses--;
+	public LightTroop(Position pos, Player p, Direction dir, int iFrames) {
+		super(pos, p, dir);
+		this._visionRange = 4;
+		this._shootRange = 4;
+		this._moveRange = 8; 
+		this._movesLeft = this._moveRange; 
+		this._abilityUses = 1;
+		this._iFrames = 0;
+		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
+		this._abilityUses = 0;		
+		this._iFrames = iFrames;
 	}
 
 	public List<Position> dangerPositions() {
@@ -99,10 +84,6 @@ public class LightTroop extends Troop {
 		}
 		if(_movesLeft < moves) _iFrames--;
 	}
-	@Override
-	public String toString() {
-		return "L"+ super.toString();
-	}
 
 	@Override
 	public void nextTurn() {
@@ -111,6 +92,28 @@ public class LightTroop extends Troop {
 		this._abilityUses = 1;
 	}
 	
+	@Override
+	public void activateAbility(Position pos) {
+		this._iFrames = 3;
+		this._abilityActive = true;
+	}
+	
+	@Override
+	public void deactivateAbility() {
+		this._abilityActive = false;
+		this._abilityUses--;
+	}
+	
+	@Override
+	public void undoAbility(Position _abilityPos) {
+		_iFrames = 0;
+		_abilityUses++;
+	}
+	
+	@Override
+	public String toString() {
+		return "L"+ super.toString();
+	}
 	
 	@Override
 	public ImageIcon toIcon() {
@@ -144,10 +147,12 @@ public class LightTroop extends Troop {
 		
 		return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
 	}
-
+	
+	
 	@Override
-	public void undoAbility(Position _abilityPos) {
-		_iFrames = 0;
-		_abilityUses++;
+	public JSONObject report() {
+		JSONObject troopReport = super.report();
+		troopReport.put("iFrames", _iFrames);
+		return troopReport;
 	}
 }

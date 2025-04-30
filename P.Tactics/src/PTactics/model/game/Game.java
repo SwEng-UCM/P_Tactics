@@ -13,8 +13,6 @@ import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
-import PTactics.model.gameObjects.SmokerTroop;
-import PTactics.model.gameObjects.SniperTroop;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -277,18 +275,12 @@ public class Game /*implements Observable<GameObserver>*/{
 		if (_currTroop.abilityUsesLeft() == 0) {
 			throw new Exception("No uses left for the ability");
 		}
-		if(_currTroop.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
-			if(!_currTroop.isAbility()) _currTroop.activateAbility();
-		}
-		if (_currTroop.getId() == Utils.TroopUtils.SNIPER_TROOP_ID) {
-			SniperTroop st = (SniperTroop) _currTroop;
-			st.activateAbility(pos);
-		}
-		if (_currTroop.getId() == Utils.TroopUtils.SMOKER_TROOP_ID) {
-			SmokerTroop st = (SmokerTroop) _currTroop;
-			st.activateAbility(pos);
+		
+		if(!_currTroop.getId().equals(Utils.TroopUtils.LIGHT_TROOP_ID) && !pos.isValid()) {
+			throw new Exception("No uses left for the ability");
 		}
 		
+		_currTroop.activateAbility(pos);
 		updateOnTroopAction();
 	}
 

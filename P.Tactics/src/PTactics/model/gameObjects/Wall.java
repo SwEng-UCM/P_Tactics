@@ -2,8 +2,6 @@ package PTactics.model.gameObjects;
 
 import javax.swing.ImageIcon;
 
-import org.json.JSONObject;
-
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
@@ -18,9 +16,7 @@ public class Wall extends GameObject  {
 	}
 
 	@Override
-	public void update() {
-		
-	}
+	public void update() {}
 	
 	@Override
 	public ImageIcon toIcon() {
@@ -38,16 +34,8 @@ public class Wall extends GameObject  {
 	}
 
 	@Override
-	public void onHit() {
-	}
+	public void onHit() {}
 
 	@Override
-	public void nextTurn() {
-		
-	}
-
-	@Override
-	public JSONObject report() {
-		return super.report();
-	}
+	public void nextTurn() {}
 }

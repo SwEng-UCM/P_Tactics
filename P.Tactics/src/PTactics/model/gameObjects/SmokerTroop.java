@@ -15,26 +15,22 @@ import PTactics.view.GUI.Icons;
 public class SmokerTroop extends Troop {
 	public SmokerTroop(Position pos, Player p) {
 		super(pos, p);
-		initVars();
-		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
-	}
-	
-	public SmokerTroop(Position pos, Player p, Direction dir) {
-		super(pos, p, dir);
-		initVars();
-		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
-	}
-	public void initVars() 
-	{
 		this._visionRange=5;
 		this._abilityUses=3;
 		this._moveRange=8;
 		this._shootRange = 5;
 		this._movesLeft=this._moveRange;
+		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
-	public void activateAbility(Position position) {
-		Board.getInstance().smoke(position);
-		this._abilityUses--;
+	
+	public SmokerTroop(Position pos, Player p, Direction dir) {
+		super(pos, p, dir);
+		this._visionRange=5;
+		this._abilityUses=3;
+		this._moveRange=8;
+		this._shootRange = 5;
+		this._movesLeft=this._moveRange;
+		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
 	
 	public List<Position> dangerPositions() {
@@ -57,19 +53,30 @@ public class SmokerTroop extends Troop {
 		
 		return dangerPositions;	
 	}
+
+	@Override
+	public void nextTurn() {
+		this._movesLeft = this._moveRange;
+	}
 	
 	@Override
-	public void deactivateAbility() {
+	public void activateAbility(Position pos) {
+		Board.getInstance().smoke(pos);
+		this._abilityUses--;
+	}
+	
+	@Override
+	public void deactivateAbility() {}
+
+	@Override
+	public void undoAbility(Position _abilityPos) {
+		_abilityUses++;
+		Board.getInstance().unsmoke(_abilityPos);
 	}
 	
 	@Override
 	public String toString() {
 		return "S"  + super.toString();
-	}
-
-	@Override
-	public void nextTurn() {
-		this._movesLeft = this._moveRange;
 	}
 	
 	@Override
@@ -103,12 +110,5 @@ public class SmokerTroop extends Troop {
 		}
 		
 		return Icons.TroopIcons.SmokerIcons.TROOP_FACING_UP;
-	}
-
-	@Override
-	public void undoAbility(Position _abilityPos) {
-		_abilityUses++;
-		Board.getInstance().unsmoke(_abilityPos);
-
 	}
 }

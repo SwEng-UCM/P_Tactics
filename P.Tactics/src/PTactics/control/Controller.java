@@ -7,7 +7,6 @@ import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import P.Tactics.CPU.CPUinterface;
 import P.Tactics.CPU.EasyCPU;
 import P.Tactics.CPU.HardCPU;
 import P.Tactics.CPU.MediumCPU;

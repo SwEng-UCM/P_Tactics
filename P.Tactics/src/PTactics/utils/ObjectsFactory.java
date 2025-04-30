@@ -12,7 +12,7 @@ public class ObjectsFactory implements Factory {
 	private String type;
 	private Position pos = null;
 
-	public void getData(JSONObject j) {
+	private void getData(JSONObject j) {
 		type = (String) j.get("Id");
 		pos = new Position(j.getInt("PositionX"), j.getInt("PositionY"));
 	}

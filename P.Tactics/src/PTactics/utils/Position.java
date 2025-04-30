@@ -26,12 +26,21 @@ public final  class Position {
 		return this.Y;
 	}
 	
-	 public boolean equals(Object obj) {
-	        if (this == obj) return true;
-	        if (obj == null || getClass() != obj.getClass()) return false;
-	        Position position = (Position) obj;
-	        return X == position.X && Y == position.Y;
-	  }
+	@Override
+	public boolean equals(Object obj) {
+        if (this == obj) {
+        	return true;
+        }
+        
+        if (obj == null || getClass() != obj.getClass()) {
+        	return false;
+        }
+        
+        Position position = (Position) obj;
+        return X == position.X && Y == position.Y;
+	 }
+	
+	@Override
 	 public int hashCode() {
 	        return Objects.hash(X, Y);
 	 }

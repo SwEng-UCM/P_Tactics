@@ -21,7 +21,7 @@ public class TroopFactory implements Factory {
 	private Direction dir = null;
 	private boolean aim;
 
-	public boolean getData(JSONObject j, ControllerInterface CI) {
+	private boolean getData(JSONObject j, ControllerInterface CI) {
 		if (!j.has("Player")) {
 			return false;
 		} else {
