@@ -3,20 +3,20 @@ package PTactics.utils;
 public enum Direction {
 	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), NONE(0,0);
 	
-	int _x;
-	int _y;
+	private int posX;
+	private int posY;
 	
 	private Direction(int x, int y) {
-		_x = x;
-		_y = y;
+		posX = x;
+		posY = y;
 	}
 	
 	public int getX() {
-		return _x;
+		return posX;
 	}
 	
 	public int getY() {
-		return _y;
+		return posY;
 	}
 	
 	@Override
