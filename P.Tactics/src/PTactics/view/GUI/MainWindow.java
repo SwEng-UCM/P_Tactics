@@ -35,7 +35,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
+import PTactics.control.ClientController;
 import PTactics.control.Controller;
+import PTactics.control.ControllerInterface;
+import PTactics.control.HostController;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.utils.Utils;
@@ -44,7 +47,7 @@ import PTactics.view.GUI.Icons.otherIcons;
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	
-	private Controller _ctrl;
+	private ControllerInterface _ctrl;
 	private JButton[] _animatedButtons;
 	private String[] _buttonTexts = { "START", "CONTINUE", "ONLINE", "PLAY VS CPU", "EXIT"};
 	private JPanel _buttonPanel;
@@ -169,8 +172,77 @@ public class MainWindow extends JFrame {
 		
 		// online button
 		_animatedButtons[2].addActionListener(e -> {
-			JOptionPane.showMessageDialog(this, "ONLINE mode coming soon!");
+			//JOptionPane.showMessageDialog(this, "ONLINE mode coming soon!");
 //			swapToGameWindow();			// not needed for now
+			Object[] options = {"Host", "Client"};
+		    int choice = JOptionPane.showOptionDialog(
+		        null,
+		        "Do you want to host or join a game?",
+		        "Choose Role",
+		        JOptionPane.DEFAULT_OPTION,
+		        JOptionPane.QUESTION_MESSAGE,
+		        null,
+		        options,
+		        options[0]
+		    );
+
+		    if (choice == 0) { // Host selected
+		        // Ask for port number
+		        String portStr = JOptionPane.showInputDialog(null, "Enter port to host on (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE);
+		        if (portStr == null) return; // Cancelled
+		        int port;
+		        try {
+		            port = Integer.parseInt(portStr);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+
+		        // Ask for number of players (with spinner)
+		        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(2, 2, 8, 1); // default 2, min 2, max 8
+		        JSpinner spinner = new JSpinner(spinnerModel);
+		        int result = JOptionPane.showConfirmDialog(
+		            null,
+		            spinner,
+		            "Enter number of players (including you):",
+		            JOptionPane.OK_CANCEL_OPTION,
+		            JOptionPane.QUESTION_MESSAGE
+		        );
+
+		        if (result == JOptionPane.OK_OPTION) {
+		            int numPlayers = (Integer) spinner.getValue();
+		            System.out.println("Hosting game on port " + port + " for " + numPlayers + " players.");
+
+		            // Replace with your actual hosting logic
+		            this._ctrl = new HostController(port, numPlayers);
+		            
+		        }
+
+		    } else if (choice == 1) { // Client selected
+		        // Ask for host IP address
+		    	 String playerName = JOptionPane.showInputDialog(null, "Enter your name / player ID:", "Player Name", JOptionPane.QUESTION_MESSAGE);
+		         if (playerName == null || playerName.isBlank()) return;
+
+		         String hostIP = JOptionPane.showInputDialog(null, "Enter host IP address:", "Connect to Host", JOptionPane.QUESTION_MESSAGE);
+		         if (hostIP == null || hostIP.isBlank()) return;
+
+		         String portStr = JOptionPane.showInputDialog(null, "Enter port to connect to (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE);
+		         if (portStr == null) return;
+		         int port;
+		         try {
+		             port = Integer.parseInt(portStr);
+		         } catch (NumberFormatException ex) {
+		             JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
+		             return;
+		         }
+
+		         System.out.println("Connecting as " + playerName + " to " + hostIP + ":" + port);
+
+		         // Start client connection
+		        this._ctrl = new ClientController(hostIP, port, playerName);
+		         
+		        
+		    }
 		});
 				
 		// play VS CPU button

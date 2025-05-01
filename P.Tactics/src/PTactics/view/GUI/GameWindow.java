@@ -22,7 +22,7 @@ public class GameWindow {
 	private ControllerInterface _ctrl;
 	private JFrame frame;
 
-	public GameWindow(Controller ctrl, JFrame frame) {
+	public GameWindow(ControllerInterface ctrl, JFrame frame) {
 		this._ctrl = ctrl;
 		this.frame = frame;
 		
