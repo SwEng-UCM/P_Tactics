@@ -2,6 +2,8 @@ package P.Tactics.CPU;
 
 import java.util.Random;
 
+import javax.swing.SwingUtilities;
+
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
 import PTactics.control.commands.AimCommand;
@@ -27,15 +29,32 @@ public class EasyCPU extends CPUinterface{
 			{
 				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
 				s.execute(ci);
-				int randomX= random.nextInt(Position._gameWidth);
-				int randomY= random.nextInt(Position._gameLength);
+				int randomX;
+				int randomY;
 				Position oldPos=t.getPos();
 				while(t.getPos().equals(oldPos))
 				{
 					randomX= random.nextInt(Position._gameWidth);
 					randomY= random.nextInt(Position._gameLength);
-					MoveCommand move= new MoveCommand(randomX, randomY);
-					move.execute(ci);
+					try 
+					{
+						if(ci.canMove(new  Position(randomX,randomY))) 
+						{
+							while(t.getPos()!= new Position(randomX,randomY)) 
+							{
+								ci.moveTroop(new  Position(randomX,randomY));
+							}
+						}
+					}
+					catch(UnsupportedOperationException e) 
+					{
+						e.printStackTrace();
+						break;
+					}
+					catch(Exception e) 
+					{
+						e.printStackTrace();
+					}
 				}
 				randomX= random.nextInt(Position._gameWidth);
 				randomY= random.nextInt(Position._gameLength);
@@ -46,7 +65,7 @@ public class EasyCPU extends CPUinterface{
 				aim.execute(ci);
 			}
 		}
-		ci.nextTurn();
+		SwingUtilities.invokeLater(() -> ci.nextTurn());
 	}
 
 }

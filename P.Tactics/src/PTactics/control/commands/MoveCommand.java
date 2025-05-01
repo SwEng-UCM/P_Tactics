@@ -62,7 +62,32 @@ public class MoveCommand extends ReportCommand {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
 		}
 	}
-
+	//move execute for CPU, instant and reports errors.
+	public void executeCPU(ControllerInterface CI) {
+		if (CI.isTroopSelected()) {
+			boolean movesLeft = true;
+			Position pos = new Position(_posX, _posY);
+			try {
+				if(!snapTaken) {
+					super.execute(CI);
+					snapTaken = true;
+				}
+				CI.moveTroop(pos);
+			} catch (IllegalArgumentException iae) {
+				System.out.println(iae);
+				movesLeft = false;
+				super.eraseSnap(CI);
+			}
+			if (movesLeft && CI.canMove(pos)) {
+				SwingUtilities.invokeLater(() -> execute(CI));
+			}
+			else {
+				CI.getGame().onDeadTroopSelected();
+			}
+		} else {
+			System.out.println("Select a troop before executing a troop command, current troop selection is none");
+		}
+	}
 	@Override
 	public Command parse(String[] sa) {
 		// Example: move 3 3 // m 3 3

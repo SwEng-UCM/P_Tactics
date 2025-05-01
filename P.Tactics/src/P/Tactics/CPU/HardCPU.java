@@ -36,11 +36,18 @@ public class HardCPU extends CPUinterface {
 					{
 						if(ci.canMove(killPos)) 
 						{
-							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-							move.execute(ci);
-							moved=true;
-							killdistance=true;// moved to killdistance position 
-							break;
+							try 
+							{
+								MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
+								move.executeCPU(ci);
+								moved=true;
+								killdistance=true;// moved to killdistance position 
+								break;
+							}
+							catch(Exception e) 
+							{
+								
+							}
 						}
 					}
 					AimCommand aim = new AimCommand(this.posToDir(enemyPos, t.getPos()));
@@ -50,7 +57,7 @@ public class HardCPU extends CPUinterface {
 						break;
 					}
 				}
-				if(!killdistance) 
+				/*if(!killdistance) 
 				{
 					//random move as position to make a kill not found
 					Random random = new Random();
@@ -64,7 +71,7 @@ public class HardCPU extends CPUinterface {
 						MoveCommand move= new MoveCommand(randomX, randomY);
 						move.execute(ci);
 					}
-				}
+				}*/
 			}
 		}
 		ci.nextTurn();

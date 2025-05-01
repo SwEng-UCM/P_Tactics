@@ -127,7 +127,7 @@ public abstract class Troop extends GameObject {
 		}
 	}
 
-	public void Move() throws IllegalArgumentException {
+	public void Move() throws IllegalArgumentException, UnsupportedOperationException{
 		if (!_currentMove.isEmpty()) {
 			this.setPosition(this._currentMove.getFirst());
 			this._currentMove.removeFirst();
@@ -136,8 +136,13 @@ public abstract class Troop extends GameObject {
 		} else if (active && !_moveQueue.isEmpty()) {
 			CalcNewMove(_moveQueue.getFirst());
 			_moveQueue.removeFirst();
-
-			if (this._movesLeft < this._currentMove.size()) {
+			
+			if(_currentMove.size()==0) 
+			{
+				this._currentMove.clear();
+				throw new UnsupportedOperationException("troop unable to move to position");
+			}
+			else if (this._movesLeft < this._currentMove.size()) {
 				this._currentMove.clear();
 				throw new IllegalArgumentException("Not enough moves left");
 			}
