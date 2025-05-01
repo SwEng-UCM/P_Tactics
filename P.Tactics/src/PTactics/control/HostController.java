@@ -8,12 +8,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 import javax.swing.Icon;
 
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
+import PTactics.control.commands.Command;
+import PTactics.control.commands.CommandGenerator;
+import PTactics.control.maps.MapSelector;
+import PTactics.model.game.Board;
+import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
+import PTactics.utils.GameObjectCreator;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
 
@@ -22,21 +29,23 @@ import java.net.*;
 import java.io.*;
 
 public class HostController implements ControllerInterface,Observable<GameObserver> {
-	private Socket socket;
 	private ServerSocket server;
-	private DataInputStream in;
-	private DataOutputStream out;
 	private List<Client> _clients;
 	private List<GameObserver> _observers;
-	private int numPlayers;
-	private ClientHandler currentClient;
+	private Client currentClient;
     private BlockingQueue<GameMessage> messageQueue;
+    protected Game _game;
+	protected boolean _endTurn;
+	public static int mapSelected = 1;
+	public static int tileSize = 50;
+	protected int _numPlayers = 0;
 
 	// constructor that takes the IP Address and the Port
 	public HostController(int port, int numPlayers) 
 	{ 
+		_game = new Game(this);
+		_endTurn = false;
 		messageQueue = new LinkedBlockingQueue<>();
-		this.numPlayers = numPlayers;
 		_observers = new ArrayList<>();
 		_clients = new ArrayList<>();
 		try
@@ -47,24 +56,47 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			
 			int i = 0;
 			while (i < numPlayers) { // will keep going until all players are connected
-	            Socket clientSocket = server.accept();
-	            System.out.println("Client connected: " + clientSocket.getInetAddress());
-	            
-	            ClientHandler handler = new ClientHandler(clientSocket);
-	            Player player = new Player(null, null);
-	            _clients.add(new Client(player,handler));
-	            new Thread(handler).start();
+				Socket clientSocket = server.accept(); // Accept immediately
+			    System.out.println("Client connected: " + clientSocket.getInetAddress());
+
+			    // Hand off the rest to a separate thread
+			    new Thread(() -> {
+			        try {
+			            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+			            String playerID = in.readLine(); 
+			            DangerMediator dangerMediator = new DangerMediator();
+			            Player p = new Player(playerID, dangerMediator);
+
+			            synchronized (_game) {
+			                for (Troop t : MapSelector.getTroops(p)) {
+			                    Board.getInstance().addObj(t.getPos(), t);
+			                }
+			                _game.addPlayer(p);
+			            }
+
+			            ClientHandler handler = new ClientHandler(in, out, messageQueue);
+			            _clients.add(new Client(p, handler));
+
+			            new Thread(handler).start();
+
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+			    }).start();
+
+			    i++; // increment here so we stop after the expected number of players
 	        }
 			while (!this.isFinish()) {
 				GameMessage msg = messageQueue.take(); // blocks until there's a message
 
-			    if (msg.sender != currentClient) {
+			    if (msg.sender != currentClient.handler) { // not the current player
 			        msg.sender.sendMessage("noTurn");
 			        continue; // ignore message
 			    }
-
-			    // Now it's the right player's turn. Parse and react:
-			    
+			    //yes the current player :)
+			    exeParse(msg.msg, msg.sender);
 			}
 	
 		} 
@@ -80,32 +112,14 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	
 
 	@Override
-	public void endTurn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updatePlayers() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void showGame() {
-		// TODO Auto-generated method stub
+		// na
 		
 	}
 
 	@Override
 	public String[] getPrompt() {
-		// TODO Auto-generated method stub
+		// na
 		return null;
 	}
 
@@ -117,99 +131,17 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public int getInt() {
-		// TODO Auto-generated method stub
+		// na
 		return 0;
 	}
 
-	@Override
-	public void selectTroop(Position pos) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isTroopSelected() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canMove(Position pos) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void moveTroop(Position pos) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void troopAbility(Position pos) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void takeAim(Direction _dirToAim) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void selectTroop(Troop t) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getNumPlayer() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public String positionToString(Position _pos) {
-		// TODO Auto-generated method stub
+		// na
 		return null;
 	}
 
-	@Override
-	public Boolean isTroop(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPlayerNum(int playerNum) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setupPlayers() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Game getGame() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void nextTurn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Troop currTroop() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Icon getIcon(Position _pos) {
@@ -217,47 +149,6 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		return null;
 	}
 
-	@Override
-	public boolean dangerTile(Position _pos) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<Position> getPath(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Position> hoverPath(Position pos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isFinish() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setPlayerNames(List<String> names) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<String> getPlayerNames() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getCurrentPlayerName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void setUpPlayerVsCPU(int levelCPU) {
@@ -265,17 +156,6 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		
 	}
 
-	@Override
-	public void load(InputStream is) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void addObserver(GameObserver o) {
 		_observers.add(o);
@@ -333,5 +213,140 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			System.out.println(i); 
 		} 
 	 */
+//_____________________________________________________________________________________________________________
+
+	public JSONObject report() {
+		return this.getGame().report();
+	}
+	
+	public void setPlayerNum(int playerNum) {
+		this._numPlayers = playerNum;
+	}
+
+	public void setPlayerNames(List<String> names) {
+		//na
+	}
+	
+	public List<String> getPlayerNames(){
+		List<String> _playerNames = new ArrayList<>();
+		for(Client c: _clients) {
+			_playerNames.add(c.player.getId());
+		}
+		return _playerNames;
+	}
+	
+	public String getCurrentPlayerName() {
+		return currentClient.player.getId();
+		
+	}
+
+	public boolean isFinish() {
+		for (Troop t : _game.getPlayer().getTroops()) {
+			if (t.isAlive())
+				return false;
+		}
+		return true;
+	}
+
+	public void setupPlayers() {
+		//na
+	}
+
+	@Override
+	public void endTurn() {
+		_endTurn = true;
+	}
+
+	public void nextTurn() {
+		_game.nextTurn();
+	}
+
+	@Override
+	public void update() {
+		this._game.update();
+	}
+
+	public void updatePlayers() {
+		this._game.updatePlayers();
+	}
+
+	@Override
+	public int getNumPlayer() {
+		return _game.getNumPlayer();
+	}
+
+	@Override
+	public void selectTroop(Position pos) throws Exception {
+		_game.selectTroop(pos);
+	}
+	
+	@Override
+	public void selectTroop(Troop t) {
+		_game.selectTroop(t);
+	}
+
+	public boolean isTroopSelected() {
+		return _game.isTroopSelected();
+	}
+
+	public boolean canMove(Position pos) {
+		return _game.canMove(pos);
+	}
+
+	public void moveTroop(Position pos) throws IllegalArgumentException {
+		_game.moveTroop(pos);
+	}
+
+	public void troopAbility(Position pos) throws Exception {
+		_game.troopAbility(pos);
+	}
+
+	public void takeAim(Direction _dirToAim) {
+		_game.takeAim(_dirToAim);
+	}
+
+	public Boolean isTroop(Position pos) {
+		return this._game.isTroop(pos);
+	}
+
+	public Game getGame() {
+		return this._game;
+	}
+
+	public Troop currTroop() {
+		return _game.getCurrentTroop();
+	}
+
+	public boolean dangerTile(Position pos) {
+		return _game.dangerTile(pos);
+	}
+
+	@Override
+	public List<Position> getPath(Position pos) {
+		return _game.getPath(pos);
+	}
+
+	public List<Position> hoverPath(Position pos) {
+		return _game.hoverPath(pos);
+	}
+	
+	@Override
+	public void load(InputStream is) {
+		//na
+	}
+
+	private void _loadPlayers(JSONObject gameState) {
+	 //na
+	}
+	
+	private void _loadBoard(JSONObject gameState) {
+		//na
+	}
+	
+	protected void _loadController(JSONObject gameState) {
+		//na
+	}
+
+
 
 }
