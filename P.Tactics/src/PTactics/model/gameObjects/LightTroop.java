@@ -51,7 +51,8 @@ public class LightTroop extends Troop {
 		this._abilityUses = 0;		
 		this._iFrames = iFrames;
 	}
-
+	
+	@Override
 	public List<Position> dangerPositions() {
 		List<Position> dangerPositions = new ArrayList<>();
 		

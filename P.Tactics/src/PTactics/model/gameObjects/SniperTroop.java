@@ -24,32 +24,6 @@ public class SniperTroop extends Troop {
 	
 	public SniperTroop(Position pos, Player p) {
 		super(pos, p);
-		initVars();
-		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-	}
-	
-	public SniperTroop(Position pos, Player p, Direction dir) {
-		super(pos, p, dir);
-		initVars();
-		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-	}
-	
-	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
-		super(pos, p, dir);
-		initVars();
-		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-		List<Position> drone = new ArrayList<Position>(); 
-		for (int i = 0; i < area.size(); i++) {
-			if (i != 0 && i % (_droneSide * _droneHeight) == 0) {
-				_droneArea.add(drone);
-				drone.clear();
-			}
-			drone.add(area.get(i));
-		}
-		this._abilityActive = true;
-	}
-	
-	public void initVars() {
 		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
 		_moveRange = 3;
 		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
@@ -62,8 +36,53 @@ public class SniperTroop extends Troop {
         _droneSide = 1;
         _droneHeight = 1;
         _droneArea = new ArrayList<>();
-    }
+		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
+	}
 	
+	public SniperTroop(Position pos, Player p, Direction dir) {
+		super(pos, p, dir);
+		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
+		_moveRange = 3;
+		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
+		_abilityTime = new ArrayList<>();
+		_abilityUses = 2;
+		for (int i = 0; i < _abilityUses; i++) {
+			_abilityTime.add(3);
+		}
+        _movesLeft = _moveRange;
+        _droneSide = 1;
+        _droneHeight = 1;
+        _droneArea = new ArrayList<>();
+		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
+	}
+	
+	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
+		super(pos, p, dir);
+		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
+		_moveRange = 3;
+		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
+		_abilityTime = new ArrayList<>();
+		_abilityUses = 2;
+		for (int i = 0; i < _abilityUses; i++) {
+			_abilityTime.add(3);
+		}
+        _movesLeft = _moveRange;
+        _droneSide = 1;
+        _droneHeight = 1;
+        _droneArea = new ArrayList<>();
+		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
+		List<Position> drone = new ArrayList<Position>(); 
+		for (int i = 0; i < area.size(); i++) {
+			if (i != 0 && i % (_droneSide * _droneHeight) == 0) {
+				_droneArea.add(drone);
+				drone.clear();
+			}
+			drone.add(area.get(i));
+		}
+		this._abilityActive = true;
+	}
+	
+	@Override
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
 		
@@ -95,6 +114,7 @@ public class SniperTroop extends Troop {
 		return visiblePositions;	
 	}
 	
+	@Override
 	public List<Position> dangerPositions() {
 		List<Position> dangerPositions = new ArrayList<>();
 		

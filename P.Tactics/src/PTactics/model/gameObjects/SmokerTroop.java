@@ -33,6 +33,7 @@ public class SmokerTroop extends Troop {
 		_id = Utils.TroopUtils.SMOKER_TROOP_ID;
 	}
 	
+	@Override
 	public List<Position> dangerPositions() {
 		List<Position> dangerPositions = new ArrayList<>();
 		
