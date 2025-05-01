@@ -77,8 +77,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 			public void actionPerformed(ActionEvent e) {
 				// Hardcoding undo instruction
 				String[] cmdArgs = { Utils.CommandInfo.COMMAND_UNDO_NAME };
-				Command command = CommandGenerator.parse(cmdArgs);
-				command.execute(_ctrl);
+				/*Command command = CommandGenerator.parse(cmdArgs);
+				command.execute(_ctrl);*/
+				_ctrl.executeCommand(cmdArgs);
 			}
 		});
 		gameInfoButtons.add(undo);
@@ -89,8 +90,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 			public void actionPerformed(ActionEvent e) {
 				// Hardcoding undo instruction
 				String[] cmdArgs = { Utils.CommandInfo.COMMAND_REDO_NAME };
-				Command command = CommandGenerator.parse(cmdArgs);
-				command.execute(_ctrl);
+				/*Command command = CommandGenerator.parse(cmdArgs);
+				command.execute(_ctrl);*/
+				_ctrl.executeCommand(cmdArgs);
 			}
 		});
 		gameInfoButtons.add(redo);
@@ -131,8 +133,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 					// Hardcoding save instruction
 					String[] cmdArgs = { Utils.CommandInfo.COMMAND_SAVE_NAME, filePath };
-					Command command = CommandGenerator.parse(cmdArgs);
-					command.execute(_ctrl);
+					/*Command command = CommandGenerator.parse(cmdArgs);
+					command.execute(_ctrl);*/
+					_ctrl.executeCommand(cmdArgs);
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error",
 							JOptionPane.ERROR_MESSAGE);

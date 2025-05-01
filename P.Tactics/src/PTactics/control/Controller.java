@@ -10,6 +10,8 @@ import org.json.JSONTokener;
 import P.Tactics.CPU.EasyCPU;
 import P.Tactics.CPU.HardCPU;
 import P.Tactics.CPU.MediumCPU;
+import PTactics.control.commands.Command;
+import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
@@ -288,5 +290,9 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		for (GameObserver o : _observers) {
 			o.onTroopUnSelection(_game);
 		}	
+	}
+	public void executeCommand(String[] args) {
+		Command command = CommandGenerator.parse(args);
+		command.execute(this);
 	}
 }
