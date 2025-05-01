@@ -150,7 +150,7 @@ public class HostController implements ControllerInterface {
 	}
 
 	@Override
-	public void setTroop(Troop t) {
+	public void selectTroop(Troop t) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -273,12 +273,6 @@ public class HostController implements ControllerInterface {
 	public JSONObject report() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void selectTroop(Troop t) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

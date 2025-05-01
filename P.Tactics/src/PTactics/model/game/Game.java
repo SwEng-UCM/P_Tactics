@@ -20,16 +20,16 @@ import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
 import PTactics.view.GUI.Icons;
 
-public class Game /*implements Observable<GameObserver>*/{
+public class Game {
 	public static int _boardLength; // This is the first value (y)
 	public static int _boardWidth; // This is the second value (x)
 	private int _currPlayer;
 	private Troop _currTroop;
-	
+
 	private List<Player> _players;
-//	private List<GameObserver> _observers;
 	private ControllerInterface ctrl;
 
+	// Constructor
 	public Game(ControllerInterface ctrl) {
 		Game._boardLength = MapSelector.getLength();
 		Game._boardWidth = MapSelector.getWidth();
@@ -37,113 +37,37 @@ public class Game /*implements Observable<GameObserver>*/{
 		Position._gameWidth = MapSelector.getWidth();
 		this._players = new ArrayList<>();
 		this._currPlayer = 0;
-		//_observers = new ArrayList<>();
 		this.ctrl = ctrl;
 	}
-	
+
+	// Game State Setup
 	public void set(JSONObject gameState) {
 		Position._gameLength = gameState.getInt("BoardLenght");
 		Position._gameWidth = gameState.getInt("BoardWidth");
 		_boardLength = gameState.getInt("BoardLenght");
 		_boardWidth = gameState.getInt("BoardWidth");
 		_currPlayer = gameState.getInt("Turn");
-		this._players = new ArrayList<>();
+		_players = new ArrayList<>();
 		_currTroop = null;
 	}
-	
-	public JSONObject report() {
-		JSONObject report = new JSONObject();
-		report.put("Players", _players.size());
-		report.put("BoardLenght", _boardLength);
-		report.put("BoardWidth", _boardWidth);
-		report.put("Turn", this.getNumPlayer()-1);
-		report.put("Board", Board.getInstance().report());
-		return report;
-	}
 
-	public void addNewElement(GameObject g, Position pos) {
-		if (Objects.isNull(g))
-			throw new IllegalArgumentException("A null object cannot be added to game.");
-		Board.getInstance().addObj(pos, g);
-	}
-
-	public GameObject getGameObject(Position pos) {
-		return Board.getInstance().getGameObject(pos);
-	}
-
-	void eraseGameObject(Position pos) {
-		Board.getInstance().eraseFromPos(pos);
+	public void inicialize() { // total update, only called on the setup
+		InicializeTurns();
+		Board.getInstance().update();
+		inicializePlayers();
 	}
 	
-	public Troop currentTroop() {
-		return _currTroop;
+	private void InicializeTurns() {
+		_players.get(0).startTurn();
 	}
 
-	public String positionToString(Position p) { 
-		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
-		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
-			return Board.getInstance().toString(p);
+	private void inicializePlayers() {
+		for (Player p : _players) {
+			p.update();
 		}
-		
-		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
-			return Utils.TroopUtils.TROOP_DEAD;
-		}
-		
-		if (visible) {
-			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-				if (_players.get(_currPlayer).lastTurnKill(p)) {
-					return Utils.TroopUtils.TROOP_DEAD;
-				}
-				return Utils.TroopUtils.TROOP_DEAD;				//Returning dead soldier (not solid not alive entities)
-			}
-			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
-				return Board.getInstance().toString(p);			//Returning actual soldiers (alive not solid)
-			}
-			
-		}
-		// just in case in the future a new way of killing without seeing is added
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-			if (_players.get(_currPlayer).lastTurnKill(p)) {
-				return "†";
-			}
-		}
-		return "*";												//Returning fog of war	(not visible)
-	}
-	
-	public Icon positionToIcon(Position p) { 
-		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
-		if (Board.getInstance().getGameObject(p)!=null&&Board.getInstance().getGameObject(p).isSolid()&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
-			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
-		}
-		
-		if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isAlive()) {
-			return Icons.TroopIcons.DEAD;
-		}  
-		
-		if (visible) {
-			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-				if (_players.get(_currPlayer).lastTurnKill(p)) {
-					return Icons.TroopIcons.DEAD;
-				}
-				return Icons.TroopIcons.DEAD;				//Returning dead soldier (not solid not alive entities)
-			}
-			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
-				if (Board.getInstance().getGameObject(p)!=null&&!Board.getInstance().getGameObject(p).isSeeThrough()) {
-					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));		//Returning actual soldiers (alive not solid)					
-				}
-				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
-			}
-			
-		}
-		// just in case in the future a new way of killing without seeing is added
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-			if (_players.get(_currPlayer).lastTurnKill(p)) {
-				return Icons.TroopIcons.DEAD;
-			}
-		}
-		return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));												//Returning fog of war	(not visible)
 	}
 
+	// Player Management
 	public void addPlayer(Player p) {
 		this._players.add(p);
 	}
@@ -151,14 +75,13 @@ public class Game /*implements Observable<GameObserver>*/{
 	public Player getPlayer() {
 		return this._players.get(_currPlayer);
 	}
-	
+
 	public Player getPlayer(int idx) {
-		return this._players.get(idx-1);
+		return this._players.get(idx - 1);
 	}
 
-	public void addTroops(Troop t) {
-		addNewElement(t, t.getPos());
-		_players.get(_currPlayer).addTroops(t);
+	public int getNumPlayer() { // Human view
+		return this._currPlayer + 1;
 	}
 
 	public void updatePlayers() {
@@ -167,104 +90,72 @@ public class Game /*implements Observable<GameObserver>*/{
 		}
 		updateOnPlayersUpdate();
 	}
-	
-	private void inicializePlayers() {
-		for (Player p : _players) {
-			p.update();
-		}
-	}
-
-	public void update() { 
-		updateBoard();
-		updatePlayers();
-	}
-	
-	public void inicialize() { // total update, only called on the setup
-		InicializeTurns();
-		Board.getInstance().update();
-		inicializePlayers();
-	}
-	
-	public void updateBoard() {
-		Board.getInstance().update();
-		updateOnBoardUpdate();
-	}
-
-	public GameObject objectInPos(Position pos) {
-		return Board.getInstance().getGameObject(pos);
-	}
-
-	public BoardInterface getBoard() {
-		return Board.getInstance();
-	}
-
-	public void setPositionOnBoard(Position p1, Position p2, GameObject GO) {
-		Board.getInstance().setPosition(p1, p2, GO);
-	}
-
-	public int getNumPlayer() { // Human view
-		return this._currPlayer + 1;
-	}
 
 	public void nextTurn() {
 		Board.getInstance().nextTurn();
-		_players.get(_currPlayer).endTurn();		
-		_players.get(_currPlayer).clearKills();		// Im not proud of what I have done but this is just so easy and comfortable. 
-		_players.get(_currPlayer).update();			//this is illegal (nerd emoji) idgaf rn
+		_currTroop = null;
+		_players.get(_currPlayer).endTurn();
+		_players.get(_currPlayer).clearKills();
+		_players.get(_currPlayer).update();
 		update();
 		_currPlayer++;
 		if (_currPlayer >= _players.size()) {
 			_currPlayer = 0;
 		}
 		_players.get(_currPlayer).startOfTurnDeadCheck();
-		_players.get(_currPlayer).startTurn();	
+		_players.get(_currPlayer).startTurn();
 		updateOnNextTurn();
 		_players.get(_currPlayer).ComputeTurn();
 	}
-	
+
+	// Board Management
+	public void updateBoard() {
+		Board.getInstance().update();
+		updateOnBoardUpdate();
+	}
+
+	// Troop Management
+
 	public boolean isTroopSelected() {
 		return !(_currTroop == null);
 	}
-	public Boolean isTroop(Position pos) 
-	{
+
+	public Boolean isTroop(Position pos) {
 		GameObject t = Board.getInstance().getGameObject(pos);
-		if(!Objects.isNull(t) && t.isAlive()&& t.isSeeThrough()) 
-		{
+		if (!Objects.isNull(t) && t.isAlive() && t.isSeeThrough()) {
 			return ((Troop) t).getPlayerID().equals(_players.get(_currPlayer).getId());
 		}
 		return false;
 	}
-	public void selectTroop(Position pos) throws Exception{
+
+	public void selectTroop(Position pos) throws Exception {
 		GameObject t = Board.getInstance().getGameObject(pos);
 		if (Objects.isNull(t)) {
-			throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check if it exists (is a GO)
+			throw new Exception(Utils.MsgErrors.INVALID_SELECTION);
 		}
 		if (!t.isAlive()) {
-			throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check if it is a troop alive (walls
-																	// and dead troops will return false)
+			throw new Exception(Utils.MsgErrors.INVALID_SELECTION);
 		}
 		if (!((Troop) t).getPlayerID().equals(_players.get(_currPlayer).getId())) {
-			throw new Exception(Utils.MsgErrors.INVALID_SELECTION); // Have to check that it belongs to the player
-																	// (sorry for the casting)
-		}		
-		
+			throw new Exception(Utils.MsgErrors.INVALID_SELECTION);
+		}
 		_currTroop = (Troop) t;
-		
 		updateOnTroopSelection();
-	
-	}
-	
-	public void selectTroop(Troop t) {
-		_currTroop = t;
-		
-		updateOnTroopSelection();
-	}
-	
-	public boolean canMove(Position pos) {
-		return _currTroop.isAlive() && (!(_currTroop.getPos().getX() == pos.getX()) || !(_currTroop.getPos().getY() == pos.getY())) && (this.getBoard().getGameObject(pos)==null||this.getBoard().getGameObject(pos).isWalkable());
 	}
 
-	public void moveTroop(Position pos) throws IllegalArgumentException{
+	public void selectTroop(Troop t) {
+		_currTroop = t;
+		updateOnTroopSelection();
+	}
+
+	public boolean canMove(Position pos) {
+		return _currTroop.isAlive()
+				&& (!(_currTroop.getPos().getX() == pos.getX()) || !(_currTroop.getPos().getY() == pos.getY()))
+				&& (Board.getInstance().getGameObject(pos) == null
+						|| Board.getInstance().getGameObject(pos).isWalkable());
+	}
+
+	public void moveTroop(Position pos) throws IllegalArgumentException {
 		_currTroop.AddToMove(pos);
 		_currTroop.update();
 		updatePlayers();
@@ -275,11 +166,9 @@ public class Game /*implements Observable<GameObserver>*/{
 		if (_currTroop.abilityUsesLeft() == 0) {
 			throw new Exception("No uses left for the ability");
 		}
-		
-		if(!_currTroop.getId().equals(Utils.TroopUtils.LIGHT_TROOP_ID) && !pos.isValid()) {
+		if (!_currTroop.getId().equals(Utils.TroopUtils.LIGHT_TROOP_ID) && !pos.isValid()) {
 			throw new Exception("No uses left for the ability");
 		}
-		
 		_currTroop.activateAbility(pos);
 		updateOnTroopAction();
 	}
@@ -288,87 +177,155 @@ public class Game /*implements Observable<GameObserver>*/{
 		_currTroop.takeAim(_dirToAim);
 		updateOnTroopAction();
 	}
-	
-	public void troopLook(Direction dir) {
-		_currTroop.setDirection(dir);
-		updateOnTroopAction();
-	}
 
-	public void dropTroop() {
-		_currTroop = null;
-		updateOnTroopSelection();
-	}
-
-	public void setTroop(Troop t) {
-		_currTroop = t;
-		updateOnTroopSelection();
-	}
-	
-	public void onDeadTroopSelected() {
-		if (_currTroop != null && !_currTroop.isAlive()) {
-        	_currTroop = null;
-        }
-	}
-	
-	public Troop getTroop() {
+	public Troop getCurrentTroop() {
 		return _currTroop;
 	}
 
-	private void InicializeTurns() {
-		_players.get(0).startTurn();		
+	public void onDeadTroopSelected() {
+		if (_currTroop != null && !_currTroop.isAlive()) {
+			_currTroop = null;
+		}
 	}
 
-	public void addObserver(GameObserver o) {
-		ctrl.addObserver(o);
-	}
-
-
-	public void removeObserver(GameObserver o) {
-		ctrl.removeObserver(o);
-	}
+	// Path & Danger Utilities
 	public boolean dangerTile(Position pos) {
 		return _players.get(_currPlayer).isInDanger(pos);
 	}
 
 	public List<Position> getPath(Position pos) {
-		return _currTroop == null? null : _currTroop.getPath(pos);
-	}
-	
-	public List<Position> hoverPath(Position pos) {
-		return _currTroop == null? null : _currTroop.hoverPath(pos);
+		return _currTroop == null ? null : _currTroop.getPath(pos);
 	}
 
-	public List<Position> getEnemyTroops()
-	{
-		List<Position> returnList= new ArrayList<Position>();
-		for(Player p: this._players) 
-		{
-			if(!p.isMyTurn()) 
-			{
-				for(Troop t : p.getTroops()) 
-				{
+	public List<Position> hoverPath(Position pos) {
+		return _currTroop == null ? null : _currTroop.hoverPath(pos);
+	}
+
+	public List<Position> getEnemyTroops() {
+		List<Position> returnList = new ArrayList<Position>();
+		for (Player p : this._players) {
+			if (!p.isMyTurn()) {
+				for (Troop t : p.getTroops()) {
 					returnList.add(t.getPos());
 				}
 			}
 		}
 		return returnList;
 	}
+
+	// Board Display
+	public String positionToString(Position p) {
+		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return Board.getInstance().toString(p);
+		}
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			return Utils.TroopUtils.TROOP_DEAD;
+		}
+		if (visible) {
+			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+				if (_players.get(_currPlayer).lastTurnKill(p)) {
+					return Utils.TroopUtils.TROOP_DEAD;
+				}
+				return Utils.TroopUtils.TROOP_DEAD;
+			}
+			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
+				return Board.getInstance().toString(p);
+			}
+		}
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			if (_players.get(_currPlayer).lastTurnKill(p)) {
+				return "†";
+			}
+		}
+		return "*";
+	}
+
+	public Icon positionToIcon(Position p) {
+		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
+				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
+					Controller.tileSize, 4));
+		}
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			return Icons.TroopIcons.DEAD;
+		}
+		if (visible) {
+			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+				if (_players.get(_currPlayer).lastTurnKill(p)) {
+					return Icons.TroopIcons.DEAD;
+				}
+				return Icons.TroopIcons.DEAD;
+			}
+			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
+				if (Board.getInstance().getGameObject(p) != null
+						&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
+					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
+							Controller.tileSize, 4));
+				}
+				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
+						Controller.tileSize, 4));
+			}
+		}
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			if (_players.get(_currPlayer).lastTurnKill(p)) {
+				return Icons.TroopIcons.DEAD;
+			}
+		}
+		return new ImageIcon(
+				Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
+	}
+
+	// Observers
+	public void addObserver(GameObserver o) {
+		ctrl.addObserver(o);
+	}
+
+	public void removeObserver(GameObserver o) {
+		ctrl.removeObserver(o);
+	}
+
+	// Update Callback //
 	void updateOnPlayersUpdate() {
 		ctrl.updateOnPlayersUpdate();
 	}
+
 	void updateOnBoardUpdate() {
 		ctrl.updateOnBoardUpdate();
 	}
+
 	void updateOnTroopAction() {
 		ctrl.updateOnTroopAction();
 	}
+
 	void updateOnTroopSelection() {
 		ctrl.updateOnTroopSelection();
 	}
+
 	void updateOnNextTurn() {
-		ctrl.updateOnNextTurn();	
+		ctrl.updateOnNextTurn();
 	}
+
 	void updateOnTroopUnSelection() {
 		ctrl.updateOnTroopUnSelection();
 	}
+
+	// Update Entry Point
+	public void update() {
+		updateBoard();
+		updatePlayers();
+	}
+
+	// Report
+	public JSONObject report() {
+		JSONObject report = new JSONObject();
+		report.put("Players", _players.size());
+		report.put("BoardLenght", _boardLength);
+		report.put("BoardWidth", _boardWidth);
+		report.put("Turn", this.getNumPlayer() - 1);
+		report.put("Board", Board.getInstance().report());
+		return report;
+	}
+
 }

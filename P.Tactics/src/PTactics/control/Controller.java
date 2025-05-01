@@ -13,6 +13,7 @@ import P.Tactics.CPU.MediumCPU;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
+import PTactics.model.game.Board;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
@@ -70,7 +71,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 				{
 					Player p = new Player(i.toString(), dangerMediator);
 					for (Troop t : MapSelector.getTroops(p)) {
-						_game.addNewElement(t, t.getPos());
+						Board.getInstance().addObj(t.getPos(), t);
 					}
 					_game.addPlayer(p);
 				}
@@ -81,21 +82,21 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 					case 0:
 						Player cpu = new Player(i.toString(), dangerMediator, new EasyCPU(this));
 						for (Troop t : MapSelector.getTroops(cpu)) {
-							_game.addNewElement(t, t.getPos());
+							Board.getInstance().addObj(t.getPos(), t);
 						}
 						_game.addPlayer(cpu);
 						break;
 					case 1:
 						Player cpu1 = new Player(i.toString(), dangerMediator, new MediumCPU(this));
 						for (Troop t : MapSelector.getTroops(cpu1)) {
-							_game.addNewElement(t, t.getPos());
+							Board.getInstance().addObj(t.getPos(), t);
 						}
 						_game.addPlayer(cpu1);
 						break;
 					case 2:
 						Player cpu2 = new Player(i.toString(), dangerMediator, new HardCPU(this));
 						for (Troop t : MapSelector.getTroops(cpu2)) {
-							_game.addNewElement(t, t.getPos());
+							Board.getInstance().addObj(t.getPos(), t);
 						}
 						_game.addPlayer(cpu2);
 						break;
@@ -126,7 +127,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 			for (Integer i = 1; i <= _numPlayers; ++i) {
 				Player p = new Player(i.toString(), dangerMediator);
 				for (Troop t : MapSelector.getTroops(p)) {
-					_game.addNewElement(t, t.getPos());
+					Board.getInstance().addObj(t.getPos(), t);
 				}
 				_game.addPlayer(p);
 			}
@@ -141,13 +142,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	}
 
 	public void nextTurn() {
-		_game.dropTroop();
 		_game.nextTurn();
-	}
-
-	@Override
-	public void setTroop(Troop t) {
-		_game.setTroop(t);
 	}
 
 	@Override
@@ -210,7 +205,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	}
 
 	public Troop currTroop() {
-		return _game.currentTroop();
+		return _game.getCurrentTroop();
 	}
 
 	public boolean dangerTile(Position pos) {
@@ -252,8 +247,8 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	private void _loadBoard(JSONObject gameState) {
 		for (int i1 = 0; i1 < gameState.getJSONArray("Board").length(); i1++) {
 			JSONObject jo = (JSONObject) gameState.getJSONArray("Board").get(i1);
-			_game.addNewElement(GameObjectCreator.createGameObject(jo, this),
-					new Position(jo.getInt("PositionX"), jo.getInt("PositionY")));
+			Board.getInstance().addObj(new Position(jo.getInt("PositionX"), jo.getInt("PositionY")),
+					GameObjectCreator.createGameObject(jo, this));
 		}
 	}
 	

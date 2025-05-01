@@ -263,10 +263,6 @@ public abstract class Troop extends GameObject {
 	// ------------------ SETTERS ------------------//
 	public abstract void activateAbility(Position pos);
 
-	public void setDirection(Direction dir) {
-		_dir = dir;
-	}
-
 	public void revive() {
 		this.alive = true;
 	}
@@ -281,10 +277,6 @@ public abstract class Troop extends GameObject {
 	public void takeAim(Direction direction) {
 		_dir = direction;
 		_aiming = true;
-	}
-
-	public void stopAiming() {
-		_aiming = false;
 	}
 
 	@Override

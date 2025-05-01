@@ -99,11 +99,6 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	@Override
-	public void setTroop(Troop t) {
-		//communicate out
-	}
-
-	@Override
 	public void update() {
 		//communicate out
 	}

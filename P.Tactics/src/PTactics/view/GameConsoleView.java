@@ -79,12 +79,12 @@ public class GameConsoleView implements GameObserver {
 	}
 	
 	private void showInfo(Game _game) {
-		System.out.println("Current troop selected: " + (!_game.isTroopSelected() ? "none" : _game.getTroop().getId()) 
-							+ (!_game.isTroopSelected() ? "" : (" In position:" + ( _game.getTroop().getPos().getY() + 1)
-							+ " " + ( _game.getTroop().getPos().getX()+1))));
-		System.out.println(!_game.isTroopSelected() ? "" : "Moves left: " +  _game.getTroop().getMovesLeft());
-		System.out.println(!_game.isTroopSelected() ? "" : ! _game.getTroop().isAbility()? "" : "Ability turns left: " 
-							+  _game.getTroop().abilityUsesLeft());
+		System.out.println("Current troop selected: " + (!_game.isTroopSelected() ? "none" : _game.getCurrentTroop().getId()) 
+							+ (!_game.isTroopSelected() ? "" : (" In position:" + ( _game.getCurrentTroop().getPos().getY() + 1)
+							+ " " + ( _game.getCurrentTroop().getPos().getX()+1))));
+		System.out.println(!_game.isTroopSelected() ? "" : "Moves left: " +  _game.getCurrentTroop().getMovesLeft());
+		System.out.println(!_game.isTroopSelected() ? "" : ! _game.getCurrentTroop().isAbility()? "" : "Ability turns left: " 
+							+  _game.getCurrentTroop().abilityUsesLeft());
 	}
 	
 	public void showGame(Game _game) {

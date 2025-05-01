@@ -60,9 +60,9 @@ public class AimCommand extends ReportCommand {
 		private AimSnapshot(ControllerInterface CI) {
 			_ctrl = CI;
 			_commandId = getName();
-			_initialDir = CI.getGame().currentTroop().getDir();
+			_initialDir = CI.getGame().getCurrentTroop().getDir();
 			_finalDir = _dirToAim;
-			_troopUsed = CI.getGame().currentTroop();
+			_troopUsed = CI.getGame().getCurrentTroop();
 		}
 		
 		@Override

@@ -71,6 +71,8 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	// SETTERS AND ADDERS //
 
 	public void addObj(Position p, GameObject o) {
+		 if (Objects.isNull(o))
+		        throw new IllegalArgumentException("A null object cannot be added to game.");
 		this.put(p, o);
 	}
 

@@ -63,7 +63,7 @@ public class AbilityCommand extends ReportCommand {
 			_ctrl = CI;
 			_commandId = getName();
 			_abilityPos = new Position(_posX, _posY);
-			_troopUsed = CI.getGame().currentTroop();
+			_troopUsed = CI.getGame().getCurrentTroop();
 		}
 		
 		@Override

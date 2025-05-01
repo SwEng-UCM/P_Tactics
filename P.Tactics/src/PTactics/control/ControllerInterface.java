@@ -41,8 +41,6 @@ public interface ControllerInterface {
 
 	void takeAim(Direction _dirToAim);
 
-	void setTroop(Troop t);
-
 	int getNumPlayer();
 
 	public void addObserver(GameObserver o);
