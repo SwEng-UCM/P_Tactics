@@ -27,6 +27,7 @@ public class MediumCPU extends CPUinterface {
 				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
 				s.execute(ci);
 				List<Position> enemyPositions= ci.getGame().getEnemyTroops();
+				boolean killdistance=false;
 				for(Position enemyPos:enemyPositions) 
 				{
 					boolean moved=false;
@@ -38,12 +39,28 @@ public class MediumCPU extends CPUinterface {
 							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
 							move.execute(ci);
 							moved=true;
+							killdistance=true;
 							break;
 						}
 					}
 					if(moved) 
 					{
 						break;
+					}
+				}
+				if(!killdistance) 
+				{
+					//random move as position to make a kill not found
+					Random random = new Random();
+					int randomX= random.nextInt(Position._gameWidth);
+					int randomY= random.nextInt(Position._gameLength);
+					Position oldPos=t.getPos();
+					while(t.getPos().equals(oldPos))
+					{
+						randomX= random.nextInt(Position._gameWidth);
+						randomY= random.nextInt(Position._gameLength);
+						MoveCommand move= new MoveCommand(randomX, randomY);
+						move.execute(ci);
 					}
 				}
 				AimCommand aim = new AimCommand(this.RandomAim());
