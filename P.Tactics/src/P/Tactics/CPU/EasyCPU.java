@@ -65,7 +65,9 @@ public class EasyCPU extends CPUinterface{
 				aim.execute(ci);
 			}
 		}
-		SwingUtilities.invokeLater(() -> ci.nextTurn());
+		SwingUtilities.invokeLater(() -> {
+			ci.nextTurn();
+		});
 	}
 
 }
