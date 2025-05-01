@@ -20,6 +20,7 @@ import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.GameObjectCreator;
 import PTactics.utils.Position;
+import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
 
 
@@ -91,16 +92,35 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public void endTurn() {
-		//communicate out
+		try {
+			out.writeUTF(Utils.Network.END_TURN);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void nextTurn() {
-		//communicate out
+		try {
+			out.writeUTF(Utils.Network.NEXT_TURN);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	@Override
+
+	public void setTroop(Troop t) {
+		//na
+	}
+
 	public void update() {
-		//communicate out
+		try {
+			out.writeUTF(Utils.Network.UPDATE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void updatePlayers() {
@@ -109,22 +129,46 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public int getNumPlayer() {
-		//communicate in
-		return 0;
+		try {
+			out.writeUTF("getNumPlayer");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int i = -1;
+		try {
+			i = in.readInt();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return i;
 	}
 
 	@Override
 	public void selectTroop(Position pos) throws Exception {
-		//communicate out
+		//na
 	}
 	
 	@Override
 	public void selectTroop(Troop t) {
-		//communicate out
+		//na
 	}
 
 	public boolean isTroopSelected() {
-		//communicate in
+		try {
+			out.writeUTF("isTroopSelected");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean a = false;
+		 try {
+			a = in.readBoolean();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 

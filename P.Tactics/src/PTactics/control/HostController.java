@@ -1,12 +1,17 @@
 package PTactics.control;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.Icon;
 
 import org.json.JSONObject;
 
 import PTactics.model.game.Game;
+import PTactics.model.game.Observable;
+import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -16,60 +21,63 @@ import PTactics.view.GameObserver;
 import java.net.*; 
 import java.io.*;
 
-public class HostController implements ControllerInterface {
+public class HostController implements ControllerInterface,Observable<GameObserver> {
 	private Socket socket;
 	private ServerSocket server;
 	private DataInputStream in;
+	private DataOutputStream out;
+	private List<Client> _clients;
+	private List<GameObserver> _observers;
+	private int numPlayers;
+	private ClientHandler currentClient;
+    private BlockingQueue<GameMessage> messageQueue;
 
 	// constructor that takes the IP Address and the Port
-	public HostController(String address, int port) 
+	public HostController(int port, int numPlayers) 
 	{ 
+		messageQueue = new LinkedBlockingQueue<>();
+		this.numPlayers = numPlayers;
+		_observers = new ArrayList<>();
+		_clients = new ArrayList<>();
 		try
 		{ 
 			// we start our server
 			server = new ServerSocket(port); 
 			System.out.println("Server started"); 
+			
+			int i = 0;
+			while (i < numPlayers) { // will keep going until all players are connected
+	            Socket clientSocket = server.accept();
+	            System.out.println("Client connected: " + clientSocket.getInetAddress());
+	            
+	            ClientHandler handler = new ClientHandler(clientSocket);
+	            Player player = new Player(null, null);
+	            _clients.add(new Client(player,handler));
+	            new Thread(handler).start();
+	        }
+			while (!this.isFinish()) {
+				GameMessage msg = messageQueue.take(); // blocks until there's a message
 
-			System.out.println("Waiting for a client ..."); 
+			    if (msg.sender != currentClient) {
+			        msg.sender.sendMessage("noTurn");
+			        continue; // ignore message
+			    }
 
-			// we accept the client in the given port
-			// and create a socket
-			// we now have an established connection between our client and our server on the 
-			// given socket
-			socket = server.accept(); 
-			System.out.println("Client accepted"); 
-
-			// takes input from the client socket 
-			in = new DataInputStream( 
-				new BufferedInputStream(socket.getInputStream())); 
-
-			String line = ""; 
-
-			// reads message from client until "Stop" is sent 
-			while (!line.equals("Stop")) 
-			{ 
-				try
-				{ 
-					line = in.readUTF(); 
-					System.out.println(line); 
-
-				} 
-				catch(IOException i) 
-				{ 
-					System.out.println(i); 
-				} 
-			} 
-			System.out.println("Closing connection"); 
-
-			// close connection 
-			socket.close(); 
-			in.close(); 
+			    // Now it's the right player's turn. Parse and react:
+			    
+			}
+	
 		} 
-		catch(IOException i) 
+		catch(IOException | InterruptedException i) 
 		{ 
 			System.out.println(i); 
 		} 
 	} 
+	
+	private void exeParse(String input, ClientHandler handler) { // parses a message and executes it
+		
+	}
+	
 
 	@Override
 	public void endTurn() {
@@ -159,12 +167,6 @@ public class HostController implements ControllerInterface {
 	public int getNumPlayer() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public void addObserver(GameObserver o) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -275,46 +277,43 @@ public class HostController implements ControllerInterface {
 		return null;
 	}
 
-	@Override
+	public void addObserver(GameObserver o) {
+		_observers.add(o);
+	}
+
 	public void removeObserver(GameObserver o) {
-		// TODO Auto-generated method stub
-		
+		_observers.remove(o);
 	}
-
-	@Override
+	
 	public void updateOnPlayersUpdate() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onPlayersUpdate(null);
+		}
 	}
-
-	@Override
 	public void updateOnBoardUpdate() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onBoardUpdate(null);
+		}
 	}
-
-	@Override
 	public void updateOnTroopAction() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onTroopAction(null);
+		}
 	}
-
-	@Override
 	public void updateOnTroopSelection() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onTroopSelection(null);
+		}	
 	}
-
-	@Override
 	public void updateOnNextTurn() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onNextTurn(null);
+		}	
 	}
-
-	@Override
 	public void updateOnTroopUnSelection() {
-		// TODO Auto-generated method stub
-		
+		for (GameObserver o : _observers) {
+			o.onTroopUnSelection(null);
+		}	
 	}
 
 	@Override
