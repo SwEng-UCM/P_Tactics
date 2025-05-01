@@ -26,5 +26,6 @@ public interface BoardInterface {
 	public String toString(Position p);
 	public ImageIcon toIcon(Position p);
 	public JSONArray report();
+	public boolean isWinPosition(Position _pos);
 
 }

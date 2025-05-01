@@ -8,6 +8,7 @@ import javax.swing.JButton;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
+import PTactics.model.game.Board;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
@@ -77,6 +78,10 @@ public class GameBoardCell extends JButton implements GameObserver{
 		else if (_cntr.getPath(_pos) != null && _cntr.getPath(_pos).contains(_pos)) {
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
+		}
+		else if (Board.getInstance().isWinPosition(_pos)) {
+			this.setBorderPainted(true);
+			this.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
 		}
 		
 		else {
