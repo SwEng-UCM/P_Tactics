@@ -11,4 +11,5 @@ public interface Map {
 	public List<Troop> listTroops(Player player);
 	public int getLength();
 	public int getWidth();
+	public List<Position> listWinPositions();
 }

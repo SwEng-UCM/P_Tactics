@@ -69,4 +69,9 @@ public class Map2 implements Map {
 	public int getWidth() {
 		return _game_width;
 	}
+
+	@Override
+	public List<Position> listWinPositions() {
+		return null;
+	}
 }

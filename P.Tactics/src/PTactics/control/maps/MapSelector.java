@@ -30,4 +30,8 @@ public class MapSelector {
 	public static int getWidth(){
 		return maps.get(Controller.mapSelected).getWidth();
 	}
+
+	public static List<Position> getWinZone() {
+		return maps.get(Controller.mapSelected).listWinPositions();
+	}
 }
