@@ -62,7 +62,7 @@ public class SmokerTroop extends Troop {
 	
 	@Override
 	public void activateAbility(Position pos) {
-		Board.getInstance().smoke(pos);
+		Board.getInstance().addSmoke(pos);
 		this._abilityUses--;
 	}
 	
@@ -72,7 +72,7 @@ public class SmokerTroop extends Troop {
 	@Override
 	public void undoAbility(Position _abilityPos) {
 		_abilityUses++;
-		Board.getInstance().unsmoke(_abilityPos);
+		Board.getInstance().eraseSmoke(_abilityPos);
 	}
 	
 	@Override
