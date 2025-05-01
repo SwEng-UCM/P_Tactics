@@ -36,17 +36,14 @@ public class HardCPU extends CPUinterface {
 					{
 						if(_ci.canMove(killPos)) 
 						{
-							try 
+							Position oldPos=t.getPos();
+							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
+							move.executeCPU(_ci);
+							if(!t.getPos().equals(oldPos)) 
 							{
-								MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-								move.executeCPU(_ci);
 								moved=true;
 								killdistance=true;// moved to killdistance position 
 								break;
-							}
-							catch(Exception e) 
-							{
-								
 							}
 						}
 					}
@@ -57,21 +54,36 @@ public class HardCPU extends CPUinterface {
 						break;
 					}
 				}
-				/*if(!killdistance) 
+				if(!killdistance) 
 				{
 					//random move as position to make a kill not found
 					Random random = new Random();
-					int randomX= random.nextInt(Position._gameWidth);
-					int randomY= random.nextInt(Position._gameLength);
+					int randomX;
+					int randomY;
 					Position oldPos=t.getPos();
 					while(t.getPos().equals(oldPos))
 					{
 						randomX= random.nextInt(Position._gameWidth);
 						randomY= random.nextInt(Position._gameLength);
-						MoveCommand move= new MoveCommand(randomX, randomY);
-						move.execute(ci);
+						try 
+						{
+							if(_ci.canMove(new  Position(randomX,randomY))) 
+							{
+								MoveCommand move= new MoveCommand(randomX,randomY);
+								move.executeCPU(_ci);
+							}
+						}
+						catch(UnsupportedOperationException e) 
+						{
+							e.printStackTrace();
+							break;
+						}
+						catch(Exception e) 
+						{
+							e.printStackTrace();
+						}
 					}
-				}*/
+				}
 			}
 		}
 		_ci.nextTurn();

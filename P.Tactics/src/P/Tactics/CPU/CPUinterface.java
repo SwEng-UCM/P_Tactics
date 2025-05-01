@@ -3,6 +3,7 @@ package P.Tactics.CPU;
 import java.util.Random;
 
 import PTactics.control.ControllerInterface;
+import PTactics.control.commands.MoveCommand;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;

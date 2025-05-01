@@ -36,11 +36,15 @@ public class MediumCPU extends CPUinterface {
 					{
 						if(_ci.canMove(killPos)) 
 						{
+							Position oldPos=t.getPos();
 							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-							move.execute(_ci);
-							moved=true;
-							killdistance=true;
-							break;
+							move.executeCPU(_ci);
+							if(!t.getPos().equals(oldPos)) 
+							{
+								moved=true;
+								killdistance=true;// moved to killdistance position 
+								break;
+							}
 						}
 					}
 					if(moved) 
@@ -52,15 +56,30 @@ public class MediumCPU extends CPUinterface {
 				{
 					//random move as position to make a kill not found
 					Random random = new Random();
-					int randomX= random.nextInt(Position._gameWidth);
-					int randomY= random.nextInt(Position._gameLength);
+					int randomX;
+					int randomY;
 					Position oldPos=t.getPos();
 					while(t.getPos().equals(oldPos))
 					{
 						randomX= random.nextInt(Position._gameWidth);
 						randomY= random.nextInt(Position._gameLength);
-						MoveCommand move= new MoveCommand(randomX, randomY);
-						move.execute(_ci);
+						try 
+						{
+							if(_ci.canMove(new  Position(randomX,randomY))) 
+							{
+								MoveCommand move= new MoveCommand(randomX,randomY);
+								move.executeCPU(_ci);
+							}
+						}
+						catch(UnsupportedOperationException e) 
+						{
+							e.printStackTrace();
+							break;
+						}
+						catch(Exception e) 
+						{
+							e.printStackTrace();
+						}
 					}
 				}
 				AimCommand aim = new AimCommand(this.RandomAim());
