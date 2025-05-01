@@ -8,22 +8,16 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 import PTactics.control.ControllerInterface;
-import PTactics.control.commands.Command;
-import PTactics.control.commands.CommandGenerator;
 import PTactics.model.game.Game;
 import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
@@ -159,7 +153,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		return button;
-}
+	}
 
 	@Override
 	public void onPlayersUpdate(Game game) {
