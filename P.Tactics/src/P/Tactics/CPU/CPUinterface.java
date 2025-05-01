@@ -8,12 +8,16 @@ import PTactics.utils.Direction;
 import PTactics.utils.Position;
 
 public abstract class  CPUinterface {
-	protected ControllerInterface ci;
+	protected ControllerInterface _ci;
 	public CPUinterface(ControllerInterface ci) 
 	{
-		this.ci=ci;
+		this._ci=ci;
 	}
 	public abstract  void ComputeTurn(Player p);
+	public ControllerInterface GetCI() 
+	{
+		return this._ci;
+	}
 	protected Direction RandomAim() 
 	{
 		Random random= new Random();

@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.SwingUtilities;
+
 import P.Tactics.CPU.CPUinterface;
+import PTactics.control.ControllerInterface;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
 

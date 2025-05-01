@@ -28,7 +28,7 @@ public class EasyCPU extends CPUinterface{
 			if(t.isAlive()) 
 			{
 				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
-				s.execute(ci);
+				s.execute(_ci);
 				int randomX;
 				int randomY;
 				Position oldPos=t.getPos();
@@ -38,12 +38,10 @@ public class EasyCPU extends CPUinterface{
 					randomY= random.nextInt(Position._gameLength);
 					try 
 					{
-						if(ci.canMove(new  Position(randomX,randomY))) 
+						if(_ci.canMove(new  Position(randomX,randomY))) 
 						{
-							while(t.getPos()!= new Position(randomX,randomY)) 
-							{
-								ci.moveTroop(new  Position(randomX,randomY));
-							}
+							MoveCommand move= new MoveCommand(randomX,randomY);
+							move.executeCPU(_ci);
 						}
 					}
 					catch(UnsupportedOperationException e) 
@@ -60,14 +58,12 @@ public class EasyCPU extends CPUinterface{
 				randomY= random.nextInt(Position._gameLength);
 				Position abilityPos= new Position(randomX,randomY);
 				AbilityCommand ability= new AbilityCommand(randomX,randomY);
-				ability.execute(ci);
+				ability.execute(_ci);
 				AimCommand aim = new AimCommand(this.RandomAim());
-				aim.execute(ci);
+				aim.execute(_ci);
 			}
 		}
-		SwingUtilities.invokeLater(() -> {
-			ci.nextTurn();
-		});
+		_ci.nextTurn();
 	}
 
 }

@@ -25,8 +25,8 @@ public class MediumCPU extends CPUinterface {
 			if(t.isAlive()) 
 			{
 				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
-				s.execute(ci);
-				List<Position> enemyPositions= ci.getGame().getEnemyTroops();
+				s.execute(_ci);
+				List<Position> enemyPositions= _ci.getGame().getEnemyTroops();
 				boolean killdistance=false;
 				for(Position enemyPos:enemyPositions) 
 				{
@@ -34,10 +34,10 @@ public class MediumCPU extends CPUinterface {
 					List<Position> killDistancePositions=Board.getInstance().shootablePositions(enemyPos,t.getShootRange() );
 					for(Position killPos: killDistancePositions) 
 					{
-						if(ci.canMove(killPos)) 
+						if(_ci.canMove(killPos)) 
 						{
 							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-							move.execute(ci);
+							move.execute(_ci);
 							moved=true;
 							killdistance=true;
 							break;
@@ -60,13 +60,13 @@ public class MediumCPU extends CPUinterface {
 						randomX= random.nextInt(Position._gameWidth);
 						randomY= random.nextInt(Position._gameLength);
 						MoveCommand move= new MoveCommand(randomX, randomY);
-						move.execute(ci);
+						move.execute(_ci);
 					}
 				}
 				AimCommand aim = new AimCommand(this.RandomAim());
-				aim.execute(ci);
+				aim.execute(_ci);
 			}
 		}
-		ci.nextTurn();
+		_ci.nextTurn();
 	}
 }

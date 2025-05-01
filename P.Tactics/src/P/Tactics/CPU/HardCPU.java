@@ -25,8 +25,8 @@ public class HardCPU extends CPUinterface {
 			if(t.isAlive()) 
 			{
 				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
-				s.execute(ci);
-				List<Position> enemyPositions= ci.getGame().getEnemyTroops();
+				s.execute(_ci);
+				List<Position> enemyPositions= _ci.getGame().getEnemyTroops();
 				boolean killdistance=false;
 				for(Position enemyPos:enemyPositions) 
 				{
@@ -34,12 +34,12 @@ public class HardCPU extends CPUinterface {
 					List<Position> killDistancePositions=Board.getInstance().shootablePositions(enemyPos,t.getShootRange() );
 					for(Position killPos: killDistancePositions) 
 					{
-						if(ci.canMove(killPos)) 
+						if(_ci.canMove(killPos)) 
 						{
 							try 
 							{
 								MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-								move.executeCPU(ci);
+								move.executeCPU(_ci);
 								moved=true;
 								killdistance=true;// moved to killdistance position 
 								break;
@@ -51,7 +51,7 @@ public class HardCPU extends CPUinterface {
 						}
 					}
 					AimCommand aim = new AimCommand(this.posToDir(enemyPos, t.getPos()));
-					aim.execute(ci);
+					aim.execute(_ci);
 					if(moved) 
 					{
 						break;
@@ -74,7 +74,7 @@ public class HardCPU extends CPUinterface {
 				}*/
 			}
 		}
-		ci.nextTurn();
+		_ci.nextTurn();
 	}
 
 }
