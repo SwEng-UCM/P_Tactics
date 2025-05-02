@@ -114,7 +114,18 @@ public class Map1 implements Map {
 	}
 
 	@Override
-	public int getWidth() {
+	public int getWidth() {	
 		return _game_width;
+	}
+
+	@Override
+	public List<Position> listWinPositions() {
+		List<Position> winPos = new ArrayList<Position>();
+		
+		winPos.add(new Position(9, 4));
+		winPos.add(new Position(9, 5));
+		winPos.add(new Position(10, 4));
+		winPos.add(new Position(10, 5));
+		return winPos;
 	}
 }

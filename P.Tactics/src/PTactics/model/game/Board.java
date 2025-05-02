@@ -22,7 +22,8 @@ import PTactics.view.GUI.Icons;
 public class Board extends ConcurrentHashMap<Position, GameObject> implements BoardInterface {
 	private static final long serialVersionUID = 1L;
 	private static Board _board;
-
+	private static List<Position> _winZone;
+	
 	private Board() {
 		_addMap();
 	}
@@ -31,6 +32,8 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 		for (Position p : MapSelector.getWalls()) {
 			this.addObj(p, new Wall(p));
 		}
+		
+		_winZone = MapSelector.getWinZone();
 	}
 
 	public static BoardInterface getInstance() {
@@ -68,6 +71,20 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 		return get(p).isSeeThrough();
 	}
 
+	public boolean isWinPosition(Position p) {
+		if (_winZone.isEmpty()) {
+			return false;
+		}
+		
+		for (Position pos: _winZone) {
+			if (pos.equals(p)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	// SETTERS AND ADDERS //
 
 	public void addObj(Position p, GameObject o) {

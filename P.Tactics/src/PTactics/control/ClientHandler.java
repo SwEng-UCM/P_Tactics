@@ -9,15 +9,14 @@ import java.util.concurrent.BlockingQueue;
 
 public class ClientHandler implements Runnable { //done with the help of chatGPT
 
-	Socket socket;
     private BufferedReader in;
     private PrintWriter out;
     private BlockingQueue<GameMessage> messageQueue;
 
-    public ClientHandler(Socket socket) throws IOException {
-        this.socket = socket;
-        this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.out = new PrintWriter(socket.getOutputStream(), true);
+    public ClientHandler(BufferedReader in, PrintWriter out, BlockingQueue<GameMessage> queue) throws IOException {
+        this.in = in;
+        this.out = out;
+        messageQueue = queue;
     }
     
     public void sendMessage(String msg) {

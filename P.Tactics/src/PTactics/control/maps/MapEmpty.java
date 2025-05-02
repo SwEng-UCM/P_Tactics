@@ -62,4 +62,9 @@ public class MapEmpty implements Map{
 		return _game_width;
 	}
 
+	@Override
+	public List<Position> listWinPositions() {
+		return null;
+	}
+
 }

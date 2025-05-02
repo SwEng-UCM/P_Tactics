@@ -28,24 +28,25 @@ import java.net.*;
 import java.io.*;
 
 public class ClientController implements ControllerInterface,Observable<GameObserver> {
+	private String Id;
 	private Socket socket;
-	private DataOutputStream out;
-	private DataInput in;
+    BufferedReader in;
+    PrintWriter out;
 	Player player;
 	private List<GameObserver> _observers;
 	// constructor that takes the IP Address and the Port
-	public ClientController(String address, int port) 
+	public ClientController(String address, int port, String Id) 
 	{ 
+		this.Id = Id;
 		_observers = new ArrayList<>();
 		// we try to establish a connection 
 		try
 		{ 
 			// creates a socket with the given information
 			socket = new Socket(address, port); 
-			// pop connected! in gui
-
-			out = new DataOutputStream(socket.getOutputStream()); 
-			in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+			out = new PrintWriter(socket.getOutputStream(), true); 
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out.println(Id);
 			
 		} 
 		catch(UnknownHostException u) 
@@ -88,25 +89,14 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return false;
 	}
 	
-	
 
 	@Override
 	public void endTurn() {
-		try {
-			out.writeUTF(Utils.Network.END_TURN);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		out.println("endTurn");
 	}
 
 	public void nextTurn() {
-		try {
-			out.writeUTF(Utils.Network.NEXT_TURN);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		out.println("nextTurn");
 	}
 
 
@@ -115,12 +105,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void update() {
-		try {
-			out.writeUTF(Utils.Network.UPDATE);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		out.println("update");
 	}
 
 	public void updatePlayers() {
@@ -129,20 +114,15 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public int getNumPlayer() {
+		out.println("getNumPlayer");
+		String i = "-1";
 		try {
-			out.writeUTF("getNumPlayer");
+			i = in.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int i = -1;
-		try {
-			i = in.readInt();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return i;
+		return Integer.parseInt(i);
 	}
 
 	@Override
@@ -156,20 +136,15 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public boolean isTroopSelected() {
+		out.println("getNumPlayer");
+		String i = "false";
 		try {
-			out.writeUTF("isTroopSelected");
+			i = in.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		boolean a = false;
-		 try {
-			a = in.readBoolean();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
+		return i == "true"? true : false;
 	}
 
 	public boolean canMove(Position pos) {
