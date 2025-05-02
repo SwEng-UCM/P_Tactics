@@ -135,12 +135,16 @@ public abstract class Troop extends GameObject {
 			_player.update();
 		} else if (active && !_moveQueue.isEmpty()) {
 			CalcNewMove(_moveQueue.getFirst());
+			//DEBUG
+			Position debugPos = _moveQueue.getFirst();
+			System.out.println(_moveQueue.getFirst());
+			
 			_moveQueue.removeFirst();
 			
 			if(_currentMove.size()==0) 
 			{
 				this._currentMove.clear();
-				throw new UnsupportedOperationException("troop unable to move to position");
+				throw new UnsupportedOperationException("troop unable to move to position: " + debugPos.toString());
 			}
 			else if (this._movesLeft < this._currentMove.size()) {
 				this._currentMove.clear();
@@ -157,8 +161,14 @@ public abstract class Troop extends GameObject {
 
 	@Override
 	public void update() {
-		if (_player.isMyTurn()) {
-			Move();
+		if (_player.isMyTurn() && !_moveQueue.isEmpty()) {
+			if (_moveQueue.getFirst().equals(pos)) {
+				_moveQueue.removeFirst();
+			}
+			
+			else {
+				Move();							
+			}
 			if (_player.getDanger(getPos())) {
 				onHit();
 			}

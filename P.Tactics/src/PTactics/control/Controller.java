@@ -112,6 +112,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	// In principle, we do like player 0 turn --> check if player 1 has alive
 	// troops...
 	public boolean isFinish() {
+		//if (_game.getPlayer().)
 		for (Troop t : _game.getPlayer().getTroops()) {
 			if (t.isAlive())
 				return false;

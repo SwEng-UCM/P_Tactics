@@ -79,7 +79,15 @@ public class LightTroop extends Troop {
 	public void update() {
 		if(this._iFrames < 1 && this.isAbility()) this.deactivateAbility();
 		int moves = _movesLeft;
-		Move();
+		if (_player.isMyTurn() && !_moveQueue.isEmpty()) {
+			if (_moveQueue.getFirst().equals(pos)) {
+				_moveQueue.removeFirst();
+			}
+
+			else {
+				Move();							
+			}
+		}
 		if (_player.getDanger(getPos()) && !this.isAbility()) {
 			onHit();
 		}
