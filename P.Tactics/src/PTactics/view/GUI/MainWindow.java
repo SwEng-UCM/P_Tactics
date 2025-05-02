@@ -1,5 +1,6 @@
 package PTactics.view.GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -19,11 +20,13 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -212,9 +215,30 @@ public class MainWindow extends JFrame {
 		        if (result == JOptionPane.OK_OPTION) {
 		            int numPlayers = (Integer) spinner.getValue();
 		            System.out.println("Hosting game on port " + port + " for " + numPlayers + " players.");
+		            
+		            JDialog waitingDialog = new JDialog(this, "Waiting for players...", false);
+		            JLabel statusLabel = new JLabel("Waiting for 0 of " + numPlayers + " players...");
+		            waitingDialog.setLayout(new BorderLayout());
+		            waitingDialog.add(statusLabel, BorderLayout.CENTER);
+		            waitingDialog.setSize(300, 100);
+		            waitingDialog.setLocationRelativeTo(this);
+		            waitingDialog.setVisible(true);
+		            
 
-		            // Replace with your actual hosting logic
-		            this._ctrl = new HostController(port, numPlayers);
+		            
+		             // weird callback function for connected status
+		            new Thread(() -> {
+		            	this._ctrl = new HostController(port, numPlayers, (connectedCount) -> {
+			                SwingUtilities.invokeLater(() -> {
+			                    statusLabel.setText("Waiting for " + connectedCount + " of " + numPlayers + " players...");
+			                      if (connectedCount >= numPlayers) {
+			                            waitingDialog.dispose(); // All players connected
+			                            swapToGameWindow();
+			                    }
+			                });
+		            	});
+		            	
+		            }).start();
 		            
 		        }
 
@@ -239,10 +263,10 @@ public class MainWindow extends JFrame {
 		         System.out.println("Connecting as " + playerName + " to " + hostIP + ":" + port);
 
 		         // Start client connection
-		        this._ctrl = new ClientController(hostIP, port, playerName);
-		         
-		        
+		        this._ctrl = new ClientController(hostIP, port, playerName);	
+		        swapToGameWindow();
 		    }
+		    
 		});
 				
 		// play VS CPU button

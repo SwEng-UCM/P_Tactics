@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
 
 import javax.swing.Icon;
 
@@ -39,10 +40,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public static int mapSelected = 1;
 	public static int tileSize = 50;
 	protected int _numPlayers = 0;
+	int connected;
 
 	// constructor that takes the IP Address and the Port
-	public HostController(int port, int numPlayers) 
+	public HostController(int port, int numPlayers, Consumer<Integer> onPlayerConnected) 
 	{ 
+		connected = 0;
 		_game = new Game(this);
 		_endTurn = false;
 		messageQueue = new LinkedBlockingQueue<>();
@@ -54,12 +57,17 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			server = new ServerSocket(port); 
 			System.out.println("Server started"); 
 			
-			int i = 0;
-			while (i < numPlayers) { // will keep going until all players are connected
+
+			
+
+			
+			while (connected < numPlayers) { // will keep going until all players are connected
+				
 				Socket clientSocket = server.accept(); // Accept immediately
 			    System.out.println("Client connected: " + clientSocket.getInetAddress());
 
 			    // Hand off the rest to a separate thread
+			    
 			    new Thread(() -> {
 			        try {
 			            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -86,7 +94,11 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			        }
 			    }).start();
 
-			    i++; // increment here so we stop after the expected number of players
+			    connected++; // increment here so we stop after the expected number of players
+			    
+				if (onPlayerConnected != null) {
+	                onPlayerConnected.accept(connected);
+	            }	
 	        }
 			while (!this.isFinish()) {
 				GameMessage msg = messageQueue.take(); // blocks until there's a message

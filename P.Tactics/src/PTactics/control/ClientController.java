@@ -32,7 +32,6 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	private Socket socket;
     BufferedReader in;
     PrintWriter out;
-	Player player;
 	private List<GameObserver> _observers;
 	// constructor that takes the IP Address and the Port
 	public ClientController(String address, int port, String Id) 
@@ -79,7 +78,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	
 	public String getCurrentPlayerName() {
-			return player.getId(); 
+			return Id; 
 	}
 	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
