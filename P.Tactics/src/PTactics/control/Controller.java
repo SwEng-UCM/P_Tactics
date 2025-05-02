@@ -14,6 +14,7 @@ import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
+import PTactics.model.game.BoardInterface;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
@@ -112,8 +113,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	// In principle, we do like player 0 turn --> check if player 1 has alive
 	// troops...
 	public boolean isFinish() {
-		//if (_game.getPlayer().)
-		return _game.isLastPlayerStanding();
+		return (_game.getPlayer().winPoints() >=  Board.getInstance().pointsToWin()) || _game.isLastPlayerStanding();
 	}
 
 	public void setupPlayers() {
@@ -128,6 +128,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 				}
 				_game.addPlayer(p);
 			}
+			
 			_game.inicialize();
 			playersSetUp = true;
 		}

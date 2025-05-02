@@ -22,6 +22,7 @@ public class Player implements DangerObject{
 	private DangerMediator _dangerMediator;
 	private boolean _turn;
 	private CPUinterface _cpu;
+	private int _winZoneTurns;
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
@@ -68,6 +69,10 @@ public class Player implements DangerObject{
 	
 	public boolean hasTroop(Troop t) {
 		return _troops.contains(t);
+	}
+	
+	public int winPoints() {
+		return _winZoneTurns;
 	}
 	
 	private void updatePlayerVisibility() {
@@ -146,6 +151,18 @@ public class Player implements DangerObject{
 
 	public void startTurn() {
 		_turn = true;
+		boolean inZone = false;
+		
+		for (Troop troop : _troops) {
+			if (Board.getInstance().isWinPosition(troop.getPos())) {
+				_winZoneTurns++; // each troop in the zone adds one to the count
+				inZone = true;
+			}
+		}
+		
+		if (!inZone) {
+			_winZoneTurns = 0;
+		}
 	}
 
 	public boolean isMyTurn() {

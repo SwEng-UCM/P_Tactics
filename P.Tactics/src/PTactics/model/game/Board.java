@@ -23,6 +23,7 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	private static final long serialVersionUID = 1L;
 	private static Board _board;
 	private static List<Position> _winZone;
+	public static final int _POINTSTOWIN = 5;
 	
 	private Board() {
 		_addMap();
@@ -46,6 +47,10 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 
 	// GETTERS //
 
+	public int pointsToWin() {
+		return _POINTSTOWIN;
+	}
+	
 	@Override
 	public GameObject getGameObject(Position p) {
 		return this.get(p);

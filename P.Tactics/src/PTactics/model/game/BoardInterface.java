@@ -10,6 +10,7 @@ import PTactics.model.gameObjects.GameObject;
 import PTactics.utils.Position;
 
 public interface BoardInterface {
+	public int pointsToWin();
 	public Position getPosition(GameObject o);
 	public GameObject getGameObject(Position p);
 	public boolean isSolid(Position p);
