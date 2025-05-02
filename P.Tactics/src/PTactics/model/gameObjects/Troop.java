@@ -70,6 +70,7 @@ public abstract class Troop extends GameObject {
 
 	@Override
 	public void AddToMove(Position pos) {
+		_moveQueue.clear();
 		_moveQueue.add(pos);
 	}
 
@@ -171,6 +172,10 @@ public abstract class Troop extends GameObject {
 				onHit();
 			}
 		}
+	}
+	
+	public void endTurn() {
+		_moveQueue.clear();
 	}
 
 	public List<Position> visiblePositions() {

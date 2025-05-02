@@ -147,6 +147,9 @@ public class Player implements DangerObject{
 
 	public void endTurn() {
 		_turn = false;
+		for (Troop troop: _troops) {
+			troop.endTurn();
+		}
 	}
 
 	public void startTurn() {

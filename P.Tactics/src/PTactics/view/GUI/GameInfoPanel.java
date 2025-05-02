@@ -193,7 +193,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		if (_ctrl.getCurrentPlayerWinZone() < Board.getInstance().pointsToWin() && _ctrl.getCurrentPlayerWinZone() != 0) {
 			playerText += "Points to win: " + _ctrl.getCurrentPlayerWinZone();
 		}
-		else if (_ctrl.getCurrentPlayerWinZone() == 0) {
+		else if (_ctrl.getCurrentPlayerWinZone() <= 0) {
 			playerText += "WIN";
 		}
 		playerText += "</html>";
