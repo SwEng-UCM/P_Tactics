@@ -60,7 +60,6 @@ public class GameBoardPanel extends JPanel {
 
 		    			@Override
 		    			public void keyTyped(KeyEvent e) {
-		    				System.out.print(e.getKeyChar());
 		    				
 		    			}
 

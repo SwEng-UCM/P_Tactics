@@ -135,16 +135,14 @@ public abstract class Troop extends GameObject {
 			_player.update();
 		} else if (active && !_moveQueue.isEmpty()) {
 			CalcNewMove(_moveQueue.getFirst());
-			//DEBUG
-			Position debugPos = _moveQueue.getFirst();
-			System.out.println(_moveQueue.getFirst());
+
 			
 			_moveQueue.removeFirst();
 			
 			if(_currentMove.size()==0) 
 			{
 				this._currentMove.clear();
-				throw new UnsupportedOperationException("troop unable to move to position: " + debugPos.toString());
+				throw new UnsupportedOperationException("troop unable to move to position: ");
 			}
 			else if (this._movesLeft < this._currentMove.size()) {
 				this._currentMove.clear();
