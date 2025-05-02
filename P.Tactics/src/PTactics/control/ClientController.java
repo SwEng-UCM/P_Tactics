@@ -12,6 +12,7 @@ import P.Tactics.CPU.EasyCPU;
 import P.Tactics.CPU.HardCPU;
 import P.Tactics.CPU.MediumCPU;
 import PTactics.control.maps.MapSelector;
+import PTactics.model.game.Board;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
@@ -79,6 +80,11 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	
 	public String getCurrentPlayerName() {
 			return Id; 
+	}
+	
+	@Override
+	public int getCurrentPlayerWinZone() {
+		return 0;
 	}
 	
 	// In principle, we do like player 0 turn --> check if player 1 has alive

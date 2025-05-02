@@ -156,6 +156,11 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public int getNumPlayer() {
 		return _game.getNumPlayer();
 	}
+	
+	@Override
+	public int getCurrentPlayerWinZone() {
+		return Board.getInstance().pointsToWin() - _game.getPlayer().winPoints();
+	}
 
 	public void addObserver(GameObserver o) {
 		_observers.add(o);

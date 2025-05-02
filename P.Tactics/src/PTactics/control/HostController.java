@@ -247,6 +247,11 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		return _playerNames;
 	}
 	
+	@Override
+	public int getCurrentPlayerWinZone() {
+		return Board.getInstance().pointsToWin() - _game.getPlayer().winPoints();
+	}
+	
 	public String getCurrentPlayerName() {
 		return currentClient.player.getId();
 		

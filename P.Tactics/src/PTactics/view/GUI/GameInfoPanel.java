@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
+import PTactics.model.game.Board;
 import PTactics.model.game.Game;
 import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
@@ -39,7 +40,10 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		this.setLayout(new BorderLayout());
 
 		// player panel (top-left)
-		playerTurnText = new JLabel("Player: [" + _ctrl.getCurrentPlayerName() + "] turn");
+		String playerText = "<html> Player: [" + _ctrl.getCurrentPlayerName() + "] turn <br>";
+		playerText += "</html>";
+
+		playerTurnText = new JLabel(playerText);
 		playerTurnText.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		playerTurnText.setForeground(Color.orange);
 		playerTurnText.setFocusable(false);
@@ -185,12 +189,16 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onNextTurn(Game game) {
-		playerTurnText.setText("Player: [" + _ctrl.getCurrentPlayerName() + "] turn");
-		// just to check if Swing does not update the playerName
-		/*
-		 * turnPanel.revalidate(); repaint();
-		 */
-
+		String playerText = "<html> Player: [" + _ctrl.getCurrentPlayerName() + "] turn <br>";
+		if (_ctrl.getCurrentPlayerWinZone() < Board.getInstance().pointsToWin() && _ctrl.getCurrentPlayerWinZone() != 0) {
+			playerText += "Points to win: " + _ctrl.getCurrentPlayerWinZone();
+		}
+		else if (_ctrl.getCurrentPlayerWinZone() == 0) {
+			playerText += "WIN";
+		}
+		playerText += "</html>";
+		
+		playerTurnText.setText(playerText);
 	}
 
 	@Override

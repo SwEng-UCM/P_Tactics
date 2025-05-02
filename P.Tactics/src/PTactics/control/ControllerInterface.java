@@ -93,4 +93,6 @@ public interface ControllerInterface {
 	void updateOnTroopSelection();
 	void updateOnNextTurn();
 	void updateOnTroopUnSelection();
+
+	int getCurrentPlayerWinZone();
 }
