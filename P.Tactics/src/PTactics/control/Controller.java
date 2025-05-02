@@ -113,11 +113,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	// troops...
 	public boolean isFinish() {
 		//if (_game.getPlayer().)
-		for (Troop t : _game.getPlayer().getTroops()) {
-			if (t.isAlive())
-				return false;
-		}
-		return true;
+		return _game.isLastPlayerStanding();
 	}
 
 	public void setupPlayers() {

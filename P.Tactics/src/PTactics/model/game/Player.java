@@ -160,4 +160,22 @@ public class Player implements DangerObject{
 		}
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return _id;
+	}
+	@Override
+	public boolean equals(Object player) {
+		return _id.equals(player.toString());
+	}
+	public boolean hasNoTroopsLeft() {
+		for (Troop troop : _troops) {
+			if (troop.isAlive()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }

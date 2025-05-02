@@ -92,7 +92,7 @@ public class GameWindow {
 		_ctrl.update();	
 	}
 
-	public void showWinMessage(int PlayerNumber) {
-		JOptionPane.showMessageDialog(_gameWindowFrame, "Player " + Integer.toString(PlayerNumber) + " won the game.");
+	public void showWinMessage(String player) {
+		JOptionPane.showMessageDialog(_gameWindowFrame, "Player " + player + " won the game.");
 	}
 }

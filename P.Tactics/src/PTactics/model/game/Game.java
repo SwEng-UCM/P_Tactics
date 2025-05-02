@@ -98,15 +98,35 @@ public class Game {
 		_players.get(_currPlayer).clearKills();
 		_players.get(_currPlayer).update();
 		update();
-		_currPlayer++;
-		if (_currPlayer >= _players.size()) {
-			_currPlayer = 0;
-		}
+		
+		do {
+			_currPlayer++;
+			if (_currPlayer >= _players.size()) {
+				_currPlayer = 0;
+			}
+		} while (_players.get(_currPlayer).hasNoTroopsLeft());
+		
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();
 		updateOnNextTurn();
 		_players.get(_currPlayer).ComputeTurn();
 	}
+	
+
+	public boolean isLastPlayerStanding() {
+		for (Player player: _players) {
+			if (!player.equals(getPlayer())) {	
+				for (Troop troop: player.getTroops()) {
+					if (troop.isAlive()) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+
 
 	// Board Management
 	public void updateBoard() {
@@ -327,5 +347,4 @@ public class Game {
 		report.put("Board", Board.getInstance().report());
 		return report;
 	}
-
 }

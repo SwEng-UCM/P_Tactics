@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
 import PTactics.utils.Utils;
@@ -97,7 +98,11 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 			public void actionPerformed(ActionEvent e) {
 				_ctrl.nextTurn();
 				if (_ctrl.isFinish()) {
-					gw.showWinMessage(_ctrl.getNumPlayer() - 1);
+					gw.showWinMessage(_ctrl.getCurrentPlayerName() );
+					gw.GetGameWindow().getContentPane().removeAll();
+					gw.GetGameWindow().revalidate();
+					gw.GetGameWindow().repaint();
+					new MainWindow((Controller) _ctrl); 
 				}
 			}
 		});
