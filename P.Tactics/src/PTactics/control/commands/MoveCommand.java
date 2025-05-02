@@ -48,7 +48,7 @@ public class MoveCommand extends ReportCommand {
 				super.eraseSnap(CI);
 			}
 			try {
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(250);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
