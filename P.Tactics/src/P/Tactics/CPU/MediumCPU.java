@@ -34,17 +34,25 @@ public class MediumCPU extends CPUinterface {
 					List<Position> killDistancePositions=Board.getInstance().shootablePositions(enemyPos,t.getShootRange() );
 					for(Position killPos: killDistancePositions) 
 					{
-						if(_ci.canMove(killPos)) 
+						try 
 						{
-							Position oldPos=t.getPos();
-							MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
-							move.executeCPU(_ci);
-							if(!t.getPos().equals(oldPos)) 
+							if(_ci.canMove(killPos)) 
 							{
-								moved=true;
-								killdistance=true;// moved to killdistance position 
-								break;
+								Position oldPos=t.getPos();
+								MoveCommand move= new MoveCommand(killPos.getX(), killPos.getY());
+								move.executeCPU(_ci);
+								if(!t.getPos().equals(oldPos)) 
+								{
+									moved=true;
+									killdistance=true;// moved to killdistance position 
+									break;
+								}
 							}
+						}
+						catch(UnsupportedOperationException e) 
+						{
+							e.printStackTrace();
+							break;
 						}
 					}
 					if(moved) 

@@ -49,10 +49,6 @@ public class EasyCPU extends CPUinterface{
 						e.printStackTrace();
 						break;
 					}
-					catch(Exception e) 
-					{
-						e.printStackTrace();
-					}
 				}
 				randomX= random.nextInt(Position._gameWidth);
 				randomY= random.nextInt(Position._gameLength);
