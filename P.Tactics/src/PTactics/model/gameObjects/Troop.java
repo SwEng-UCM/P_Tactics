@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -20,8 +21,7 @@ import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
 
 public abstract class Troop extends GameObject {
-	List<Position> _moveQueue;
-	List<Position> _currentMove;
+	protected Movement currentMove;
 	protected Direction _dir;
 	protected boolean _aiming;
 	protected Player _player;
@@ -35,8 +35,6 @@ public abstract class Troop extends GameObject {
 	// ------------------ CONSTRUCTORS ------------------//
 	public Troop(Position pos, Player p) {
 		super(pos);
-		this._moveQueue = new ArrayList<>();
-		this._currentMove = new ArrayList<>();
 		this.solid = true;
 		this._dir = Direction.DOWN;
 		this._aiming = false;
@@ -49,8 +47,6 @@ public abstract class Troop extends GameObject {
 
 	public Troop(Position pos, Player p, Direction dir) {
 		super(pos);
-		this._moveQueue = new ArrayList<>();
-		this._currentMove = new ArrayList<>();
 		this.solid = true;
 		this._dir = dir;
 		this._aiming = false;
@@ -60,122 +56,144 @@ public abstract class Troop extends GameObject {
 	}
 
 	// ------------------ MOVE FUNCTIONS AND CLASSES ------------------//
-	private static class StepCount {
-		int value;
-	}
-
-	private static class SolArray {
-		List<Position> Sol = new ArrayList<>();
-	}
 
 	@Override
-	public void AddToMove(Position pos) {
-		_moveQueue.clear();
-		_moveQueue.add(pos);
+	public void startMove(Position pos) {
+		currentMove = new Movement(pos);
 	}
-
-	public void CalcNewMove(Position dest) {
-		List<int[]> Dirs = Arrays.asList(new int[] { -1, 0 }, new int[] { 1, 0 }, new int[] { 0, -1 },
-				new int[] { 0, 1 });
-
-		SolArray bestSol = new SolArray();
-		SolArray curSol = new SolArray();
-		Set<Position> marks = new HashSet<>();
-		StepCount bestSolSteps = new StepCount();
-		StepCount curSolSteps = new StepCount();
-		bestSolSteps.value = Integer.MAX_VALUE;
-
-		Map<Position, Integer> minSteps = new HashMap<>();
-
-		_backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos, minSteps);
-
-		this._currentMove = bestSol.Sol;
+	
+	public List<Position> getCurrentPath(Position pos) {
+		return currentMove != null ? currentMove._currentMove : null;
 	}
+	
+	public List<Position> hoverPath(Position pos){
+		return new Movement().hoverPath(pos);
+	}
+	
+	protected class Movement {
+		private static final List<int[]> dirs = Arrays.asList(new int[] { -1, 0 }, new int[] { 1, 0 },
+				new int[] { 0, -1 }, new int[] { 0, 1 });
+		private List<Position> _moveQueue;
+		private List<Position> _currentMove;
 
-	private void _backTrackPathFinding(Position dest, SolArray curSol, SolArray bestSol, Set<Position> marks,
-			List<int[]> Dirs, StepCount curSolSteps, StepCount bestSolSteps, Position it,
-			Map<Position, Integer> minSteps) {
-
-		if (dest.equals(it)) {
-			if (curSolSteps.value < bestSolSteps.value) {
-				bestSolSteps.value = curSolSteps.value;
-				bestSol.Sol = new ArrayList<>(curSol.Sol);
-			}
-			return;
+		// Values for calculation
+		List<Position> bestSol;
+		List<Position> curSol;
+		Set<Position> marks;
+		int bestSolSteps;
+		int curSolSteps;
+		
+		public Movement() {
+			bestSol = new ArrayList<Position>();
+			curSol = new ArrayList<Position>();
+			_moveQueue = new ArrayList<>();
+			_currentMove = new ArrayList<>();
+			marks = new HashSet<>();
+			bestSolSteps = Integer.MAX_VALUE;
+			curSolSteps = 0;
+		}
+		
+		public Movement(Position dest) {
+			bestSol = new ArrayList<Position>();
+			curSol = new ArrayList<Position>();
+			_moveQueue = new ArrayList<>();
+			_currentMove = new ArrayList<>();
+			marks = new HashSet<>();
+			bestSolSteps = Integer.MAX_VALUE;
+			curSolSteps = 0;
+			_moveQueue.add(dest);
 		}
 
-		for (int[] curDir : Dirs) {
-			Position movePos = new Position(it.getX() + curDir[0], it.getY() + curDir[1]);
+		public List<Position> hoverPath(Position dest) {
+			Map<Position, Integer> minSteps = new HashMap<>();
 
-			if (movePos.isValid() && (Board.getInstance().getGameObject(movePos) == null
-					|| !Board.getInstance().getGameObject(movePos).isSolid()) && !marks.contains(movePos)) {
+			findPath(dest, getPos(), minSteps);
 
-				if (minSteps.containsKey(movePos) && minSteps.get(movePos) <= curSolSteps.value) {
-					continue;
+			return bestSol.size() <= _movesLeft ? bestSol : null;
+		}
+
+		public void calcNewMove(Position dest) {
+			Map<Position, Integer> minSteps = new HashMap<>();
+
+			findPath(dest, getPos(), minSteps);
+
+			_currentMove = bestSol;
+		}
+
+		private void findPath(Position dest, Position it, Map<Position, Integer> minSteps) {
+
+			if (dest.equals(it)) {
+				if (curSolSteps < bestSolSteps) {
+					bestSolSteps = curSolSteps;
+					bestSol = new ArrayList<>(curSol);
 				}
-				minSteps.put(movePos, curSolSteps.value);
+			} else {
+				for (int[] curDir : dirs) {
+					Position movePos = new Position(it.getX() + curDir[0], it.getY() + curDir[1]);
 
-				curSolSteps.value++;
-				marks.add(movePos);
-				curSol.Sol.add(movePos);
+					if (movePos.isValid()
+							&& (Board.getInstance().getGameObject(movePos) == null
+									|| !Board.getInstance().getGameObject(movePos).isSolid())
+							&& !marks.contains(movePos)) {
 
-				_backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, movePos, minSteps);
+						if (minSteps.containsKey(movePos) && minSteps.get(movePos) <= curSolSteps) {
+							continue;
+						}
+						minSteps.put(movePos, curSolSteps);
 
-				curSol.Sol.remove(curSol.Sol.size() - 1);
-				curSolSteps.value--;
-				marks.remove(movePos);
+						curSolSteps++;
+						marks.add(movePos);
+						curSol.add(movePos);
+
+						findPath(dest, movePos,minSteps);
+
+						curSol.remove(curSol.size() - 1);
+						curSolSteps--;
+						marks.remove(movePos);
+					}
+				}
 			}
 		}
-	}
 
-	public void Move() throws IllegalArgumentException, UnsupportedOperationException{
-		if (!_currentMove.isEmpty()) {
-			this.setPosition(this._currentMove.getFirst());
-			this._currentMove.removeFirst();
-			this._movesLeft--;
-			_player.update();
-		} else if (active && !_moveQueue.isEmpty()) {
-			CalcNewMove(_moveQueue.getFirst());
-
-			
-			_moveQueue.removeFirst();
-			
-			if(_currentMove.size()==0) 
-			{
-				this._currentMove.clear();
-				throw new UnsupportedOperationException("troop unable to move to position: ");
-			}
-			else if (this._movesLeft < this._currentMove.size()) {
-				this._currentMove.clear();
-				throw new IllegalArgumentException("Not enough moves left");
-			}
-
+		public void move() throws IllegalArgumentException, UnsupportedOperationException {
 			if (!_currentMove.isEmpty()) {
-				this.setPosition(this._currentMove.getFirst());
-				this._currentMove.removeFirst();
-				this._movesLeft--;
+				setPosition(_currentMove.getFirst());
+				_currentMove.removeFirst();
+				_movesLeft--;
+				_player.update();
+			} else if (active && !_moveQueue.isEmpty()) {
+				calcNewMove(_moveQueue.getFirst());
+				_moveQueue.removeFirst();
+
+				if (_currentMove.size() == 0) {
+					_currentMove.clear();
+					throw new UnsupportedOperationException("troop unable to move to position");
+				} else if (_movesLeft < _currentMove.size()) {
+					_currentMove.clear();
+					throw new IllegalArgumentException("Not enough moves left");
+				}
+
+				if (!_currentMove.isEmpty()) {
+					setPosition(_currentMove.getFirst());
+					_currentMove.removeFirst();
+					_movesLeft--;
+				}
 			}
 		}
 	}
+
+	// UPDATE AND POSITIONS //
 
 	@Override
 	public void update() {
-		if (_player.isMyTurn() && !_moveQueue.isEmpty()) {
-			if (_moveQueue.getFirst().equals(pos)) {
-				_moveQueue.removeFirst();
-			}
-			
-			else {
-				Move();							
+		if (_player.isMyTurn()) {
+			if(!Objects.isNull(currentMove)) {
+				currentMove.move();
 			}
 			if (_player.getDanger(getPos())) {
 				onHit();
 			}
 		}
-	}
-	
-	public void endTurn() {
-		_moveQueue.clear();
 	}
 
 	public List<Position> visiblePositions() {
@@ -220,28 +238,6 @@ public abstract class Troop extends GameObject {
 		}
 
 		return dangerPositions;
-	}
-
-	public List<Position> getPath(Position pos) {
-		return _currentMove;
-	}
-
-	public List<Position> hoverPath(Position dest) {
-		List<int[]> Dirs = Arrays.asList(new int[] { -1, 0 }, new int[] { 1, 0 }, new int[] { 0, -1 },
-				new int[] { 0, 1 });
-
-		SolArray bestSol = new SolArray();
-		SolArray curSol = new SolArray();
-		Set<Position> marks = new HashSet<>();
-		StepCount bestSolSteps = new StepCount();
-		StepCount curSolSteps = new StepCount();
-		bestSolSteps.value = Integer.MAX_VALUE;
-
-		Map<Position, Integer> minSteps = new HashMap<>();
-
-		_backTrackPathFinding(dest, curSol, bestSol, marks, Dirs, curSolSteps, bestSolSteps, this.pos, minSteps);
-
-		return bestSol.Sol.size() <= _movesLeft ? bestSol.Sol : null;
 	}
 
 	// ------------------ GETTERS ------------------//
@@ -300,7 +296,7 @@ public abstract class Troop extends GameObject {
 	@Override
 	public void onHit() {
 		active = false;
-		_currentMove.clear();
+		if(currentMove != null) currentMove._currentMove.clear();
 	}
 
 	// ------------------ ABSTRACT METHODS --------------//

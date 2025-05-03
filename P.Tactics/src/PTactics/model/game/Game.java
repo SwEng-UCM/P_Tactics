@@ -176,7 +176,7 @@ public class Game {
 	}
 
 	public void moveTroop(Position pos) throws IllegalArgumentException {
-		_currTroop.AddToMove(pos);
+		_currTroop.startMove(pos);
 		_currTroop.update();
 		updatePlayers();
 		updateOnTroopAction();
@@ -214,7 +214,7 @@ public class Game {
 	}
 
 	public List<Position> getPath(Position pos) {
-		return _currTroop == null ? null : _currTroop.getPath(pos);
+		return _currTroop == null ? null : _currTroop.getCurrentPath(pos);
 	}
 
 	public List<Position> hoverPath(Position pos) {

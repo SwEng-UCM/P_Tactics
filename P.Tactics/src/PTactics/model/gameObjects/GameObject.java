@@ -62,7 +62,7 @@ public abstract class GameObject {
 
 	public abstract void onHit();
 
-	public void AddToMove(Position pos) {};
+	public void startMove(Position pos) {};
 
 	public void CalcNewMove(Position pos) {};
 

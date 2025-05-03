@@ -2,6 +2,7 @@ package PTactics.model.gameObjects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 
@@ -16,50 +17,50 @@ import PTactics.view.GUI.Icons;
 
 public class LightTroop extends Troop {
 	private int _iFrames;
-	
+
 	public LightTroop(Position pos, Player p) {
 		super(pos, p);
 		this._visionRange = 4;
 		this._shootRange = 4;
-		this._moveRange = 8; 
-		this._movesLeft = this._moveRange; 
+		this._moveRange = 8;
+		this._movesLeft = this._moveRange;
 		this._abilityUses = 1;
 		this._iFrames = 0;
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
-	
+
 	public LightTroop(Position pos, Player p, Direction dir) {
 		super(pos, p, dir);
 		this._visionRange = 4;
 		this._shootRange = 4;
-		this._moveRange = 8; 
-		this._movesLeft = this._moveRange; 
+		this._moveRange = 8;
+		this._movesLeft = this._moveRange;
 		this._abilityUses = 1;
 		this._iFrames = 0;
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
 	}
-	
+
 	public LightTroop(Position pos, Player p, Direction dir, int iFrames) {
 		super(pos, p, dir);
 		this._visionRange = 4;
 		this._shootRange = 4;
-		this._moveRange = 8; 
-		this._movesLeft = this._moveRange; 
+		this._moveRange = 8;
+		this._movesLeft = this._moveRange;
 		this._abilityUses = 1;
 		this._iFrames = 0;
 		_id = Utils.TroopUtils.LIGHT_TROOP_ID;
-		this._abilityUses = 0;		
+		this._abilityUses = 0;
 		this._iFrames = iFrames;
 	}
-	
+
 	@Override
 	public List<Position> dangerPositions() {
 		List<Position> dangerPositions = new ArrayList<>();
-		
+
 		if (!_aiming) {
 			return dangerPositions;
 		}
-		
+
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {
 			if (visPos.isValid() && Board.getInstance().isSeeThrough(visPos)) {
@@ -70,28 +71,23 @@ public class LightTroop extends Troop {
 				break;
 			}
 		}
-		
-		return dangerPositions;	
+
+		return dangerPositions;
 	}
-	
-	
+
 	@Override
 	public void update() {
-		if(this._iFrames < 1 && this.isAbility()) this.deactivateAbility();
-		int moves = _movesLeft;
-		if (_player.isMyTurn() && !_moveQueue.isEmpty()) {
-			if (_moveQueue.getFirst().equals(pos)) {
-				_moveQueue.removeFirst();
-			}
-
-			else {
-				Move();							
-			}
+		if (this._iFrames < 1 && this.isAbility()) {
+			deactivateAbility();
 		}
-		if (_player.getDanger(getPos()) && !this.isAbility()) {
-			onHit();
+		
+		if(!Objects.isNull(currentMove)) {
+			currentMove.move();
+			if (_player.getDanger(getPos()) && !this.isAbility()) {
+				onHit();
+			}
+			_iFrames--;
 		}
-		if(_movesLeft < moves) _iFrames--;
 	}
 
 	@Override
@@ -100,64 +96,61 @@ public class LightTroop extends Troop {
 		deactivateAbility();
 		this._abilityUses = 1;
 	}
-	
+
 	@Override
 	public void activateAbility(Position pos) {
 		this._iFrames = 3;
 		this._abilityActive = true;
 	}
-	
+
 	@Override
 	public void deactivateAbility() {
 		this._abilityActive = false;
 		this._abilityUses--;
 	}
-	
+
 	@Override
 	public void undoAbility(Position _abilityPos) {
 		_iFrames = 0;
 		_abilityUses++;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "L"+ super.toString();
+		return "L" + super.toString();
 	}
-	
+
 	@Override
 	public ImageIcon toIcon() {
 		if (_player.isMyTurn()) {
-			if(_dir == Direction.UP) {
-				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
-			}
-			else if(_dir == Direction.DOWN) {
-				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN;
-			}
-			else if(_dir == Direction.LEFT) {
-				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT;
-			}
-			else if(_dir == Direction.RIGHT) {
-				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT_DASH : Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT;
+			if (_dir == Direction.UP) {
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP_DASH
+						: Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
+			} else if (_dir == Direction.DOWN) {
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN_DASH
+						: Icons.TroopIcons.LightTroopIcons.TROOP_FACING_DOWN;
+			} else if (_dir == Direction.LEFT) {
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT_DASH
+						: Icons.TroopIcons.LightTroopIcons.TROOP_FACING_LEFT;
+			} else if (_dir == Direction.RIGHT) {
+				return isAbility() ? Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT_DASH
+						: Icons.TroopIcons.LightTroopIcons.TROOP_FACING_RIGHT;
 			}
 		} else {
-			if(_dir == Direction.UP) {
+			if (_dir == Direction.UP) {
 				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_UP;
-			}
-			else if(_dir == Direction.DOWN) {
+			} else if (_dir == Direction.DOWN) {
 				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_DOWN;
-			}
-			else if(_dir == Direction.LEFT) {
+			} else if (_dir == Direction.LEFT) {
 				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_LEFT;
-			}
-			else if(_dir == Direction.RIGHT) {
+			} else if (_dir == Direction.RIGHT) {
 				return Icons.TroopIcons.LightTroopIcons.ENEMY_TROOP_FACING_RIGHT;
 			}
 		}
-		
+
 		return Icons.TroopIcons.LightTroopIcons.TROOP_FACING_UP;
 	}
-	
-	
+
 	@Override
 	public JSONObject report() {
 		JSONObject troopReport = super.report();
