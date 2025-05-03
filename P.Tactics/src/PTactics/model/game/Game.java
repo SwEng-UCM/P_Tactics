@@ -111,7 +111,9 @@ public class Game {
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();
 		updateOnNextTurn();
-		SwingUtilities.invokeLater(() -> _players.get(_currPlayer).ComputeTurn());
+		if (!ctrl.isFinish())  {
+			SwingUtilities.invokeLater(() -> _players.get(_currPlayer).ComputeTurn());
+		}
 	}
 	
 
