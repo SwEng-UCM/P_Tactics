@@ -46,6 +46,8 @@ public class GameWindow {
 					frame.getContentPane().removeAll();
 					frame.revalidate();
 					frame.repaint();
+					frame.setEnabled(false);
+					frame.setVisible(false);
 					new MainWindow((Controller) _ctrl);  
 				}
 			}
