@@ -21,6 +21,7 @@ public class TutorialWindow extends JDialog {
 	private static final Color BG_COLOR = new Color(60, 40, 20);		// dark brown
 
 	public TutorialWindow() {
+		setTitle("HOLDFIRE");
 		setVisible(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setSize(800, 600);
