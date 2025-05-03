@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -110,6 +112,19 @@ public class ControlPanel extends JPanel implements GameObserver {
 		btn.setContentAreaFilled(false);
 		btn.setBorder(null);
 		btn.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btn.setIcon(Icons.otherIcons.LABELBACKGROUND_DARK);
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				btn.setIcon(Icons.otherIcons.LABELBACKGROUND);
+			}
+		});;
+		
 		
 		return btn;
 	}
