@@ -136,14 +136,14 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		gameInfoButtons.add(endTurn);
 
 		// tutorial button
-		JButton tutorial = createButton("Tutorial");
+		JButton instructions = createButton("Instructions");
 		tw = new TutorialWindow();
-		tutorial.addActionListener(new ActionListener() {
+		instructions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tw.setVisible(true);
 			}
 		});
-		gameInfoButtons.add(tutorial);
+		gameInfoButtons.add(instructions);
 
 		// Save button
 		JButton save = createButton("Save");
