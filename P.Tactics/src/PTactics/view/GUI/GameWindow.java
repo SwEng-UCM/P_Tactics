@@ -26,7 +26,11 @@ public class GameWindow {
 		this._ctrl = ctrl;
 		this.frame = frame;
 		
-		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {}
+		});
 
 		initialize();
 	}
