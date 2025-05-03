@@ -12,23 +12,16 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonListener;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
-import PTactics.control.commands.AbilityCommand;
-import PTactics.control.commands.AimCommand;
-import PTactics.control.commands.MoveCommand;
-import PTactics.control.commands.SelectTroopCommand;
 import PTactics.model.game.Game;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -59,7 +52,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     	_pathing = new ArrayList<>();
     	this.setLayout(new CardLayout());
     	
-    	String CPUText = "CPU is playing";
+    	String CPUText = "CPU is moving troops... ";
 
 		_CPUText = new JLabel(CPUText);
 		_CPUText.setFont(new Font("Times New Roman", Font.BOLD, 38));
