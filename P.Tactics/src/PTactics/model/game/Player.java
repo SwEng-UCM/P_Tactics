@@ -154,7 +154,7 @@ public class Player implements DangerObject{
 		boolean inZone = false;
 		
 		for (Troop troop : _troops) {
-			if (Board.getInstance().isWinPosition(troop.getPos())) {
+			if (Board.getInstance().isWinPosition(troop.getPos()) && troop.isAlive()) {
 				_winZoneTurns++; // each troop in the zone adds one to the count
 				inZone = true;
 			}
