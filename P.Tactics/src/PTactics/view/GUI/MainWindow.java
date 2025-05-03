@@ -124,24 +124,24 @@ public class MainWindow extends JFrame {
 			int result = JOptionPane.showConfirmDialog(
 					this, spinner, "Select number of players",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if(result != JOptionPane.OK_OPTION) return;		// closes dialog
+			
+			int numPlayers = (Integer) spinner.getValue();
+			_ctrl.setPlayerNum(numPlayers);
 
-			if (result == JOptionPane.OK_OPTION) {
-				int numPlayers = (Integer) spinner.getValue();
-				_ctrl.setPlayerNum(numPlayers);
-
-				String[] names = new String[numPlayers];
-				for (int i = 0; i < numPlayers; i++) {
-					String name;
-					do {
-						name = JOptionPane.showInputDialog(this, "Enter name for Player " + (i + 1) + ":");
-					} while (name == null || name.trim().isEmpty());
-					names[i] = name.trim();
-				}
-
-				_ctrl.setPlayerNames(Arrays.asList(names));
-				_ctrl.setupPlayers();
-				swapToGameWindow();
+			String[] names = new String[numPlayers];
+			for (int i = 0; i < numPlayers; i++) {
+				String name;
+				do {
+					name = JOptionPane.showInputDialog(this, "Enter name for Player " + (i + 1) + ":");
+					if(name == null) return;		// closes dialog if cancel is pressed
+				} while (name.trim().isEmpty());
+				names[i] = name.trim();
 			}
+
+			_ctrl.setPlayerNames(Arrays.asList(names));
+			_ctrl.setupPlayers();
+			swapToGameWindow();
 		});
 		
 		// continue button
