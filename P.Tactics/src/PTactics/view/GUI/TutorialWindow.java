@@ -23,7 +23,7 @@ public class TutorialWindow extends JDialog {
 	public TutorialWindow() {
 		setVisible(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setSize(520, 600);
+		setSize(800, 600);
 		setLocationRelativeTo(null);		// to center
         
         JPanel contentPanel = new JPanel();
@@ -32,7 +32,7 @@ public class TutorialWindow extends JDialog {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
         // header welcome message
-        contentPanel.add(createHeaderWelcomeLabel("WELCOME TO HOLDFIRE TUTORIAL"));
+        contentPanel.add(createHeaderWelcomeLabel("WELCOME TO HOLDFIRE INSTRUCTIONS"));
         contentPanel.add(Box.createVerticalStrut(5));
         
         // header
@@ -117,7 +117,7 @@ public class TutorialWindow extends JDialog {
 	}
 	
 	private Component createHeaderWelcomeLabel(String title) {
-		JLabel label = new JLabel("<html><div style='padding-bottom:6px;'><u>" + title + "</u></div></html>");
+		JLabel label = new JLabel(title);
 		label.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		label.setForeground(Color.WHITE);
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
