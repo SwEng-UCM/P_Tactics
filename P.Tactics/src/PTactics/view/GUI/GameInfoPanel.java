@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -183,6 +185,19 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		button.setContentAreaFilled(false);
 		button.setBorder(null);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		// clicking effect on buttons
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				button.setIcon(Icons.otherIcons.LABELBACKGROUND_DARK);
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				button.setIcon(Icons.otherIcons.LABELBACKGROUND);
+			}
+		});;
 		
 		return button;
 	}
