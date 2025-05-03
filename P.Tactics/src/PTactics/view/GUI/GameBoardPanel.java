@@ -230,11 +230,6 @@ public class GameBoardPanel extends JPanel implements GameObserver {
         	cl.show(this, "BOARD");
         	_boardPanel.setVisible(true);
 			_lastPlayerIsCPU = false;
-			try {
-				TimeUnit.MILLISECONDS.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
     	}
     }
     
