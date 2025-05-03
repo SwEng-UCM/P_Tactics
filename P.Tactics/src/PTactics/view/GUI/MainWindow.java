@@ -20,7 +20,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -36,14 +35,11 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
 
 import PTactics.control.ClientController;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.HostController;
-import PTactics.control.commands.Command;
-import PTactics.control.commands.CommandGenerator;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons.otherIcons;
 
@@ -307,20 +303,16 @@ public class MainWindow extends JFrame {
 		_animatedButtons[4].addActionListener(e -> System.exit(0));
 		
 		// mouse click
-		EmptyBorder normalBorder = new EmptyBorder(0, 0, 0, 0);
-		EmptyBorder pressedBorder = new EmptyBorder(6, 0, 0, 0); 	// content 6px down
-
 		for (JButton button : _animatedButtons) {
-		    button.setBorder(normalBorder);
 		    button.addMouseListener(new MouseAdapter() {
 		        @Override
 		        public void mousePressed(MouseEvent e) {
-		            button.setBorder(pressedBorder); // sink
+		        	button.setIcon(Icons.otherIcons.LABELBACKGROUND_DARK);
 		        }
 
 		        @Override
 		        public void mouseReleased(MouseEvent e) {
-		            button.setBorder(normalBorder); // reset
+		        	button.setIcon(Icons.otherIcons.LABELBACKGROUND);
 		        }
 		    });
 		}

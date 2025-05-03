@@ -2,7 +2,6 @@ package PTactics.view.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -13,14 +12,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
 import PTactics.control.Controller;
@@ -86,9 +82,8 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 						"Exit Game",
 						JOptionPane.YES_NO_OPTION);
 				if(confirm == JOptionPane.YES_NO_OPTION) {
-					gw.GetGameWindow().getContentPane().removeAll();
-					gw.GetGameWindow().revalidate();
-					gw.GetGameWindow().repaint();
+					gw.GetGameWindow().setVisible(false);
+					gw.GetGameWindow().dispose();
 					new MainWindow((Controller) _ctrl);
 				}
 			}
