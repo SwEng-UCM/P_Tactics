@@ -204,7 +204,6 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		}
 		
 		else {
-			updateCells();	
 			changeToPlayer();
 		}
 	}
@@ -218,7 +217,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     
     private void changeToPlayer() {
     	updateCells();
-    	if (_lastPlayerIsCPU) {
+    	if (_lastPlayerIsCPU) {// | lastPlayerOtherClient
     		CardLayout cl =((CardLayout)getLayout());
         	cl.show(this, "BOARD");
         	_boardPanel.setVisible(true);

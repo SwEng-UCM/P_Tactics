@@ -104,4 +104,6 @@ public interface ControllerInterface {
 	public Troop getCurrentTroop();
 	public void onDeadTroopSelected();
 	public List<Position> getEnemyTroops();
+	public boolean isOnline();
+	public boolean isMyTurn();
 }

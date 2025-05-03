@@ -42,13 +42,15 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public static int tileSize = 50;
 	protected int _numPlayers;
 	int connected;
-	Player HostPlayer;
+	Player hostPlayer;
 	String name;
 	int currClientIndex;
-
+	boolean online;
+	protected List<String> _playerNames;
 	// constructor that takes the IP Address and the Port
 	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
 	{ 
+		online = true;
 		_numPlayers = numPlayers;
 		currClientIndex = 0;
 		this.name = name;
@@ -58,6 +60,8 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		messageQueue = new LinkedBlockingQueue<>();
 		_observers = new ArrayList<>();
 		_clients = new ArrayList<>();
+		_playerNames = new ArrayList<>();
+		
 		try
 		{ 
 			// we start our server
@@ -69,14 +73,19 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			if (onPlayerConnected != null) {
                 onPlayerConnected.accept(connected);
             }
-			
+			DangerMediator dangerMediatorh = new DangerMediator(); // add host to the list of clients with null handler
+            Player ph = new Player(Integer.toString(connected), dangerMediatorh);
+            _clients.add(new Client(ph, null));
+            _playerNames.add(name);
+            
 			while (connected < numPlayers) { // will keep going until all players are connected (except host)
 					
 				Socket clientSocket = server.accept(); // Accept immediately
 			    System.out.println("Client connected: " + clientSocket.getInetAddress());
 
 			    // Hand off the rest to a separate thread
-			    
+
+	            connected++;
 			    new Thread(() -> {
 			        try {
 			            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -84,7 +93,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 			            String playerID = in.readLine(); 
 			            DangerMediator dangerMediator = new DangerMediator();
-			            Player p = new Player(playerID, dangerMediator);
+			            Player p = new Player(Integer.toString(connected), dangerMediator);
 
 			            synchronized (Board.getInstance()) {
 			                for (Troop t : MapSelector.getTroops(p)) {
@@ -94,7 +103,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 			            ClientHandler handler = new ClientHandler(in, out, messageQueue);
 			            _clients.add(new Client(p, handler));
-
+			            _playerNames.add(playerID);
 			            new Thread(handler).start();
 
 			        } catch (IOException e) {
@@ -102,26 +111,14 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			        }
 			    }).start();
 
-			    connected++; // increment here so we stop after the expected number of players
+			     // increment here so we stop after the expected number of players
 			    if (onPlayerConnected != null) {
 	                onPlayerConnected.accept(connected);
 	            }
 	        }
-			DangerMediator dangerMediator = new DangerMediator(); // add host to the list of clients with null handler
-            Player p = new Player(name, dangerMediator);
-            _clients.add(new Client(p, null));
-            
-            
-			while (!this.isFinish()) {
-				GameMessage msg = messageQueue.take(); // blocks until there's a message
 
-			    if (msg.sender != currentClient.handler) { // not the current player
-			        msg.sender.sendMessage("noTurn");
-			        continue; // ignore message
-			    }
-			    //yes the current player :)
-			    exeParse(msg.msg, msg.sender);
-			}
+            
+            run();
 	
 		} 
 		catch(IOException | InterruptedException i) 
@@ -129,11 +126,22 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			System.out.println(i); 
 		} 
 	} 
+	private void run() throws InterruptedException {
+		while (!this.isFinish()) {
+			GameMessage msg = messageQueue.take(); // blocks until there's a message
+
+		    if (msg.sender != currentClient.handler) { // not the current player
+		        msg.sender.sendMessage("noTurn");
+		        continue; // ignore message
+		    }
+		    //yes the current player :)
+		    exeParse(msg.msg, msg.sender);
+		}
+	}
 	
 	private void exeParse(String input, ClientHandler handler) { // parses a message and executes it
 		
 	}
-	
 
 	@Override
 	public void showGame() {
@@ -444,5 +452,14 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public boolean isOnline() {
+		return true;
+	}
+	
 
+	@Override
+	public boolean isMyTurn() {
+		return hostPlayer.getId() == currentClient.player.getId()? true : false;
+	}
 }

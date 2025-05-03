@@ -312,6 +312,12 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		_game.onDeadTroopSelected();
 	}
 	public List<Position> getEnemyTroops(){
-		return _game.getEnemyTroops();
+		return _game.getEnemyTroops(); 
+	}
+	public boolean isOnline() {
+		return false;
+	}
+	public boolean isMyTurn() {
+		return true;
 	}
 }

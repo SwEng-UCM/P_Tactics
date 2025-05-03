@@ -341,6 +341,13 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return null;
 	}
 
-	
+	public boolean isOnline() {
+		return true;
+	}
 
+	@Override
+	public boolean isMyTurn() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
