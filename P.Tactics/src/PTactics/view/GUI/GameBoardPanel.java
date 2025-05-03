@@ -38,7 +38,10 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     private char _keyChar;
     private JLabel _CPUText;
     private JPanel _CPUPanel;
+    private JLabel _onlineText;
+    private JPanel _onlinePanel;
     private boolean _lastPlayerIsCPU;
+    private boolean _lastPlayerIsOnline;
     List<Position> _pathing;
 	private JPanel _boardPanel;
     
@@ -69,9 +72,28 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 			}
 		};
 		
+		String OnlineText = "Other player is moving troops... ";
+
+		_onlineText = new JLabel(CPUText);
+		_onlineText.setFont(new Font("Times New Roman", Font.BOLD, 38));
+		_onlineText.setForeground(Color.orange);
+		_onlineText.setFocusable(false);
+		_onlineText.setHorizontalAlignment(SwingConstants.CENTER);
+		_onlineText.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20)); // padding
+		
+		_onlinePanel = new JPanel(new BorderLayout()) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), Game._boardLength * Controller.tileSize, this);
+			}
+		};
+		
 		this.setOpaque(false);
 		_CPUPanel.setOpaque(false);
 		_CPUPanel.add(_CPUText, BorderLayout.CENTER);
+		_onlinePanel.setOpaque(false);
+		_onlinePanel.add(_onlineText, BorderLayout.CENTER);
 		_CPUPanel.setPreferredSize(new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize));
     	
 		
@@ -170,6 +192,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		    
 		    add(_boardPanel, "BOARD");
 		    add(_CPUPanel, "CPU");
+		    add(_onlinePanel, "ONLINE");
 	}
     
     @Override
@@ -203,7 +226,12 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 			changeToCPU();
 		}
 		
+		else if (!_cntr.isMyTurn()) {
+			changeToOnline();
+		}
+		
 		else {
+			updateCells();	
 			changeToPlayer();
 		}
 	}
@@ -215,13 +243,21 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     	_lastPlayerIsCPU = true;    	
     }
     
+    private void changeToOnline() {
+    	CardLayout cl =((CardLayout)getLayout());
+    	cl.show(this, "ONLINE");
+    	_boardPanel.setVisible(false);
+    	_lastPlayerIsOnline = true;    	
+    }
+    
     private void changeToPlayer() {
     	updateCells();
-    	if (_lastPlayerIsCPU) {// | lastPlayerOtherClient
-    		CardLayout cl =((CardLayout)getLayout());
+    	if (_lastPlayerIsCPU || _lastPlayerIsOnline) {
+    		CardLayout cl =((CardLayout)getLayout()); 
         	cl.show(this, "BOARD");
         	_boardPanel.setVisible(true);
 			_lastPlayerIsCPU = false;
+			_lastPlayerIsOnline = false;
     	}
     }
     

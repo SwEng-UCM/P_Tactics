@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
@@ -33,6 +35,12 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	public ControllerInterface _ctrl;
 	private JLabel playerTurnText;
 	private JPanel turnPanel;
+	private JButton _exit;
+	private JButton _undo;
+	private JButton _redo;
+	private JButton _endTurn;
+	private JButton _instructions;
+	private JButton _save;
 
 	public GameInfoPanel(ControllerInterface ctrl, GameWindow gw) {
 		this._ctrl = ctrl;
@@ -73,8 +81,8 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		gameInfoButtons.setOpaque(false);
 
 		// exit button
-		JButton exit = createButton("Exit");
-		exit.addActionListener(new ActionListener() {
+		_exit = createButton("Exit");
+		_exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int confirm = JOptionPane.showConfirmDialog(
 						null,
@@ -88,11 +96,11 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 				}
 			}
 		});
-		gameInfoButtons.add(exit);
+		gameInfoButtons.add(_exit);
 		
 		// undo button
-		JButton undo = createButton("Undo");
-		undo.addActionListener(new ActionListener() {
+		_undo = createButton("Undo");
+		_undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Hardcoding undo instruction
 				String[] cmdArgs = { Utils.CommandInfo.COMMAND_UNDO_NAME };
@@ -101,11 +109,11 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 				_ctrl.executeCommand(cmdArgs);
 			}
 		});
-		gameInfoButtons.add(undo);
+		gameInfoButtons.add(_undo);
 		
 		// redo button
-		JButton redo = createButton("Redo");
-		redo.addActionListener(new ActionListener() {
+		_redo = createButton("Redo");
+		_redo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Hardcoding undo instruction
 				String[] cmdArgs = { Utils.CommandInfo.COMMAND_REDO_NAME };
@@ -114,11 +122,11 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 				_ctrl.executeCommand(cmdArgs);
 			}
 		});
-		gameInfoButtons.add(redo);
+		gameInfoButtons.add(_redo);
 
 		// End Turn
-		JButton endTurn = createButton("End Turn");
-		endTurn.addActionListener(new ActionListener() {
+		_endTurn = createButton("End Turn");
+		_endTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_ctrl.nextTurn();
 				if (_ctrl.isFinish()) {
@@ -130,45 +138,48 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 				}
 			}
 		});
-		gameInfoButtons.add(endTurn);
+		gameInfoButtons.add(_endTurn);
 
 		// tutorial button
-		JButton instructions = createButton("Instructions");
+		_instructions = createButton("Instructions");
 		tw = new TutorialWindow();
-		instructions.addActionListener(new ActionListener() {
+		_instructions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tw.setVisible(true);
+				System.out.println("IM ENABLED");
 			}
 		});
-		gameInfoButtons.add(instructions);
+		gameInfoButtons.add(_instructions);
 
 		// Save button
-		JButton save = createButton("Save");
-		save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				// Ensures the user can only select directories
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				// Sets the current directory to the directory where the program is running
-				fileChooser.setCurrentDirectory(new java.io.File("."));
-				fileChooser.setDialogTitle("Select folder");
-				if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-					// Hardcoding save instruction
-					String[] cmdArgs = { Utils.CommandInfo.COMMAND_SAVE_NAME, filePath };
-					/*Command command = CommandGenerator.parse(cmdArgs);
-					command.execute(_ctrl);*/
-					_ctrl.executeCommand(cmdArgs);
-				} else {
-					JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
+		if (!_ctrl.isOnline()) {
+			_save = createButton("Save");
+			_save.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fileChooser = new JFileChooser();
+					// Ensures the user can only select directories
+					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					// Sets the current directory to the directory where the program is running
+					fileChooser.setCurrentDirectory(new java.io.File("."));
+					fileChooser.setDialogTitle("Select folder");
+					if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+						String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+						// Hardcoding save instruction
+						String[] cmdArgs = { Utils.CommandInfo.COMMAND_SAVE_NAME, filePath };
+						/*Command command = CommandGenerator.parse(cmdArgs);
+						command.execute(_ctrl);*/
+						_ctrl.executeCommand(cmdArgs);
+					} else {
+						JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 				}
-			}
-		});
-		gameInfoButtons.add(save);
-		this.add(gameInfoButtons, BorderLayout.EAST);
+			});
+			gameInfoButtons.add(_save);
+		}
 
+		this.add(gameInfoButtons, BorderLayout.EAST);
 	}
 
 	// generic method for creation of buttons
@@ -232,6 +243,36 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		playerText += "</html>";
 		
 		playerTurnText.setText(playerText);
+		
+		if (_ctrl.cpuIsPlaying() || !_ctrl.isMyTurn()) {
+			disableAll();
+		}
+		
+		else {
+			SwingUtilities.invokeLater(() -> enableAll());
+		}
+	}
+
+	private void disableAll() {
+		_exit.setEnabled(false);
+		_undo.setEnabled(false);
+		_redo.setEnabled(false);
+		_endTurn.setEnabled(false);
+		_instructions.setEnabled(false);
+		if (!_ctrl.isOnline()) {
+			_save.setEnabled(false);			
+		}
+	}
+	
+	private void enableAll() {
+		_exit.setEnabled(true);
+		_undo.setEnabled(true);
+		_redo.setEnabled(true);
+		_endTurn.setEnabled(true);
+		_instructions.setEnabled(true);
+		if (!_ctrl.isOnline()) {
+			_save.setEnabled(true);			
+		}
 	}
 
 	@Override

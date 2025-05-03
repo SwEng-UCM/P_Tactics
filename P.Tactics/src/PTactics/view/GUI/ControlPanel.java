@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
@@ -169,6 +170,15 @@ public class ControlPanel extends JPanel implements GameObserver {
 	@Override
 	public void onNextTurn(Game game) {
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
+		
+		
+		if (_cntr.cpuIsPlaying() || !_cntr.isMyTurn()) {
+			disableAll();
+		}
+		
+		else {
+			SwingUtilities.invokeLater(() -> enableAll());
+		}
 	}
 
 	public void updateText() {
@@ -185,6 +195,20 @@ public class ControlPanel extends JPanel implements GameObserver {
 				+ "</div></html>";
 		
 		txtrCurrentSelectedTroop.setText(htmlInfo);
+	}
+
+	private void enableAll() {
+		System.out.println("CONTROL ENABLED");
+		moveButton.setEnabled(true);
+		aimButton.setEnabled(true);
+		abilityButton.setEnabled(true);
+	}
+
+	private void disableAll() {
+		System.out.println("CONTROL DISABLED");
+		moveButton.setEnabled(false);
+		aimButton.setEnabled(false);
+		abilityButton.setEnabled(false);
 	}
 
 	@Override
