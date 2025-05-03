@@ -1,46 +1,90 @@
 package PTactics.view.GUI;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonListener;
 
+import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.commands.AbilityCommand;
 import PTactics.control.commands.AimCommand;
 import PTactics.control.commands.MoveCommand;
 import PTactics.control.commands.SelectTroopCommand;
+import PTactics.model.game.Game;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
+import PTactics.view.GameObserver;
 
 @SuppressWarnings("serial")
-public class GameBoardPanel extends JPanel {
+public class GameBoardPanel extends JPanel implements GameObserver {
     private JButton[][] _buttons;   
     private ControllerInterface _cntr;
     private int _height;
     private int _width;
     private ControlPanel _cPanel;
     private char _keyChar;
+    private JLabel _CPUText;
+    private JPanel _CPUPanel;
+    private boolean _lastPlayerIsCPU;
     List<Position> _pathing;
+	private JPanel _boardPanel;
     
     public GameBoardPanel(int width,int height,ControllerInterface cntr, ControlPanel cPanel) {
     	this._cntr=cntr;
     	this._cPanel=cPanel;
     	this._height = height;
     	this._width = width;
+    	_lastPlayerIsCPU = false;
+    	_cntr.addObserver(this);
     	_pathing = new ArrayList<>();
+    	this.setLayout(new CardLayout());
     	
+    	String CPUText = "CPU is playing";
+
+		_CPUText = new JLabel(CPUText);
+		_CPUText.setFont(new Font("Times New Roman", Font.BOLD, 38));
+		_CPUText.setForeground(Color.orange);
+		_CPUText.setFocusable(false);
+		_CPUText.setHorizontalAlignment(SwingConstants.CENTER);
+		_CPUText.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20)); // padding
+		
+		_CPUPanel = new JPanel(new BorderLayout()) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), Game._boardLength * Controller.tileSize, this);
+			}
+		};
+		
+		this.setOpaque(false);
+		_CPUPanel.setOpaque(false);
+		_CPUPanel.add(_CPUText, BorderLayout.CENTER);
+		_CPUPanel.setPreferredSize(new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize));
+    	
+		
+		_boardPanel = new JPanel();
 		_buttons = new JButton[height][width];
-		 setLayout(new GridLayout(width, height));
+		_boardPanel.setLayout(new GridLayout(width, height));
 		    for (int row = 0; row < width; row++) {
 		        for (int col = 0; col < height; col++) {
 		        	Position pos= new Position(col,row);
@@ -127,10 +171,80 @@ public class GameBoardPanel extends JPanel {
 		            		//_cPanel.resetControlSelection();
 		            	}
 		            });
-		            add(btn);
+		            _boardPanel.add(btn);
 		        }
 		    }
+		    
+		    add(_boardPanel, "BOARD");
+		    add(_CPUPanel, "CPU");
 	}
+    
+    @Override
+	public void onPlayersUpdate(Game game) {
+		updateCells();
+	}
+
+	@Override
+	public void onBoardUpdate(Game game) {
+		updateCells(); 
+	}
+
+	@Override
+	public void onTroopAction(Game game) {
+		updateCells();
+	}
+
+	@Override
+	public void onTroopSelection(Game game) {
+		updateCells();
+		
+	}
+
+	@Override
+	public void onNextTurn(Game game) {		
+		changeTurn();
+	}
+	
+	private void changeTurn() {		
+		if (_cntr.cpuIsPlaying()) {
+			changeToCPU();
+		}
+		
+		else {
+			updateCells();	
+			changeToPlayer();
+		}
+	}
+    
+    private void changeToCPU() {
+    	CardLayout cl =((CardLayout)getLayout());
+    	cl.show(this, "CPU");
+    	_boardPanel.setVisible(false);
+    	_lastPlayerIsCPU = true;    	
+    }
+    
+    private void changeToPlayer() {
+    	updateCells();
+    	if (_lastPlayerIsCPU) {
+    		CardLayout cl =((CardLayout)getLayout());
+        	cl.show(this, "BOARD");
+        	_boardPanel.setVisible(true);
+			_lastPlayerIsCPU = false;
+			try {
+				TimeUnit.MILLISECONDS.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    private void updateCells() {
+    	for (int row = 0; row < _width; row++) {
+	        for (int col = 0; col < _height; col++) {
+	        	getButton(col, row).updateCell();
+	        }
+    	}
+    }
     
     private void updateOnHover() {
     	for (int row = 0; row < _height; row++) {
@@ -161,4 +275,10 @@ public class GameBoardPanel extends JPanel {
     	}
     	
     }
+
+	@Override
+	public void onTroopUnSelection(Game game) {
+		// TODO Auto-generated method stub
+		
+	}
 }

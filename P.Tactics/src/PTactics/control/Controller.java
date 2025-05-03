@@ -161,6 +161,10 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public int getCurrentPlayerWinZone() {
 		return Board.getInstance().pointsToWin() - _game.getPlayer().winPoints();
 	}
+	
+	public boolean cpuIsPlaying() {
+		return _game.cpuIsPlaying();
+	}
 
 	public void addObserver(GameObserver o) {
 		_observers.add(o);

@@ -95,4 +95,6 @@ public interface ControllerInterface {
 	void updateOnTroopUnSelection();
 
 	int getCurrentPlayerWinZone();
+
+	boolean cpuIsPlaying();
 }

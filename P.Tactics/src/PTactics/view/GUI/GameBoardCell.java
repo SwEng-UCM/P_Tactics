@@ -14,7 +14,7 @@ import PTactics.utils.Position;
 import PTactics.view.GameObserver;
 
 
-public class GameBoardCell extends JButton implements GameObserver{
+public class GameBoardCell extends JButton{
 	private static final long serialVersionUID = 1L;
 	
 	private Position _pos;
@@ -23,7 +23,7 @@ public class GameBoardCell extends JButton implements GameObserver{
 	public GameBoardCell(Position pos, ControllerInterface _cntr) 
 	{
 		this._cntr=_cntr;
-		_cntr.addObserver(this);
+		
 		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
@@ -36,34 +36,7 @@ public class GameBoardCell extends JButton implements GameObserver{
 	{
 		return this._pos;
 	}
-	@Override
-	public void onPlayersUpdate(Game game) {
-		// TODO Auto-generated method stub
-		updateCell();
-	}
-
-	@Override
-	public void onBoardUpdate(Game game) {
-		// TODO Auto-generated method stub
-		updateCell(); 
-	}
-
-	@Override
-	public void onTroopAction(Game game) {
-		// TODO Auto-generated method stub
-		updateCell();
-	}
-
-	@Override
-	public void onTroopSelection(Game game) {
-		updateCell();
-		
-	}
-
-	@Override
-	public void onNextTurn(Game game) {
-		updateCell();
-	}
+	
 	public void updateCell() 
 	{
 		this.setIcon(_cntr.getIcon(this._pos));
@@ -88,10 +61,5 @@ public class GameBoardCell extends JButton implements GameObserver{
 			this.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		}
 		repaint();
-	}
-	@Override
-	public void onTroopUnSelection(Game game) {
-		// TODO Auto-generated method stub
-		
 	}
 }

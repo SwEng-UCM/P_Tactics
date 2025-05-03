@@ -3,9 +3,11 @@ package PTactics.model.game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import org.json.JSONObject;
 
@@ -109,7 +111,7 @@ public class Game {
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();
 		updateOnNextTurn();
-		_players.get(_currPlayer).ComputeTurn();
+		SwingUtilities.invokeLater(() -> _players.get(_currPlayer).ComputeTurn());
 	}
 	
 
@@ -127,6 +129,9 @@ public class Game {
 		return true;
 	}
 
+	public boolean cpuIsPlaying() {
+		return getPlayer().isCPU();
+	}
 
 	// Board Management
 	public void updateBoard() {

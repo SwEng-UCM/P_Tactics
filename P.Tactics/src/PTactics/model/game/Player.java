@@ -195,4 +195,7 @@ public class Player implements DangerObject{
 		
 		return true;
 	}
+	public boolean isCPU() {
+		return _cpu != null;
+	}
 }

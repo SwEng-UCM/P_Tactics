@@ -256,6 +256,10 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		return currentClient.player.getId();
 		
 	}
+	
+	public boolean cpuIsPlaying() {
+		return _game.cpuIsPlaying();
+	}
 
 	public boolean isFinish() {
 		for (Troop t : _game.getPlayer().getTroops()) {

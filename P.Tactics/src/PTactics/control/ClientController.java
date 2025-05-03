@@ -87,6 +87,10 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return 0;
 	}
 	
+	public boolean cpuIsPlaying() {
+		return false;
+	}
+	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
 	// troops...
 	public boolean isFinish() {
