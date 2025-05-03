@@ -29,30 +29,8 @@ public class GameWindow {
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.frame.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent e) {
-				ImageIcon icon = new ImageIcon(Icons.otherIcons.HOLDFIRE_ICON5.getImage()
-						.getScaledInstance(48, 48, Image.SCALE_SMOOTH));
-				int choice = JOptionPane.showConfirmDialog(
-					frame,
-					"Do you want to return to the main menu without saving?",
-					"Exit to Main Menu",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.WARNING_MESSAGE,
-					icon
-				);
-
-				if (choice == JOptionPane.YES_OPTION) {
-					// go to the mainWindow
-					frame.getContentPane().removeAll();
-					frame.revalidate();
-					frame.repaint();
-					frame.setEnabled(false);
-					frame.setVisible(false);
-					new MainWindow((Controller) _ctrl);  
-				}
-			}
+			public void windowClosing(java.awt.event.WindowEvent e) {}
 		});
-		
 		initialize();
 	}
 
