@@ -187,6 +187,7 @@ public class MainWindow extends JFrame {
 
 		    if (choice == 0) { // Host selected
 		        // Ask for port number
+		           String name = JOptionPane.showInputDialog(null, "Enter nametag", JOptionPane.QUESTION_MESSAGE);
 		        String portStr = JOptionPane.showInputDialog(null, "Enter port to host on (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE);
 		        if (portStr == null) return; // Cancelled
 		        int port;
@@ -220,13 +221,12 @@ public class MainWindow extends JFrame {
 		            waitingDialog.setLocationRelativeTo(this);
 		            waitingDialog.setVisible(true);
 		            
-
 		            
 		             // weird callback function for connected status
 		            new Thread(() -> {
-		            	this._ctrl = new HostController(port, numPlayers, (connectedCount) -> {
+		            	this._ctrl = new HostController(port, numPlayers, name, (connectedCount) -> {
 			                SwingUtilities.invokeLater(() -> {
-			                    statusLabel.setText("Waiting for " + connectedCount + " of " + numPlayers + " players...");
+			                    statusLabel.setText("Waiting for " + connectedCount  + " of " + numPlayers + " players...");
 			                      if (connectedCount >= numPlayers) {
 			                            waitingDialog.dispose(); // All players connected
 			                            swapToGameWindow();

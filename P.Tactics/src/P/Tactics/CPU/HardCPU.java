@@ -26,7 +26,7 @@ public class HardCPU extends CPUinterface {
 			{
 				SelectTroopCommand s=new SelectTroopCommand(t.getPos().getX(),t.getPos().getY());
 				s.execute(_ci);
-				List<Position> enemyPositions= _ci.getGame().getEnemyTroops();
+				List<Position> enemyPositions= _ci.getEnemyTroops();
 				boolean killdistance=false;
 				for(Position enemyPos:enemyPositions) 
 				{

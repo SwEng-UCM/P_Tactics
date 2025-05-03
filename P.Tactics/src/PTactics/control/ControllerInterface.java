@@ -8,6 +8,7 @@ import javax.swing.Icon;
 import org.json.JSONObject;
 
 import PTactics.model.game.Game;
+import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -16,6 +17,9 @@ import PTactics.view.GameObserver;
 public interface ControllerInterface {
 
 	void endTurn();
+	
+	public Player getPlayer();
+	public Player getPlayer(int idx);
 
 	public void update();
 
@@ -54,7 +58,7 @@ public interface ControllerInterface {
 
 	public void setupPlayers();
 
-	public Game getGame();
+	//public Game getGame();
 
 	public void nextTurn();
 
@@ -97,4 +101,7 @@ public interface ControllerInterface {
 	int getCurrentPlayerWinZone();
 
 	boolean cpuIsPlaying();
+	public Troop getCurrentTroop();
+	public void onDeadTroopSelected();
+	public List<Position> getEnemyTroops();
 }

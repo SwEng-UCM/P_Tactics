@@ -18,6 +18,7 @@ import PTactics.model.game.Board;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
+import PTactics.model.game.OnlineGame;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -35,18 +36,24 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	private List<GameObserver> _observers;
 	private Client currentClient;
     private BlockingQueue<GameMessage> messageQueue;
-    protected Game _game;
+    protected OnlineGame _game;
 	protected boolean _endTurn;
 	public static int mapSelected = 1;
 	public static int tileSize = 50;
-	protected int _numPlayers = 0;
+	protected int _numPlayers;
 	int connected;
+	Player HostPlayer;
+	String name;
+	int currClientIndex;
 
 	// constructor that takes the IP Address and the Port
-	public HostController(int port, int numPlayers, Consumer<Integer> onPlayerConnected) 
+	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
 	{ 
-		connected = 0;
-		_game = new Game(this);
+		_numPlayers = numPlayers;
+		currClientIndex = 0;
+		this.name = name;
+		connected = 1;
+		_game = new OnlineGame(this);
 		_endTurn = false;
 		messageQueue = new LinkedBlockingQueue<>();
 		_observers = new ArrayList<>();
@@ -59,10 +66,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			
 
 			
-
+			if (onPlayerConnected != null) {
+                onPlayerConnected.accept(connected);
+            }
 			
-			while (connected < numPlayers) { // will keep going until all players are connected
-				
+			while (connected < numPlayers) { // will keep going until all players are connected (except host)
+					
 				Socket clientSocket = server.accept(); // Accept immediately
 			    System.out.println("Client connected: " + clientSocket.getInetAddress());
 
@@ -77,11 +86,10 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			            DangerMediator dangerMediator = new DangerMediator();
 			            Player p = new Player(playerID, dangerMediator);
 
-			            synchronized (_game) {
+			            synchronized (Board.getInstance()) {
 			                for (Troop t : MapSelector.getTroops(p)) {
 			                    Board.getInstance().addObj(t.getPos(), t);
 			                }
-			                _game.addPlayer(p);
 			            }
 
 			            ClientHandler handler = new ClientHandler(in, out, messageQueue);
@@ -95,11 +103,15 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			    }).start();
 
 			    connected++; // increment here so we stop after the expected number of players
-			    
-				if (onPlayerConnected != null) {
+			    if (onPlayerConnected != null) {
 	                onPlayerConnected.accept(connected);
-	            }	
+	            }
 	        }
+			DangerMediator dangerMediator = new DangerMediator(); // add host to the list of clients with null handler
+            Player p = new Player(name, dangerMediator);
+            _clients.add(new Client(p, null));
+            
+            
 			while (!this.isFinish()) {
 				GameMessage msg = messageQueue.take(); // blocks until there's a message
 
@@ -227,8 +239,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	 */
 //_____________________________________________________________________________________________________________
 
+	
 	public JSONObject report() {
-		return this.getGame().report();
+		return null;
 	}
 	
 	public void setPlayerNum(int playerNum) {
@@ -249,7 +262,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	
 	@Override
 	public int getCurrentPlayerWinZone() {
-		return Board.getInstance().pointsToWin() - _game.getPlayer().winPoints();
+		return Board.getInstance().pointsToWin() - currentClient.player.winPoints();
 	}
 	
 	public String getCurrentPlayerName() {
@@ -257,12 +270,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		
 	}
 	
-	public boolean cpuIsPlaying() {
-		return _game.cpuIsPlaying();
-	}
 
 	public boolean isFinish() {
-		for (Troop t : _game.getPlayer().getTroops()) {
+		for (Troop t : currentClient.player.getTroops()) {
 			if (t.isAlive())
 				return false;
 		}
@@ -279,7 +289,25 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public void nextTurn() {
+		Board.getInstance().nextTurn();
 		_game.nextTurn();
+		getPlayer().endTurn();
+		getPlayer().clearKills();
+		getPlayer().update();
+		update();
+		
+		do {
+			currClientIndex++;
+			if (currClientIndex >= _clients.size()) {
+				currClientIndex = 0;
+			}
+			currentClient = _clients.get(currClientIndex);
+		} while (getPlayer().hasNoTroopsLeft());
+		
+		getPlayer().startOfTurnDeadCheck();
+		getPlayer().startTurn();
+		updateOnNextTurn();
+		getPlayer().ComputeTurn();
 	}
 
 	@Override
@@ -288,12 +316,15 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public void updatePlayers() {
-		this._game.updatePlayers();
+		for (Client p : _clients) {
+			p.player.update();
+		}
+		updateOnPlayersUpdate();
 	}
 
 	@Override
 	public int getNumPlayer() {
-		return _game.getNumPlayer();
+		return 0 ; // clients + host
 	}
 
 	@Override
@@ -330,9 +361,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		return this._game.isTroop(pos);
 	}
 
-	public Game getGame() {
-		return this._game;
-	}
+//	public Game getGame() { 
+//		return this._game;
+//	}
 
 	public Troop currTroop() {
 		return _game.getCurrentTroop();
@@ -368,6 +399,50 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		//na
 	}
 
+	
 
+
+	 //Player Management
+	public void inicialize() { // total update, only called on the setup
+		InicializeTurns();
+		Board.getInstance().update();
+		inicializePlayers();
+	}
+	
+	private void InicializeTurns() {
+		_clients.get(0).player.startTurn();
+	}
+
+	private void inicializePlayers() {
+		for (Client p : _clients) {
+			p.player.update();
+		}
+	}
+
+	public Player getPlayer() {
+		return this.currentClient.player;
+	}
+
+	public Player getPlayer(int idx) {
+		return this._clients.get(idx - 1).player;
+	}
+	public Troop getCurrentTroop(){
+		return _game.getCurrentTroop();
+	}
+	public void onDeadTroopSelected() {
+		_game.onDeadTroopSelected();
+	}
+
+	@Override
+	public boolean cpuIsPlaying() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Position> getEnemyTroops() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

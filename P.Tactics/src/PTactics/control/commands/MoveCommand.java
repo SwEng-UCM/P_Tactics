@@ -56,7 +56,7 @@ public class MoveCommand extends ReportCommand {
 				SwingUtilities.invokeLater(() -> execute(CI));
 			}
 			else {
-				CI.getGame().onDeadTroopSelected();
+				CI.onDeadTroopSelected();
 			}
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
@@ -82,7 +82,7 @@ public class MoveCommand extends ReportCommand {
 				SwingUtilities.invokeLater(() -> execute(CI));
 			}
 			else {
-				CI.getGame().onDeadTroopSelected();
+				CI.onDeadTroopSelected();
 			}
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
@@ -116,7 +116,7 @@ public class MoveCommand extends ReportCommand {
 		private MoveSnapshot(ControllerInterface CI) {
 			_ctrl = CI;
 			_commandId = getName();
-			_troopUsed = CI.getGame().getCurrentTroop();
+			_troopUsed = CI.getCurrentTroop();
 			_initialPos = _troopUsed.getPos();
 			_finalPos = new Position(_posX, _posY);
 			_movesLeftBefore = _troopUsed.getMovesLeft();			

@@ -311,6 +311,36 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return null;
 	}
 
+	@Override
+	public Player getPlayer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Player getPlayer(int idx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Troop getCurrentTroop() {
+		//connection inout
+		return null;
+	}
+
+	@Override
+	public void onDeadTroopSelected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Position> getEnemyTroops() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

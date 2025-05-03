@@ -1,6 +1,7 @@
 package PTactics.control;
 
 import java.util.InputMismatchException;
+import java.util.List;
 
 import javax.swing.Icon;
 
@@ -92,4 +93,5 @@ public class ControllerConsole extends Controller {
 	public Icon getIcon(Position _pos) {
 		return null;
 	}
+
 }

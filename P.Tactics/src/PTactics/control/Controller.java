@@ -297,4 +297,21 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		Command command = CommandGenerator.parse(args);
 		command.execute(this);
 	}
+	
+	public Player getPlayer() {
+		return _game.getPlayer();
+	}
+
+	public Player getPlayer(int idx) {
+		return _game.getPlayer(idx);
+	}
+	public Troop getCurrentTroop(){
+		return _game.getCurrentTroop();
+	}
+	public void onDeadTroopSelected() {
+		_game.onDeadTroopSelected();
+	}
+	public List<Position> getEnemyTroops(){
+		return _game.getEnemyTroops();
+	}
 }

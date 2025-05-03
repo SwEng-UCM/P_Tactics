@@ -26,7 +26,7 @@ public class TroopFactory implements Factory {
 			return false;
 		} else {
 			type = (String) j.get("Id");
-			p = CI.getGame().getPlayer(j.getInt("Player"));
+			p = CI.getPlayer(j.getInt("Player"));
 			dir = Direction.toDir((String) j.get("Direction"));
 			pos = new Position(j.getInt("PositionX"), j.getInt("PositionY"));
 			aim = j.getBoolean("Aim");
