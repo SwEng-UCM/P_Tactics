@@ -305,7 +305,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		return _game.getPlayer(idx);
 	}
 	public TroopInfo getCurrentTroopInfo(){
-		return new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft());
+		return getCurrentTroop() != null? new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft()): null;
 	}
 	public void onDeadTroopSelected() {
 		_game.onDeadTroopSelected();

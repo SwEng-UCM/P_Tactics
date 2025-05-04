@@ -10,7 +10,10 @@ public class TroopInfo {
 	int movesLeft;
 	int abilityLeft;
 	public TroopInfo(String iD, Position pos, int movesLeft, int abilityLeft) {
-		// TODO Auto-generated constructor stub
+		this.ID = iD;
+		this.pos = pos;
+		this.movesLeft = movesLeft;
+		this.abilityLeft = abilityLeft;
 	}
 	public String getId() {
 		// TODO Auto-generated method stub
