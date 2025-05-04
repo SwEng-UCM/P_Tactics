@@ -50,7 +50,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	// constructor that takes the IP Address and the Port
 	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
 	{ 
-		online = true;
+		online = false;
 		_numPlayers = numPlayers;
 		currClientIndex = 0;
 		this.name = name;
@@ -77,7 +77,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
             Player ph = new Player(Integer.toString(connected), dangerMediatorh);
             _clients.add(new Client(ph, null));
             _playerNames.add(name);
-            
+            currentClient = _clients.get(currClientIndex);
 			while (connected < numPlayers) { // will keep going until all players are connected (except host)
 					
 				Socket clientSocket = server.accept(); // Accept immediately
@@ -149,7 +149,15 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 	
 	private void exeParse(String input, ClientHandler handler) { // parses a message and executes it
-		
+		String[] tokens = input.trim().split("\\s+");
+	    String command = tokens[0];
+
+	    switch (command) {
+	        case "nextTurn":
+	            this.nextTurn();  // Call your logic
+	            break;
+
+	    }
 	}
 
 	@Override
@@ -210,37 +218,43 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		for (GameObserver o : _observers) {
 			o.onPlayersUpdate(null);
 		}
+		if(online)currentClient.handler.sendMessage("updateOnPlayersUpdate");
 	}
 	public void updateOnBoardUpdate() {
 		for (GameObserver o : _observers) {
 			o.onBoardUpdate(null);
 		}
+		if(online)currentClient.handler.sendMessage("updateOnBoardUpdate");
 	}
 	public void updateOnTroopAction() {
 		for (GameObserver o : _observers) {
 			o.onTroopAction(null);
 		}
+		if(online)currentClient.handler.sendMessage("updateOnTroopAction");
 	}
 	public void updateOnTroopSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopSelection(null);
-		}	
+		}
+		if(online)currentClient.handler.sendMessage("updateOnTroopSelection");
 	}
 	public void updateOnNextTurn() {
 		for (GameObserver o : _observers) {
 			o.onNextTurn(null);
-		}	
+		}
+		if(online)currentClient.handler.sendMessage("updateOnNextTurn");
 	}
 	public void updateOnTroopUnSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopUnSelection(null);
-		}	
+		}
+		if(online)currentClient.handler.sendMessage("updateOnTroopUnSelection");
 	}
 
 	@Override
 	public void executeCommand(String[] args) {
-		// TODO Auto-generated method stub
-		
+		Command command = CommandGenerator.parse(args);
+		command.execute(this);
 	}
 	
 	/* IMPORTANTE AÑADIR
@@ -293,6 +307,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			if (t.isAlive())
 				return false;
 		}
+		if(online)currentClient.handler.sendMessage("isFinish");
 		return true;
 	}
 
@@ -319,6 +334,8 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				currClientIndex = 0;
 			}
 			currentClient = _clients.get(currClientIndex);
+			if(currentClient.handler == null) online = false;
+			else online = true;
 		} while (getPlayer().hasNoTroopsLeft());
 		
 		getPlayer().startOfTurnDeadCheck();
@@ -382,7 +399,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 //		return this._game;
 //	}
 
-	public Troop currTroop() {
+	public Troop getCurrentTroop() {
 		return _game.getCurrentTroop();
 	}
 
@@ -443,8 +460,8 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public Player getPlayer(int idx) {
 		return this._clients.get(idx - 1).player;
 	}
-	public Troop getCurrentTroop(){
-		return _game.getCurrentTroop();
+	public TroopInfo getCurrentTroopInfo(){
+		return new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft());
 	}
 	public void onDeadTroopSelected() {
 		_game.onDeadTroopSelected();

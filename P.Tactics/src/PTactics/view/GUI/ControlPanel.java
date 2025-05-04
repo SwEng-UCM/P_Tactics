@@ -135,9 +135,9 @@ public class ControlPanel extends JPanel implements GameObserver {
 		else if (aimButton.isSelected())
 			return 1;
 		else if (abilityButton.isSelected()) {
-			if (_cntr.isTroopSelected() && _cntr.getCurrentTroop().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
-				AbilityCommand ability = new AbilityCommand(_cntr.getCurrentTroop().getPos().getX(),
-						_cntr.getCurrentTroop().getPos().getY());
+			if (_cntr.isTroopSelected() && _cntr.getCurrentTroopInfo().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
+				AbilityCommand ability = new AbilityCommand(_cntr.getCurrentTroopInfo().getPos().getX(),
+						_cntr.getCurrentTroopInfo().getPos().getY());
 				ability.execute(_cntr); 
 			} else {
 				return 2;
@@ -189,9 +189,9 @@ public class ControlPanel extends JPanel implements GameObserver {
 		
 		String htmlInfo = "<html><div style='text-align: center;'>"
 				+ "Current Troop Selected<br>"
-				+ _cntr.getCurrentTroop().getId().toUpperCase() + "<br>"
-				+ "Moves Left: " + _cntr.getCurrentTroop().getMovesLeft() + "<br>"
-				+ "Ability Uses Left: " + _cntr.getCurrentTroop().abilityUsesLeft()
+				+ _cntr.getCurrentTroopInfo().getId().toUpperCase() + "<br>"
+				+ "Moves Left: " + _cntr.getCurrentTroopInfo().getMovesLeft() + "<br>"
+				+ "Ability Uses Left: " + _cntr.getCurrentTroopInfo().abilityUsesLeft()
 				+ "</div></html>";
 		
 		txtrCurrentSelectedTroop.setText(htmlInfo);

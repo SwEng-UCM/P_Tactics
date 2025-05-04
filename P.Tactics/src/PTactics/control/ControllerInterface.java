@@ -62,7 +62,7 @@ public interface ControllerInterface {
 
 	public void nextTurn();
 
-	public Troop currTroop();
+	//public Troop currTroop();
 
 	Icon getIcon(Position _pos);
 
@@ -101,6 +101,7 @@ public interface ControllerInterface {
 	int getCurrentPlayerWinZone();
 
 	boolean cpuIsPlaying();
+	public TroopInfo getCurrentTroopInfo();
 	public Troop getCurrentTroop();
 	public void onDeadTroopSelected();
 	public List<Position> getEnemyTroops();

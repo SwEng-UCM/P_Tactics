@@ -286,8 +286,8 @@ public class GameBoardPanel extends JPanel implements GameObserver {
         return (GameBoardCell)_buttons[row][col];
     }
     private Direction posToDir(int x, int y) {
-    	int X = x - _cntr.currTroop().getPos().getX(); // given pos minus troop position (setting 0,0 at troop)
-    	int Y = y - _cntr.currTroop().getPos().getY();
+    	int X = x - _cntr.getCurrentTroopInfo().getPos().getX(); // given pos minus troop position (setting 0,0 at troop)
+    	int Y = y - _cntr.getCurrentTroopInfo().getPos().getY();
     	int abx = Math.abs(X); // see which axis is more prominent
     	int aby = Math.abs(Y);
     	if(abx < aby) {

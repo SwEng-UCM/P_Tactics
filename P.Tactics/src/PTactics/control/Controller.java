@@ -211,10 +211,9 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		return this._game;
 	}
 
-	public Troop currTroop() {
+	public Troop getCurrentTroop() {
 		return _game.getCurrentTroop();
 	}
-
 	public boolean dangerTile(Position pos) {
 		return _game.dangerTile(pos);
 	}
@@ -305,8 +304,8 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public Player getPlayer(int idx) {
 		return _game.getPlayer(idx);
 	}
-	public Troop getCurrentTroop(){
-		return _game.getCurrentTroop();
+	public TroopInfo getCurrentTroopInfo(){
+		return new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft());
 	}
 	public void onDeadTroopSelected() {
 		_game.onDeadTroopSelected();

@@ -2,9 +2,12 @@ package PTactics.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.Icon;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -34,11 +37,13 @@ public class ClientController implements ControllerInterface,Observable<GameObse
     BufferedReader in;
     PrintWriter out;
 	private List<GameObserver> _observers;
-	private boolean isMyTurn;
+	private volatile boolean isMyTurn;
 	private boolean isFinish;
+	private BlockingQueue<String> responseQueue;
 	// constructor that takes the IP Address and the Port
 	public ClientController(String address, int port, String Id) 
 	{ 
+		responseQueue = new LinkedBlockingQueue<>();
 		isFinish = false;
 		isMyTurn = false;
 		this.Id = Id;
@@ -63,63 +68,73 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			System.out.println(i); 
 		} 
 		
-		new Thread (() -> {
-			while (!isFinish) {
-				
-			}
+		new Thread(() -> {
+		    try {
+		        String msg;
+		        while ((msg = in.readLine()) != null) {
+		            if (msg.equals("yourTurn")) {
+		                isMyTurn = true;
+
+		            } 
+		            else if (msg.equals("noTurn")) {//a bit redundant but just in case
+		                isMyTurn = false;
+
+		            } 
+		            else if (msg.equals("isFinish")) {
+		                isFinish = true;
+
+		            }
+		            else {
+		                responseQueue.offer(msg); // for methods waiting on responses
+		            }
+		        }
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
 		}).start();
 		
 	} 
 
 	@Override
 	
-	public void setPlayerNum(int playerNum) {
-		// no hace na
-	}
-
-	public void setPlayerNames(List<String> names) {
-		//no hace na
-	}
-	
-	public List<String> getPlayerNames(){
-		//no hace na
-		return null;
-	}
 	
 	public String getCurrentPlayerName() {
-			return Id; 
+		out.println("getCurrentPlayerName");
+		try {
+			String line = responseQueue.take();
+			return line;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override
 	public int getCurrentPlayerWinZone() {
-		return 0;
+		out.println("getCurrentPlayerWinZone");
+		try {
+			String line = responseQueue.take();
+			return Integer.parseInt(line);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 	
 	public boolean cpuIsPlaying() {
 		return false;
 	}
 	
-	// In principle, we do like player 0 turn --> check if player 1 has alive
-	// troops...
 	public boolean isFinish() {
-		//communicate in
-		return false;
+		return isFinish;
 	}
 	
 
-	@Override
-	public void endTurn() {
-		
-	}
+
 
 	public void nextTurn() {
 		out.println("nextTurn");
 		isMyTurn = false;
-	}
-
-
-	public void setTroop(Troop t) {
-		//na
 	}
 
 	public void update() {
@@ -127,90 +142,65 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updatePlayers() {
-		//communicate out
+		out.println("updatePlayers");
 	}
 
 	@Override
 	public int getNumPlayer() {
 		out.println("getNumPlayer");
-		String i = "-1";
 		try {
-			i = in.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			String line = responseQueue.take();
+			return Integer.parseInt(line);
+		} catch (Exception e) {
 			e.printStackTrace();
+			return -1;
 		}
-		return Integer.parseInt(i);
-	}
-
-	@Override
-	public void selectTroop(Position pos) throws Exception {
-		//na
-	}
-	
-	@Override
-	public void selectTroop(Troop t) {
-		//na
 	}
 
 	public boolean isTroopSelected() {
-		out.println("getNumPlayer");
-		String i = "false";
+		out.println("isTroopSelected");
 		try {
-			i = in.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			String line = responseQueue.take();
+			return line == "true"? true : false;
+		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		return i == "true"? true : false;
 	}
 
 	public boolean canMove(Position pos) {
-		//communicate inout
-		return false;
+		out.println("canMove " + pos.getX() + " " + pos.getY());
+		try {
+			String line = responseQueue.take();
+			return line == "true"? true : false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public void moveTroop(Position pos) throws IllegalArgumentException {
-		//communicate out
-	}
-
-	public void troopAbility(Position pos) throws Exception {
-		//communicate out
-	}
-
-	public void takeAim(Direction _dirToAim) {
-		//communicate out
-	}
 
 	public Boolean isTroop(Position pos) {
-		//communicate in
-		return false;
+		out.println("isTroop " + pos.getX() + " " + pos.getY());
+		try {
+			String line = responseQueue.take();
+			return line == "true"? true : false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public Game getGame() {
-		//restructure
-		return null;
-	}
-
-	public Troop currTroop() {
-		return null;
-		//communicate in
-	}
 
 	public boolean dangerTile(Position pos) {
-		return false;
-		//communicate in
-	}
-
-	@Override
-	public List<Position> getPath(Position pos) {
-		return null;
-		//communicate in
-	}
-
-	public List<Position> hoverPath(Position pos) {
-		return null;
-		//communicate in
+		out.println("dangerTile " + pos.getX() + " " + pos.getY());
+		try {
+			String line = responseQueue.take();
+			return line == "true"? true : false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	@Override
@@ -258,12 +248,127 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	@Override
-	public void executeCommand(String[] args) {
-		// TODO Auto-generated method stub
-		
+	public void executeCommand(String[] args) { // comprobar updates en el thread
+		out.println("executeCommand " + args);
+	}
+	@Override
+	public List<Position> getPath(Position pos) {
+		out.println("getPath");
+		try {
+			String line = responseQueue.take();
+			JSONArray positionsArray = new JSONArray(line);
+			List<Position> positions = new ArrayList<>();
+			for (int i = 0; i < positionsArray.length(); i++) {
+			    JSONObject posObj = positionsArray.getJSONObject(i);
+			    int x = posObj.getInt("x");
+			    int y = posObj.getInt("y");
+			    positions.add(new Position(x, y));
+			}
+			return positions;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Position> hoverPath(Position pos) {
+		out.println("hoverPath");
+		try {
+			String line = responseQueue.take();
+			JSONArray positionsArray = new JSONArray(line);
+			List<Position> positions = new ArrayList<>();
+			for (int i = 0; i < positionsArray.length(); i++) {
+			    JSONObject posObj = positionsArray.getJSONObject(i);
+			    int x = posObj.getInt("x");
+			    int y = posObj.getInt("y");
+			    positions.add(new Position(x, y));
+			}
+			return positions;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public TroopInfo getCurrentTroopInfo() {
+		out.println("getCurrentTroop");
+		try {
+			String line = responseQueue.take();
+			JSONObject obj = new JSONObject(line);
+			String ID = obj.getString("ID");
+			int x = obj.getInt("x");
+			int y = obj.getInt("y");
+			Position pos = new Position(x,y);
+			int movesLeft = obj.getInt("movesLeft");
+			int abilityLeft = obj.getInt("abilityLeft");
+			return new TroopInfo(ID,pos,movesLeft, abilityLeft);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public boolean isOnline() {
+		return true;
+	}
+
+	@Override
+	public boolean isMyTurn() {
+		return isMyTurn;
 	}
 	
 //-------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Player getPlayer() {
+		//na
+		return null;
+	}
+
+	@Override
+	public Player getPlayer(int idx) {
+		//na
+		return null;
+	}
+	@Override
+	public void endTurn() {
+		//na
+	}
+	public void moveTroop(Position pos) throws IllegalArgumentException {
+		//na
+	}
+
+	public void troopAbility(Position pos) throws Exception {
+		//na
+	}
+
+	public void takeAim(Direction _dirToAim) {
+		//na
+	}
+	public List<String> getPlayerNames(){
+		// na
+		return null;
+	}
+	public void setTroop(Troop t) {
+		//na
+	}
+	public void setPlayerNum(int playerNum) {
+		// na
+	}
+
+	public void setPlayerNames(List<String> names) {
+		//na
+	}
+	@Override
+	public void selectTroop(Position pos) throws Exception {
+		//na
+	}
+	
+	@Override
+	public void selectTroop(Troop t) {
+		//na
+	}
+
 	@Override
 	public void showGame() {
 		// TODO Auto-generated method stub
@@ -320,27 +425,10 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return null;
 	}
 
-	@Override
-	public Player getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Player getPlayer(int idx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Troop getCurrentTroop() {
-		//connection inout
-		return null;
-	}
 
 	@Override
 	public void onDeadTroopSelected() {
-		// TODO Auto-generated method stub
+		//na
 		
 	}
 
@@ -350,12 +438,9 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return null;
 	}
 
-	public boolean isOnline() {
-		return true;
-	}
-
 	@Override
-	public boolean isMyTurn() {
-		return isMyTurn;
+	public Troop getCurrentTroop() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
