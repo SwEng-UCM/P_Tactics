@@ -50,19 +50,19 @@ public class MainWindow extends JFrame {
 	private JButton[] _animatedButtons;
 	private String[] _buttonTexts = { "START", "CONTINUE", "ONLINE", "PLAY VS CPU", "EXIT"};
 	private JPanel _buttonPanel;
-
+	private ImageIcon _icon;
 	public MainWindow(Controller ctrl) {
 		_ctrl = ctrl;
 		initGUI();
 	}
 
 	private void initGUI() {
-		ImageIcon icon = new ImageIcon(Icons.otherIcons.HOLDFIRE_ICON5.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH));
+		_icon = new ImageIcon(Icons.otherIcons.HOLDFIRE_ICON5.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH));
 
-		javax.swing.UIManager.put("OptionPane.informationIcon", icon);
-		javax.swing.UIManager.put("OptionPane.questionIcon", icon);
-		javax.swing.UIManager.put("OptionPane.warningIcon", icon);
-		javax.swing.UIManager.put("OptionPane.errorIcon", icon);
+		javax.swing.UIManager.put("OptionPane.informationIcon", _icon);
+		javax.swing.UIManager.put("OptionPane.questionIcon", _icon);
+		javax.swing.UIManager.put("OptionPane.warningIcon", _icon);
+		javax.swing.UIManager.put("OptionPane.errorIcon", _icon);
 		
 		setTitle("HOLDFIRE");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -133,7 +133,13 @@ public class MainWindow extends JFrame {
 			for (int i = 0; i < numPlayers; i++) {
 				String name;
 				do {
-					name = JOptionPane.showInputDialog(this, "Enter name for Player " + (i + 1) + ":");
+					name = (String) JOptionPane.showInputDialog(
+							this, "Enter name for Player " + (i + 1) + ":",
+							"Name of the players",
+							JOptionPane.PLAIN_MESSAGE,
+							_icon,
+							null,
+							"");
 					if(name == null) return;		// closes dialog if cancel is pressed
 				} while (name.trim().isEmpty());
 				names[i] = name.trim();
@@ -269,7 +275,13 @@ public class MainWindow extends JFrame {
 			String playerName = null;
 			
 			do {
-				playerName = JOptionPane.showInputDialog(this, "Enter name of the player: ");
+				playerName = (String) JOptionPane.showInputDialog(
+						this, "Enter name of the player: ",
+						"Name of the player",
+						JOptionPane.PLAIN_MESSAGE,
+						_icon,
+						null,
+						"");
 				if(playerName == null) return;	// cancel if there is no name written
 			} while(playerName.trim().isEmpty());
 			

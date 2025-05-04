@@ -169,10 +169,6 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 						/*Command command = CommandGenerator.parse(cmdArgs);
 						command.execute(_ctrl);*/
 						_ctrl.executeCommand(cmdArgs);
-					} else {
-						JOptionPane.showMessageDialog(null, "Invalid file type. Please select a valid directory", "Error",
-								JOptionPane.ERROR_MESSAGE);
-						return;
 					}
 				}
 			});
