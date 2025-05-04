@@ -34,9 +34,13 @@ public class ClientController implements ControllerInterface,Observable<GameObse
     BufferedReader in;
     PrintWriter out;
 	private List<GameObserver> _observers;
+	private boolean isMyTurn;
+	private boolean isFinish;
 	// constructor that takes the IP Address and the Port
 	public ClientController(String address, int port, String Id) 
 	{ 
+		isFinish = false;
+		isMyTurn = false;
 		this.Id = Id;
 		_observers = new ArrayList<>();
 		// we try to establish a connection 
@@ -58,9 +62,13 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		{ 
 			System.out.println(i); 
 		} 
-
-		// close the connection 
-		// setup players
+		
+		new Thread (() -> {
+			while (!isFinish) {
+				
+			}
+		}).start();
+		
 	} 
 
 	@Override
@@ -101,11 +109,12 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public void endTurn() {
-		out.println("endTurn");
+		
 	}
 
 	public void nextTurn() {
 		out.println("nextTurn");
+		isMyTurn = false;
 	}
 
 
@@ -347,7 +356,6 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public boolean isMyTurn() {
-		// TODO Auto-generated method stub
-		return false;
+		return isMyTurn;
 	}
 }

@@ -33,6 +33,11 @@ public class ClientHandler implements Runnable { //done with the help of chatGPT
             messageQueue.put(new GameMessage(this, "disconnected"));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            try {
+				messageQueue.put(new GameMessage(this, "disconnected")); 
+			} catch (InterruptedException e1) {//goofy ah
+				e1.printStackTrace();
+			}
         }
 		
 	}

@@ -44,7 +44,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	int connected;
 	Player hostPlayer;
 	String name;
-	int currClientIndex;
+	volatile int currClientIndex;
 	boolean online;
 	protected List<String> _playerNames;
 	// constructor that takes the IP Address and the Port
@@ -118,7 +118,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        }
 
             
-            run();
+            listen();
 	
 		} 
 		catch(IOException | InterruptedException i) 
@@ -126,17 +126,26 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			System.out.println(i); 
 		} 
 	} 
-	private void run() throws InterruptedException {
-		while (!this.isFinish()) {
-			GameMessage msg = messageQueue.take(); // blocks until there's a message
+	private void listen() throws InterruptedException {
+		new Thread (()->{
+			while (!this.isFinish()) {
+				GameMessage msg;
+				try {
+					msg = messageQueue.take();
 
-		    if (msg.sender != currentClient.handler) { // not the current player
-		        msg.sender.sendMessage("noTurn");
-		        continue; // ignore message
-		    }
-		    //yes the current player :)
-		    exeParse(msg.msg, msg.sender);
-		}
+			    if (msg.sender != currentClient.handler) { // not the current player
+			        msg.sender.sendMessage("noTurn");
+			        continue; // ignore message
+			    }
+			    //yes the current player :)
+			    exeParse(msg.msg, msg.sender);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // blocks until there's a message
+	
+			}
+		}).start();
 	}
 	
 	private void exeParse(String input, ClientHandler handler) { // parses a message and executes it
