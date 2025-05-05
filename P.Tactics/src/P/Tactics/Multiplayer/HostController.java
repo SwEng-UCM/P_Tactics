@@ -1,4 +1,4 @@
-package PTactics.control;
+package P.Tactics.Multiplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,8 @@ import javax.swing.Icon;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import PTactics.control.ControllerInterface;
+import PTactics.control.TroopInfo;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
@@ -18,7 +20,6 @@ import PTactics.model.game.Board;
 import PTactics.model.game.DangerMediator;
 import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
-import PTactics.model.game.OnlineGame;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;

@@ -1,4 +1,4 @@
-package PTactics.control;
+package P.Tactics.Multiplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,8 @@ import org.json.JSONTokener;
 import P.Tactics.CPU.EasyCPU;
 import P.Tactics.CPU.HardCPU;
 import P.Tactics.CPU.MediumCPU;
+import PTactics.control.ControllerInterface;
+import PTactics.control.TroopInfo;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
 import PTactics.model.game.DangerMediator;
@@ -120,10 +122,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			return -1;
 		}
 	}
-	
-	public boolean cpuIsPlaying() {
-		return false;
-	}
+
 	
 	public boolean isFinish() {
 		return isFinish;
@@ -204,7 +203,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	
 	@Override
-	public Icon getIcon(Position _pos) {
+	public Icon getIcon(Position _pos) { //-----------------------------------------------------------D
 		//communicate in
 		return null;
 	}
@@ -319,6 +318,11 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	
 //-------------------------------------------------------------------------------------------------------------------
 
+	
+	public boolean cpuIsPlaying() {
+		//na
+		return false;
+	}
 	@Override
 	public Player getPlayer() {
 		//na

@@ -1,4 +1,4 @@
-package PTactics.model.game;
+package P.Tactics.Multiplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
+import PTactics.model.game.Board;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;

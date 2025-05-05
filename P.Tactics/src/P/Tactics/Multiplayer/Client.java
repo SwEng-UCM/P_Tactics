@@ -1,4 +1,4 @@
-package PTactics.control;
+package P.Tactics.Multiplayer;
 
 import PTactics.model.game.Player;
 

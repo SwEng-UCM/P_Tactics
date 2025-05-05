@@ -1,4 +1,4 @@
-package PTactics.control;
+package P.Tactics.Multiplayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
