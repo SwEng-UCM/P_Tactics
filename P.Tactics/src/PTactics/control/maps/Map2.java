@@ -19,15 +19,18 @@ public class Map2 implements Map {
 	@Override
 	public List<Position> listWalls(){
 		List<Position> walls = new ArrayList<Position>();
-		walls.add(new Position(3, 1));
-		walls.add(new Position(7, 2));
-		walls.add(new Position(2, 3));
-		walls.add(new Position(5, 4));
-		walls.add(new Position(9, 4));
-		walls.add(new Position(4, 6));
-		walls.add(new Position(8, 7));
-		walls.add(new Position(1, 9));
-		walls.add(new Position(6, 10));
+		walls.add(new Position(2, 0));
+		walls.add(new Position(4, 1));
+		walls.add(new Position(0, 2));
+		walls.add(new Position(4, 2));
+		walls.add(new Position(7, 4));
+		walls.add(new Position(8, 4));
+		walls.add(new Position(1, 5));		
+		walls.add(new Position(2, 5));		
+		walls.add(new Position(5, 7));
+		walls.add(new Position(9, 7));
+		walls.add(new Position(5, 8));
+		walls.add(new Position(7, 9));
 		
 		return walls;
 	}
@@ -37,14 +40,14 @@ public class Map2 implements Map {
 		List<Troop> troops = new ArrayList<Troop>();
 		
 		if(player.getId().equals("1")) {
-			troops.add(new SniperTroop(new Position(2,3), player, Direction.DOWN));
-			troops.add(new SmokerTroop(new Position(3,3), player, Direction.DOWN));
-			troops.add(new LightTroop(new Position(4,3), player, Direction.DOWN)); 
+			troops.add(new SniperTroop(new Position(0, 9), player, Direction.DOWN));
+			troops.add(new SmokerTroop(new Position(0, 8), player, Direction.DOWN));
+			troops.add(new LightTroop(new Position(1, 9), player, Direction.DOWN)); 
 		}
 		else if (player.getId().equals("2")) {
-			troops.add(new SniperTroop(new Position(2,8), player, Direction.UP));
-			troops.add(new SmokerTroop(new Position(6,9), player, Direction.UP));
-			troops.add(new LightTroop(new Position(9,9), player, Direction.UP));
+			troops.add(new SniperTroop(new Position(9, 0), player, Direction.UP));
+			troops.add(new SmokerTroop(new Position(8, 0), player, Direction.UP));
+			troops.add(new LightTroop(new Position(9,1), player, Direction.UP));
 		}
 		else if(player.getId().equals("3")) {
 			//In case of more players
@@ -72,6 +75,11 @@ public class Map2 implements Map {
 
 	@Override
 	public List<Position> listWinPositions() {
-		return null;
+List<Position> winPos = new ArrayList<Position>();
+		
+		winPos.add(new Position(2, 2));
+		winPos.add(new Position(7, 7));
+		
+		return winPos;
 	}
 }

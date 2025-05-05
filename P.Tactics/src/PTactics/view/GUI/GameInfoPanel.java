@@ -33,6 +33,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	private static final long serialVersionUID = 1L;
 	private TutorialWindow tw;
 	public ControllerInterface _ctrl;
+	private GameWindow _gw;
 	private JLabel playerTurnText;
 	private JPanel turnPanel;
 	private JButton _exit;
@@ -45,6 +46,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	public GameInfoPanel(ControllerInterface ctrl, GameWindow gw) {
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
+		_gw = gw;
 		tw = new TutorialWindow();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
@@ -129,13 +131,6 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		_endTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_ctrl.nextTurn();
-				if (_ctrl.isFinish()) {
-					gw.showWinMessage(_ctrl.getCurrentPlayerName() );
-					gw.GetGameWindow().getContentPane().removeAll();
-					gw.GetGameWindow().revalidate();
-					gw.GetGameWindow().repaint();
-					new MainWindow((Controller) _ctrl); 
-				}
 			}
 		});
 		gameInfoButtons.add(_endTurn);
@@ -146,7 +141,6 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		_instructions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tw.setVisible(true);
-				System.out.println("IM ENABLED");
 			}
 		});
 		gameInfoButtons.add(_instructions);
@@ -230,7 +224,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	@Override
 	public void onNextTurn(Game game) {
 		String playerText = "<html> Player: [" + _ctrl.getCurrentPlayerName() + "] turn <br>";
-		if (_ctrl.getCurrentPlayerWinZone() < Board.getInstance().pointsToWin() && _ctrl.getCurrentPlayerWinZone() != 0) {
+		if (_ctrl.getCurrentPlayerWinZone() > 0 && _ctrl.getCurrentPlayerWinZone() != Board._POINTSTOWIN) {
 			playerText += "Points to win: " + _ctrl.getCurrentPlayerWinZone();
 		}
 		else if (_ctrl.getCurrentPlayerWinZone() <= 0) {
@@ -246,6 +240,14 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		
 		else {
 			SwingUtilities.invokeLater(() -> enableAll());
+		}
+		
+		if (_ctrl.isFinish()) {
+			_gw.showWinMessage(_ctrl.getCurrentPlayerName() );
+			_gw.GetGameWindow().getContentPane().removeAll();
+			_gw.GetGameWindow().revalidate();
+			_gw.GetGameWindow().repaint();
+			new MainWindow((Controller) _ctrl); 
 		}
 	}
 
