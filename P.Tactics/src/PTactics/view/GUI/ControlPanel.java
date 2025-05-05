@@ -198,14 +198,12 @@ public class ControlPanel extends JPanel implements GameObserver {
 	}
 
 	private void enableAll() {
-		System.out.println("CONTROL ENABLED");
 		moveButton.setEnabled(true);
 		aimButton.setEnabled(true);
 		abilityButton.setEnabled(true);
 	}
 
 	private void disableAll() {
-		System.out.println("CONTROL DISABLED");
 		moveButton.setEnabled(false);
 		aimButton.setEnabled(false);
 		abilityButton.setEnabled(false);
