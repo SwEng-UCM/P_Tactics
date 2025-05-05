@@ -188,7 +188,7 @@ public class OnlineGame {
 		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
 				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
 			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-					Controller.tileSize, 4));
+					Controller.tileSize, 4),Board.getInstance().toIcon(p).toString());
 		}
 		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
 			return Icons.TroopIcons.DEAD;
@@ -204,10 +204,10 @@ public class OnlineGame {
 				if (Board.getInstance().getGameObject(p) != null
 						&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
 					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-							Controller.tileSize, 4));
+							Controller.tileSize, 4), Board.getInstance().toIcon(p).toString());
 				}
 				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-						Controller.tileSize, 4));
+						Controller.tileSize, 4), Board.getInstance().toIcon(p).toString());
 			}
 		}
 		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
@@ -216,7 +216,7 @@ public class OnlineGame {
 			}
 		}
 		return new ImageIcon(
-				Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
+				Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4),Icons.otherIcons.FOG.toString());
 	}
 
 	// Observers

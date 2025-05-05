@@ -30,7 +30,7 @@ public class ClientHandler implements Runnable { //done with the help of chatGPT
             while ((input = in.readLine()) != null) {
                 messageQueue.put(new GameMessage(this, input));
             }
-            messageQueue.put(new GameMessage(this, "disconnected"));
+            
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             try {
@@ -41,6 +41,15 @@ public class ClientHandler implements Runnable { //done with the help of chatGPT
         }
 		
 	}
-	
+	public void disconnect() {
+		try {
+			messageQueue.put(new GameMessage(this, "disconnected"));
+			in.close();
+			out.close();
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

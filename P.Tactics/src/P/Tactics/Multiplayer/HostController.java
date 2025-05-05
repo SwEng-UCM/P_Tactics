@@ -1,6 +1,7 @@
 package P.Tactics.Multiplayer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -8,6 +9,7 @@ import java.util.function.Consumer;
 
 import javax.swing.Icon;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -146,6 +148,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				} // blocks until there's a message
 	
 			}
+			try {
+				server.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}).start();
 	}
 	
@@ -157,7 +165,48 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        case "nextTurn":
 	            this.nextTurn();  // Call your logic
 	            break;
-
+	        case "getIcon":
+	        	this.getIcon(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
+	        case "executeCommand":
+	        	String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);	        
+	        	this.executeCommand(args);
+	        case "getCurrentPlayerName":
+	        	this.getCurrentPlayerName();
+	        	break;
+	        case "update":
+	        	this.update();
+	        	break;
+	        case "updatePlayers":
+	        	this.updatePlayers();
+	        	break;
+	        case "getNumPlayer":
+	        	this.getNumPlayer();
+	        	break;
+	        case "isTroopSelected":
+	        	this.isTroopSelected();
+	        	break;
+	        case"canMove":     	
+	        	this.canMove(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
+	        case"isTroop":
+	        	this.isTroop(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
+	        case"dangerTile":
+	        	this.dangerTile(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
+	        case"getPath":
+	        	this.getPath(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
+	        case"hoverPath":
+	        	this.hoverPath(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
+	        case"getCurrentTroopInfo":
+	        	this.getCurrentTroopInfo();
+	        	break;
+	        case"onDeadTroopSelected":
+	        	this.onDeadTroopSelected();
+	        	break;
 	    }
 	}
 
@@ -195,8 +244,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public Icon getIcon(Position _pos) {
-		// TODO Auto-generated method stub
-		return null;
+		String direction = _game.positionToIcon(_pos).toString();
+		if(online) currentClient.handler.sendMessage(direction);
+		return _game.positionToIcon(_pos);
 	}
 
 
@@ -294,12 +344,13 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	
 	@Override
 	public int getCurrentPlayerWinZone() {
+		if(online)currentClient.handler.sendMessage(String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
 		return Board.getInstance().pointsToWin() - currentClient.player.winPoints();
 	}
 	
 	public String getCurrentPlayerName() {
-		return currentClient.player.getId();
-		
+		if (online) currentClient.handler.sendMessage(currentClient.player.getId());
+		return currentClient.player.getId();	
 	}
 	
 
@@ -373,10 +424,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public boolean isTroopSelected() {
+		if (online) currentClient.handler.sendMessage(_game.isTroopSelected()? "true" : "false");
 		return _game.isTroopSelected();
 	}
 
 	public boolean canMove(Position pos) {
+		if (online) currentClient.handler.sendMessage(_game.canMove(pos)? "true" : "false");
 		return _game.canMove(pos);
 	}
 
@@ -393,6 +446,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public Boolean isTroop(Position pos) {
+		if (online) currentClient.handler.sendMessage(_game.isTroop(pos)? "true" : "false");
 		return this._game.isTroop(pos);
 	}
 
@@ -405,15 +459,36 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public boolean dangerTile(Position pos) {
+		if (online)currentClient.handler.sendMessage(_game.dangerTile(pos)? "true" : "false");
 		return _game.dangerTile(pos);
 	}
 
 	@Override
-	public List<Position> getPath(Position pos) {
+	public List<Position> getPath(Position pos) { //sending a JSON array through the socket because it was revealed to me in a dream
+		if(online) {
+			JSONArray positionsArray = new JSONArray();
+			for (Position p : _game.getPath(pos)) {
+			    JSONObject posObj = new JSONObject();
+			    posObj.put("x", p.getX());
+			    posObj.put("y", p.getY());
+			    positionsArray.put(posObj);
+			}
+			currentClient.handler.sendMessage(positionsArray.toString());
+		}
 		return _game.getPath(pos);
 	}
 
 	public List<Position> hoverPath(Position pos) {
+		if(online) {
+			JSONArray positionsArray = new JSONArray();
+			for (Position p : _game.hoverPath(pos)) {
+			    JSONObject posObj = new JSONObject();
+			    posObj.put("x", p.getX());
+			    posObj.put("y", p.getY());
+			    positionsArray.put(posObj);
+			}
+			currentClient.handler.sendMessage(positionsArray.toString());
+		}
 		return _game.hoverPath(pos);
 	}
 	
@@ -462,7 +537,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		return this._clients.get(idx - 1).player;
 	}
 	public TroopInfo getCurrentTroopInfo(){
-		return new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft());
+		TroopInfo info = new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft());
+		if(online) currentClient.handler.sendMessage(info.report().toString());
+		return info;
 	}
 	public void onDeadTroopSelected() {
 		_game.onDeadTroopSelected();

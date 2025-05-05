@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import org.json.JSONTokener;
 import P.Tactics.CPU.EasyCPU;
 import P.Tactics.CPU.HardCPU;
 import P.Tactics.CPU.MediumCPU;
+import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.TroopInfo;
 import PTactics.control.maps.MapSelector;
@@ -28,7 +30,7 @@ import PTactics.utils.GameObjectCreator;
 import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GameObserver;
-
+import PTactics.view.GUI.Icons;
 
 import java.net.*; 
 import java.io.*;
@@ -74,21 +76,41 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		    try {
 		        String msg;
 		        while ((msg = in.readLine()) != null) {
-		            if (msg.equals("yourTurn")) {
-		                isMyTurn = true;
-
-		            } 
-		            else if (msg.equals("noTurn")) {//a bit redundant but just in case
-		                isMyTurn = false;
-
-		            } 
-		            else if (msg.equals("isFinish")) {
-		                isFinish = true;
-
-		            }
-		            else {
-		                responseQueue.offer(msg); // for methods waiting on responses
-		            }
+		        	switch (msg) {
+			            case "yourTurn":
+			                isMyTurn = true;
+			                break;
+	
+			            case "noTurn":
+			                isMyTurn = false;
+			                break;
+	
+			            case "isFinish":
+			                isFinish = true;
+			                break;
+			            
+			             case "updateOnPlayersUpdate":
+			            	 updateOnPlayersUpdate();
+			            	 break;
+					     case "updateOnBoardUpdate":
+						     updateOnBoardUpdate();
+						     break;
+	 					 case "updateOnTroopAction":
+	 						 updateOnTroopAction();
+	 						 break;
+						 case "updateOnTroopSelection":
+							 updateOnTroopSelection();
+							 break;
+						 case "updateOnNextTurn":
+							 updateOnNextTurn();
+							 break;
+						 case "updateOnTroopUnSelection":
+							 updateOnTroopUnSelection();
+							 break;
+			            default:
+			                responseQueue.offer(msg); // for methods waiting on responses
+			                break;
+		        	}
 		        }
 		    } catch (IOException e) {
 		        e.printStackTrace();
@@ -128,9 +150,6 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return isFinish;
 	}
 	
-
-
-
 	public void nextTurn() {
 		out.println("nextTurn");
 		isMyTurn = false;
@@ -204,8 +223,18 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	
 	@Override
 	public Icon getIcon(Position _pos) { //-----------------------------------------------------------D
-		//communicate in
-		return null;
+		out.println("getIcon"+ _pos.getX() + " " + _pos.getY());
+		try {
+			String line = responseQueue.take();
+			if(line != "Icons/Dead.png")
+				return new ImageIcon(new ImageIcon(line).getImage().getScaledInstance(Controller.tileSize,
+					Controller.tileSize, 4));
+			
+			return Icons.TroopIcons.DEAD;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public void addObserver(GameObserver o) {
@@ -432,8 +461,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public void onDeadTroopSelected() {
-		//na
-		
+		out.println("onDeadTroopSelected");
 	}
 
 	@Override

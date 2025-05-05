@@ -353,6 +353,7 @@ public class MainWindow extends JFrame {
 			getContentPane().removeAll();
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 			new GameWindow(_ctrl, this);
+			System.out.println("GameWindow constructed and added.");
 			revalidate();
 			repaint();
 			setExtendedState(JFrame.MAXIMIZED_BOTH);

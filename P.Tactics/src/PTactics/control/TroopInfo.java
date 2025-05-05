@@ -2,6 +2,8 @@ package PTactics.control;
 
 import java.awt.event.MouseEvent;
 
+import org.json.JSONObject;
+
 import PTactics.utils.Position;
 
 public class TroopInfo {
@@ -30,6 +32,16 @@ public class TroopInfo {
 	public int abilityUsesLeft() {
 		// TODO Auto-generated method stub
 		return abilityLeft;
+	}
+	
+	public JSONObject report() {
+	    JSONObject obj = new JSONObject();
+	    obj.put("ID", this.ID);
+	    obj.put("x", this.pos.getX());
+	    obj.put("y", this.pos.getY());
+	    obj.put("movesLeft", this.movesLeft);
+	    obj.put("abilitiesLeft", this.abilityLeft);
+	    return obj;
 	}
 
 }
