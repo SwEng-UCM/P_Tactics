@@ -24,7 +24,7 @@ public class TutorialWindow extends JDialog {
 		setTitle("HOLDFIRE");
 		setVisible(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setSize(800, 600);
+		setSize(950, 600);
 		setLocationRelativeTo(null);		// to center
         
         JPanel contentPanel = new JPanel();
@@ -36,46 +36,72 @@ public class TutorialWindow extends JDialog {
         contentPanel.add(createHeaderWelcomeLabel("WELCOME TO HOLDFIRE INSTRUCTIONS"));
         contentPanel.add(Box.createVerticalStrut(5));
         
-        // header
+        // header game explanation
+        contentPanel.add(createHeaderLabel("GAME EXPLANATION"));
+        
+        // game description
+        contentPanel.add(createSection(
+        		"Game description:",
+        		"HOLDFIRE is a turn-based tactics game that wants the player to estrategize and use its troops to their",
+        		"full extent. With military-inspired ambientation and loads of game modes to try out.",
+        		null
+        ));
+        
+        // game objective
+        contentPanel.add(createSection(
+        		"Game objective:",
+        		"The objective of the game is twofold: you can eliminate all of the enemy troops or you can capture the",
+        		"site highlighted in the map. If you complete either objective you will win the battle.",
+        		null
+        ));
+        
+        contentPanel.add(createSection(
+        		"Turn description:",
+        		"In a turn of HOLDFIRE you can do several things with each of your troops; you can move them to a different",
+        		"place, make them aim for the kill or make them use their special ability, unique to each troop type",
+        		null
+        ));
+        
+        // header controls
         contentPanel.add(createHeaderLabel("CONTROLS"));
 
-        // select command
+        // troop selection
         contentPanel.add(createSection(
-        		"Select command:",
-        		" -Shortcut: none",
-				" -Description: Left click on an ally troop to select said troop.",
+        		"Troop selection:",
+        		"In order to play you must command your troops to victory. To do that you simply must click on any of",
+				"your troops and they will be ready for combat.",
 				null
         ));
         
         // move command
         contentPanel.add(createSection(
-				"Move command:",
-				" -Shortcut: m",
-				" -Description: Shows the path the selected troop will take and executes when destination is selected.",
+				"Moving troops:",
+				"You can move a selected troop by pressing 'm' on the keyboard or by clicking on the button in the screen.",
+				"Each troop can move a limited amount of tiles per turn and the path they'd take will appear on the screen.",
 				"Icons/move_icon.png"
 		));
         
         // aim command
         contentPanel.add(createSection(
-				"Aim:",
-				" -Shortcut: a",
-				" -Description: Press to enter aiming mode and select a board cell to aim in that direction",
+				"Aiming with troops:",
+				"you can aim with a troop by pressing 'a' on the keyboard or by clicking on the button in the screen.",
+				"Troops can aim up, down, left and right and each type has a different range in which they will be lethal.",
 				"Icons/aim_icon.png"
 		));
         
         // ability command
         contentPanel.add(createSection(
-				"Ability:",
-				" -Shortcut: b",
-				" -Description: Press to enter ability mode, then select a cell to deploy the ability in.",
+				"Using abilities with troops:",
+				"you can use an ability with a troop by pressing 'b' on the keyboard or by clicking on the button in the screen.",
+				"Each troop has its own unique ability, all with limited uses. Make sure to use them to the best of your ability.",
 				"Icons/ability_icon.png"
 		));
         
         // endTurn command
         contentPanel.add(createSection(
-				"End Turn:",
-				" -No shortcut",
-				" -Gives control of the board to the next player.",
+				"Ending Turn:",
+				"Once you have done everything you needed to do in your turn is time to let your rivals play. To do that just",
+				"press the button on the screen.",
 				"Icons/endTurn_icon.png"
 		));
         
@@ -84,19 +110,19 @@ public class TutorialWindow extends JDialog {
         
         contentPanel.add(createTroopInfo(
 				"LightTroop (dash):",
-				" -Description: Advance 3 blocks in an invulnerable state",
+				"This high speed troop can become invulnerable with a swift dash in combat. Ideal for untangling difficult situations.",
 				"Icons/LightTroop_down.png"
 		));
 
 		contentPanel.add(createTroopInfo(
 				"Sniper (drone):",
-				" -Description: Deploy a 3x3 visibility zone",
+				"Not only can they use their absolute range sniper to decimate the enemy from afar but they control the board with their drones.",
 				"Icons/sniper_down.png"
 		));
 
 		contentPanel.add(createTroopInfo(
 				"Smoker (smoke):",
-				" -Description: Deploy a 3x3 smoke zone",
+				"Do you want to move safely and unspotted? create a diversion? just annoy the rivals? if so, the smokes are the perfect tool.",
 				"Icons/Smoker_down.png"
 		));
 		
