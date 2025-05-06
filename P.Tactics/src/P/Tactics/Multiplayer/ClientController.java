@@ -392,6 +392,15 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	public void setPlayerNames(List<String> names) {
 		//na
 	}
+	
+	public void setMap(int i) { 
+		//na
+	}
+	
+	public void createGame() {
+		//na
+	}
+	
 	@Override
 	public void selectTroop(Position pos) throws Exception {
 		//na

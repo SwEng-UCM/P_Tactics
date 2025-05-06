@@ -19,6 +19,9 @@ public class GameWindow {
 	private JPanel _gameWindowFrame;
 	private ControllerInterface _ctrl;
 	private JFrame frame;
+	private GameInfoPanel _gameInfo;
+	private ControlPanel _control;
+	private GameBoardPanel _gameBoard;
 
 	public GameWindow(ControllerInterface ctrl, JFrame frame) {
 		this._ctrl = ctrl;
@@ -41,27 +44,26 @@ public class GameWindow {
 		BackgroundPanel background = new BackgroundPanel(Icons.otherIcons.BG_BUILDING2.getImage());
 		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 		
-		GameInfoPanel gameInfo = new GameInfoPanel(_ctrl, this);
-		ControlPanel control = new ControlPanel(_ctrl);
-		GameBoardPanel gameBoard = new GameBoardPanel(
+		_gameInfo = new GameInfoPanel(_ctrl, this);
+		_control = new ControlPanel(_ctrl);
+		_gameBoard = new GameBoardPanel(
 				PTactics.utils.Position._gameLength, 
-				PTactics.utils.Position._gameWidth, _ctrl, control);
-
+				PTactics.utils.Position._gameWidth, _ctrl, _control);
 		// board is smaller
 		Dimension boardSize = new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize);
-		gameBoard.setMaximumSize(boardSize);
-		gameBoard.setMinimumSize(boardSize);
+		_gameBoard.setMaximumSize(boardSize);
+		_gameBoard.setMinimumSize(boardSize);
 		
-		gameInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
-		gameBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
-		control.setAlignmentX(Component.CENTER_ALIGNMENT);
+		_gameInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		_gameBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
+		_control.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		background.add(Box.createRigidArea(new Dimension(0, 10)));
-		background.add(gameInfo);
+		background.add(_gameInfo);
 		background.add(Box.createRigidArea(new Dimension(0, 10)));
-		background.add(gameBoard);
+		background.add(_gameBoard);
 		background.add(Box.createRigidArea(new Dimension(0, 10)));
-		background.add(control);
+		background.add(_control);
 		
 		frame.getContentPane().removeAll();
 		frame.setContentPane(background);
@@ -73,5 +75,11 @@ public class GameWindow {
 
 	public void showWinMessage(String player) {
 		JOptionPane.showMessageDialog(_gameWindowFrame, "Player " + player + " won the game.");
+	}
+
+	public void removeObservers() {
+		_gameInfo.removeObserver();
+		_control.removeObserver();
+		_gameBoard.removeObserver();
 	}
 }

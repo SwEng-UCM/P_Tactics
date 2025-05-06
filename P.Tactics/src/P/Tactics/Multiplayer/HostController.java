@@ -334,6 +334,14 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		//na
 	}
 	
+	public void setMap(int i) { 
+		mapSelected = i + 1;
+	}
+	
+	public void createGame() {
+		_game = new OnlineGame(this);
+	}
+	
 	public List<String> getPlayerNames(){
 		List<String> _playerNames = new ArrayList<>();
 		for(Client c: _clients) {

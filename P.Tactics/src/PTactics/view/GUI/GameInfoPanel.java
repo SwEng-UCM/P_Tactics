@@ -93,6 +93,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 						JOptionPane.YES_NO_OPTION);
 				if(confirm == JOptionPane.YES_NO_OPTION) {
 					gw.GetGameWindow().setVisible(false);
+					gw.removeObservers();
 					gw.GetGameWindow().dispose();
 					new MainWindow((Controller) _ctrl);
 				}
@@ -276,5 +277,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	@Override
 	public void onTroopUnSelection(Game game) {
 		// TODO Auto-generated method stub
+	}
+
+	public void removeObserver() {
+		_ctrl.removeObserver(this);
 	}
 }

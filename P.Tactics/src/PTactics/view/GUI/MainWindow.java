@@ -40,6 +40,7 @@ import P.Tactics.Multiplayer.ClientController;
 import P.Tactics.Multiplayer.HostController;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
+import PTactics.model.game.Board;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons.otherIcons;
 
@@ -144,7 +145,33 @@ public class MainWindow extends JFrame {
 				} while (name.trim().isEmpty());
 				names[i] = name.trim();
 			}
-
+			
+			if (numPlayers == 2) {
+				String[] startOptions = {"Map 1","Map 2"};
+				
+				int answer = JOptionPane.showOptionDialog(
+						null, 
+						"Map Selection", 
+						"Select a map", 
+						JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.QUESTION_MESSAGE, 
+						_icon, 
+						startOptions, 
+						null);
+				if (answer == 0) {
+					_ctrl.setMap(0);
+				}
+				else if (answer == 1) {
+					_ctrl.setMap(1); //this is kinda weird but since we are not expanding it its fine
+				}
+			}
+			
+			else {
+				_ctrl.setMap(0);
+			}
+			
+			Board.getInstance().eraseAll();
+			_ctrl.createGame();
 			_ctrl.setPlayerNames(Arrays.asList(names));
 			_ctrl.setupPlayers();
 			swapToGameWindow();
@@ -216,6 +243,32 @@ public class MainWindow extends JFrame {
 
 		        if (result == JOptionPane.OK_OPTION) {
 		            int numPlayers = (Integer) spinner.getValue();
+		            
+		            if (numPlayers == 2) {
+						String[] startOptions = {"Map 1","Map 2"};
+						
+						int answer = JOptionPane.showOptionDialog(
+								null, 
+								"Map Selection", 
+								"Select a map", 
+								JOptionPane.DEFAULT_OPTION, 
+								JOptionPane.QUESTION_MESSAGE, 
+								_icon, 
+								startOptions, 
+								null);
+						
+						if (answer == 0) {
+							_ctrl.setMap(0);
+						}
+						else if (answer == 1) {
+							_ctrl.setMap(1); //this is kinda weird but since we are not expanding it its fine
+						}
+					}
+		            
+		            else {		            
+		            	_ctrl.setMap(0);
+		            }
+		            
 		            System.out.println("Hosting game on port " + port + " for " + numPlayers + " players.");
 		            
 		            JDialog waitingDialog = new JDialog(this, "Waiting for players...", false);
@@ -234,6 +287,9 @@ public class MainWindow extends JFrame {
 			                    statusLabel.setText("Waiting for " + connectedCount  + " of " + numPlayers + " players...");
 			                      if (connectedCount >= numPlayers) {
 			                            waitingDialog.dispose(); // All players connected
+			                            Board.getInstance().eraseAll();
+			                            Board.getInstance();
+			                            _ctrl.createGame();
 			                            swapToGameWindow();
 			                    }
 			                });
@@ -298,11 +354,33 @@ public class MainWindow extends JFrame {
 					difficulties,
 					difficulties[0]
 			);
+
+			String[] startOptions = {"Map 1","Map 2"};
+			
+			int answer = JOptionPane.showOptionDialog(
+					null, 
+					"Map Selection", 
+					"Select a map", 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.QUESTION_MESSAGE, 
+					_icon, 
+					startOptions, 
+					null);
+			
+			if (answer == 0) {
+				_ctrl.setMap(0);
+			}
+			else if (answer == 1) {
+				_ctrl.setMap(1); //this is kinda weird but since we are not expanding it its fine
+			}
 			
 			if(levelDifficulty != -1) {
 				List<String> playerNames= new ArrayList<>();
 				playerNames.add(playerName);
 				playerNames.add("CPU");
+				Board.getInstance().eraseAll();
+                Board.getInstance();
+				_ctrl.createGame();
 				_ctrl.setPlayerNames(playerNames);
 				_ctrl.setPlayerNum(2);		// realPlayer + CPU
 				_ctrl.setUpPlayerVsCPU(levelDifficulty);
@@ -353,7 +431,6 @@ public class MainWindow extends JFrame {
 			getContentPane().removeAll();
 			getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 			new GameWindow(_ctrl, this);
-			System.out.println("GameWindow constructed and added.");
 			revalidate();
 			repaint();
 			setExtendedState(JFrame.MAXIMIZED_BOTH);

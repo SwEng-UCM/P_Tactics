@@ -35,7 +35,6 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	private List<GameObserver> _observers;
 	
 	public Controller() {
-		_game = new Game(this);
 		_endTurn = false;
 		_observers = new ArrayList<>();
 	}
@@ -50,6 +49,14 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 
 	public void setPlayerNames(List<String> names) {
 		_playerNames = names;
+	}
+	
+	public void setMap(int i) { 
+		mapSelected = i + 1;
+	}
+	
+	public void createGame() {
+		_game = new Game(this);
 	}
 	
 	public List<String> getPlayerNames(){

@@ -107,4 +107,8 @@ public interface ControllerInterface {
 	public List<Position> getEnemyTroops();
 	public boolean isOnline();
 	public boolean isMyTurn();
+
+	void setMap(int i);
+
+	void createGame();
 }

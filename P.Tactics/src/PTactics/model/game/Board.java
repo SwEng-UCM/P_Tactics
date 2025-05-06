@@ -126,6 +126,11 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 			throw new IllegalArgumentException("Position not found in board");
 		this.remove(p);
 	}
+	
+	public void eraseAll() {
+		_board.clear();
+		_board = null;
+	}
 
 	@Override
 	public void eraseFromGO(GameObject o) {

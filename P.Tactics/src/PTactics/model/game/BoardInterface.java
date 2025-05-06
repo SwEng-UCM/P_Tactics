@@ -19,6 +19,7 @@ public interface BoardInterface {
 	public void addSmoke(Position pos);
 	public void setPosition(Position p1, Position p2, GameObject o);
 	public void eraseFromPos(Position p); 
+	public void eraseAll();
 	public void eraseFromGO(GameObject o); 
 	public void eraseSmoke(Position _abilityPos);
 	public void update();

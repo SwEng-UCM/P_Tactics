@@ -218,4 +218,8 @@ public class ControlPanel extends JPanel implements GameObserver {
 	public void resetControlSelection() {
 		toggleGroup.clearSelection();
 	}
+
+	public void removeObserver() {
+		_cntr.removeObserver(this);
+	}
 }

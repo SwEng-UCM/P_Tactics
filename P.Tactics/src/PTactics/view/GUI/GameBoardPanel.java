@@ -95,7 +95,6 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		_onlinePanel.setOpaque(false);
 		_onlinePanel.add(_onlineText, BorderLayout.CENTER);
 		_CPUPanel.setPreferredSize(new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize));
-    	
 		
 		_boardPanel = new JPanel();
 		_buttons = new JButton[height][width];
@@ -105,7 +104,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		        	Position pos= new Position(col,row);
 		            GameBoardCell btn = new GameBoardCell(pos,this._cntr);
 		            _buttons[col][row] = btn;
-		            
+
 		            btn.addMouseListener(new BasicButtonListener(btn) {
 		            	public void mouseEntered(MouseEvent e) {
 		            		if (_cPanel.getControlSelection() == 0) {
@@ -303,5 +302,9 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 	public void onTroopUnSelection(Game game) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void removeObserver() {
+		_cntr.removeObserver(this);
 	}
 }
