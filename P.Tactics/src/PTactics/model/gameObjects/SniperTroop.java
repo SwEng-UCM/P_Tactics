@@ -150,6 +150,7 @@ public class SniperTroop extends Troop {
 		}
 	}
 	
+	@Override
 	public void activateAbility(Position pos) {
 		_abilityActive = true;
 		_abilityUses--;
@@ -178,11 +179,10 @@ public class SniperTroop extends Troop {
 	
 	@Override
 	public void undoAbility(Position _abilityPos) {
-		deactivateAbility();
-		_droneArea.clear();
-		for (int i = 0; i < _droneArea.size(); i++) {
-			_abilityTime.set(i, _abilityTime.get(i) + 1);
-		}
+		super.undoAbility(_abilityPos);
+		_droneArea.removeLast();
+		_abilityTime.removeLast();
+		_abilityTime.addLast(3);
 	}
 	
 	public String toString() {

@@ -133,7 +133,7 @@ public class MoveCommand extends ReportCommand {
 		@Override
 		public void executeAgain() {
 			_ctrl.selectTroop(_troopUsed);
-			String[] s = {_commandId, String.valueOf(_finalPos.getX() +1), String.valueOf(_finalPos.getY()+1) };
+			String[] s = {_commandId, String.valueOf(_finalPos.getY() +1), String.valueOf(_finalPos.getX()+1) };
 			Command c = CommandGenerator.parse(s);
 			c.execute(_ctrl);
 			_ctrl.updatePlayers();

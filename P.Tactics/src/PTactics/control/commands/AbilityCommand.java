@@ -8,6 +8,7 @@ import PTactics.utils.Utils;
 public class AbilityCommand extends ReportCommand {
 	private int _posX;
 	private int _posY;
+	
 	public AbilityCommand() {
 		super(Utils.CommandInfo.COMMAND_ABILITY_NAME, Utils.CommandInfo.COMMAND_ABILITY_SHORTCUT, Utils.CommandInfo.COMMAND_ABILITY_DETAILS, Utils.CommandInfo.COMMAND_ABILITY_HELP);
 	}
@@ -75,7 +76,7 @@ public class AbilityCommand extends ReportCommand {
 		@Override
 		public void executeAgain() {
 			_ctrl.selectTroop(_troopUsed);
-			String[] s = {_commandId, String.valueOf(_abilityPos.getX()+1), String.valueOf(_abilityPos.getY()+1) };
+			String[] s = {_commandId, String.valueOf(_abilityPos.getY()+1), String.valueOf(_abilityPos.getX()+1) };
 			Command c = CommandGenerator.parse(s);
 			c.execute(_ctrl);
 //			_ctrl.updatePlayers();

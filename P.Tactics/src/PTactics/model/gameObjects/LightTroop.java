@@ -111,8 +111,8 @@ public class LightTroop extends Troop {
 
 	@Override
 	public void undoAbility(Position _abilityPos) {
+		super.undoAbility(_abilityPos);
 		_iFrames = 0;
-		_abilityUses++;
 	}
 
 	@Override

@@ -15,6 +15,8 @@ public class ControllerConsole extends Controller {
 	private GameConsoleView _gameView;
 
 	public ControllerConsole() {
+		super();
+		createGame();
 		initConsole();
 		runConsole();
 	}
@@ -40,7 +42,7 @@ public class ControllerConsole extends Controller {
 
 	public void initConsole() {
 		boolean correct = false;
-		this._gameView = new GameConsoleView(_game);
+		this._gameView = new GameConsoleView(this);
 		_gameView.showMessage(Utils.MessageUtils.WELCOME_MSG);
 		_gameView.showMessage(Utils.MessageUtils.ASK_NUMBER_PLAYERS);
 		while (!correct) {

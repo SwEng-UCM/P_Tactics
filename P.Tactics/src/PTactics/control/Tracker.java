@@ -11,11 +11,9 @@ public class Tracker implements GameObserver {
 //	private Stack<Snapshot> _allActions;	In case we want to have the entire game stored
 	private Stack<Snapshot> _actionGame;
 	private Stack<Snapshot> _redoStack;
-	private ControllerInterface _ctrl;
 	
-	private Tracker(ControllerInterface CI) {
-		_ctrl = CI;
-		_ctrl.addObserver(this);
+	private Tracker(ControllerInterface CI) {	
+		CI.addObserver(this);
 		_actionGame = new Stack<>();
 //		_allActions = new Stack<>();
 		_redoStack = new Stack<>();
@@ -30,7 +28,6 @@ public class Tracker implements GameObserver {
 	}
 	
 	public void saveAction(Snapshot snap) {
-		_redoStack.clear();
 //		_allActions.add(Snap);
 		_actionGame.add(snap);
 	}

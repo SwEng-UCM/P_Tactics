@@ -71,7 +71,7 @@ public class SmokerTroop extends Troop {
 
 	@Override
 	public void undoAbility(Position _abilityPos) {
-		_abilityUses++;
+		super.undoAbility(_abilityPos);
 		Board.getInstance().eraseSmoke(_abilityPos);
 	}
 	

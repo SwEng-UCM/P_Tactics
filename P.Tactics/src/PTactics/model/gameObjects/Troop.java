@@ -280,7 +280,11 @@ public abstract class Troop extends GameObject {
 	public void revive() {
 		this.alive = true;
 	}
-
+	
+	public void undoAbility(Position _abilityPos) {
+		_abilityUses++;
+	}
+	
 	public void setMovesLeft(int ml) {
 		if (ml > this._moveRange) {
 			throw new IllegalArgumentException("The new moves left cannot be larger than moveRange");
@@ -303,8 +307,6 @@ public abstract class Troop extends GameObject {
 	public abstract void nextTurn();
 
 	public abstract void deactivateAbility();
-
-	public abstract void undoAbility(Position _abilityPos);
 
 	// ------------------ TO STRING ------------------//
 	@Override

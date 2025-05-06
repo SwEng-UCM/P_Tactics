@@ -7,7 +7,7 @@ import PTactics.utils.Position;
 
 
 public class DangerMediator {
-	List<DangerObject> _objects;
+	private List<DangerObject> _objects;
 	
 	public DangerMediator() {
 		_objects = new ArrayList<>();
