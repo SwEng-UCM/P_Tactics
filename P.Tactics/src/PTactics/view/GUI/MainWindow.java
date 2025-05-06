@@ -52,7 +52,7 @@ public class MainWindow extends JFrame {
 	private String[] _buttonTexts = { "START", "CONTINUE", "ONLINE", "PLAY VS CPU", "EXIT"};
 	private JPanel _buttonPanel;
 	private ImageIcon _icon;
-	public MainWindow(Controller ctrl) {
+	public MainWindow(ControllerInterface ctrl) {
 		_ctrl = ctrl;
 		initGUI();
 	}
@@ -288,13 +288,12 @@ public class MainWindow extends JFrame {
 			                      if (connectedCount >= numPlayers) {
 			                            waitingDialog.dispose(); // All players connected
 			                            Board.getInstance().eraseAll();
-			                            Board.getInstance();
 			                            _ctrl.createGame();
 			                            swapToGameWindow();
 			                    }
 			                });
 		            	});
-		            	
+		            	_ctrl.logPlayers();
 		            }).start();
 		            
 		        }

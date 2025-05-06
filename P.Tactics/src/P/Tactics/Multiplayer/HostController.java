@@ -50,9 +50,11 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	volatile int currClientIndex;
 	boolean online;
 	protected List<String> _playerNames;
+	Consumer<Integer> onPlayerConnected;
 	// constructor that takes the IP Address and the Port
 	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
 	{ 
+		this.onPlayerConnected = onPlayerConnected;
 		online = false;
 		_numPlayers = numPlayers;
 		currClientIndex = 0;
@@ -73,62 +75,74 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			
 
 			
-			if (onPlayerConnected != null) {
-                onPlayerConnected.accept(connected);
+			if (this.onPlayerConnected != null) {
+                this.onPlayerConnected.accept(connected);
             }
 			DangerMediator dangerMediatorh = new DangerMediator(); // add host to the list of clients with null handler
             Player ph = new Player(Integer.toString(connected), dangerMediatorh);
             _clients.add(new Client(ph, null));
             _playerNames.add(name);
             currentClient = _clients.get(currClientIndex);
-			while (connected < numPlayers) { // will keep going until all players are connected (except host)
-					
-				Socket clientSocket = server.accept(); // Accept immediately
-			    System.out.println("Client connected: " + clientSocket.getInetAddress());
-
-			    // Hand off the rest to a separate thread
-
-	            connected++;
-			    new Thread(() -> {
-			        try {
-			            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-			            String playerID = in.readLine(); 
-			            DangerMediator dangerMediator = new DangerMediator();
-			            Player p = new Player(Integer.toString(connected), dangerMediator);
-
-			            synchronized (Board.getInstance()) {
-			                for (Troop t : MapSelector.getTroops(p)) {
-			                    Board.getInstance().addObj(t.getPos(), t);
-			                }
-			            }
-
-			            ClientHandler handler = new ClientHandler(in, out, messageQueue);
-			            _clients.add(new Client(p, handler));
-			            _playerNames.add(playerID);
-			            new Thread(handler).start();
-
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			        }
-			    }).start();
-
-			     // increment here so we stop after the expected number of players
-			    if (onPlayerConnected != null) {
-	                onPlayerConnected.accept(connected);
-	            }
-	        }
-
-            
-            listen();
 	
-		} 
-		catch(IOException | InterruptedException i) 
+		}
+		catch(IOException i) 
 		{ 
 			System.out.println(i); 
 		} 
 	} 
+	public void logPlayers() {
+		while (connected < _numPlayers) { // will keep going until all players are connected (except host)
+			
+			Socket clientSocket;
+			try {
+				clientSocket = server.accept();
+
+		    System.out.println("Client connected: " + clientSocket.getInetAddress());
+
+		    // Hand off the rest to a separate thread
+
+            connected++;
+		    new Thread(() -> {
+		        try {
+		            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+		            String playerID = in.readLine(); 
+		            DangerMediator dangerMediator = new DangerMediator();
+		            Player p = new Player(Integer.toString(connected), dangerMediator);
+
+		            synchronized (Board.getInstance()) {
+		                for (Troop t : MapSelector.getTroops(p)) {
+		                    Board.getInstance().addObj(t.getPos(), t);
+		                }
+		            }
+
+		            ClientHandler handler = new ClientHandler(in, out, messageQueue);
+		            _clients.add(new Client(p, handler));
+		            _playerNames.add(playerID);
+		            new Thread(handler).start();
+
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		    }).start();
+
+		     // increment here so we stop after the expected number of players
+		    if (onPlayerConnected != null) {
+                onPlayerConnected.accept(connected);
+            }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // Accept immediately
+        }
+		try {
+			listen();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private void listen() throws InterruptedException {
 		new Thread (()->{
 			while (!this.isFinish()) {

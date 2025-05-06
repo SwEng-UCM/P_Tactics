@@ -95,7 +95,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 					gw.GetGameWindow().setVisible(false);
 					gw.removeObservers();
 					gw.GetGameWindow().dispose();
-					new MainWindow((Controller) _ctrl);
+					new MainWindow(_ctrl);
 				}
 			}
 		});

@@ -111,4 +111,5 @@ public interface ControllerInterface {
 	void setMap(int i);
 
 	void createGame();
+	public void logPlayers();
 }

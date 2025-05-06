@@ -484,4 +484,10 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void logPlayers() {
+		// TODO Auto-generated method stub
+		
+	}
 }

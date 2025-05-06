@@ -326,4 +326,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public boolean isMyTurn() {
 		return true;
 	}
+	public void logPlayers() {
+		
+	}
 }
