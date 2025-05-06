@@ -204,8 +204,6 @@ public class MainWindow extends JFrame {
 		
 		// online button
 		_animatedButtons[2].addActionListener(e -> {
-			//JOptionPane.showMessageDialog(this, "ONLINE mode coming soon!");
-//			swapToGameWindow();			// not needed for now
 			Object[] options = {"Host", "Client"};
 		    int choice = JOptionPane.showOptionDialog(
 		        null,
@@ -287,7 +285,6 @@ public class MainWindow extends JFrame {
 			                    statusLabel.setText("Waiting for " + connectedCount  + " of " + numPlayers + " players...");
 			                      if (connectedCount >= numPlayers) {
 			                            waitingDialog.dispose(); // All players connected
-			                            Board.getInstance().eraseAll();
 			                            _ctrl.createGame();
 			                            swapToGameWindow();
 			                    }
@@ -319,8 +316,14 @@ public class MainWindow extends JFrame {
 		         System.out.println("Connecting as " + playerName + " to " + hostIP + ":" + port);
 
 		         // Start client connection
-		        this._ctrl = new ClientController(hostIP, port, playerName);	
-		        swapToGameWindow();
+		         new Thread(() -> {
+		        	 this._ctrl = new ClientController(hostIP, port, playerName, (connected)->{ 
+		        		SwingUtilities.invokeLater(() -> {
+		        			if(connected) swapToGameWindow();
+	                	});
+		        	 });
+		        	_ctrl.logPlayers();
+		        }).start();
 		    }
 		    
 		});

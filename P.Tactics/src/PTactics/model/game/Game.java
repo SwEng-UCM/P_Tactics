@@ -267,41 +267,38 @@ public class Game {
 		return "*";
 	}
 
-	public Icon positionToIcon(Position p) {
-		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
-		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
-				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
-			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-					Controller.tileSize, 4));
-		}
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-			return Icons.TroopIcons.DEAD;
-		}
-		if (visible) {
-			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-				if (_players.get(_currPlayer).lastTurnKill(p)) {
-					return Icons.TroopIcons.DEAD;
-				}
-				return Icons.TroopIcons.DEAD;
-			}
-			if (_players.get(_currPlayer).isVisible(p.getX(), p.getY())) {
-				if (Board.getInstance().getGameObject(p) != null
-						&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
-					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-							Controller.tileSize, 4));
-				}
-				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-						Controller.tileSize, 4));
-			}
-		}
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-			if (_players.get(_currPlayer).lastTurnKill(p)) {
-				return Icons.TroopIcons.DEAD;
-			}
-		}
-		return new ImageIcon(
-				Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4));
-	}
+	//ACTUAL GOOD posToIcon//
+    public Icon positionToIcon(Position p) {
+        boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+
+        //Wall
+        if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
+                && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+            		Position.tileSize, 4));
+        }
+
+        //Troop dead
+        if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+            return Icons.TroopIcons.DEAD;
+        }
+
+        //If visible
+        if (visible) {
+            //Anything visible
+            if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+                return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+                		Position.tileSize, 4));
+            }
+
+            //Just floor
+            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+            		Position.tileSize, 4));
+        }
+
+        //Return fog
+        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
+    }
 
 	// Observers
 	public void addObserver(GameObserver o) {

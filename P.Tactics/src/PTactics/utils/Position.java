@@ -7,7 +7,7 @@ public final  class Position {
 	private final int Y;
 	public static int _gameLength; //both assigned at the start of game creation.
 	public static int _gameWidth;
-	
+	public static int tileSize = 50;
 	public Position (int X, int Y) {
 
 		this.X=X;

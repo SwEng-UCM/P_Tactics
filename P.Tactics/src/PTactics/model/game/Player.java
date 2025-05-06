@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import P.Tactics.CPU.CPUinterface;
+import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
 
@@ -20,11 +21,15 @@ public class Player implements DangerObject{
 	private boolean _turn;
 	private CPUinterface _cpu;
 	private int _winZoneTurns;
+	private int dimX;
+	private int dimY;
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
-		_visibility = new boolean[Game._boardWidth][Game._boardLength];
-		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		dimX=MapSelector.getWidth();
+		dimY=MapSelector.getLength();
+		_visibility = new boolean[dimX][dimY];
+		_danger = new boolean[dimX][dimY];
 		this._troops = new ArrayList<>();
 		_dangerMediator = dm;
 		_dangerMediator.registerComponent(this);
@@ -35,8 +40,8 @@ public class Player implements DangerObject{
 	//constructor for a CPU 
 	public Player(String id, DangerMediator dm, CPUinterface cpu) {
 		this._id = id;
-		_visibility = new boolean[Game._boardWidth][Game._boardLength];
-		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		_visibility = new boolean[dimX][dimY];
+		_danger = new boolean[dimX][dimY];
 		this._troops = new ArrayList<>();
 		_dangerMediator = dm;
 		_dangerMediator.registerComponent(this);
@@ -73,7 +78,7 @@ public class Player implements DangerObject{
 	}
 	
 	private void updatePlayerVisibility() {
-		_visibility = new boolean[Game._boardWidth][Game._boardLength];
+		_visibility = new boolean[dimX][dimY];
 		
 		for (Troop troop : _troops) {
 			List<Position> positions = troop.visiblePositions();
@@ -87,7 +92,7 @@ public class Player implements DangerObject{
 	}
 	
 	private void updatePlayerDangerTiles() {
-		_danger = new boolean[Game._boardWidth][Game._boardLength];
+		_danger = new boolean[dimX][dimY];
 		
 		for (Troop troop : _troops) {
 			List<Position> positions = troop.dangerPositions();

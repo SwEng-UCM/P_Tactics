@@ -29,7 +29,6 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	protected Game _game;
 	protected boolean _endTurn;
 	public static int mapSelected = 1;
-	public static int tileSize = 50;
 	protected int _numPlayers = 0;
 	protected List<String> _playerNames = new ArrayList<>();
 	private List<GameObserver> _observers;
@@ -52,7 +51,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	}
 	
 	public void setMap(int i) { 
-		mapSelected = i + 1;
+		MapSelector.mapSelected = i + 1;
 	}
 	
 	public void createGame() {

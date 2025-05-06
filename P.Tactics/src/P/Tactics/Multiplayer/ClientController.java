@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -40,38 +41,56 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	private Socket socket;
     BufferedReader in;
     PrintWriter out;
+    private String address;
+    private int port;
+    private Consumer<Boolean> connected;
 	private List<GameObserver> _observers;
 	private volatile boolean isMyTurn;
 	private boolean isFinish;
 	private BlockingQueue<String> responseQueue;
 	// constructor that takes the IP Address and the Port
-	public ClientController(String address, int port, String Id) 
+	public ClientController(String address, int port, String Id, Consumer<Boolean> connected) 
 	{ 
+		this.connected = connected;
+		Position._gameLength = MapSelector.getLength();
+		Position._gameWidth = MapSelector.getWidth();
+		this.address = address;
+		this.port = port;
 		responseQueue = new LinkedBlockingQueue<>();
 		isFinish = false;
 		isMyTurn = false;
 		this.Id = Id;
 		_observers = new ArrayList<>();
-		// we try to establish a connection 
-		try
-		{ 
-			// creates a socket with the given information
-			socket = new Socket(address, port); 
-			out = new PrintWriter(socket.getOutputStream(), true); 
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out.println(Id);
-			
-		} 
-		catch(UnknownHostException u) 
-		{ 
-			System.out.println(u); 
-			// error messager in gui
-		} 
-		catch(IOException i) 
-		{ 
-			System.out.println(i); 
-		} 
+
 		
+	} 
+	
+	public void logPlayers() {
+		
+			try
+			{ 
+				// creates a socket with the given information
+				socket = new Socket(address, port); 
+				System.out.println("connected");
+				out = new PrintWriter(socket.getOutputStream(), true); 
+				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				out.println(Id);
+				connected.accept(true);
+				
+			} 
+			catch(UnknownHostException u) 
+			{ 
+				System.out.println(u); 
+				// error messager in gui
+			} 
+			catch(IOException i) 
+			{ 
+				System.out.println(i); 
+			} 
+			listen();
+		
+	}
+	private void listen() {
 		new Thread(() -> {
 		    try {
 		        String msg;
@@ -116,9 +135,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		        e.printStackTrace();
 		    }
 		}).start();
-		
-	} 
-
+	}
 	@Override
 	
 	
@@ -227,8 +244,8 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		try {
 			String line = responseQueue.take();
 			if(line != "Icons/Dead.png")
-				return new ImageIcon(new ImageIcon(line).getImage().getScaledInstance(Controller.tileSize,
-					Controller.tileSize, 4));
+				return new ImageIcon(new ImageIcon(line).getImage().getScaledInstance(Position.tileSize,
+					Position.tileSize, 4));
 			
 			return Icons.TroopIcons.DEAD;
 		} catch (Exception e) {
@@ -485,9 +502,5 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		return null;
 	}
 
-	@Override
-	public void logPlayers() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

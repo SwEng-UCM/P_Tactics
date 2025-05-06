@@ -27,9 +27,9 @@ public class GameBoardCell extends JButton{
 		this.setBorderPainted(true);
 		this._pos=pos;
 		this.setContentAreaFilled(false);
-		this.setPreferredSize(new Dimension(Controller.tileSize, Controller.tileSize));
-		this.setMaximumSize(new Dimension(Controller.tileSize, Controller.tileSize));;
-		this.setMinimumSize(new Dimension(Controller.tileSize, Controller.tileSize));;
+		this.setPreferredSize(new Dimension(Position.tileSize, Position.tileSize));
+		this.setMaximumSize(new Dimension(Position.tileSize, Position.tileSize));;
+		this.setMinimumSize(new Dimension(Position.tileSize, Position.tileSize));;
 		this.setBorderPainted(true);
 	}
 	public Position getPosition() 

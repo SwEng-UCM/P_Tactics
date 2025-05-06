@@ -16,6 +16,7 @@ import PTactics.view.GameObserver;
 
 public interface ControllerInterface {
 
+	
 	void endTurn();
 	
 	public Player getPlayer();

@@ -68,13 +68,13 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), Game._boardLength * Controller.tileSize, this);
+				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), width * Position.tileSize, this);
 			}
 		};
 		
 		String OnlineText = "Other player is moving troops... ";
 
-		_onlineText = new JLabel(CPUText);
+		_onlineText = new JLabel(OnlineText);
 		_onlineText.setFont(new Font("Times New Roman", Font.BOLD, 38));
 		_onlineText.setForeground(Color.orange);
 		_onlineText.setFocusable(false);
@@ -85,7 +85,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), Game._boardLength * Controller.tileSize, this);
+				g.drawImage(Icons.otherIcons.LABELBACKGROUND.getImage(), 0, 0, getWidth(), width * Position.tileSize, this);
 			}
 		};
 		
@@ -94,7 +94,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		_CPUPanel.add(_CPUText, BorderLayout.CENTER);
 		_onlinePanel.setOpaque(false);
 		_onlinePanel.add(_onlineText, BorderLayout.CENTER);
-		_CPUPanel.setPreferredSize(new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize));
+		_CPUPanel.setPreferredSize(new Dimension(height * Position.tileSize, width * Position.tileSize));
 		
 		_boardPanel = new JPanel();
 		_buttons = new JButton[height][width];

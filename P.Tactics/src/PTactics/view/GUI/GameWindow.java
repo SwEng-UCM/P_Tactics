@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Game;
+import PTactics.utils.Position;
 
 public class GameWindow {
 
@@ -50,7 +51,7 @@ public class GameWindow {
 				PTactics.utils.Position._gameLength, 
 				PTactics.utils.Position._gameWidth, _ctrl, _control);
 		// board is smaller
-		Dimension boardSize = new Dimension(Game._boardWidth * Controller.tileSize, Game._boardLength * Controller.tileSize);
+		Dimension boardSize = new Dimension(Position._gameWidth * Position.tileSize, Position._gameLength * Position.tileSize);
 		_gameBoard.setMaximumSize(boardSize);
 		_gameBoard.setMinimumSize(boardSize);
 		

@@ -13,6 +13,7 @@ import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
+import PTactics.model.game.Player;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -34,6 +35,7 @@ public class OnlineGame {
 		OnlineGame._boardLength = MapSelector.getLength();
 		OnlineGame._boardWidth = MapSelector.getWidth();
 		Position._gameLength = MapSelector.getLength();
+		Position._gameWidth = MapSelector.getWidth();
 		this._currPlayer = 0;
 		this.ctrl = ctrl;
 	}
@@ -84,7 +86,6 @@ public class OnlineGame {
 
 	}
 	
-
 
 
 	// Board Management
@@ -184,40 +185,36 @@ public class OnlineGame {
 	// Board Display
 
 	public Icon positionToIcon(Position p) {
-		boolean visible = ctrl.getPlayer().isVisible(p.getX(), p.getY());
-		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
-				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
-			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-					Controller.tileSize, 4),Board.getInstance().toIcon(p).toString());
-		}
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-			return Icons.TroopIcons.DEAD;
-		}
-		if (visible) {
-			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-				if (ctrl.getPlayer().lastTurnKill(p)) {
-					return Icons.TroopIcons.DEAD;
-				}
-				return Icons.TroopIcons.DEAD;
-			}
-			if (ctrl.getPlayer().isVisible(p.getX(), p.getY())) {
-				if (Board.getInstance().getGameObject(p) != null
-						&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
-					return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-							Controller.tileSize, 4), Board.getInstance().toIcon(p).toString());
-				}
-				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Controller.tileSize,
-						Controller.tileSize, 4), Board.getInstance().toIcon(p).toString());
-			}
-		}
-		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-			if (ctrl.getPlayer().lastTurnKill(p)) {
-				return Icons.TroopIcons.DEAD;
-			}
-		}
-		return new ImageIcon(
-				Icons.otherIcons.FOG.getImage().getScaledInstance(Controller.tileSize, Controller.tileSize, 4),Icons.otherIcons.FOG.toString());
-	}
+        boolean visible = ctrl.getPlayer().isVisible(p.getX(), p.getY());
+
+        //Wall
+        if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
+                && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+            		Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
+        }
+
+        //Troop dead
+        if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+            return Icons.TroopIcons.DEAD;
+        }
+
+        //If visible
+        if (visible) {
+            //Anything visible
+            if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+                return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+                		Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
+            }
+
+            //Just floor
+            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+            		Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
+        }
+
+        //Return fog
+        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
+    }
 
 	// Observers
 	public void addObserver(GameObserver o) {
