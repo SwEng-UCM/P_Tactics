@@ -48,7 +48,6 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	Player hostPlayer;
 	String name;
 	volatile int currClientIndex;
-	boolean online;
 	protected List<String> _playerNames;
 	Consumer<Integer> onPlayerConnected;
 	boolean exit;
@@ -56,7 +55,6 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
 	{ 
 		this.onPlayerConnected = onPlayerConnected;
-		online = false;
 		_numPlayers = numPlayers;
 		currClientIndex = 0;
 		this.name = name;
@@ -269,7 +267,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	@Override
 	public Icon getIcon(Position _pos) {
 		String direction = _game.positionToIcon(_pos).toString();
-		if(online) currentClient.handler.sendMessage(direction);
+		if(currentClient.handler != null) currentClient.handler.sendMessage(direction);
 		return _game.positionToIcon(_pos);
 	}
 
@@ -381,8 +379,8 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 	
 	@Override
-	public int getCurrentPlayerWinZone() {
-		if(online)currentClient.handler.sendMessage(String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
+	public int getCurrentPlayerWinZone() {//-------
+		if(currentClient.handler != null)currentClient.handler.sendMessage(String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
 		return Board.getInstance().pointsToWin() - currentClient.player.winPoints();
 	}
 	
@@ -439,8 +437,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				currClientIndex = 0;
 			}
 			currentClient = _clients.get(currClientIndex);
-			if(currentClient.handler == null) online = false;
-			else online = true;
+			if(currentClient.handler != null) {
+				currentClient.handler.sendMessage("yourTurn");
+			}
 		} while (getPlayer().hasNoTroopsLeft());
 		
 		getPlayer().startOfTurnDeadCheck();
@@ -463,6 +462,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public int getNumPlayer() {
+		if (currentClient.handler != null) currentClient.handler.sendMessage(String.valueOf(connected));
 		return connected ; // clients + host
 	}
 
@@ -477,12 +477,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public boolean isTroopSelected() {
-		if (online) currentClient.handler.sendMessage(_game.isTroopSelected()? "true" : "false");
+		if (currentClient.handler != null) currentClient.handler.sendMessage(_game.isTroopSelected()? "true" : "false");
 		return _game.isTroopSelected();
 	}
 
 	public boolean canMove(Position pos) {
-		if (online) currentClient.handler.sendMessage(_game.canMove(pos)? "true" : "false");
+		if (currentClient.handler != null) currentClient.handler.sendMessage(_game.canMove(pos)? "true" : "false");
 		return _game.canMove(pos);
 	}
 
@@ -499,7 +499,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public Boolean isTroop(Position pos) {
-		if (online) currentClient.handler.sendMessage(_game.isTroop(pos)? "true" : "false");
+		if (currentClient.handler != null) currentClient.handler.sendMessage(_game.isTroop(pos)? "true" : "false");
 		return this._game.isTroop(pos);
 	}
 
@@ -512,13 +512,13 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public boolean dangerTile(Position pos) {
-		if (online)currentClient.handler.sendMessage(_game.dangerTile(pos)? "true" : "false");
+		if (currentClient.handler != null)currentClient.handler.sendMessage(_game.dangerTile(pos)? "true" : "false");
 		return _game.dangerTile(pos);
 	}
 
 	@Override
 	public List<Position> getPath(Position pos) { //sending a JSON array through the socket because it was revealed to me in a dream
-		if(online) {
+		if(currentClient.handler != null) {
 			JSONArray positionsArray = new JSONArray();
 			for (Position p : _game.getPath(pos)) {
 			    JSONObject posObj = new JSONObject();
@@ -532,7 +532,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public List<Position> hoverPath(Position pos) {
-		if(online) {
+		if(currentClient.handler != null) {
 			JSONArray positionsArray = new JSONArray();
 			for (Position p : _game.hoverPath(pos)) {
 			    JSONObject posObj = new JSONObject();
@@ -592,7 +592,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public TroopInfo getCurrentTroopInfo(){
 		boolean a = _game.getCurrentTroop() != null;
 		TroopInfo info = a? new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft()):null;
-		if(online) { 
+		if(currentClient.handler != null) { 
 			if(a) currentClient.handler.sendMessage(info.report().toString());
 			else currentClient.handler.sendMessage(null);
 		}

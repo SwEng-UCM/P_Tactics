@@ -160,7 +160,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	@Override
 	
 	
-	public String getCurrentPlayerName() {
+	public String getCurrentPlayerName() {//-------------------------------------------------------
 		out.println("getCurrentPlayerName");
 		try {
 			String line = responseQueue.take();
@@ -172,7 +172,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	
 	@Override
-	public int getCurrentPlayerWinZone() {
+	public int getCurrentPlayerWinZone() {//----------------------------------------------
 		out.println("getCurrentPlayerWinZone");
 		try {
 			String line = responseQueue.take();
@@ -202,7 +202,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	@Override
-	public int getNumPlayer() {
+	public int getNumPlayer() {//---------------------------------------------------------------------
 		out.println("getNumPlayer");
 		try {
 			String line = responseQueue.take();
@@ -213,7 +213,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		}
 	}
 
-	public boolean isTroopSelected() {
+	public boolean isTroopSelected() {//-----------------------------------------------------------------
 		out.println("isTroopSelected");
 		try {
 			String line = responseQueue.take();
@@ -224,7 +224,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		}
 	}
 
-	public boolean canMove(Position pos) {
+	public boolean canMove(Position pos) {//------------------------------------------------------------
 		out.println("canMove " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
@@ -236,7 +236,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 
-	public Boolean isTroop(Position pos) {
+	public Boolean isTroop(Position pos) {//---------------------------------------------------------------------
 		out.println("isTroop " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
@@ -248,7 +248,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 
-	public boolean dangerTile(Position pos) {
+	public boolean dangerTile(Position pos) {//----------------------------------------------
 		out.println("dangerTile " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
@@ -261,7 +261,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	
 	@Override
 	public Icon getIcon(Position _pos) { //-----------------------------------------------------------D
-		out.println("getIcon"+ _pos.getX() + " " + _pos.getY());
+		out.println("getIcon "+ _pos.getX() + " " + _pos.getY());
 		try {
 			String line = responseQueue.take();
 			if(line != "Icons/Dead.png")
@@ -341,7 +341,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("executeCommand " + args);
 	}
 	@Override
-	public List<Position> getPath(Position pos) {
+	public List<Position> getPath(Position pos) {//-------------------------------------------
 		out.println("getPath");
 		try {
 			String line = responseQueue.take();
@@ -360,7 +360,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		}
 	}
 
-	public List<Position> hoverPath(Position pos) {
+	public List<Position> hoverPath(Position pos) {//---------------------------------------------
 		out.println("hoverPath");
 		try {
 			String line = responseQueue.take();
@@ -380,7 +380,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	@Override
-	public TroopInfo getCurrentTroopInfo() {
+	public TroopInfo getCurrentTroopInfo() {//-----------------------------------------------------
 		out.println("getCurrentTroop");
 		try {
 			String line = responseQueue.take();
