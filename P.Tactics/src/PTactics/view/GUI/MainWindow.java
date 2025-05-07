@@ -304,26 +304,45 @@ public class MainWindow extends JFrame {
 		    } else if (choice == 1) { // Client selected
 		        // Ask for host IP address
 		    	 String playerName = JOptionPane.showInputDialog(null, "Enter your name / player ID:", "Player Name", JOptionPane.QUESTION_MESSAGE);
-		         if (playerName == null || playerName.isBlank()) return;
-
-		         String hostIP = JOptionPane.showInputDialog(null, "Enter host IP address:", "Connect to Host", JOptionPane.QUESTION_MESSAGE);
-		         if (hostIP == null || hostIP.isBlank()) return;
-
-		         String portStr = JOptionPane.showInputDialog(null, "Enter port to connect to (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE);
-		         if (portStr == null) return;
-		         int port;
-		         try {
-		             port = Integer.parseInt(portStr);
-		         } catch (NumberFormatException ex) {
-		             JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
-		             return;
+		         if (playerName == null) return;
+		         while(playerName.isBlank()) 
+		         {
+		        	 JOptionPane.showMessageDialog(null, "Invalid name.", "Error", JOptionPane.ERROR_MESSAGE);
+		        	 playerName = JOptionPane.showInputDialog(null, "Enter your name / player ID:", "Player Name", JOptionPane.QUESTION_MESSAGE);
 		         }
 
+		         String hostIP = JOptionPane.showInputDialog(null, "Enter host IP address:", "Connect to Host", JOptionPane.QUESTION_MESSAGE);
+		         if (hostIP == null) return;
+		         while(hostIP.isBlank()) 
+		         {
+		        	 JOptionPane.showMessageDialog(null, "Invalid host IP", "Error", JOptionPane.ERROR_MESSAGE);
+		        	 hostIP = JOptionPane.showInputDialog(null, "Enter host IP address:", "Connect to Host", JOptionPane.QUESTION_MESSAGE);
+		         }
+
+		         String portStr="";
+		         int port = 0;
+		         Boolean loop=true;
+		         while(loop) 
+		         {
+		        	 portStr =  (String) JOptionPane.showInputDialog(null, "Enter port to host on (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE,null,null,"5000");
+			         if (portStr == null) return;
+		        	 loop=false;
+		        	 try {
+			             port = Integer.parseInt(portStr);
+			         } catch (NumberFormatException ex) {
+			             JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
+			             loop=true;
+			         }
+		         }
+		         final String hostIPFinal=hostIP;
+		         final String playerNameFinal=playerName;
+		         final int portFinal=port;
+                 // workaround for thread finality issue. If you wanna understand delete these lines and set it to normal vars.
 		         System.out.println("Connecting as " + playerName + " to " + hostIP + ":" + port);
 
 		         // Start client connection
 		         new Thread(() -> {
-		        	 this._ctrl = new ClientController(hostIP, port, playerName, (connected)->{ 
+		        	 this._ctrl = new ClientController(hostIPFinal, portFinal, playerNameFinal, (connected)->{ 
 		        		
 		        			if(connected) swapToGameWindow();
 	                	
