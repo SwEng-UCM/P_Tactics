@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -125,24 +126,29 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			                exit = true;
 			                break;
 			            
-			             case "updateOnPlayersUpdate":
-			            	 updateOnPlayersUpdate();
-			            	 break;
-					     case "updateOnBoardUpdate":
-						     updateOnBoardUpdate();
-						     break;
-	 					 case "updateOnTroopAction":
-	 						 updateOnTroopAction();
-	 						 break;
-						 case "updateOnTroopSelection":
-							 updateOnTroopSelection();
-							 break;
-						 case "updateOnNextTurn":
-							 updateOnNextTurn();
-							 break;
-						 case "updateOnTroopUnSelection":
-							 updateOnTroopUnSelection();
-							 break;
+			            case "updateOnPlayersUpdate":
+		                    SwingUtilities.invokeLater(this::updateOnPlayersUpdate);
+		                    break;
+
+		                case "updateOnBoardUpdate":
+		                    SwingUtilities.invokeLater(this::updateOnBoardUpdate);
+		                    break;
+
+		                case "updateOnTroopAction":
+		                    SwingUtilities.invokeLater(this::updateOnTroopAction);
+		                    break;
+
+		                case "updateOnTroopSelection":
+		                    SwingUtilities.invokeLater(this::updateOnTroopSelection);
+		                    break;
+
+		                case "updateOnNextTurn":
+		                    SwingUtilities.invokeLater(this::updateOnNextTurn);
+		                    break;
+
+		                case "updateOnTroopUnSelection":
+		                    SwingUtilities.invokeLater(this::updateOnTroopUnSelection);
+		                    break;
 			            default:
 			                responseQueue.offer(msg); // for methods waiting on responses
 			                break;
