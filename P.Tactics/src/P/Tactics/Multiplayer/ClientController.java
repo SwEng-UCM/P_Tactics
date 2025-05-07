@@ -345,6 +345,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("getPath "+ pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
+			if(line.equals("null")) return null;
 			JSONArray positionsArray = new JSONArray(line);
 			List<Position> positions = new ArrayList<>();
 			for (int i = 0; i < positionsArray.length(); i++) {
@@ -364,6 +365,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("hoverPath "+ pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
+			if(line.equals("null")) return null;
 			JSONArray positionsArray = new JSONArray(line);
 			List<Position> positions = new ArrayList<>();
 			for (int i = 0; i < positionsArray.length(); i++) {
@@ -384,6 +386,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("getCurrentTroop");
 		try {
 			String line = responseQueue.take();
+			if(line.equals("null")) return null;
 			JSONObject obj = new JSONObject(line);
 			String ID = obj.getString("ID");
 			int x = obj.getInt("x");

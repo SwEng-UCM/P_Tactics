@@ -151,17 +151,6 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				GameMessage msg;
 				try {
 					msg = messageQueue.take();
-				/*if(msg.msg == "disconnected") { // if disconnected remove
-					for(Client c : _clients)
-						if(c.handler == msg.sender) 
-							_clients.remove(c);
-				}
-				else if(msg.msg == "getCurrentPlayerName") { // player names can be feched out of their turn (to see who is playing currently)
-		        	this.getCurrentPlayerName(msg.sender);
-				}
-				else if (msg.sender == currentClient.handler) { // not the current player
-			    	exeParse(msg.msg, msg.sender);
-			    }*/
 			    //yes the current player :)
 					exeParse(msg.msg, msg.sender);
 				} catch (InterruptedException e) {
@@ -518,29 +507,37 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public List<Position> getPath(Position pos) { //sending a JSON array through the socket because it was revealed to me in a dream
+		List<Position>path = _game.getPath(pos);
 		if(currentClient.handler != null) {
+			if(path != null) {
 			JSONArray positionsArray = new JSONArray();
-			for (Position p : _game.getPath(pos)) {
-			    JSONObject posObj = new JSONObject();
-			    posObj.put("x", p.getX());
-			    posObj.put("y", p.getY());
-			    positionsArray.put(posObj);
+				for (Position p : path) {
+				    JSONObject posObj = new JSONObject();
+				    posObj.put("x", p.getX());
+				    posObj.put("y", p.getY());
+				    positionsArray.put(posObj);
+				}
+				currentClient.handler.sendMessage(positionsArray.toString());
 			}
-			currentClient.handler.sendMessage(positionsArray.toString());
+			else currentClient.handler.sendMessage(null);
 		}
-		return _game.getPath(pos);
+		return path;
 	}
 
 	public List<Position> hoverPath(Position pos) {
+		List<Position> path = _game.hoverPath(pos);
 		if(currentClient.handler != null) {
-			JSONArray positionsArray = new JSONArray();
-			for (Position p : _game.hoverPath(pos)) {
-			    JSONObject posObj = new JSONObject();
-			    posObj.put("x", p.getX());
-			    posObj.put("y", p.getY());
-			    positionsArray.put(posObj);
+			if(path != null) {
+				JSONArray positionsArray = new JSONArray();
+				for (Position p : _game.hoverPath(pos)) {
+				    JSONObject posObj = new JSONObject();
+				    posObj.put("x", p.getX());
+				    posObj.put("y", p.getY());
+				    positionsArray.put(posObj);
+				}
+				currentClient.handler.sendMessage(positionsArray.toString());
 			}
-			currentClient.handler.sendMessage(positionsArray.toString());
+			else currentClient.handler.sendMessage(null);
 		}
 		return _game.hoverPath(pos);
 	}
