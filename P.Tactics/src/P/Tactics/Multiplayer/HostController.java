@@ -51,6 +51,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	boolean online;
 	protected List<String> _playerNames;
 	Consumer<Integer> onPlayerConnected;
+	boolean exit;
 	// constructor that takes the IP Address and the Port
 	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
 	{ 
@@ -65,7 +66,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		_observers = new ArrayList<>();
 		_clients = new ArrayList<>();
 		_playerNames = new ArrayList<>();
-		
+		exit = false;
 		try
 		{ 
 			// we start our server
@@ -94,6 +95,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		} 
 	} 
 	public void logPlayers() {
+		try {
+			listen();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		while (connected < _numPlayers) { // will keep going until all players are connected (except host)
 			
 			Socket clientSocket;
@@ -139,26 +146,26 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				e.printStackTrace();
 			} // Accept immediately
         }
-		try {
-			listen();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	private void listen() throws InterruptedException {
 		new Thread (()->{
-			while (!this.isFinish()) {
+			while (!exit) {
 				GameMessage msg;
 				try {
 					msg = messageQueue.take();
-
-			    if (msg.sender != currentClient.handler) { // not the current player
-			        msg.sender.sendMessage("noTurn");
-			        continue; // ignore message
-			    }
+				/*if(msg.msg == "disconnected") { // if disconnected remove
+					for(Client c : _clients)
+						if(c.handler == msg.sender) 
+							_clients.remove(c);
+				}
+				else if(msg.msg == "getCurrentPlayerName") { // player names can be feched out of their turn (to see who is playing currently)
+		        	this.getCurrentPlayerName(msg.sender);
+				}
+				else if (msg.sender == currentClient.handler) { // not the current player
+			    	exeParse(msg.msg, msg.sender);
+			    }*/
 			    //yes the current player :)
-			    exeParse(msg.msg, msg.sender);
+					exeParse(msg.msg, msg.sender);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -188,11 +195,11 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        case "executeCommand":
 	        	String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);	        
 	        	this.executeCommand(args);
-	        case "getCurrentPlayerName":
-	        	this.getCurrentPlayerName();
-	        	break;
 	        case "update":
 	        	this.update();
+	        	break;
+	        case "getCurrentPlayerName": 
+	        	this.getCurrentPlayerName(handler);
 	        	break;
 	        case "updatePlayers":
 	        	this.updatePlayers();
@@ -286,37 +293,43 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		for (GameObserver o : _observers) {
 			o.onPlayersUpdate(null);
 		}
-		if(online)currentClient.handler.sendMessage("updateOnPlayersUpdate");
+		for(Client c : _clients)
+			if(c.handler != null)c.handler.sendMessage("updateOnPlayersUpdate");
 	}
 	public void updateOnBoardUpdate() {
 		for (GameObserver o : _observers) {
 			o.onBoardUpdate(null);
 		}
-		if(online)currentClient.handler.sendMessage("updateOnBoardUpdate");
+		for(Client c : _clients)
+			if(c.handler != null)c.handler.sendMessage("updateOnBoardUpdate");
 	}
 	public void updateOnTroopAction() {
 		for (GameObserver o : _observers) {
 			o.onTroopAction(null);
 		}
-		if(online)currentClient.handler.sendMessage("updateOnTroopAction");
+		for(Client c : _clients)
+			if(c.handler != null)c.handler.sendMessage("updateOnTroopAction");
 	}
 	public void updateOnTroopSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopSelection(null);
 		}
-		if(online)currentClient.handler.sendMessage("updateOnTroopSelection");
+		for(Client c : _clients)
+			if(c.handler != null)c.handler.sendMessage("updateOnTroopSelection");
 	}
 	public void updateOnNextTurn() {
 		for (GameObserver o : _observers) {
 			o.onNextTurn(null);
 		}
-		if(online)currentClient.handler.sendMessage("updateOnNextTurn");
+		for(Client c : _clients)
+			if(c.handler != null)c.handler.sendMessage("updateOnNextTurn");
 	}
 	public void updateOnTroopUnSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopUnSelection(null);
 		}
-		if(online)currentClient.handler.sendMessage("updateOnTroopUnSelection");
+		for(Client c : _clients)
+			if(c.handler != null)c.handler.sendMessage("updateOnTroopUnSelection");
 	}
 
 	@Override
@@ -374,16 +387,20 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 	
 	public String getCurrentPlayerName() {
-		if (online) currentClient.handler.sendMessage(currentClient.player.getId());
 		return currentClient.player.getId();	
 	}
-	
+	private void getCurrentPlayerName(ClientHandler h) {
+		h.sendMessage(currentClient.player.getId());	
+	}
 
 	public boolean isFinish() {
 		
 		boolean is = (currentClient.player.winPoints() >=  Board.getInstance().pointsToWin()) || isLastPlayerStanding();
 		
-		if(online)currentClient.handler.sendMessage("isFinish");
+		if(is) {
+			exit = true;
+			for(Client c : _clients) if(c.handler != null) c.handler.sendMessage("isFinish"); // shut down others
+		}
 		return is;
 	}
 	
@@ -605,5 +622,8 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	@Override
 	public boolean isMyTurn() {
 		return hostPlayer.getId() == currentClient.player.getId()? true : false;
+	}
+	public void exit() {
+		exit = true;
 	}
 }
