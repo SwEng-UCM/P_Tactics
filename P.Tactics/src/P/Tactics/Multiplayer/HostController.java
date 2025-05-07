@@ -218,6 +218,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        case"onDeadTroopSelected":
 	        	this.onDeadTroopSelected();
 	        	break;
+	        case"isWinPosition":
+	        	this.isWinPosition(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
+	        	break;
 	    }
 	}
 
