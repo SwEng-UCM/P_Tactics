@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import PTactics.control.ControllerInterface;
+import PTactics.control.TroopInfo;
 import PTactics.control.commands.AbilityCommand;
 import PTactics.model.game.Game;
 import PTactics.utils.Utils;
@@ -135,9 +136,10 @@ public class ControlPanel extends JPanel implements GameObserver {
 		else if (aimButton.isSelected())
 			return 1;
 		else if (abilityButton.isSelected()) {
-			if (_cntr.isTroopSelected() && _cntr.getCurrentTroopInfo().getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
+			TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+			if (_cntr.isTroopSelected() && tInfo.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
 				AbilityCommand ability = new AbilityCommand(_cntr.getCurrentTroopInfo().getPos().getX(),
-						_cntr.getCurrentTroopInfo().getPos().getY());
+						tInfo.getPos().getY());
 				ability.execute(_cntr); 
 			} else {
 				return 2;
@@ -186,12 +188,12 @@ public class ControlPanel extends JPanel implements GameObserver {
 			txtrCurrentSelectedTroop.setText("Current Selected Troop:");
 			return;
 		}
-		
+		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
 		String htmlInfo = "<html><div style='text-align: center;'>"
 				+ "Current Troop Selected<br>"
-				+ _cntr.getCurrentTroopInfo().getId().toUpperCase() + "<br>"
-				+ "Moves Left: " + _cntr.getCurrentTroopInfo().getMovesLeft() + "<br>"
-				+ "Ability Uses Left: " + _cntr.getCurrentTroopInfo().abilityUsesLeft()
+				+ tInfo.getId().toUpperCase() + "<br>"
+				+ "Moves Left: " + tInfo.getMovesLeft() + "<br>"
+				+ "Ability Uses Left: " + tInfo.abilityUsesLeft()
 				+ "</div></html>";
 		
 		txtrCurrentSelectedTroop.setText(htmlInfo);

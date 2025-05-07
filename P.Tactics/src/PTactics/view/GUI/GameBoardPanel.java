@@ -22,6 +22,7 @@ import javax.swing.plaf.basic.BasicButtonListener;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
+import PTactics.control.TroopInfo;
 import PTactics.model.game.Game;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -288,8 +289,9 @@ public class GameBoardPanel extends JPanel implements GameObserver {
         return (GameBoardCell)_buttons[row][col];
     }
     private Direction posToDir(int x, int y) {
-    	int X = x - _cntr.getCurrentTroopInfo().getPos().getX(); // given pos minus troop position (setting 0,0 at troop)
-    	int Y = y - _cntr.getCurrentTroopInfo().getPos().getY();
+    	TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+    	int X = x - tInfo.getPos().getX(); // given pos minus troop position (setting 0,0 at troop)
+    	int Y = y - tInfo.getPos().getY();
     	int abx = Math.abs(X); // see which axis is more prominent
     	int aby = Math.abs(Y);
     	if(abx < aby) {

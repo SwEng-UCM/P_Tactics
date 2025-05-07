@@ -2,12 +2,14 @@ package PTactics.view.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
+import PTactics.control.TroopInfo;
 import PTactics.model.game.Board;
 import PTactics.model.game.Game;
 import PTactics.utils.Position;
@@ -40,7 +42,9 @@ public class GameBoardCell extends JButton{
 	public void updateCell() 
 	{
 		this.setIcon(_cntr.getIcon(this._pos));
-		if (_cntr.getCurrentTroopInfo() != null && _cntr.getCurrentTroopInfo().getPos().equals(_pos)) {
+		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+		List<Position> path = _cntr.getPath(_pos);
+		if (tInfo != null && tInfo.getPos().equals(_pos)) {
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
 		}
@@ -48,7 +52,7 @@ public class GameBoardCell extends JButton{
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		} 
-		else if (_cntr.getPath(_pos) != null && _cntr.getPath(_pos).contains(_pos)) {
+		else if (path != null && path.contains(_pos)) {
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 		}

@@ -224,11 +224,12 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onNextTurn(Game game) {
+		int winZone = _ctrl.getCurrentPlayerWinZone();
 		String playerText = "<html> Player: [" + _ctrl.getCurrentPlayerName() + "] turn <br>";
-		if (_ctrl.getCurrentPlayerWinZone() > 0 && _ctrl.getCurrentPlayerWinZone() != Board._POINTSTOWIN) {
-			playerText += "Points to win: " + _ctrl.getCurrentPlayerWinZone();
+		if (winZone > 0 && winZone != Board._POINTSTOWIN) {
+			playerText += "Points to win: " + winZone;
 		}
-		else if (_ctrl.getCurrentPlayerWinZone() <= 0) {
+		else if (winZone <= 0) {
 			playerText += "WIN";
 		}
 		playerText += "</html>";
