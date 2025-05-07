@@ -3,7 +3,6 @@ package P.Tactics.CPU;
 import java.util.Random;
 
 import PTactics.control.ControllerInterface;
-import PTactics.control.commands.MoveCommand;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -15,10 +14,6 @@ public abstract class  CPUinterface {
 		this._ci=ci;
 	}
 	public abstract  void ComputeTurn(Player p);
-	public ControllerInterface GetCI() 
-	{
-		return this._ci;
-	}
 	protected Direction RandomAim() 
 	{
 		Random random= new Random();
