@@ -342,7 +342,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	@Override
 	public List<Position> getPath(Position pos) {//-------------------------------------------
-		out.println("getPath");
+		out.println("getPath "+ pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
 			JSONArray positionsArray = new JSONArray(line);
@@ -361,7 +361,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public List<Position> hoverPath(Position pos) {//---------------------------------------------
-		out.println("hoverPath");
+		out.println("hoverPath "+ pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
 			JSONArray positionsArray = new JSONArray(line);

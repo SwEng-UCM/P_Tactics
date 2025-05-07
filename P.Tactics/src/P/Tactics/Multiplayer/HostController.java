@@ -223,7 +223,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        case"hoverPath":
 	        	this.hoverPath(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
 	        	break;
-	        case"getCurrentTroopInfo":
+	        case"getCurrentTroop":
 	        	this.getCurrentTroopInfo();
 	        	break;
 	        case"onDeadTroopSelected":
