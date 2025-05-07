@@ -107,7 +107,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		    }
 		}).start();
 	}
-	private void parse() { 
+	private void parse() {
 		new Thread(() -> {
 		    try {
 		        String msg = messageQueue.take();
@@ -126,29 +126,24 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			                exit = true;
 			                break;
 			            
-			            case "updateOnPlayersUpdate":
-		                    SwingUtilities.invokeLater(this::updateOnPlayersUpdate);
-		                    break;
-
-		                case "updateOnBoardUpdate":
-		                    SwingUtilities.invokeLater(this::updateOnBoardUpdate);
-		                    break;
-
-		                case "updateOnTroopAction":
-		                    SwingUtilities.invokeLater(this::updateOnTroopAction);
-		                    break;
-
-		                case "updateOnTroopSelection":
-		                    SwingUtilities.invokeLater(this::updateOnTroopSelection);
-		                    break;
-
-		                case "updateOnNextTurn":
-		                    SwingUtilities.invokeLater(this::updateOnNextTurn);
-		                    break;
-
-		                case "updateOnTroopUnSelection":
-		                    SwingUtilities.invokeLater(this::updateOnTroopUnSelection);
-		                    break;
+			             case "updateOnPlayersUpdate":
+			            	 updateOnPlayersUpdate();
+			            	 break;
+					     case "updateOnBoardUpdate":
+						     updateOnBoardUpdate();
+						     break;
+	 					 case "updateOnTroopAction":
+	 						 updateOnTroopAction();
+	 						 break;
+						 case "updateOnTroopSelection":
+							 updateOnTroopSelection();
+							 break;
+						 case "updateOnNextTurn":
+							 updateOnNextTurn();
+							 break;
+						 case "updateOnTroopUnSelection":
+							 updateOnTroopUnSelection();
+							 break;
 			            default:
 			                responseQueue.offer(msg); // for methods waiting on responses
 			                break;
@@ -285,34 +280,51 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	
 	public void updateOnPlayersUpdate() {
-		for (GameObserver o : _observers) {
-			o.onPlayersUpdate(null);
-		}
+	    SwingUtilities.invokeLater(() -> {
+	        for (GameObserver o : _observers) {
+	            o.onPlayersUpdate(null);
+	        }
+	    });
 	}
+
 	public void updateOnBoardUpdate() {
-		for (GameObserver o : _observers) {
-			o.onBoardUpdate(null);
-		}
+	    SwingUtilities.invokeLater(() -> {
+	        for (GameObserver o : _observers) {
+	            o.onBoardUpdate(null);
+	        }
+	    });
 	}
+
 	public void updateOnTroopAction() {
-		for (GameObserver o : _observers) {
-			o.onTroopAction(null);
-		}
+	    SwingUtilities.invokeLater(() -> {
+	        for (GameObserver o : _observers) {
+	            o.onTroopAction(null);
+	        }
+	    });
 	}
+
 	public void updateOnTroopSelection() {
-		for (GameObserver o : _observers) {
-			o.onTroopSelection(null);
-		}	
+	    SwingUtilities.invokeLater(() -> {
+	        for (GameObserver o : _observers) {
+	            o.onTroopSelection(null);
+	        }
+	    });
 	}
+
 	public void updateOnNextTurn() {
-		for (GameObserver o : _observers) {
-			o.onNextTurn(null);
-		}	
+	    SwingUtilities.invokeLater(() -> {
+	        for (GameObserver o : _observers) {
+	            o.onNextTurn(null);
+	        }
+	    });
 	}
+
 	public void updateOnTroopUnSelection() {
-		for (GameObserver o : _observers) {
-			o.onTroopUnSelection(null);
-		}	
+	    SwingUtilities.invokeLater(() -> {
+	        for (GameObserver o : _observers) {
+	            o.onTroopUnSelection(null);
+	        }
+	    });
 	}
 
 	@Override
