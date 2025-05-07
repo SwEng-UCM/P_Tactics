@@ -151,17 +151,6 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				GameMessage msg;
 				try {
 					msg = messageQueue.take();
-				/*if(msg.msg == "disconnected") { // if disconnected remove
-					for(Client c : _clients)
-						if(c.handler == msg.sender) 
-							_clients.remove(c);
-				}
-				else if(msg.msg == "getCurrentPlayerName") { // player names can be feched out of their turn (to see who is playing currently)
-		        	this.getCurrentPlayerName(msg.sender);
-				}
-				else if (msg.sender == currentClient.handler) { // not the current player
-			    	exeParse(msg.msg, msg.sender);
-			    }*/
 			    //yes the current player :)
 					exeParse(msg.msg, msg.sender);
 				} catch (InterruptedException e) {
