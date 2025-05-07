@@ -61,6 +61,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		this.address = address;
 		this.port = port;
 		responseQueue = new LinkedBlockingQueue<>();
+		messageQueue = new LinkedBlockingQueue<>();
 		isFinish = false;
 		isMyTurn = false;
 		this.Id = Id;
@@ -80,6 +81,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				out.println(Id);
 				listen();
+				parse();
 				connected.accept(true);
 				
 			} 
@@ -110,8 +112,9 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	private void parse() {
 		new Thread(() -> {
 		    try {
-		        String msg = messageQueue.take();
-		        while (!exit) {
+		    	String msg;
+		    	while (!exit) {
+		         msg = messageQueue.take();		        
 		        	switch (msg) {
 			            case "yourTurn":
 			                isMyTurn = true;
