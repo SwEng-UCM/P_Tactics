@@ -218,6 +218,7 @@ public class MainWindow extends JFrame {
 
 		    if (choice == 0) { // Host selected
 		        String name = JOptionPane.showInputDialog(null, "Enter nametag","", JOptionPane.QUESTION_MESSAGE);
+		        if (name == null) return; 
 		        String portStr = JOptionPane.showInputDialog(null, "Enter port to host on (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE);
 		        if (portStr == null) return; // Cancelled
 		        int port;
