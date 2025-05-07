@@ -48,6 +48,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	private volatile boolean isMyTurn;
 	private boolean isFinish;
 	private BlockingQueue<String> responseQueue;
+	private BlockingQueue<String> messageQueue;
 	Boolean exit;
 	// constructor that takes the IP Address and the Port
 	public ClientController(String address, int port, String Id, Consumer<Boolean> connected) 
@@ -93,11 +94,23 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			
 		
 	}
-	private void listen() {
+	private void listen() {// for fast reading of messages
 		new Thread(() -> {
 		    try {
 		        String msg;
-		        while ((msg = in.readLine()) != null) {
+		        while ((msg = in.readLine()) != null) {	
+		        	messageQueue.offer(msg); 
+		        }
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+		}).start();
+	}
+	private void parse() { 
+		new Thread(() -> {
+		    try {
+		        String msg = messageQueue.take();
+		        while (!exit) {
 		        	switch (msg) {
 			            case "yourTurn":
 			                isMyTurn = true;
@@ -135,7 +148,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			                break;
 		        	}
 		        }
-		    } catch (IOException e) {
+		    } catch (InterruptedException e) {
 		        e.printStackTrace();
 		    }
 		}).start();
