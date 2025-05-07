@@ -318,9 +318,9 @@ public class MainWindow extends JFrame {
 		         // Start client connection
 		         new Thread(() -> {
 		        	 this._ctrl = new ClientController(hostIP, port, playerName, (connected)->{ 
-		        		SwingUtilities.invokeLater(() -> {
+		        		
 		        			if(connected) swapToGameWindow();
-	                	});
+	                	
 		        	 });
 		        	_ctrl.logPlayers();
 		        }).start();
