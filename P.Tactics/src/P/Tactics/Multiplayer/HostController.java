@@ -518,29 +518,37 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public List<Position> getPath(Position pos) { //sending a JSON array through the socket because it was revealed to me in a dream
+		List<Position>path = _game.getPath(pos);
 		if(currentClient.handler != null) {
+			if(path != null) {
 			JSONArray positionsArray = new JSONArray();
-			for (Position p : _game.getPath(pos)) {
-			    JSONObject posObj = new JSONObject();
-			    posObj.put("x", p.getX());
-			    posObj.put("y", p.getY());
-			    positionsArray.put(posObj);
+				for (Position p : path) {
+				    JSONObject posObj = new JSONObject();
+				    posObj.put("x", p.getX());
+				    posObj.put("y", p.getY());
+				    positionsArray.put(posObj);
+				}
+				currentClient.handler.sendMessage(positionsArray.toString());
 			}
-			currentClient.handler.sendMessage(positionsArray.toString());
+			else currentClient.handler.sendMessage(null);
 		}
-		return _game.getPath(pos);
+		return path;
 	}
 
 	public List<Position> hoverPath(Position pos) {
+		List<Position> path = _game.hoverPath(pos);
 		if(currentClient.handler != null) {
-			JSONArray positionsArray = new JSONArray();
-			for (Position p : _game.hoverPath(pos)) {
-			    JSONObject posObj = new JSONObject();
-			    posObj.put("x", p.getX());
-			    posObj.put("y", p.getY());
-			    positionsArray.put(posObj);
+			if(path != null) {
+				JSONArray positionsArray = new JSONArray();
+				for (Position p : _game.hoverPath(pos)) {
+				    JSONObject posObj = new JSONObject();
+				    posObj.put("x", p.getX());
+				    posObj.put("y", p.getY());
+				    positionsArray.put(posObj);
+				}
+				currentClient.handler.sendMessage(positionsArray.toString());
 			}
-			currentClient.handler.sendMessage(positionsArray.toString());
+			else currentClient.handler.sendMessage(null);
 		}
 		return _game.hoverPath(pos);
 	}
