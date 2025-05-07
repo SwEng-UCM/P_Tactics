@@ -219,16 +219,21 @@ public class MainWindow extends JFrame {
 		    if (choice == 0) { // Host selected
 		        String name = JOptionPane.showInputDialog(null, "Enter nametag","", JOptionPane.QUESTION_MESSAGE);
 		        if (name == null) return; 
-		        String portStr =  (String) JOptionPane.showInputDialog(null, "Enter port to host on (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE,null,null,"5000");
-		        if (portStr == null) return; // Cancelled
-		        int port;
-		        try {
-		            port = Integer.parseInt(portStr);
-		        } catch (NumberFormatException ex) {
-		            JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
+		        Boolean loop=true;
+		        int port=0;
+		        while(loop) 
+		        {
+		        	loop=false;
+		        	String portStr =  (String) JOptionPane.showInputDialog(null, "Enter port to host on (default: 5000):", "Port", JOptionPane.QUESTION_MESSAGE,null,null,"5000");
+			        if (portStr == null) return; // Cancelled
+			        try {
+			            port = Integer.parseInt(portStr);
+			        } catch (NumberFormatException ex) {
+			            JOptionPane.showMessageDialog(null, "Invalid port number.", "Error", JOptionPane.ERROR_MESSAGE);
+			            loop=true;
+			        }
 		        }
-
+		        final int portFinal=port;//  the thread requires its variable to be final or effectively final so I have to do this.
 		        // Ask for number of players (with spinner)
 		        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(2, 2, 8, 1); // default 2, min 2, max 8
 		        JSpinner spinner = new JSpinner(spinnerModel);
@@ -281,7 +286,7 @@ public class MainWindow extends JFrame {
 		            
 		             // weird callback function for connected status
 		            new Thread(() -> {
-		            	this._ctrl = new HostController(port, numPlayers, name, (connectedCount) -> {
+		            	this._ctrl = new HostController(portFinal, numPlayers, name, (connectedCount) -> {
 			                SwingUtilities.invokeLater(() -> {
 			                    statusLabel.setText("Waiting for " + connectedCount  + " of " + numPlayers + " players...");
 			                      if (connectedCount >= numPlayers) {
