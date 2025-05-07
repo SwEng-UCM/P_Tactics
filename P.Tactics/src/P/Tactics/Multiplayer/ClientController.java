@@ -48,9 +48,11 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	private volatile boolean isMyTurn;
 	private boolean isFinish;
 	private BlockingQueue<String> responseQueue;
+	Boolean exit;
 	// constructor that takes the IP Address and the Port
 	public ClientController(String address, int port, String Id, Consumer<Boolean> connected) 
 	{ 
+		exit = false;
 		this.connected = connected;
 		Position._gameLength = MapSelector.getLength();
 		Position._gameWidth = MapSelector.getWidth();
@@ -106,6 +108,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	
 			            case "isFinish":
 			                isFinish = true;
+			                exit = true;
 			                break;
 			            
 			             case "updateOnPlayersUpdate":
