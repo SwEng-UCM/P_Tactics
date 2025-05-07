@@ -75,6 +75,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 				out = new PrintWriter(socket.getOutputStream(), true); 
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				out.println(Id);
+				listen();
 				connected.accept(true);
 				
 			} 
@@ -87,7 +88,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			{ 
 				System.out.println(i); 
 			} 
-			listen();
+			
 		
 	}
 	private void listen() {
