@@ -26,8 +26,8 @@ public class Player implements DangerObject{
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
-		dimX=MapSelector.getWidth();
-		dimY=MapSelector.getLength();
+		dimX=Position._gameWidth;
+		dimY=Position._gameLength;
 		_visibility = new boolean[dimX][dimY];
 		_danger = new boolean[dimX][dimY];
 		this._troops = new ArrayList<>();
@@ -40,6 +40,8 @@ public class Player implements DangerObject{
 	//constructor for a CPU 
 	public Player(String id, DangerMediator dm, CPUinterface cpu) {
 		this._id = id;
+		dimX=Position._gameWidth;
+		dimY=Position._gameLength;
 		_visibility = new boolean[dimX][dimY];
 		_danger = new boolean[dimX][dimY];
 		this._troops = new ArrayList<>();
