@@ -113,4 +113,5 @@ public interface ControllerInterface {
 
 	void createGame();
 	public void logPlayers();
+	public boolean isWinPosition(Position pos);
 }

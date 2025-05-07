@@ -328,4 +328,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public void logPlayers() {
 		
 	}
+	public boolean isWinPosition(Position pos) {
+		return Board.getInstance().isWinPosition(pos);
+	}
 }

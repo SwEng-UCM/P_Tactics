@@ -56,7 +56,7 @@ public class GameBoardCell extends JButton{
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 		}
-		else if (Board.getInstance().isWinPosition(_pos)) {
+		else if (_cntr.isWinPosition(_pos)) {
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
 		}

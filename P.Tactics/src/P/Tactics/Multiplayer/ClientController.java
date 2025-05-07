@@ -408,7 +408,16 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	public boolean isMyTurn() {
 		return isMyTurn;
 	}
-	
+	public boolean isWinPosition(Position pos) {
+		out.println("isWinPosition " + pos.getX() + " " + pos.getY());
+		try {
+			String line = responseQueue.take();
+			return line == "true"? true : false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 //-------------------------------------------------------------------------------------------------------------------
 
 	

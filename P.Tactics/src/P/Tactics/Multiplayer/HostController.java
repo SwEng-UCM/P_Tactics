@@ -623,4 +623,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public void exit() {
 		exit = true;
 	}
+	@Override
+	public boolean isWinPosition(Position pos) {
+		if (currentClient.handler != null)currentClient.handler.sendMessage(Board.getInstance().isWinPosition(pos)? "true" : "false");
+		return Board.getInstance().isWinPosition(pos);
+	}
 }

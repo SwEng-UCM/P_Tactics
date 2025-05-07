@@ -406,7 +406,6 @@ public class MainWindow extends JFrame {
 				playerNames.add(playerName);
 				playerNames.add("CPU");
 				Board.getInstance().eraseAll();
-                Board.getInstance();
 				_ctrl.createGame();
 				_ctrl.setPlayerNames(playerNames);
 				_ctrl.setPlayerNum(2);		// realPlayer + CPU
