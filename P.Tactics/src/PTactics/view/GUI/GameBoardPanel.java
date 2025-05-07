@@ -192,6 +192,9 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		    add(_boardPanel, "BOARD");
 		    add(_CPUPanel, "CPU");
 		    add(_onlinePanel, "ONLINE");
+		    if (!_cntr.isMyTurn()) {
+				changeToOnline();
+			}
 	}
     
     @Override

@@ -283,6 +283,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	
 	public void updateOnPlayersUpdate() {
+		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onPlayersUpdate(null);
@@ -291,6 +292,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updateOnBoardUpdate() {
+		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onBoardUpdate(null);
@@ -299,6 +301,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updateOnTroopAction() {
+		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onTroopAction(null);
@@ -307,6 +310,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updateOnTroopSelection() {
+		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onTroopSelection(null);
@@ -315,6 +319,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updateOnNextTurn() {
+		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onNextTurn(null);
@@ -323,6 +328,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updateOnTroopUnSelection() {
+		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onTroopUnSelection(null);
