@@ -217,7 +217,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("isTroopSelected");
 		try {
 			String line = responseQueue.take();
-			return line == "true"? true : false;
+			return line.equals("true")? true : false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -228,7 +228,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("canMove " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
-			return line == "true"? true : false;
+			return line.equals("true")? true : false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -240,7 +240,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("isTroop " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
-			return line == "true"? true : false;
+			return line.equals("true")? true : false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -252,7 +252,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("dangerTile " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
-			return line == "true"? true : false;
+			return line.equals("true")? true : false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -415,7 +415,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("isWinPosition " + pos.getX() + " " + pos.getY());
 		try {
 			String line = responseQueue.take();
-			return line == "true"? true : false;
+			return line.equals("true")? true : false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
