@@ -144,6 +144,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				e.printStackTrace();
 			} // Accept immediately
         }
+		this.inicialize();
 	}
 	private void listen() throws InterruptedException {
 		new Thread (()->{
@@ -420,11 +421,10 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 				currClientIndex = 0;
 			}
 			currentClient = _clients.get(currClientIndex);
-			if(currentClient.handler != null) {
-				sendJsonMessage(currentClient.handler, "yourTurn", "a");
-			}
 		} while (getPlayer().hasNoTroopsLeft());
-		
+		if(currentClient.handler != null) {
+			sendJsonMessage(currentClient.handler, "yourTurn", "a");
+		}
 		getPlayer().startOfTurnDeadCheck();
 		getPlayer().startTurn();
 		updateOnNextTurn();
