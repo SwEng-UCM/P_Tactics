@@ -185,9 +185,11 @@ public class SniperTroop extends Troop {
 		_abilityTime.addLast(3);
 	}
 	
+	@Override
 	public String toString() {
 		return "F" + super.toString();
 	}
+	
 	@Override
 	public ImageIcon toIcon() {
 		if (_player.isMyTurn()) {

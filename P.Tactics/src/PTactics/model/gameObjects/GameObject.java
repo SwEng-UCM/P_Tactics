@@ -64,8 +64,6 @@ public abstract class GameObject {
 
 	public void startMove(Position pos) {};
 
-	public void CalcNewMove(Position pos) {};
-
 	public abstract void update();
 
 	public abstract void nextTurn();

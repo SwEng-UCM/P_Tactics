@@ -55,7 +55,8 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	public GameObject getGameObject(Position p) {
 		return this.get(p);
 	}
-
+	
+	@Override
 	public Position getPosition(GameObject o) {
 		for (Position p : keySet()) {
 			if (this.get(p).equals(o))
@@ -63,19 +64,22 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 		}
 		return null;
 	}
-
+	
+	@Override
 	public boolean isSolid(Position p) {
 		if (get(p) == null)
 			return false;
 		return get(p).isSolid();
 	}
-
+	
+	@Override
 	public boolean isSeeThrough(Position p) {
 		if (get(p) == null)
 			return true;
 		return get(p).isSeeThrough();
 	}
-
+	
+	@Override
 	public boolean isWinPosition(Position p) {
 		if (_winZone.isEmpty()) {
 			return false;
@@ -91,13 +95,15 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	}
 	
 	// SETTERS AND ADDERS //
-
+	
+	@Override
 	public void addObj(Position p, GameObject o) {
 		 if (Objects.isNull(o))
 		        throw new IllegalArgumentException("A null object cannot be added to game.");
 		this.put(p, o);
 	}
-
+	
+	@Override
 	public void addSmoke(Position pos) {
 		Position center = pos;
 		int range = 1;
@@ -127,6 +133,7 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 		this.remove(p);
 	}
 	
+	@Override
 	public void eraseAll() {
 		_board.clear();
 		_board = null;
@@ -153,7 +160,8 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	}
 
 	// UPDATE //
-
+	
+	@Override
 	public void update() {
 		List<Position> deadGuys = new ArrayList<Position>();
 		for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
@@ -166,7 +174,8 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 			_board.remove(p);
 		}
 	}
-
+	
+	@Override
 	public void nextTurn() {
 		for (Map.Entry<Position, GameObject> entry : this.entrySet()) {
 			entry.getValue().nextTurn();
@@ -177,6 +186,7 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 
 	// Given a position of the target and the aim range of the CPU troop calculates
 	// the list of Positions where you can reach the troop
+	@Override
 	public List<Position> shootablePositions(Position target, int aimRange) {
 		List<Position> shootablePosList = new ArrayList<Position>();
 		for (int i = 0; i < aimRange; i++) {
@@ -199,19 +209,22 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	}
 
 	// GRAPHICS AND STRINGS //
-
+	
+	@Override
 	public String toString(Position p) {
 		if (this.containsKey(p))
 			return this.get(p).toString();
 		return " ";
 	}
-
+	
+	@Override
 	public ImageIcon toIcon(Position p) {
 		if (this.containsKey(p))
 			return this.get(p).toIcon();
 		return Icons.otherIcons.FLOOR;
 	}
-
+	
+	@Override
 	public JSONArray report() {
 		JSONArray mapReport = new JSONArray();
 		for (GameObject g : this.values()) {
