@@ -70,7 +70,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		responseQueues = new HashMap<>();
         for (String method : List.of("getCurrentPlayerName", "getCurrentPlayerWinZone", "getNumPlayer",
                 "isTroopSelected", "canMove", "isTroop", "dangerTile", "getIcon", "getPath",
-                "hoverPath", "getCurrentTroop", "isWinPosition")) {
+                "hoverPath", "getCurrentTroopInfo", "isWinPosition")) {
             responseQueues.put(method, new LinkedBlockingQueue<>());
         }
 	} 
@@ -367,9 +367,9 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
     @Override
     public TroopInfo getCurrentTroopInfo() {
-        out.println("getCurrentTroop");
+        out.println("getCurrentTroopInfo");
         try {
-            String line = responseQueues.get("getCurrentTroop").take();
+            String line = responseQueues.get("getCurrentTroopInfo").take();
             if(line.equals("null")) return null;
             JSONObject obj = new JSONObject(line);
             return new TroopInfo(
