@@ -110,7 +110,9 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		            	public void mouseEntered(MouseEvent e) {
 		            		if (_cPanel.getControlSelection() == 0) {
 		            			_pathing = _cntr.hoverPath(btn.getPosition());
-		            			updateOnHover();
+		            			TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+		            			List<Position> path = _cntr.getPath();
+		            			updateOnHover(tInfo, path);
 		            		}
 		            	} 	
 		            });
@@ -200,22 +202,30 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     
     @Override
 	public void onPlayersUpdate(Game game) {
-		updateCells();
+		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+		List<Position> path = _cntr.getPath();
+		updateCells(tInfo, path);
 	}
 
 	@Override
 	public void onBoardUpdate(Game game) {
-		updateCells(); 
+		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+		List<Position> path = _cntr.getPath();
+		updateCells(tInfo, path);
 	}
 
 	@Override
 	public void onTroopAction(Game game) {
-		updateCells();
+		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+		List<Position> path = _cntr.getPath();
+		updateCells(tInfo, path);
 	}
 
 	@Override
 	public void onTroopSelection(Game game) {
-		updateCells();
+		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+		List<Position> path = _cntr.getPath();
+		updateCells(tInfo, path);
 		
 	}
 
@@ -234,7 +244,9 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 		}
 		
 		else {
-			updateCells();	
+			TroopInfo tInfo = _cntr.getCurrentTroopInfo();
+			List<Position> path = _cntr.getPath();
+			updateCells(tInfo, path);	
 			changeToPlayer();
 		}
 	}
@@ -254,7 +266,6 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     }
     
     private void changeToPlayer() {
-    	updateCells();
     	if (_lastPlayerIsCPU || _lastPlayerIsOnline) {
     		CardLayout cl =((CardLayout)getLayout()); 
         	cl.show(this, "BOARD");
@@ -264,22 +275,22 @@ public class GameBoardPanel extends JPanel implements GameObserver {
     	}
     }
     
-    private void updateCells() {
+    private void updateCells(TroopInfo tInfo, List<Position> path) {
     	for (int row = 0; row < _width; row++) {
 	        for (int col = 0; col < _height; col++) {
-	        	getButton(col, row).updateCell();
+	        	getButton(col, row).updateCell(tInfo, path);
 	        }
     	}
     }
     
-    private void updateOnHover() {
+    private void updateOnHover(TroopInfo tInfo, List<Position> path) {
     	for (int row = 0; row < _height; row++) {
 			for (int col = 0; col < _width; col++) {
 				if (_pathing != null && _pathing.contains(getButton(row, col).getPosition())) {
 					getButton(row, col).setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 				}
 				else {
-					getButton(row, col).updateCell();;
+					getButton(row, col).updateCell(tInfo, path);;
 				}
 			}
 		}

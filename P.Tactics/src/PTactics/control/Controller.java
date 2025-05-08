@@ -225,8 +225,8 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	}
 
 	@Override
-	public List<Position> getPath(Position pos) {
-		return _game.getPath(pos);
+	public List<Position> getPath() {
+		return _game.getPath();
 	}
 
 	public List<Position> hoverPath(Position pos) {

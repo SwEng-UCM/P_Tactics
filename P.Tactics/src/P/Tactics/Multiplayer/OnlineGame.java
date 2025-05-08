@@ -173,8 +173,8 @@ public class OnlineGame {
 		return ctrl.getPlayer().isInDanger(pos);
 	}
 
-	public List<Position> getPath(Position pos) {
-		return _currTroop == null ? null : _currTroop.getCurrentPath(pos);
+	public List<Position> getPath() {
+		return _currTroop == null ? null : _currTroop.getCurrentPath();
 	}
 
 	public List<Position> hoverPath(Position pos) {

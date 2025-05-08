@@ -39,11 +39,9 @@ public class GameBoardCell extends JButton{
 		return this._pos;
 	}
 	
-	public void updateCell() 
+	public void updateCell(TroopInfo tInfo, List<Position> path) 
 	{
 		this.setIcon(_cntr.getIcon(this._pos));
-		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
-		List<Position> path = _cntr.getPath(_pos);
 		if (tInfo != null && tInfo.getPos().equals(_pos)) {
 			this.setBorderPainted(true);
 			this.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));

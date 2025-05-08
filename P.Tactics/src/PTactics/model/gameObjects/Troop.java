@@ -62,7 +62,7 @@ public abstract class Troop extends GameObject {
 		currentMove = new Movement(pos);
 	}
 	
-	public List<Position> getCurrentPath(Position pos) {
+	public List<Position> getCurrentPath() {
 		return currentMove != null ? currentMove._currentMove : null;
 	}
 	

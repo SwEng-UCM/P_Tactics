@@ -329,8 +329,8 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("executeCommand" + a);
 	}
     @Override
-    public List<Position> getPath(Position pos) {
-        out.println("getPath "+ pos.getX() + " " + pos.getY());
+    public List<Position> getPath() {
+        out.println("getPath");
         try {
             String line = responseQueues.get("getPath").take();
             if(line.equals("null")) return null;

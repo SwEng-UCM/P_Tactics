@@ -196,17 +196,17 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        case "dangerTile":
 	            this.dangerTile(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
 	        case "getPath":
-	            this.getPath(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	            this.getPath(handler); break;
 	        case "hoverPath":
 	            this.hoverPath(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "getCurrentTroop":
+	        case "getCurrentTroopInfo":
 	            this.getCurrentTroopInfo(handler); break;
 	        case "onDeadTroopSelected":
 	            this.onDeadTroopSelected(); break;
 	        case "isWinPosition":
 	            this.isWinPosition(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
 	        case "getCurrentPlayerWinZone":
-	        	this.getCurrentPlayerWinZone(); break;
+	        	this.getCurrentPlayerWinZone(handler); break;
 	    }
 	}
 
@@ -380,7 +380,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		
 		if(is) {
 			exit = true;
-			for(Client c : _clients) if(c.handler != null) c.handler.sendMessage("isFinish"); // shut down others
+			for(Client c : _clients) if(c.handler != null) sendJsonMessage(c.handler, "isFinish", "a"); // shut down others
 		}
 		return is;
 	}
@@ -421,7 +421,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			}
 			currentClient = _clients.get(currClientIndex);
 			if(currentClient.handler != null) {
-				currentClient.handler.sendMessage("yourTurn");
+				sendJsonMessage(currentClient.handler, "yourTurn", "a");
 			}
 		} while (getPlayer().hasNoTroopsLeft());
 		
@@ -516,11 +516,11 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 
 	@Override
-	public List<Position> getPath(Position pos) {
-	    return _game.getPath(pos);
+	public List<Position> getPath() {
+	    return _game.getPath();
 	}
-	public void getPath(ClientHandler handler, Position pos) {
-	    List<Position> path = _game.getPath(pos);
+	public void getPath(ClientHandler handler) {
+	    List<Position> path = _game.getPath();
 	    if (path != null) {
 	        JSONArray positionsArray = new JSONArray();
 	        for (Position p : path) {
@@ -531,7 +531,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        }
 	        sendJsonMessage(handler, "getPath", positionsArray.toString());
 	    } else {
-	    	sendJsonMessage(handler, "getPath", null);
+	    	sendJsonMessage(handler, "getPath", "null");
 	    }
 	}
 
@@ -551,7 +551,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        }
 	        sendJsonMessage(handler, "hoverPath",positionsArray.toString());
 	    } else {
-	    	sendJsonMessage(handler, "hoverPath", null);
+	    	sendJsonMessage(handler, "hoverPath", "null");
 	    }
 	}
 
@@ -611,7 +611,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	        TroopInfo info = new TroopInfo(troop.getId(), troop.getPos(), troop.getMovesLeft(), troop.abilityUsesLeft());
 	        sendJsonMessage(handler, "getCurrentTroopInfo", info.report().toString());
 	    } else {
-	    	sendJsonMessage(handler, "getCurrentTroopInfo", null);
+	    	sendJsonMessage(handler, "getCurrentTroopInfo", "null");
 	    }
 	}
 
