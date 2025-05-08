@@ -40,7 +40,7 @@ public class TroopInfo {
 	    obj.put("x", this.pos.getX());
 	    obj.put("y", this.pos.getY());
 	    obj.put("movesLeft", this.movesLeft);
-	    obj.put("abilitiesLeft", this.abilityLeft);
+	    obj.put("abilityLeft", this.abilityLeft);
 	    return obj;
 	}
 
