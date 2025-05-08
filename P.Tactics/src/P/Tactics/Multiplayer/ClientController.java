@@ -338,7 +338,10 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 
 	@Override
 	public void executeCommand(String[] args) { // comprobar updates en el thread
-		out.println("executeCommand " + args);
+		String a = "";
+		for(String s : args)
+			a = a + " " + s;
+		out.println("executeCommand" + a);
 	}
 	@Override
 	public List<Position> getPath(Position pos) {//-------------------------------------------
