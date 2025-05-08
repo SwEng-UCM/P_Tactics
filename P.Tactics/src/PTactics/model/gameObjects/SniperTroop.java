@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
 import PTactics.model.game.Game;
 import PTactics.model.game.Player;
@@ -24,9 +25,9 @@ public class SniperTroop extends Troop {
 	
 	public SniperTroop(Position pos, Player p) {
 		super(pos, p);
-		_visionRange = Math.max(Position._gameLength, Position._gameWidth);;
+		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());;
 		_moveRange = 3;
-		_shootRange = Math.max(Position._gameLength, Position._gameWidth);
+		_shootRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		_abilityTime = new ArrayList<>();
 		_abilityUses = 2;
 		for (int i = 0; i < _abilityUses; i++) {
@@ -37,13 +38,14 @@ public class SniperTroop extends Troop {
         _droneHeight = 1;
         _droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
+		System.out.println(MapSelector.getLength());
 	}
 	
 	public SniperTroop(Position pos, Player p, Direction dir) {
 		super(pos, p, dir);
-		_visionRange = Math.max(Position._gameLength, Position._gameWidth);;
+		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());;
 		_moveRange = 3;
-		_shootRange = Math.max(Position._gameLength, Position._gameWidth);
+		_shootRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		_abilityTime = new ArrayList<>();
 		_abilityUses = 2;
 		for (int i = 0; i < _abilityUses; i++) {
@@ -54,13 +56,14 @@ public class SniperTroop extends Troop {
         _droneHeight = 1;
         _droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
+		System.out.println(MapSelector.getLength());
 	}
 	
 	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
 		super(pos, p, dir);
-		_visionRange = Math.max(Position._gameLength, Position._gameWidth);;
+		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());;
 		_moveRange = 3;
-		_shootRange = Math.max(Position._gameLength, Position._gameWidth);
+		_shootRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		_abilityTime = new ArrayList<>();
 		_abilityUses = 2;
 		for (int i = 0; i < _abilityUses; i++) {
@@ -80,6 +83,7 @@ public class SniperTroop extends Troop {
 			drone.add(area.get(i));
 		}
 		this._abilityActive = true;
+		System.out.println(MapSelector.getLength());
 	}
 	
 	@Override

@@ -171,6 +171,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		}
 
 		this.add(gameInfoButtons, BorderLayout.EAST);
+		if (_ctrl.cpuIsPlaying() || !_ctrl.isMyTurn()) {
+			disableAll();
+		}
 	}
 
 	// generic method for creation of buttons
@@ -254,7 +257,6 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	}
 
 	private void disableAll() {
-		_exit.setEnabled(false);
 		_undo.setEnabled(false);
 		_redo.setEnabled(false);
 		_endTurn.setEnabled(false);

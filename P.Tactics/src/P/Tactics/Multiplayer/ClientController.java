@@ -304,7 +304,6 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 
 	public void updateOnNextTurn() {
-		if(isMyTurn)
 	    SwingUtilities.invokeLater(() -> {
 	        for (GameObserver o : _observers) {
 	            o.onNextTurn(null);

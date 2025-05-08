@@ -414,7 +414,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		getPlayer().clearKills();
 		getPlayer().update();
 		update();
-		
+		if(currentClient.handler != null) sendJsonMessage(currentClient.handler, "noTurn", "a");
 		do {
 			currClientIndex++;
 			if (currClientIndex >= _clients.size()) {
@@ -422,7 +422,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			}
 			currentClient = _clients.get(currClientIndex);
 		} while (getPlayer().hasNoTroopsLeft());
-		if(currentClient.handler != null) {
+		if(currentClient.handler != null){
 			sendJsonMessage(currentClient.handler, "yourTurn", "a");
 		}
 		getPlayer().startOfTurnDeadCheck();

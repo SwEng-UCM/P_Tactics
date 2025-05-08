@@ -213,7 +213,7 @@ public class OnlineGame {
         }
 
         //Return fog
-        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
+        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4), Icons.otherIcons.FOG.toString());
     }
 
 	// Observers
