@@ -1,7 +1,9 @@
 package P.Tactics.Multiplayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
@@ -48,7 +50,7 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	private List<GameObserver> _observers;
 	private volatile boolean isMyTurn;
 	private boolean isFinish;
-	private BlockingQueue<String> responseQueue;
+	 private final Map<String, BlockingQueue<String>> responseQueues;
 	private BlockingQueue<String> messageQueue;
 	Boolean exit;
 	// constructor that takes the IP Address and the Port
@@ -60,14 +62,17 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		Position._gameWidth = MapSelector.getWidth();
 		this.address = address;
 		this.port = port;
-		responseQueue = new LinkedBlockingQueue<>();
 		messageQueue = new LinkedBlockingQueue<>();
 		isFinish = false;
 		isMyTurn = false;
 		this.Id = Id;
 		_observers = new ArrayList<>();
-
-		
+		responseQueues = new HashMap<>();
+        for (String method : List.of("getCurrentPlayerName", "getCurrentPlayerWinZone", "getNumPlayer",
+                "isTroopSelected", "canMove", "isTroop", "dangerTile", "getIcon", "getPath",
+                "hoverPath", "getCurrentTroop", "isWinPosition")) {
+            responseQueues.put(method, new LinkedBlockingQueue<>());
+        }
 	} 
 	
 	public void logPlayers() {
@@ -111,77 +116,64 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	}
 	private void parse() {
 		new Thread(() -> {
-		    try {
-		    	String msg;
-		    	while (!exit) {
-		         msg = messageQueue.take();		        
-		        	switch (msg) {
-			            case "yourTurn":
-			                isMyTurn = true;
-			                break;
-	
-			            case "noTurn":
-			                isMyTurn = false;
-			                break;
-	
-			            case "isFinish":
-			                isFinish = true;
-			                exit = true;
-			                break;
-			            
-			             case "updateOnPlayersUpdate":
-			            	 updateOnPlayersUpdate();
-			            	 break;
-					     case "updateOnBoardUpdate":
-						     updateOnBoardUpdate();
-						     break;
-	 					 case "updateOnTroopAction":
-	 						 updateOnTroopAction();
-	 						 break;
-						 case "updateOnTroopSelection":
-							 updateOnTroopSelection();
-							 break;
-						 case "updateOnNextTurn":
-							 updateOnNextTurn();
-							 break;
-						 case "updateOnTroopUnSelection":
-							 updateOnTroopUnSelection();
-							 break;
-			            default:
-			                responseQueue.offer(msg); // for methods waiting on responses
-			                break;
-		        	}
-		        }
-		    } catch (InterruptedException e) {
-		        e.printStackTrace();
-		    }
+			 try {
+	                String msg;
+	                while (!exit) {
+	                    msg = messageQueue.take();
+	                    JSONObject json = new JSONObject(msg);
+	                    String method = json.getString("method");
+
+	                    switch (method) {
+	                        case "yourTurn":
+	                            isMyTurn = true;
+	                            break;
+	                        case "noTurn":
+	                            isMyTurn = false;
+	                            break;
+	                        case "isFinish":
+	                            isFinish = true;
+	                            exit = true;
+	                            break;
+	                        case "updateOnPlayersUpdate": updateOnPlayersUpdate(); break;
+	                        case "updateOnBoardUpdate": updateOnBoardUpdate(); break;
+	                        case "updateOnTroopAction": updateOnTroopAction(); break;
+	                        case "updateOnTroopSelection": updateOnTroopSelection(); break;
+	                        case "updateOnNextTurn": updateOnNextTurn(); break;
+	                        case "updateOnTroopUnSelection": updateOnTroopUnSelection(); break;
+	                        default:
+	                            String data = json.has("msg") ? json.get("msg").toString() : "";
+	                            BlockingQueue<String> queue = responseQueues.get(method);
+	                            if (queue != null) queue.offer(data);
+	                            break;
+	                    }
+	                }
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
 		}).start();
 	}
-	@Override
-	
-	
-	public String getCurrentPlayerName() {//-------------------------------------------------------
-		out.println("getCurrentPlayerName");
-		try {
-			String line = responseQueue.take();
-			return line;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
 	@Override
-	public int getCurrentPlayerWinZone() {//----------------------------------------------
-		out.println("getCurrentPlayerWinZone");
-		try {
-			String line = responseQueue.take();
-			return Integer.parseInt(line);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
-	}
+    public String getCurrentPlayerName() {
+        out.println("getCurrentPlayerName");
+        try {
+            return responseQueues.get("getCurrentPlayerName").take();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
+	 @Override
+	    public int getCurrentPlayerWinZone() {
+	        out.println("getCurrentPlayerWinZone");
+	        try {
+	            return Integer.parseInt(responseQueues.get("getCurrentPlayerWinZone").take());
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return -1;
+	        }
+	    }
 
 	
 	public boolean isFinish() {
@@ -201,79 +193,72 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		out.println("updatePlayers");
 	}
 
-	@Override
-	public int getNumPlayer() {//---------------------------------------------------------------------
-		out.println("getNumPlayer");
-		try {
-			String line = responseQueue.take();
-			return Integer.parseInt(line);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
-	}
-
-	public boolean isTroopSelected() {//-----------------------------------------------------------------
-		out.println("isTroopSelected");
-		try {
-			String line = responseQueue.take();
-			return line.equals("true")? true : false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public boolean canMove(Position pos) {//------------------------------------------------------------
-		out.println("canMove " + pos.getX() + " " + pos.getY());
-		try {
-			String line = responseQueue.take();
-			return line.equals("true")? true : false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+	 @Override
+	    public int getNumPlayer() {
+	        out.println("getNumPlayer");
+	        try {
+	            return Integer.parseInt(responseQueues.get("getNumPlayer").take());
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return -1;
+	        }
+	    }
+	 @Override
+	 public boolean isTroopSelected() {
+	        out.println("isTroopSelected");
+	        try {
+	            return responseQueues.get("isTroopSelected").take().equals("true");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
+	 @Override
+	 public boolean canMove(Position pos) {
+	        out.println("canMove " + pos.getX() + " " + pos.getY());
+	        try {
+	            return responseQueues.get("canMove").take().equals("true");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
 
 
-	public Boolean isTroop(Position pos) {//---------------------------------------------------------------------
-		out.println("isTroop " + pos.getX() + " " + pos.getY());
-		try {
-			String line = responseQueue.take();
-			return line.equals("true")? true : false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+	 	@Override
+	    public Boolean isTroop(Position pos) {
+	        out.println("isTroop " + pos.getX() + " " + pos.getY());
+	        try {
+	            return responseQueues.get("isTroop").take().equals("true");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
 
 
-	public boolean dangerTile(Position pos) {//----------------------------------------------
-		out.println("dangerTile " + pos.getX() + " " + pos.getY());
-		try {
-			String line = responseQueue.take();
-			return line.equals("true")? true : false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+	 	public boolean dangerTile(Position pos) {
+	        out.println("dangerTile " + pos.getX() + " " + pos.getY());
+	        try {
+	            return responseQueues.get("dangerTile").take().equals("true");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
 	
-	@Override
-	public Icon getIcon(Position _pos) { //-----------------------------------------------------------D
-		out.println("getIcon "+ _pos.getX() + " " + _pos.getY());
-		try {
-			String line = responseQueue.take();
-			if(line != "Icons/Dead.png")
-				return new ImageIcon(new ImageIcon(line).getImage().getScaledInstance(Position.tileSize,
-					Position.tileSize, 4));
-			
-			return Icons.TroopIcons.DEAD;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	    @Override
+	    public Icon getIcon(Position _pos) {
+	        out.println("getIcon "+ _pos.getX() + " " + _pos.getY());
+	        try {
+	            String line = responseQueues.get("getIcon").take();
+	            if(line.equals("Icons/Dead.png")) return Icons.TroopIcons.DEAD;
+	            return new ImageIcon(new ImageIcon(line).getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
 	
 	public void addObserver(GameObserver o) {
 		_observers.add(o);
@@ -343,66 +328,61 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 			a = a + " " + s;
 		out.println("executeCommand" + a);
 	}
-	@Override
-	public List<Position> getPath(Position pos) {//-------------------------------------------
-		out.println("getPath "+ pos.getX() + " " + pos.getY());
-		try {
-			String line = responseQueue.take();
-			if(line.equals("null")) return null;
-			JSONArray positionsArray = new JSONArray(line);
-			List<Position> positions = new ArrayList<>();
-			for (int i = 0; i < positionsArray.length(); i++) {
-			    JSONObject posObj = positionsArray.getJSONObject(i);
-			    int x = posObj.getInt("x");
-			    int y = posObj.getInt("y");
-			    positions.add(new Position(x, y));
-			}
-			return positions;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    @Override
+    public List<Position> getPath(Position pos) {
+        out.println("getPath "+ pos.getX() + " " + pos.getY());
+        try {
+            String line = responseQueues.get("getPath").take();
+            if(line.equals("null")) return null;
+            JSONArray positionsArray = new JSONArray(line);
+            List<Position> positions = new ArrayList<>();
+            for (int i = 0; i < positionsArray.length(); i++) {
+                JSONObject posObj = positionsArray.getJSONObject(i);
+                positions.add(new Position(posObj.getInt("x"), posObj.getInt("y")));
+            }
+            return positions;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @Override
+    public List<Position> hoverPath(Position pos) {
+        out.println("hoverPath "+ pos.getX() + " " + pos.getY());
+        try {
+            String line = responseQueues.get("hoverPath").take();
+            if(line.equals("null")) return null;
+            JSONArray positionsArray = new JSONArray(line);
+            List<Position> positions = new ArrayList<>();
+            for (int i = 0; i < positionsArray.length(); i++) {
+                JSONObject posObj = positionsArray.getJSONObject(i);
+                positions.add(new Position(posObj.getInt("x"), posObj.getInt("y")));
+            }
+            return positions;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	public List<Position> hoverPath(Position pos) {//---------------------------------------------
-		out.println("hoverPath "+ pos.getX() + " " + pos.getY());
-		try {
-			String line = responseQueue.take();
-			if(line.equals("null")) return null;
-			JSONArray positionsArray = new JSONArray(line);
-			List<Position> positions = new ArrayList<>();
-			for (int i = 0; i < positionsArray.length(); i++) {
-			    JSONObject posObj = positionsArray.getJSONObject(i);
-			    int x = posObj.getInt("x");
-			    int y = posObj.getInt("y");
-			    positions.add(new Position(x, y));
-			}
-			return positions;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public TroopInfo getCurrentTroopInfo() {//-----------------------------------------------------
-		out.println("getCurrentTroop");
-		try {
-			String line = responseQueue.take();
-			if(line.equals("null")) return null;
-			JSONObject obj = new JSONObject(line);
-			String ID = obj.getString("ID");
-			int x = obj.getInt("x");
-			int y = obj.getInt("y");
-			Position pos = new Position(x,y);
-			int movesLeft = obj.getInt("movesLeft");
-			int abilityLeft = obj.getInt("abilityLeft");
-			return new TroopInfo(ID,pos,movesLeft, abilityLeft);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    @Override
+    public TroopInfo getCurrentTroopInfo() {
+        out.println("getCurrentTroop");
+        try {
+            String line = responseQueues.get("getCurrentTroop").take();
+            if(line.equals("null")) return null;
+            JSONObject obj = new JSONObject(line);
+            return new TroopInfo(
+                obj.getString("ID"),
+                new Position(obj.getInt("x"), obj.getInt("y")),
+                obj.getInt("movesLeft"),
+                obj.getInt("abilityLeft")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	public boolean isOnline() {
 		return true;
 	}
@@ -411,16 +391,15 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 	public boolean isMyTurn() {
 		return isMyTurn;
 	}
-	public boolean isWinPosition(Position pos) {
-		out.println("isWinPosition " + pos.getX() + " " + pos.getY());
-		try {
-			String line = responseQueue.take();
-			return line.equals("true")? true : false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+    public boolean isWinPosition(Position pos) {
+        out.println("isWinPosition " + pos.getX() + " " + pos.getY());
+        try {
+            return responseQueues.get("isWinPosition").take().equals("true");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 //-------------------------------------------------------------------------------------------------------------------
 
 	
@@ -560,6 +539,5 @@ public class ClientController implements ControllerInterface,Observable<GameObse
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

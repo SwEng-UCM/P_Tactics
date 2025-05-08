@@ -168,61 +168,48 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		}).start();
 	}
 	
-	private void exeParse(String input, ClientHandler handler) { // parses a message and executes it
-		String[] tokens = input.trim().split("\\s+");
+	private void exeParse(String input, ClientHandler handler) {
+	    String[] tokens = input.trim().split("\\s+");
 	    String command = tokens[0];
 
 	    switch (command) {
 	        case "nextTurn":
-	            this.nextTurn();  // Call your logic
-	            break;
+	            this.nextTurn(); break;
 	        case "getIcon":
-	        	this.getIcon(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
+	            this.getIcon(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
 	        case "executeCommand":
-	        	String[] args = Arrays.copyOfRange(tokens, 1, tokens.length);	        
-	        	this.executeCommand(args);
+	            this.executeCommand(Arrays.copyOfRange(tokens, 1, tokens.length)); break;
 	        case "update":
-	        	this.update();
-	        	break;
-	        case "getCurrentPlayerName": 
-	        	this.getCurrentPlayerName(handler);
-	        	break;
+	            this.update(); break;
+	        case "getCurrentPlayerName":
+	            this.getCurrentPlayerName(handler); break;
 	        case "updatePlayers":
-	        	this.updatePlayers();
-	        	break;
+	            this.updatePlayers(); break;
 	        case "getNumPlayer":
-	        	this.getNumPlayer();
-	        	break;
+	            this.getNumPlayer(handler); break;
 	        case "isTroopSelected":
-	        	this.isTroopSelected();
-	        	break;
-	        case"canMove":     	
-	        	this.canMove(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
-	        case"isTroop":
-	        	this.isTroop(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
-	        case"dangerTile":
-	        	this.dangerTile(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
-	        case"getPath":
-	        	this.getPath(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
-	        case"hoverPath":
-	        	this.hoverPath(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
-	        case"getCurrentTroop":
-	        	this.getCurrentTroopInfo();
-	        	break;
-	        case"onDeadTroopSelected":
-	        	this.onDeadTroopSelected();
-	        	break;
-	        case"isWinPosition":
-	        	this.isWinPosition(new Position(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])));
-	        	break;
+	            this.isTroopSelected(handler); break;
+	        case "canMove":
+	            this.canMove(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	        case "isTroop":
+	            this.isTroop(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	        case "dangerTile":
+	            this.dangerTile(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	        case "getPath":
+	            this.getPath(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	        case "hoverPath":
+	            this.hoverPath(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	        case "getCurrentTroop":
+	            this.getCurrentTroopInfo(handler); break;
+	        case "onDeadTroopSelected":
+	            this.onDeadTroopSelected(); break;
+	        case "isWinPosition":
+	            this.isWinPosition(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
+	        case "getCurrentPlayerWinZone":
+	        	this.getCurrentPlayerWinZone(); break;
 	    }
 	}
+
 
 	@Override
 	public void showGame() {
@@ -258,10 +245,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public Icon getIcon(Position _pos) {
-		String direction = _game.positionToIcon(_pos).toString();
-		if(currentClient.handler != null) currentClient.handler.sendMessage(direction);
-		return _game.positionToIcon(_pos);
+	    return _game.positionToIcon(_pos);
 	}
+	public void getIcon(ClientHandler handler, Position _pos) {
+	    sendJsonMessage(handler,"getIcon",_game.positionToIcon(_pos).toString());
+	}
+
 
 
 	@Override
@@ -284,42 +273,42 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			o.onPlayersUpdate(null);
 		}
 		for(Client c : _clients)
-			if(c.handler != null)c.handler.sendMessage("updateOnPlayersUpdate");
+			if(c.handler != null)sendJsonMessage(c.handler,"updateOnPlayersUpdate" , "a");
 	}
 	public void updateOnBoardUpdate() {
 		for (GameObserver o : _observers) {
 			o.onBoardUpdate(null);
 		}
 		for(Client c : _clients)
-			if(c.handler != null)c.handler.sendMessage("updateOnBoardUpdate");
+			if(c.handler != null)sendJsonMessage(c.handler,"updateOnBoardUpdate" , "a");
 	}
 	public void updateOnTroopAction() {
 		for (GameObserver o : _observers) {
 			o.onTroopAction(null);
 		}
 		for(Client c : _clients)
-			if(c.handler != null)c.handler.sendMessage("updateOnTroopAction");
+			if(c.handler != null) sendJsonMessage(c.handler,"updateOnTroopAction" , "a");
 	}
 	public void updateOnTroopSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopSelection(null);
 		}
 		for(Client c : _clients)
-			if(c.handler != null)c.handler.sendMessage("updateOnTroopSelection");
+			if(c.handler != null)sendJsonMessage(c.handler,"updateOnTroopSelection" , "a");
 	}
 	public void updateOnNextTurn() {
 		for (GameObserver o : _observers) {
 			o.onNextTurn(null);
 		}
 		for(Client c : _clients)
-			if(c.handler != null)c.handler.sendMessage("updateOnNextTurn");
+			if(c.handler != null)sendJsonMessage(c.handler,"updateOnNextTurn" , "a");
 	}
 	public void updateOnTroopUnSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopUnSelection(null);
 		}
 		for(Client c : _clients)
-			if(c.handler != null)c.handler.sendMessage("updateOnTroopUnSelection");
+			if(c.handler != null)sendJsonMessage(c.handler,"updateOnTroopUnSelection" , "a");
 	}
 
 	@Override
@@ -372,15 +361,17 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	
 	@Override
 	public int getCurrentPlayerWinZone() {//-------
-		if(currentClient.handler != null)currentClient.handler.sendMessage(String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
 		return Board.getInstance().pointsToWin() - currentClient.player.winPoints();
+	}
+	public void getCurrentPlayerWinZone(ClientHandler h) {//-------
+		sendJsonMessage(h, "getCurrentPlayerWinZone", String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
 	}
 	
 	public String getCurrentPlayerName() {
 		return currentClient.player.getId();	
 	}
 	private void getCurrentPlayerName(ClientHandler h) {
-		h.sendMessage(currentClient.player.getId());	
+		sendJsonMessage(h,"getCurrentPlayerName",currentClient.player.getId());	
 	}
 
 	public boolean isFinish() {
@@ -454,9 +445,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public int getNumPlayer() {
-		if (currentClient.handler != null) currentClient.handler.sendMessage(String.valueOf(connected));
-		return connected ; // clients + host
+	    return connected;
 	}
+	public void getNumPlayer(ClientHandler handler) {
+		sendJsonMessage(handler, "getNumPlayer",String.valueOf(connected));
+	}
+
 
 	@Override
 	public void selectTroop(Position pos) throws Exception {
@@ -467,16 +461,23 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public void selectTroop(Troop t) {
 		_game.selectTroop(t);
 	}
-
+	
+	@Override
 	public boolean isTroopSelected() {
-		if (currentClient.handler != null) currentClient.handler.sendMessage(_game.isTroopSelected()? "true" : "false");
-		return _game.isTroopSelected();
+	    return _game.isTroopSelected();
+	}
+	public void isTroopSelected(ClientHandler handler) {
+		sendJsonMessage(handler,"isTroopSelected", _game.isTroopSelected() ? "true" : "false");
 	}
 
+	@Override
 	public boolean canMove(Position pos) {
-		if (currentClient.handler != null) currentClient.handler.sendMessage(_game.canMove(pos)? "true" : "false");
-		return _game.canMove(pos);
+	    return _game.canMove(pos);
 	}
+	public void canMove(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler,"canMove",_game.canMove(pos) ? "true" : "false");
+	}
+
 
 	public void moveTroop(Position pos) throws IllegalArgumentException {
 		_game.moveTroop(pos);
@@ -491,9 +492,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public Boolean isTroop(Position pos) {
-		if (currentClient.handler != null) currentClient.handler.sendMessage(_game.isTroop(pos)? "true" : "false");
-		return this._game.isTroop(pos);
+	    return this._game.isTroop(pos);
 	}
+	public void isTroop(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler,"isTroop",_game.isTroop(pos) ? "true" : "false");
+	}
+
 
 //	public Game getGame() { 
 //		return this._game;
@@ -504,46 +508,53 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public boolean dangerTile(Position pos) {
-		if (currentClient.handler != null)currentClient.handler.sendMessage(_game.dangerTile(pos)? "true" : "false");
-		return _game.dangerTile(pos);
+	    return _game.dangerTile(pos);
+	}
+	public void dangerTile(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler, "dangerTile",_game.dangerTile(pos) ? "true" : "false");
+	}
+
+
+	@Override
+	public List<Position> getPath(Position pos) {
+	    return _game.getPath(pos);
+	}
+	public void getPath(ClientHandler handler, Position pos) {
+	    List<Position> path = _game.getPath(pos);
+	    if (path != null) {
+	        JSONArray positionsArray = new JSONArray();
+	        for (Position p : path) {
+	            JSONObject posObj = new JSONObject();
+	            posObj.put("x", p.getX());
+	            posObj.put("y", p.getY());
+	            positionsArray.put(posObj);
+	        }
+	        sendJsonMessage(handler, "getPath", positionsArray.toString());
+	    } else {
+	    	sendJsonMessage(handler, "getPath", null);
+	    }
 	}
 
 	@Override
-	public List<Position> getPath(Position pos) { //sending a JSON array through the socket because it was revealed to me in a dream
-		List<Position>path = _game.getPath(pos);
-		if(currentClient.handler != null) {
-			if(path != null) {
-			JSONArray positionsArray = new JSONArray();
-				for (Position p : path) {
-				    JSONObject posObj = new JSONObject();
-				    posObj.put("x", p.getX());
-				    posObj.put("y", p.getY());
-				    positionsArray.put(posObj);
-				}
-				currentClient.handler.sendMessage(positionsArray.toString());
-			}
-			else currentClient.handler.sendMessage(null);
-		}
-		return path;
+	public List<Position> hoverPath(Position pos) {
+	    return _game.hoverPath(pos);
+	}
+	public void hoverPath(ClientHandler handler, Position pos) {
+	    List<Position> path = _game.hoverPath(pos);
+	    if (path != null) {
+	        JSONArray positionsArray = new JSONArray();
+	        for (Position p : path) {
+	            JSONObject posObj = new JSONObject();
+	            posObj.put("x", p.getX());
+	            posObj.put("y", p.getY());
+	            positionsArray.put(posObj);
+	        }
+	        sendJsonMessage(handler, "hoverPath",positionsArray.toString());
+	    } else {
+	    	sendJsonMessage(handler, "hoverPath", null);
+	    }
 	}
 
-	public List<Position> hoverPath(Position pos) {
-		List<Position> path = _game.hoverPath(pos);
-		if(currentClient.handler != null) {
-			if(path != null) {
-				JSONArray positionsArray = new JSONArray();
-				for (Position p : _game.hoverPath(pos)) {
-				    JSONObject posObj = new JSONObject();
-				    posObj.put("x", p.getX());
-				    posObj.put("y", p.getY());
-				    positionsArray.put(posObj);
-				}
-				currentClient.handler.sendMessage(positionsArray.toString());
-			}
-			else currentClient.handler.sendMessage(null);
-		}
-		return _game.hoverPath(pos);
-	}
 	
 	@Override
 	public void load(InputStream is) {
@@ -589,15 +600,21 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public Player getPlayer(int idx) {
 		return this._clients.get(idx - 1).player;
 	}
+	@Override
 	public TroopInfo getCurrentTroopInfo(){
-		boolean a = _game.getCurrentTroop() != null;
-		TroopInfo info = a? new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft()):null;
-		if(currentClient.handler != null) { 
-			if(a) currentClient.handler.sendMessage(info.report().toString());
-			else currentClient.handler.sendMessage(null);
-		}
-		return info;
+	    boolean exists = _game.getCurrentTroop() != null;
+	    return exists ? new TroopInfo(_game.getCurrentTroop().getId(), _game.getCurrentTroop().getPos(), _game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft()) : null;
 	}
+	public void getCurrentTroopInfo(ClientHandler handler) {
+	    Troop troop = _game.getCurrentTroop();
+	    if (troop != null) {
+	        TroopInfo info = new TroopInfo(troop.getId(), troop.getPos(), troop.getMovesLeft(), troop.abilityUsesLeft());
+	        sendJsonMessage(handler, "getCurrentTroopInfo", info.report().toString());
+	    } else {
+	    	sendJsonMessage(handler, "getCurrentTroopInfo", null);
+	    }
+	}
+
 	public void onDeadTroopSelected() {
 		_game.onDeadTroopSelected();
 	}
@@ -628,7 +645,16 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 	@Override
 	public boolean isWinPosition(Position pos) {
-		if (currentClient.handler != null)currentClient.handler.sendMessage(Board.getInstance().isWinPosition(pos)? "true" : "false");
-		return Board.getInstance().isWinPosition(pos);
+	    return Board.getInstance().isWinPosition(pos);
 	}
+	public void isWinPosition(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler, "isWinPosition",Board.getInstance().isWinPosition(pos) ? "true" : "false");
+	}
+	private void sendJsonMessage(ClientHandler handler, String methodName, String msgContent) {
+        JSONObject message = new JSONObject();
+        message.put("method", methodName);
+        message.put("msg", msgContent);
+        handler.sendMessage(message.toString());
+    }
+
 }
