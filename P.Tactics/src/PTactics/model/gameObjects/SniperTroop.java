@@ -24,9 +24,9 @@ public class SniperTroop extends Troop {
 	
 	public SniperTroop(Position pos, Player p) {
 		super(pos, p);
-		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
+		_visionRange = Math.max(Position._gameLength, Position._gameWidth);;
 		_moveRange = 3;
-		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
+		_shootRange = Math.max(Position._gameLength, Position._gameWidth);
 		_abilityTime = new ArrayList<>();
 		_abilityUses = 2;
 		for (int i = 0; i < _abilityUses; i++) {
@@ -41,9 +41,9 @@ public class SniperTroop extends Troop {
 	
 	public SniperTroop(Position pos, Player p, Direction dir) {
 		super(pos, p, dir);
-		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
+		_visionRange = Math.max(Position._gameLength, Position._gameWidth);;
 		_moveRange = 3;
-		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
+		_shootRange = Math.max(Position._gameLength, Position._gameWidth);
 		_abilityTime = new ArrayList<>();
 		_abilityUses = 2;
 		for (int i = 0; i < _abilityUses; i++) {
@@ -58,9 +58,9 @@ public class SniperTroop extends Troop {
 	
 	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
 		super(pos, p, dir);
-		_visionRange = Math.max(Game._boardLength, Game._boardWidth);;
+		_visionRange = Math.max(Position._gameLength, Position._gameWidth);;
 		_moveRange = 3;
-		_shootRange = Math.max(Game._boardLength, Game._boardWidth);
+		_shootRange = Math.max(Position._gameLength, Position._gameWidth);
 		_abilityTime = new ArrayList<>();
 		_abilityUses = 2;
 		for (int i = 0; i < _abilityUses; i++) {
@@ -85,7 +85,6 @@ public class SniperTroop extends Troop {
 	@Override
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
-		
 		if (!isAlive()) {
 			return visiblePositions;
 		}
