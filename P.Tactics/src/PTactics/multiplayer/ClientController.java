@@ -250,10 +250,8 @@ public class ClientController implements ControllerInterface, Observable<GameObs
 		out.println("getIcon " + _pos.getX() + " " + _pos.getY());
 		try {
 			String line = responseQueues.get("getIcon").take();
-			if (line.equals("Icons/Dead.png"))
-				return Icons.TroopIcons.DEAD;
-			return new ImageIcon(
-					new ImageIcon(line).getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
+			
+			return new ImageIcon(Icons.loadIcon(line).getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

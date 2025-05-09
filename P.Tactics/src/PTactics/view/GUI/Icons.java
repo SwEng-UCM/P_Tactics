@@ -9,14 +9,14 @@ import java.net.URL;
 public interface Icons {
     
     // Helper method to safely load icons with error handling
-    private static ImageIcon loadIcon(String path) {
+    public static ImageIcon loadIcon(String path) {
         try {
             URL resource = Icons.class.getResource(path);
             if (resource == null) {
                 System.err.println("[ERROR] Missing icon resource: " + path);
                 return createErrorIcon(32, 32); // Default size for error icon
             }
-            return new ImageIcon(resource);
+            return new ImageIcon(resource, path);
         } catch (Exception e) {
             System.err.println("[ERROR] Failed to load icon: " + path);
             e.printStackTrace();
