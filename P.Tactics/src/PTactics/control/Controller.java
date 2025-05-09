@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import PTactics.CPU.CPUinterface;
 import PTactics.CPU.EasyCPU;
 import PTactics.CPU.HardCPU;
 import PTactics.CPU.MediumCPU;
@@ -262,8 +263,21 @@ public abstract class Controller implements ControllerInterface, Observable<Game
 
 		if (!playersSetUp) {
 			DangerMediator dangerMediator = new DangerMediator();
-			for (Integer i = 1; i <= _numPlayers; ++i) {
-				Player p = new Player(i.toString(), dangerMediator);
+			for (Integer i = 0; i < _numPlayers; ++i) {
+				CPUinterface cpuInterface;
+				String cpuDifficulty = gameState.getJSONArray("CPU").getString(i);
+
+				if (cpuDifficulty.equals("easy")) {
+				    cpuInterface = new EasyCPU(this);
+				} else if (cpuDifficulty.equals("medium")) {
+				    cpuInterface = new MediumCPU(this);
+				} else if (cpuDifficulty.equals("hard")) {
+				    cpuInterface = new HardCPU(this);
+				} else {
+				    cpuInterface = null;
+				}
+
+				Player p = new Player(String.valueOf(i+1), dangerMediator, cpuInterface, (int) gameState.getJSONArray("PlayerPoints").get(i));
 				_game.addPlayer(p);
 			}
 			_game.inicialize();

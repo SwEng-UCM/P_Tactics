@@ -348,6 +348,7 @@ public class Game {
 	// Report
 	public JSONObject report() {
 		JSONObject report = new JSONObject();
+		
 		JSONArray winZone = new JSONArray();
 		for(Position p : Board.getInstance().winZone()) {
 			JSONObject jo = new JSONObject();
@@ -355,8 +356,26 @@ public class Game {
 			jo.put("PositionY", p.getY());
 			winZone.put(jo);
 		}
+		
+		JSONArray winPoints = new JSONArray();
+		for(Player p : _players) {
+			winPoints.put(p.winPoints());
+		}
+		
+		JSONArray isCpu = new JSONArray();
+		for(Player p : _players) {
+			if(p.isCPU()) {
+				isCpu.put(p.getCpuDifficulty());
+			}
+			else {
+				isCpu.put("");
+			}
+		}
+		
 		report.put("WinningZone", winZone);
 		report.put("Players", _players.size());
+		report.put("PlayerPoints", winPoints);
+		report.put("CPU", isCpu);
 		report.put("BoardLenght", _boardLength);
 		report.put("BoardWidth", _boardWidth);
 		report.put("Turn", this.getNumPlayer() - 1);

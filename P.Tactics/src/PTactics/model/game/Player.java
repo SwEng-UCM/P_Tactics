@@ -37,20 +37,22 @@ public class Player implements DangerObject {
 		_turn = false;
 		_cpu = null;
 	}
+	
+	public Player(String id, DangerMediator dm, int winPoints) {
+		this(id,dm);
+		_winZoneTurns = winPoints;
+	}
 
 	// constructor for a CPU
 	public Player(String id, DangerMediator dm, CPUinterface cpu) {
-		this._id = id;
-		dimX = MapSelector.getWidth();
-		dimY = MapSelector.getLength();
-		_visibility = new boolean[dimX][dimY];
-		_danger = new boolean[dimX][dimY];
-		this._troops = new ArrayList<>();
-		_dangerMediator = dm;
-		_dangerMediator.registerComponent(this);
-		_lastTurnKills = new HashMap<>();
-		_turn = false;
+		this(id,dm);
 		_cpu = cpu;
+	}
+	
+	// constructor for a CPU
+	public Player(String id, DangerMediator dm, CPUinterface cpu, int winPoints) {
+		this(id,dm, cpu);
+		_winZoneTurns = winPoints;
 	}
 
 	public void ComputeTurn() {
@@ -136,7 +138,10 @@ public class Player implements DangerObject {
 	public String getId() {
 		return _id;
 	}
-
+	
+	public String getCpuDifficulty(){
+		return _cpu.toString();
+	}
 	public void clearKills() {
 		_lastTurnKills.clear();
 	}
@@ -154,17 +159,10 @@ public class Player implements DangerObject {
 
 	public void startTurn() {
 		_turn = true;
-		boolean inZone = false;
-
 		for (Troop troop : _troops) {
 			if (Board.getInstance().isWinPosition(troop.getPos()) && troop.isAlive()) {
 				_winZoneTurns++; // each troop in the zone adds one to the count
-				inZone = true;
 			}
-		}
-
-		if (!inZone) {
-			_winZoneTurns = 0;
 		}
 	}
 

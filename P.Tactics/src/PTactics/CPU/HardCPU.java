@@ -80,5 +80,9 @@ public class HardCPU extends CPUinterface {
 		}
 		_ci.nextTurn();
 	}
-
+	
+	@Override
+	public String toString() {
+		return "hard";
+	}	
 }

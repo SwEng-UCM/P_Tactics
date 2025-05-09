@@ -79,4 +79,9 @@ public class MediumCPU extends CPUinterface {
 		}
 		_ci.nextTurn();
 	}
+	
+	@Override
+	public String toString() {
+		return "medium";
+	}
 }

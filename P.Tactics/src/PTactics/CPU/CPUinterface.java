@@ -51,7 +51,6 @@ public abstract class CPUinterface {
 			return Y < 0 ? Direction.UP : Direction.DOWN;
 		} else {
 			return X < 0 ? Direction.LEFT : Direction.RIGHT;
-		}
-
+		}	
 	}
 }

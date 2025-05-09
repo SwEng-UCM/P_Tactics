@@ -49,5 +49,9 @@ public class EasyCPU extends CPUinterface {
 		}
 		_ci.nextTurn();
 	}
-
+	
+	@Override
+	public String toString() {
+		return "easy";
+	}
 }
