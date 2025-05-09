@@ -1,4 +1,4 @@
-package P.Tactics.Multiplayer;
+package PTactics.multiplayer;
 
 public class GameMessage { // done with the help of chatGPT
 	public final ClientHandler sender;

@@ -36,11 +36,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import P.Tactics.Multiplayer.ClientController;
-import P.Tactics.Multiplayer.HostController;
 import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.model.game.Board;
+import PTactics.multiplayer.ClientController;
+import PTactics.multiplayer.HostController;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons.otherIcons;
 

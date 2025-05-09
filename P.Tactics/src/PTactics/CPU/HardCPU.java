@@ -1,4 +1,4 @@
-package P.Tactics.CPU;
+package PTactics.CPU;
 
 import java.util.List;
 import java.util.Random;

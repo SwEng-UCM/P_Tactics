@@ -7,9 +7,9 @@ import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import P.Tactics.CPU.EasyCPU;
-import P.Tactics.CPU.HardCPU;
-import P.Tactics.CPU.MediumCPU;
+import PTactics.CPU.EasyCPU;
+import PTactics.CPU.HardCPU;
+import PTactics.CPU.MediumCPU;
 import PTactics.control.commands.Command;
 import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;

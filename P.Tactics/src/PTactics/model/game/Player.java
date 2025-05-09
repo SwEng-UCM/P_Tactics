@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import P.Tactics.CPU.CPUinterface;
+import PTactics.CPU.CPUinterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
