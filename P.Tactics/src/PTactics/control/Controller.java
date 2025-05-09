@@ -280,7 +280,7 @@ public abstract class Controller implements ControllerInterface, Observable<Game
 	}
 
 	protected void _loadController(JSONObject gameState) {
-		_game.set(gameState);
+		_game = new Game(gameState, this);
 		this._numPlayers = gameState.getInt("Players");
 		_endTurn = false;
 	}

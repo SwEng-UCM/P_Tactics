@@ -39,6 +39,11 @@ public class Game {
 		this._currPlayer = 0;
 		this.ctrl = ctrl;
 	}
+	
+	public Game(JSONObject gameState, ControllerInterface ctrl) {
+		this.ctrl = ctrl;
+		set(gameState);
+	}
 
 	// Game State Setup
 	public void set(JSONObject gameState) {
