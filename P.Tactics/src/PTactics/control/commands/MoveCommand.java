@@ -15,17 +15,19 @@ public class MoveCommand extends ReportCommand {
 	private boolean snapTaken;
 
 	public MoveCommand() {
-		super(Utils.CommandInfo.COMMAND_MOVE_NAME, Utils.CommandInfo.COMMAND_MOVE_SHORTCUT, Utils.CommandInfo.COMMAND_MOVE_DETAILS, Utils.CommandInfo.COMMAND_MOVE_HELP);
+		super(Utils.CommandInfo.COMMAND_MOVE_NAME, Utils.CommandInfo.COMMAND_MOVE_SHORTCUT,
+				Utils.CommandInfo.COMMAND_MOVE_DETAILS, Utils.CommandInfo.COMMAND_MOVE_HELP);
 	}
 
 	public MoveCommand(int x, int y) // for GUI implementation
 	{
-		super(Utils.CommandInfo.COMMAND_MOVE_NAME, Utils.CommandInfo.COMMAND_MOVE_SHORTCUT, Utils.CommandInfo.COMMAND_MOVE_DETAILS, Utils.CommandInfo.COMMAND_MOVE_HELP);
+		super(Utils.CommandInfo.COMMAND_MOVE_NAME, Utils.CommandInfo.COMMAND_MOVE_SHORTCUT,
+				Utils.CommandInfo.COMMAND_MOVE_DETAILS, Utils.CommandInfo.COMMAND_MOVE_HELP);
 		this._posX = x;
 		this._posY = y;
 		snapTaken = false;
 	}
-	
+
 	@Override
 	protected Snapshot getSnap(ControllerInterface CI) {
 		return new MoveSnapshot(CI);
@@ -37,7 +39,7 @@ public class MoveCommand extends ReportCommand {
 			boolean movesLeft = true;
 			Position pos = new Position(_posX, _posY);
 			try {
-				if(!snapTaken) {
+				if (!snapTaken) {
 					super.execute(CI);
 					snapTaken = true;
 				}
@@ -54,21 +56,21 @@ public class MoveCommand extends ReportCommand {
 			}
 			if (movesLeft && CI.canMove(pos)) {
 				SwingUtilities.invokeLater(() -> execute(CI));
-			}
-			else {
+			} else {
 				CI.onDeadTroopSelected();
 			}
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
 		}
 	}
-	//move execute for CPU, instant and reports errors.
+
+	// move execute for CPU, instant and reports errors.
 	public void executeCPU(ControllerInterface CI) {
 		if (CI.isTroopSelected()) {
 			boolean movesLeft = true;
 			Position pos = new Position(_posX, _posY);
 			try {
-				if(!snapTaken) {
+				if (!snapTaken) {
 					super.execute(CI);
 					snapTaken = true;
 				}
@@ -80,14 +82,14 @@ public class MoveCommand extends ReportCommand {
 			}
 			if (movesLeft && CI.canMove(pos)) {
 				SwingUtilities.invokeLater(() -> execute(CI));
-			}
-			else {
+			} else {
 				CI.onDeadTroopSelected();
 			}
 		} else {
 			System.out.println("Select a troop before executing a troop command, current troop selection is none");
 		}
 	}
+
 	@Override
 	public Command parse(String[] sa) {
 		// Example: move 3 3 // m 3 3
@@ -103,8 +105,7 @@ public class MoveCommand extends ReportCommand {
 		} else
 			return null;
 	}
-	
-	
+
 	private class MoveSnapshot implements Snapshot {
 		private String _commandId;
 		private Position _initialPos;
@@ -112,28 +113,30 @@ public class MoveCommand extends ReportCommand {
 		private int _movesLeftBefore;
 		private Troop _troopUsed;
 		private ControllerInterface _ctrl;
-		
+
 		private MoveSnapshot(ControllerInterface CI) {
 			_ctrl = CI;
 			_commandId = getName();
 			_troopUsed = CI.getCurrentTroop();
 			_initialPos = _troopUsed.getPos();
 			_finalPos = new Position(_posX, _posY);
-			_movesLeftBefore = _troopUsed.getMovesLeft();			
+			_movesLeftBefore = _troopUsed.getMovesLeft();
 		}
-		
+
 		@Override
 		public void restore() {
 			_troopUsed.setPosition(_initialPos);
-			if(!_troopUsed.isAlive()) { _troopUsed.revive(); }
+			if (!_troopUsed.isAlive()) {
+				_troopUsed.revive();
+			}
 			_troopUsed.setMovesLeft(_movesLeftBefore);
 			_ctrl.updatePlayers();
 		}
-		
+
 		@Override
 		public void executeAgain() {
 			_ctrl.selectTroop(_troopUsed);
-			String[] s = {_commandId, String.valueOf(_finalPos.getY() +1), String.valueOf(_finalPos.getX()+1) };
+			String[] s = { _commandId, String.valueOf(_finalPos.getY() + 1), String.valueOf(_finalPos.getX() + 1) };
 			Command c = CommandGenerator.parse(s);
 			c.execute(_ctrl);
 			_ctrl.updatePlayers();

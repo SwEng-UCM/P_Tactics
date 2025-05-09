@@ -39,10 +39,9 @@ public class TroopFactory implements Factory {
 		Troop t = null;
 		if (getData(j, CI)) {
 			if (type.equals(Utils.TroopUtils.LIGHT_TROOP_ID)) {
-				if(j.has("iFrames")) {
+				if (j.has("iFrames")) {
 					t = new LightTroop(pos, p, dir, j.getInt("iFrames"));
-				}
-				else {
+				} else {
 					t = new LightTroop(pos, p, dir);
 				}
 
@@ -51,21 +50,20 @@ public class TroopFactory implements Factory {
 				t = new SmokerTroop(pos, p, dir);
 			}
 			if (type.equals(Utils.TroopUtils.SNIPER_TROOP_ID)) {
-				if(j.has("DroneArea")) {
+				if (j.has("DroneArea")) {
 					List<Position> drone = new ArrayList<>();
 					for (int i1 = 0; i1 < j.getJSONArray("DroneArea").length(); i1++) {
 						JSONObject jo = (JSONObject) j.getJSONArray("DroneArea").get(i1);
 						drone.add(new Position(jo.getInt("PositionX"), jo.getInt("PositionY")));
 					}
-					t = new SniperTroop(pos, p ,dir, drone);
-				}
-				else {
+					t = new SniperTroop(pos, p, dir, drone);
+				} else {
 					t = new SniperTroop(pos, p, dir);
 				}
 			}
 			if (aim)
 				t.takeAim(dir);
-			
+
 			return t;
 		}
 		return null;

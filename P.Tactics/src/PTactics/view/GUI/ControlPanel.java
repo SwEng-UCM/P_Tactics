@@ -43,8 +43,8 @@ public class ControlPanel extends JPanel implements GameObserver {
 		this._cntr.addObserver(this);
 		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
-		//this.setMaximumSize(new Dimension(1200, 100));
-		
+		// this.setMaximumSize(new Dimension(1200, 100));
+
 		txtrCurrentSelectedTroop = new JLabel();
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
 		txtrCurrentSelectedTroop.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -52,6 +52,7 @@ public class ControlPanel extends JPanel implements GameObserver {
 		txtrCurrentSelectedTroop.setHorizontalAlignment(SwingConstants.CENTER);
 		txtrCurrentSelectedTroop.setVerticalAlignment(SwingConstants.CENTER);
 
+		@SuppressWarnings("serial")
 		JPanel gameInfoPanel = new JPanel(new BorderLayout()) {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -62,45 +63,45 @@ public class ControlPanel extends JPanel implements GameObserver {
 
 				double scaleX = getWidth() / (double) imgWidth;
 				double scaleY = getHeight() / (double) imgHeight;
-				double scale = Math.min(scaleX, scaleY); 	// to maintain proportion
+				double scale = Math.min(scaleX, scaleY); // to maintain proportion
 
 				int drawWidth = (int) (imgWidth * scale);
 				int drawHeight = (int) (imgHeight * scale);
 				int x = (getWidth() - drawWidth) / 2;
 				int y = (getHeight() - drawHeight) / 2;
-				
+
 				g.drawImage(img, x, y, drawWidth, drawHeight, this);
 			}
 		};
-		
+
 		gameInfoPanel.setOpaque(false);
 		gameInfoPanel.setPreferredSize(new Dimension(260, 100));
 		gameInfoPanel.add(txtrCurrentSelectedTroop, BorderLayout.CENTER);
 		this.add(gameInfoPanel, BorderLayout.WEST);
-		
+
 		// bottom right buttons
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
 		buttonsPanel.setOpaque(false);
 		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
-		buttonsPanel.add(Box.createHorizontalGlue());	// push buttons to the right
-		
+		buttonsPanel.add(Box.createHorizontalGlue()); // push buttons to the right
+
 		moveButton = createToggle("Move");
 		buttonsPanel.add(moveButton);
 		buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		
+
 		aimButton = createToggle("Aim");
 		buttonsPanel.add(aimButton);
 		buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		
+
 		abilityButton = createToggle("Ability");
 		buttonsPanel.add(abilityButton);
-		
+
 		toggleGroup = new ButtonGroup();
 		toggleGroup.add(moveButton);
 		toggleGroup.add(aimButton);
 		toggleGroup.add(abilityButton);
-		
+
 		this.add(buttonsPanel, BorderLayout.CENTER);
 	}
 
@@ -113,20 +114,20 @@ public class ControlPanel extends JPanel implements GameObserver {
 		btn.setContentAreaFilled(false);
 		btn.setBorder(null);
 		btn.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+
 		btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				btn.setIcon(Icons.otherIcons.LABELBACKGROUND_DARK);
 			}
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				btn.setIcon(Icons.otherIcons.LABELBACKGROUND);
 			}
-		});;
-		
-		
+		});
+		;
+
 		return btn;
 	}
 
@@ -140,7 +141,7 @@ public class ControlPanel extends JPanel implements GameObserver {
 			if (_cntr.isTroopSelected() && tInfo.getId() == Utils.TroopUtils.LIGHT_TROOP_ID) {
 				AbilityCommand ability = new AbilityCommand(_cntr.getCurrentTroopInfo().getPos().getX(),
 						tInfo.getPos().getY());
-				ability.execute(_cntr); 
+				ability.execute(_cntr);
 			} else {
 				return 2;
 			}
@@ -172,12 +173,11 @@ public class ControlPanel extends JPanel implements GameObserver {
 	@Override
 	public void onNextTurn(Game game) {
 		txtrCurrentSelectedTroop.setText("Current Selected Troop:");
-		
-		
+
 		if (_cntr.cpuIsPlaying() || !_cntr.isMyTurn()) {
 			disableAll();
 		}
-		
+
 		else {
 			SwingUtilities.invokeLater(() -> enableAll());
 		}
@@ -189,13 +189,10 @@ public class ControlPanel extends JPanel implements GameObserver {
 			return;
 		}
 		TroopInfo tInfo = _cntr.getCurrentTroopInfo();
-		String htmlInfo = "<html><div style='text-align: center;'>"
-				+ "Current Troop Selected<br>"
-				+ tInfo.getId().toUpperCase() + "<br>"
-				+ "Moves Left: " + tInfo.getMovesLeft() + "<br>"
-				+ "Ability Uses Left: " + tInfo.abilityUsesLeft()
-				+ "</div></html>";
-		
+		String htmlInfo = "<html><div style='text-align: center;'>" + "Current Troop Selected<br>"
+				+ tInfo.getId().toUpperCase() + "<br>" + "Moves Left: " + tInfo.getMovesLeft() + "<br>"
+				+ "Ability Uses Left: " + tInfo.abilityUsesLeft() + "</div></html>";
+
 		txtrCurrentSelectedTroop.setText(htmlInfo);
 	}
 

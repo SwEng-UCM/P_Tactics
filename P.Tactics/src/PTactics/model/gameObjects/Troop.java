@@ -61,15 +61,15 @@ public abstract class Troop extends GameObject {
 	public void startMove(Position pos) {
 		currentMove = new Movement(pos);
 	}
-	
+
 	public List<Position> getCurrentPath() {
 		return currentMove != null ? currentMove._currentMove : null;
 	}
-	
-	public List<Position> hoverPath(Position pos){
+
+	public List<Position> hoverPath(Position pos) {
 		return new Movement().hoverPath(pos);
 	}
-	
+
 	protected class Movement {
 		private static final List<int[]> dirs = Arrays.asList(new int[] { -1, 0 }, new int[] { 1, 0 },
 				new int[] { 0, -1 }, new int[] { 0, 1 });
@@ -82,7 +82,7 @@ public abstract class Troop extends GameObject {
 		private Set<Position> marks;
 		private int bestSolSteps;
 		private int curSolSteps;
-		
+
 		public Movement() {
 			bestSol = new ArrayList<Position>();
 			curSol = new ArrayList<Position>();
@@ -92,7 +92,7 @@ public abstract class Troop extends GameObject {
 			bestSolSteps = Integer.MAX_VALUE;
 			curSolSteps = 0;
 		}
-		
+
 		public Movement(Position dest) {
 			bestSol = new ArrayList<Position>();
 			curSol = new ArrayList<Position>();
@@ -145,7 +145,7 @@ public abstract class Troop extends GameObject {
 						marks.add(movePos);
 						curSol.add(movePos);
 
-						findPath(dest, movePos,minSteps);
+						findPath(dest, movePos, minSteps);
 
 						curSol.remove(curSol.size() - 1);
 						curSolSteps--;
@@ -187,7 +187,7 @@ public abstract class Troop extends GameObject {
 	@Override
 	public void update() {
 		if (_player.isMyTurn()) {
-			if(!Objects.isNull(currentMove)) {
+			if (!Objects.isNull(currentMove)) {
 				currentMove.move();
 			}
 			if (_player.getDanger(getPos())) {
@@ -280,11 +280,11 @@ public abstract class Troop extends GameObject {
 	public void revive() {
 		this.alive = true;
 	}
-	
+
 	public void undoAbility(Position _abilityPos) {
 		_abilityUses++;
 	}
-	
+
 	public void setMovesLeft(int ml) {
 		if (ml > this._moveRange) {
 			throw new IllegalArgumentException("The new moves left cannot be larger than moveRange");
@@ -300,7 +300,8 @@ public abstract class Troop extends GameObject {
 	@Override
 	public void onHit() {
 		active = false;
-		if(currentMove != null) currentMove._currentMove.clear();
+		if (currentMove != null)
+			currentMove._currentMove.clear();
 	}
 
 	// ------------------ ABSTRACT METHODS --------------//

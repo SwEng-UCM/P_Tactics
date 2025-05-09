@@ -80,8 +80,8 @@ public class LightTroop extends Troop {
 		if (this._iFrames < 1 && this.isAbility()) {
 			deactivateAbility();
 		}
-		
-		if(!Objects.isNull(currentMove)) {
+
+		if (!Objects.isNull(currentMove)) {
 			currentMove.move();
 			if (_player.getDanger(getPos()) && !this.isAbility()) {
 				onHit();

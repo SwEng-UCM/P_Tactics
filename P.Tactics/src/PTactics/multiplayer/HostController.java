@@ -11,8 +11,6 @@ import javax.swing.Icon;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import PTactics.control.ControllerInterface;
 import PTactics.control.TroopInfo;
 import PTactics.control.commands.Command;
@@ -20,26 +18,23 @@ import PTactics.control.commands.CommandGenerator;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
 import PTactics.model.game.DangerMediator;
-import PTactics.model.game.Game;
 import PTactics.model.game.Observable;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
-import PTactics.utils.GameObjectCreator;
 import PTactics.utils.Position;
 import PTactics.view.GameObserver;
 
-
-import java.net.*; 
+import java.net.*;
 import java.io.*;
 
-public class HostController implements ControllerInterface,Observable<GameObserver> {
+public class HostController implements ControllerInterface, Observable<GameObserver> {
 	private ServerSocket server;
 	private List<Client> _clients;
 	private List<GameObserver> _observers;
 	private Client currentClient;
-    private BlockingQueue<GameMessage> messageQueue;
-    protected OnlineGame _game;
+	private BlockingQueue<GameMessage> messageQueue;
+	protected OnlineGame _game;
 	protected boolean _endTurn;
 	public static int mapSelected = 1;
 	public static int tileSize = 50;
@@ -51,9 +46,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	protected List<String> _playerNames;
 	Consumer<Integer> onPlayerConnected;
 	boolean exit;
+
 	// constructor that takes the IP Address and the Port
-	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) 
-	{ 
+	public HostController(int port, int numPlayers, String name, Consumer<Integer> onPlayerConnected) {
 		this.onPlayerConnected = onPlayerConnected;
 		_numPlayers = numPlayers;
 		currClientIndex = 0;
@@ -65,33 +60,29 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		_clients = new ArrayList<>();
 		_playerNames = new ArrayList<>();
 		exit = false;
-		try
-		{ 
+		try {
 			// we start our server
-			server = new ServerSocket(port); 
-			System.out.println("Server started"); 
-			
+			server = new ServerSocket(port);
+			System.out.println("Server started");
 
-			
 			if (this.onPlayerConnected != null) {
-                this.onPlayerConnected.accept(connected);
-            }
+				this.onPlayerConnected.accept(connected);
+			}
 			DangerMediator dangerMediatorh = new DangerMediator(); // add host to the list of clients with null handler
-            Player ph = new Player(Integer.toString(connected), dangerMediatorh);
-            for (Troop t : MapSelector.getTroops(ph)) {
-                Board.getInstance().addObj(t.getPos(), t);
-            }
-            hostPlayer = ph;
-            _clients.add(new Client(ph, null));
-            _playerNames.add(name);
-            currentClient = _clients.get(currClientIndex);
-	
+			Player ph = new Player(Integer.toString(connected), dangerMediatorh);
+			for (Troop t : MapSelector.getTroops(ph)) {
+				Board.getInstance().addObj(t.getPos(), t);
+			}
+			hostPlayer = ph;
+			_clients.add(new Client(ph, null));
+			_playerNames.add(name);
+			currentClient = _clients.get(currClientIndex);
+
+		} catch (IOException i) {
+			System.out.println(i);
 		}
-		catch(IOException i) 
-		{ 
-			System.out.println(i); 
-		} 
-	} 
+	}
+
 	public void logPlayers() {
 		try {
 			listen();
@@ -100,65 +91,66 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			e.printStackTrace();
 		}
 		while (connected < _numPlayers) { // will keep going until all players are connected (except host)
-			
+
 			Socket clientSocket;
 			try {
 				clientSocket = server.accept();
 
-		    System.out.println("Client connected: " + clientSocket.getInetAddress());
+				System.out.println("Client connected: " + clientSocket.getInetAddress());
 
-		    // Hand off the rest to a separate thread
+				// Hand off the rest to a separate thread
 
-            connected++;
-		    new Thread(() -> {
-		        try {
-		            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+				connected++;
+				new Thread(() -> {
+					try {
+						BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+						PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-		            String playerID = in.readLine(); 
-		            DangerMediator dangerMediator = new DangerMediator();
-		            Player p = new Player(Integer.toString(connected), dangerMediator);
+						String playerID = in.readLine();
+						DangerMediator dangerMediator = new DangerMediator();
+						Player p = new Player(Integer.toString(connected), dangerMediator);
 
-		            synchronized (Board.getInstance()) {
-		                for (Troop t : MapSelector.getTroops(p)) {
-		                    Board.getInstance().addObj(t.getPos(), t);
-		                }
-		            }
+						synchronized (Board.getInstance()) {
+							for (Troop t : MapSelector.getTroops(p)) {
+								Board.getInstance().addObj(t.getPos(), t);
+							}
+						}
 
-		            ClientHandler handler = new ClientHandler(in, out, messageQueue);
-		            _clients.add(new Client(p, handler));
-		            _playerNames.add(playerID);
-		            new Thread(handler).start();
+						ClientHandler handler = new ClientHandler(in, out, messageQueue);
+						_clients.add(new Client(p, handler));
+						_playerNames.add(playerID);
+						new Thread(handler).start();
 
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-		    }).start();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}).start();
 
-		     // increment here so we stop after the expected number of players
-		    if (onPlayerConnected != null) {
-                onPlayerConnected.accept(connected);
-            }
+				// increment here so we stop after the expected number of players
+				if (onPlayerConnected != null) {
+					onPlayerConnected.accept(connected);
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // Accept immediately
-        }
+		}
 		this.inicialize();
 	}
+
 	private void listen() throws InterruptedException {
-		new Thread (()->{
+		new Thread(() -> {
 			while (!exit) {
 				GameMessage msg;
 				try {
 					msg = messageQueue.take();
-			    //yes the current player :)
+					// yes the current player :)
 					exeParse(msg.msg, msg.sender);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} // blocks until there's a message
-	
+
 			}
 			try {
 				server.close();
@@ -168,54 +160,70 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			}
 		}).start();
 	}
-	
+
 	private void exeParse(String input, ClientHandler handler) {
-	    String[] tokens = input.trim().split("\\s+");
-	    String command = tokens[0];
+		String[] tokens = input.trim().split("\\s+");
+		String command = tokens[0];
 
-	    switch (command) {
-	        case "nextTurn":
-	            this.nextTurn(); break;
-	        case "getIcon":
-	            this.getIcon(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "executeCommand":
-	            this.executeCommand(Arrays.copyOfRange(tokens, 1, tokens.length)); break;
-	        case "update":
-	            this.update(); break;
-	        case "getCurrentPlayerName":
-	            this.getCurrentPlayerName(handler); break;
-	        case "updatePlayers":
-	            this.updatePlayers(); break;
-	        case "getNumPlayer":
-	            this.getNumPlayer(handler); break;
-	        case "isTroopSelected":
-	            this.isTroopSelected(handler); break;
-	        case "canMove":
-	            this.canMove(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "isTroop":
-	            this.isTroop(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "dangerTile":
-	            this.dangerTile(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "getPath":
-	            this.getPath(handler); break;
-	        case "hoverPath":
-	            this.hoverPath(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "getCurrentTroopInfo":
-	            this.getCurrentTroopInfo(handler); break;
-	        case "onDeadTroopSelected":
-	            this.onDeadTroopSelected(); break;
-	        case "isWinPosition":
-	            this.isWinPosition(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))); break;
-	        case "getCurrentPlayerWinZone":
-	        	this.getCurrentPlayerWinZone(handler); break;
-	    }
+		switch (command) {
+		case "nextTurn":
+			this.nextTurn();
+			break;
+		case "getIcon":
+			this.getIcon(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+			break;
+		case "executeCommand":
+			this.executeCommand(Arrays.copyOfRange(tokens, 1, tokens.length));
+			break;
+		case "update":
+			this.update();
+			break;
+		case "getCurrentPlayerName":
+			this.getCurrentPlayerName(handler);
+			break;
+		case "updatePlayers":
+			this.updatePlayers();
+			break;
+		case "getNumPlayer":
+			this.getNumPlayer(handler);
+			break;
+		case "isTroopSelected":
+			this.isTroopSelected(handler);
+			break;
+		case "canMove":
+			this.canMove(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+			break;
+		case "isTroop":
+			this.isTroop(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+			break;
+		case "dangerTile":
+			this.dangerTile(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+			break;
+		case "getPath":
+			this.getPath(handler);
+			break;
+		case "hoverPath":
+			this.hoverPath(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+			break;
+		case "getCurrentTroopInfo":
+			this.getCurrentTroopInfo(handler);
+			break;
+		case "onDeadTroopSelected":
+			this.onDeadTroopSelected();
+			break;
+		case "isWinPosition":
+			this.isWinPosition(handler, new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+			break;
+		case "getCurrentPlayerWinZone":
+			this.getCurrentPlayerWinZone(handler);
+			break;
+		}
 	}
-
 
 	@Override
 	public void showGame() {
 		// na
-		
+
 	}
 
 	@Override
@@ -227,7 +235,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	@Override
 	public void showMessage(String msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -236,30 +244,26 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		return 0;
 	}
 
-
 	@Override
 	public String positionToString(Position _pos) {
 		// na
 		return null;
 	}
 
-
 	@Override
 	public Icon getIcon(Position _pos) {
-	    return _game.positionToIcon(_pos);
+		return _game.positionToIcon(_pos);
 	}
+
 	public void getIcon(ClientHandler handler, Position _pos) {
-	    sendJsonMessage(handler,"getIcon",_game.positionToIcon(_pos).toString());
+		sendJsonMessage(handler, "getIcon", _game.positionToIcon(_pos).toString());
 	}
-
-
 
 	@Override
 	public void setUpPlayerVsCPU(int levelCPU) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public void addObserver(GameObserver o) {
 		_observers.add(o);
@@ -268,48 +272,59 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public void removeObserver(GameObserver o) {
 		_observers.remove(o);
 	}
-	
+
 	public void updateOnPlayersUpdate() {
 		for (GameObserver o : _observers) {
 			o.onPlayersUpdate(null);
 		}
-		for(Client c : _clients)
-			if(c.handler != null)sendJsonMessage(c.handler,"updateOnPlayersUpdate" , "a");
+		for (Client c : _clients)
+			if (c.handler != null)
+				sendJsonMessage(c.handler, "updateOnPlayersUpdate", "a");
 	}
+
 	public void updateOnBoardUpdate() {
 		for (GameObserver o : _observers) {
 			o.onBoardUpdate(null);
 		}
-		for(Client c : _clients)
-			if(c.handler != null)sendJsonMessage(c.handler,"updateOnBoardUpdate" , "a");
+		for (Client c : _clients)
+			if (c.handler != null)
+				sendJsonMessage(c.handler, "updateOnBoardUpdate", "a");
 	}
+
 	public void updateOnTroopAction() {
 		for (GameObserver o : _observers) {
 			o.onTroopAction(null);
 		}
-		for(Client c : _clients)
-			if(c.handler != null) sendJsonMessage(c.handler,"updateOnTroopAction" , "a");
+		for (Client c : _clients)
+			if (c.handler != null)
+				sendJsonMessage(c.handler, "updateOnTroopAction", "a");
 	}
+
 	public void updateOnTroopSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopSelection(null);
 		}
-		for(Client c : _clients)
-			if(c.handler != null)sendJsonMessage(c.handler,"updateOnTroopSelection" , "a");
+		for (Client c : _clients)
+			if (c.handler != null)
+				sendJsonMessage(c.handler, "updateOnTroopSelection", "a");
 	}
+
 	public void updateOnNextTurn() {
 		for (GameObserver o : _observers) {
 			o.onNextTurn(null);
 		}
-		for(Client c : _clients)
-			if(c.handler != null)sendJsonMessage(c.handler,"updateOnNextTurn" , "a");
+		for (Client c : _clients)
+			if (c.handler != null)
+				sendJsonMessage(c.handler, "updateOnNextTurn", "a");
 	}
+
 	public void updateOnTroopUnSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopUnSelection(null);
 		}
-		for(Client c : _clients)
-			if(c.handler != null)sendJsonMessage(c.handler,"updateOnTroopUnSelection" , "a");
+		for (Client c : _clients)
+			if (c.handler != null)
+				sendJsonMessage(c.handler, "updateOnTroopUnSelection", "a");
 	}
 
 	@Override
@@ -317,79 +332,76 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		Command command = CommandGenerator.parse(args);
 		command.execute(this);
 	}
-	
-	/* IMPORTANTE AÑADIR
-	 try
-		{ 
-			out.close(); 
-			socket.close(); 
-		} 
-		catch(IOException i) 
-		{ 
-			System.out.println(i); 
-		} 
+
+	/*
+	 * IMPORTANTE AÑADIR try { out.close(); socket.close(); } catch(IOException i) {
+	 * System.out.println(i); }
 	 */
 //_____________________________________________________________________________________________________________
 
-	
 	public JSONObject report() {
 		return null;
 	}
-	
+
 	public void setPlayerNum(int playerNum) {
 		this._numPlayers = playerNum;
 	}
 
 	public void setPlayerNames(List<String> names) {
-		//na
+		// na
 	}
-	
-	public void setMap(int i) { 
+
+	public void setMap(int i) {
 		MapSelector.mapSelected = i + 1;
 	}
-	
+
 	public void createGame() {
 		_game = new OnlineGame(this);
 	}
-	
-	public List<String> getPlayerNames(){
+
+	public List<String> getPlayerNames() {
 		List<String> _playerNames = new ArrayList<>();
-		for(Client c: _clients) {
+		for (Client c : _clients) {
 			_playerNames.add(c.player.getId());
 		}
 		return _playerNames;
 	}
-	
+
 	@Override
-	public int getCurrentPlayerWinZone() {//-------
+	public int getCurrentPlayerWinZone() {// -------
 		return Board.getInstance().pointsToWin() - currentClient.player.winPoints();
 	}
-	public void getCurrentPlayerWinZone(ClientHandler h) {//-------
-		sendJsonMessage(h, "getCurrentPlayerWinZone", String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
+
+	public void getCurrentPlayerWinZone(ClientHandler h) {// -------
+		sendJsonMessage(h, "getCurrentPlayerWinZone",
+				String.valueOf(Board.getInstance().pointsToWin() - currentClient.player.winPoints()));
 	}
-	
+
 	public String getCurrentPlayerName() {
-		return currentClient.player.getId();	
+		return currentClient.player.getId();
 	}
+
 	private void getCurrentPlayerName(ClientHandler h) {
-		sendJsonMessage(h,"getCurrentPlayerName",currentClient.player.getId());	
+		sendJsonMessage(h, "getCurrentPlayerName", currentClient.player.getId());
 	}
 
 	public boolean isFinish() {
-		
-		boolean is = (currentClient.player.winPoints() >=  Board.getInstance().pointsToWin()) || isLastPlayerStanding();
-		
-		if(is) {
+
+		boolean is = (currentClient.player.winPoints() >= Board.getInstance().pointsToWin()) || isLastPlayerStanding();
+
+		if (is) {
 			exit = true;
-			for(Client c : _clients) if(c.handler != null) sendJsonMessage(c.handler, "isFinish", "a"); // shut down others
+			for (Client c : _clients)
+				if (c.handler != null)
+					sendJsonMessage(c.handler, "isFinish", "a"); // shut down others
 		}
 		return is;
 	}
-	
+
 	public boolean isLastPlayerStanding() {
-		for (Client c: _clients) {
-			if (!c.player.equals(getPlayer())) {	
-				for (Troop troop: c.player.getTroops()) {
+		for (Client c : _clients) {
+			if (!c.player.equals(getPlayer())) {
+				for (Troop troop : c.player.getTroops()) {
 					if (troop.isAlive()) {
 						return false;
 					}
@@ -398,8 +410,9 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		}
 		return true;
 	}
+
 	public void setupPlayers() {
-		//na
+		// na
 	}
 
 	@Override
@@ -414,7 +427,8 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		getPlayer().clearKills();
 		getPlayer().update();
 		update();
-		if(currentClient.handler != null) sendJsonMessage(currentClient.handler, "noTurn", "a");
+		if (currentClient.handler != null)
+			sendJsonMessage(currentClient.handler, "noTurn", "a");
 		do {
 			currClientIndex++;
 			if (currClientIndex >= _clients.size()) {
@@ -422,7 +436,7 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 			}
 			currentClient = _clients.get(currClientIndex);
 		} while (getPlayer().hasNoTroopsLeft());
-		if(currentClient.handler != null){
+		if (currentClient.handler != null) {
 			sendJsonMessage(currentClient.handler, "yourTurn", "a");
 		}
 		getPlayer().startOfTurnDeadCheck();
@@ -445,39 +459,40 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 
 	@Override
 	public int getNumPlayer() {
-	    return connected;
-	}
-	public void getNumPlayer(ClientHandler handler) {
-		sendJsonMessage(handler, "getNumPlayer",String.valueOf(connected));
+		return connected;
 	}
 
+	public void getNumPlayer(ClientHandler handler) {
+		sendJsonMessage(handler, "getNumPlayer", String.valueOf(connected));
+	}
 
 	@Override
 	public void selectTroop(Position pos) throws Exception {
 		_game.selectTroop(pos);
 	}
-	
+
 	@Override
 	public void selectTroop(Troop t) {
 		_game.selectTroop(t);
 	}
-	
+
 	@Override
 	public boolean isTroopSelected() {
-	    return _game.isTroopSelected();
+		return _game.isTroopSelected();
 	}
+
 	public void isTroopSelected(ClientHandler handler) {
-		sendJsonMessage(handler,"isTroopSelected", _game.isTroopSelected() ? "true" : "false");
+		sendJsonMessage(handler, "isTroopSelected", _game.isTroopSelected() ? "true" : "false");
 	}
 
 	@Override
 	public boolean canMove(Position pos) {
-	    return _game.canMove(pos);
-	}
-	public void canMove(ClientHandler handler, Position pos) {
-		sendJsonMessage(handler,"canMove",_game.canMove(pos) ? "true" : "false");
+		return _game.canMove(pos);
 	}
 
+	public void canMove(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler, "canMove", _game.canMove(pos) ? "true" : "false");
+	}
 
 	public void moveTroop(Position pos) throws IllegalArgumentException {
 		_game.moveTroop(pos);
@@ -492,12 +507,12 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public Boolean isTroop(Position pos) {
-	    return this._game.isTroop(pos);
-	}
-	public void isTroop(ClientHandler handler, Position pos) {
-		sendJsonMessage(handler,"isTroop",_game.isTroop(pos) ? "true" : "false");
+		return this._game.isTroop(pos);
 	}
 
+	public void isTroop(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler, "isTroop", _game.isTroop(pos) ? "true" : "false");
+	}
 
 //	public Game getGame() { 
 //		return this._game;
@@ -508,81 +523,81 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	}
 
 	public boolean dangerTile(Position pos) {
-	    return _game.dangerTile(pos);
-	}
-	public void dangerTile(ClientHandler handler, Position pos) {
-		sendJsonMessage(handler, "dangerTile",_game.dangerTile(pos) ? "true" : "false");
+		return _game.dangerTile(pos);
 	}
 
+	public void dangerTile(ClientHandler handler, Position pos) {
+		sendJsonMessage(handler, "dangerTile", _game.dangerTile(pos) ? "true" : "false");
+	}
 
 	@Override
 	public List<Position> getPath() {
-	    return _game.getPath();
+		return _game.getPath();
 	}
+
 	public void getPath(ClientHandler handler) {
-	    List<Position> path = _game.getPath();
-	    if (path != null) {
-	        JSONArray positionsArray = new JSONArray();
-	        for (Position p : path) {
-	            JSONObject posObj = new JSONObject();
-	            posObj.put("x", p.getX());
-	            posObj.put("y", p.getY());
-	            positionsArray.put(posObj);
-	        }
-	        sendJsonMessage(handler, "getPath", positionsArray.toString());
-	    } else {
-	    	sendJsonMessage(handler, "getPath", "null");
-	    }
+		List<Position> path = _game.getPath();
+		if (path != null) {
+			JSONArray positionsArray = new JSONArray();
+			for (Position p : path) {
+				JSONObject posObj = new JSONObject();
+				posObj.put("x", p.getX());
+				posObj.put("y", p.getY());
+				positionsArray.put(posObj);
+			}
+			sendJsonMessage(handler, "getPath", positionsArray.toString());
+		} else {
+			sendJsonMessage(handler, "getPath", "null");
+		}
 	}
 
 	@Override
 	public List<Position> hoverPath(Position pos) {
-	    return _game.hoverPath(pos);
-	}
-	public void hoverPath(ClientHandler handler, Position pos) {
-	    List<Position> path = _game.hoverPath(pos);
-	    if (path != null) {
-	        JSONArray positionsArray = new JSONArray();
-	        for (Position p : path) {
-	            JSONObject posObj = new JSONObject();
-	            posObj.put("x", p.getX());
-	            posObj.put("y", p.getY());
-	            positionsArray.put(posObj);
-	        }
-	        sendJsonMessage(handler, "hoverPath",positionsArray.toString());
-	    } else {
-	    	sendJsonMessage(handler, "hoverPath", "null");
-	    }
+		return _game.hoverPath(pos);
 	}
 
-	
+	public void hoverPath(ClientHandler handler, Position pos) {
+		List<Position> path = _game.hoverPath(pos);
+		if (path != null) {
+			JSONArray positionsArray = new JSONArray();
+			for (Position p : path) {
+				JSONObject posObj = new JSONObject();
+				posObj.put("x", p.getX());
+				posObj.put("y", p.getY());
+				positionsArray.put(posObj);
+			}
+			sendJsonMessage(handler, "hoverPath", positionsArray.toString());
+		} else {
+			sendJsonMessage(handler, "hoverPath", "null");
+		}
+	}
+
 	@Override
 	public void load(InputStream is) {
-		//na
+		// na
 	}
 
+	@SuppressWarnings("unused")
 	private void _loadPlayers(JSONObject gameState) {
-	 //na
+		// na
 	}
-	
+
+	@SuppressWarnings("unused")
 	private void _loadBoard(JSONObject gameState) {
-		//na
+		// na
 	}
-	
+
 	protected void _loadController(JSONObject gameState) {
-		//na
+		// na
 	}
 
-	
-
-
-	 //Player Management
+	// Player Management
 	public void inicialize() { // total update, only called on the setup
 		InicializeTurns();
 		Board.getInstance().update();
 		inicializePlayers();
 	}
-	
+
 	private void InicializeTurns() {
 		_clients.get(0).player.startTurn();
 	}
@@ -600,19 +615,25 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 	public Player getPlayer(int idx) {
 		return this._clients.get(idx - 1).player;
 	}
+
 	@Override
-	public TroopInfo getCurrentTroopInfo(){
-	    boolean exists = _game.getCurrentTroop() != null;
-	    return exists ? new TroopInfo(_game.getCurrentTroop().getId(), _game.getCurrentTroop().getPos(), _game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft()) : null;
+	public TroopInfo getCurrentTroopInfo() {
+		boolean exists = _game.getCurrentTroop() != null;
+		return exists
+				? new TroopInfo(_game.getCurrentTroop().getId(), _game.getCurrentTroop().getPos(),
+						_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft())
+				: null;
 	}
+
 	public void getCurrentTroopInfo(ClientHandler handler) {
-	    Troop troop = _game.getCurrentTroop();
-	    if (troop != null) {
-	        TroopInfo info = new TroopInfo(troop.getId(), troop.getPos(), troop.getMovesLeft(), troop.abilityUsesLeft());
-	        sendJsonMessage(handler, "getCurrentTroopInfo", info.report().toString());
-	    } else {
-	    	sendJsonMessage(handler, "getCurrentTroopInfo", "null");
-	    }
+		Troop troop = _game.getCurrentTroop();
+		if (troop != null) {
+			TroopInfo info = new TroopInfo(troop.getId(), troop.getPos(), troop.getMovesLeft(),
+					troop.abilityUsesLeft());
+			sendJsonMessage(handler, "getCurrentTroopInfo", info.report().toString());
+		} else {
+			sendJsonMessage(handler, "getCurrentTroopInfo", "null");
+		}
 	}
 
 	public void onDeadTroopSelected() {
@@ -630,31 +651,34 @@ public class HostController implements ControllerInterface,Observable<GameObserv
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public boolean isOnline() {
 		return true;
 	}
-	
 
 	@Override
 	public boolean isMyTurn() {
-		return hostPlayer.getId() == currentClient.player.getId()? true : false;
+		return hostPlayer.getId() == currentClient.player.getId() ? true : false;
 	}
+
 	public void exit() {
 		exit = true;
 	}
+
 	@Override
 	public boolean isWinPosition(Position pos) {
-	    return Board.getInstance().isWinPosition(pos);
+		return Board.getInstance().isWinPosition(pos);
 	}
+
 	public void isWinPosition(ClientHandler handler, Position pos) {
-		sendJsonMessage(handler, "isWinPosition",Board.getInstance().isWinPosition(pos) ? "true" : "false");
+		sendJsonMessage(handler, "isWinPosition", Board.getInstance().isWinPosition(pos) ? "true" : "false");
 	}
+
 	private void sendJsonMessage(ClientHandler handler, String methodName, String msgContent) {
-        JSONObject message = new JSONObject();
-        message.put("method", methodName);
-        message.put("msg", msgContent);
-        handler.sendMessage(message.toString());
-    }
+		JSONObject message = new JSONObject();
+		message.put("method", methodName);
+		message.put("msg", msgContent);
+		handler.sendMessage(message.toString());
+	}
 
 }

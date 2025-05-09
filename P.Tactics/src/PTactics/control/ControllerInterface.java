@@ -7,7 +7,6 @@ import javax.swing.Icon;
 
 import org.json.JSONObject;
 
-import PTactics.model.game.Game;
 import PTactics.model.game.Player;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -16,10 +15,10 @@ import PTactics.view.GameObserver;
 
 public interface ControllerInterface {
 
-	
 	void endTurn();
-	
+
 	public Player getPlayer();
+
 	public Player getPlayer(int idx);
 
 	public void update();
@@ -49,6 +48,7 @@ public interface ControllerInterface {
 	int getNumPlayer();
 
 	public void addObserver(GameObserver o);
+
 	public void removeObserver(GameObserver o);
 
 	String positionToString(Position _pos);
@@ -59,11 +59,11 @@ public interface ControllerInterface {
 
 	public void setupPlayers();
 
-	//public Game getGame();
+	// public Game getGame();
 
 	public void nextTurn();
 
-	//public Troop currTroop();
+	// public Troop currTroop();
 
 	Icon getIcon(Position _pos);
 
@@ -74,44 +74,56 @@ public interface ControllerInterface {
 	List<Position> hoverPath(Position pos);
 
 	public boolean isFinish();
-	
+
 	public void setPlayerNames(List<String> names);
-	
+
 	public List<String> getPlayerNames();
-	
+
 	public String getCurrentPlayerName();
-	
+
 	public void setUpPlayerVsCPU(int levelCPU);
 
 	public void load(InputStream is);
-	
+
 	public JSONObject report();
 
 	void selectTroop(Troop t);
-	
+
 	void executeCommand(String[] args); // parses and executes command
-	
-	
+
 	void updateOnPlayersUpdate();
+
 	void updateOnBoardUpdate();
+
 	void updateOnTroopAction();
+
 	void updateOnTroopSelection();
+
 	void updateOnNextTurn();
+
 	void updateOnTroopUnSelection();
 
 	int getCurrentPlayerWinZone();
 
 	boolean cpuIsPlaying();
+
 	public TroopInfo getCurrentTroopInfo();
+
 	public Troop getCurrentTroop();
+
 	public void onDeadTroopSelected();
+
 	public List<Position> getEnemyTroops();
+
 	public boolean isOnline();
+
 	public boolean isMyTurn();
 
 	void setMap(int i);
 
 	void createGame();
+
 	public void logPlayers();
+
 	public boolean isWinPosition(Position pos);
 }

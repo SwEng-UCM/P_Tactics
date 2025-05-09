@@ -5,19 +5,17 @@ import java.util.List;
 
 import PTactics.utils.Position;
 
-
 public class DangerMediator {
 	private List<DangerObject> _objects;
-	
+
 	public DangerMediator() {
 		_objects = new ArrayList<>();
 	}
-	
-	
+
 	public void registerComponent(DangerObject obj) {
 		_objects.add(obj);
 	}
-	
+
 	public boolean isInDanger(DangerObject obj, Position pos) {
 		boolean danger = false;
 		for (DangerObject o : _objects) {
@@ -25,7 +23,7 @@ public class DangerMediator {
 				danger = true;
 			}
 		}
-		
+
 		return danger;
 	}
 }

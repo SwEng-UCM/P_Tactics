@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -43,6 +42,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 	private JButton _instructions;
 	private JButton _save;
 
+	@SuppressWarnings("serial")
 	public GameInfoPanel(ControllerInterface ctrl, GameWindow gw) {
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
@@ -86,12 +86,10 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		_exit = createButton("Exit");
 		_exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int confirm = JOptionPane.showConfirmDialog(
-						null,
-						"Are you sure you want to exit without saving the game?",
-						"Exit Game",
+				int confirm = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to exit without saving the game?", "Exit Game",
 						JOptionPane.YES_NO_OPTION);
-				if(confirm == JOptionPane.YES_NO_OPTION) {
+				if (confirm == JOptionPane.YES_NO_OPTION) {
 					gw.GetGameWindow().setVisible(false);
 					gw.removeObservers();
 					gw.GetGameWindow().dispose();
@@ -100,28 +98,30 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 			}
 		});
 		gameInfoButtons.add(_exit);
-		
+
 		// undo button
 		_undo = createButton("Undo");
 		_undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Hardcoding undo instruction
 				String[] cmdArgs = { Utils.CommandInfo.COMMAND_UNDO_NAME };
-				/*Command command = CommandGenerator.parse(cmdArgs);
-				command.execute(_ctrl);*/
+				/*
+				 * Command command = CommandGenerator.parse(cmdArgs); command.execute(_ctrl);
+				 */
 				_ctrl.executeCommand(cmdArgs);
 			}
 		});
 		gameInfoButtons.add(_undo);
-		
+
 		// redo button
 		_redo = createButton("Redo");
 		_redo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Hardcoding undo instruction
 				String[] cmdArgs = { Utils.CommandInfo.COMMAND_REDO_NAME };
-				/*Command command = CommandGenerator.parse(cmdArgs);
-				command.execute(_ctrl);*/
+				/*
+				 * Command command = CommandGenerator.parse(cmdArgs); command.execute(_ctrl);
+				 */
 				_ctrl.executeCommand(cmdArgs);
 			}
 		});
@@ -161,8 +161,9 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 						String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 						// Hardcoding save instruction
 						String[] cmdArgs = { Utils.CommandInfo.COMMAND_SAVE_NAME, filePath };
-						/*Command command = CommandGenerator.parse(cmdArgs);
-						command.execute(_ctrl);*/
+						/*
+						 * Command command = CommandGenerator.parse(cmdArgs); command.execute(_ctrl);
+						 */
 						_ctrl.executeCommand(cmdArgs);
 					}
 				}
@@ -185,20 +186,21 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		button.setContentAreaFilled(false);
 		button.setBorder(null);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+
 		// clicking effect on buttons
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				button.setIcon(Icons.otherIcons.LABELBACKGROUND_DARK);
 			}
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				button.setIcon(Icons.otherIcons.LABELBACKGROUND);
 			}
-		});;
-		
+		});
+		;
+
 		return button;
 	}
 
@@ -231,28 +233,27 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		String playerText = "<html> Player: [" + _ctrl.getCurrentPlayerName() + "] turn <br>";
 		if (winZone > 0 && winZone != Board._POINTSTOWIN) {
 			playerText += "Points to win: " + winZone;
-		}
-		else if (winZone <= 0) {
+		} else if (winZone <= 0) {
 			playerText += "WIN";
 		}
 		playerText += "</html>";
-		
+
 		playerTurnText.setText(playerText);
-		
+
 		if (_ctrl.cpuIsPlaying() || !_ctrl.isMyTurn()) {
 			disableAll();
 		}
-		
+
 		else {
 			SwingUtilities.invokeLater(() -> enableAll());
 		}
-		
+
 		if (_ctrl.isFinish()) {
-			_gw.showWinMessage(_ctrl.getCurrentPlayerName() );
+			_gw.showWinMessage(_ctrl.getCurrentPlayerName());
 			_gw.GetGameWindow().getContentPane().removeAll();
 			_gw.GetGameWindow().revalidate();
 			_gw.GetGameWindow().repaint();
-			new MainWindow((Controller) _ctrl); 
+			new MainWindow((Controller) _ctrl);
 		}
 	}
 
@@ -262,10 +263,10 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		_endTurn.setEnabled(false);
 		_instructions.setEnabled(false);
 		if (!_ctrl.isOnline()) {
-			_save.setEnabled(false);			
+			_save.setEnabled(false);
 		}
 	}
-	
+
 	private void enableAll() {
 		_exit.setEnabled(true);
 		_undo.setEnabled(true);
@@ -273,7 +274,7 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 		_endTurn.setEnabled(true);
 		_instructions.setEnabled(true);
 		if (!_ctrl.isOnline()) {
-			_save.setEnabled(true);			
+			_save.setEnabled(true);
 		}
 	}
 

@@ -11,7 +11,7 @@ import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Position;
 
-public class Player implements DangerObject{
+public class Player implements DangerObject {
 	private String _id;
 	private boolean[][] _visibility;
 	private boolean[][] _danger;
@@ -26,8 +26,8 @@ public class Player implements DangerObject{
 
 	public Player(String id, DangerMediator dm) {
 		this._id = id;
-		dimX=MapSelector.getWidth();
-		dimY=MapSelector.getLength();
+		dimX = MapSelector.getWidth();
+		dimY = MapSelector.getLength();
 		_visibility = new boolean[dimX][dimY];
 		_danger = new boolean[dimX][dimY];
 		this._troops = new ArrayList<>();
@@ -35,13 +35,14 @@ public class Player implements DangerObject{
 		_dangerMediator.registerComponent(this);
 		_lastTurnKills = new HashMap<>();
 		_turn = false;
-		_cpu=null;
+		_cpu = null;
 	}
-	//constructor for a CPU 
+
+	// constructor for a CPU
 	public Player(String id, DangerMediator dm, CPUinterface cpu) {
 		this._id = id;
-		dimX=MapSelector.getWidth();
-		dimY=MapSelector.getLength();
+		dimX = MapSelector.getWidth();
+		dimY = MapSelector.getLength();
 		_visibility = new boolean[dimX][dimY];
 		_danger = new boolean[dimX][dimY];
 		this._troops = new ArrayList<>();
@@ -49,12 +50,11 @@ public class Player implements DangerObject{
 		_dangerMediator.registerComponent(this);
 		_lastTurnKills = new HashMap<>();
 		_turn = false;
-		_cpu=cpu;
+		_cpu = cpu;
 	}
-	public void ComputeTurn() 
-	{
-		if(this._cpu!=null) 
-		{
+
+	public void ComputeTurn() {
+		if (this._cpu != null) {
 			_cpu.ComputeTurn(this);
 		}
 	}
@@ -70,32 +70,31 @@ public class Player implements DangerObject{
 	public void addTroops(Troop t) {
 		this._troops.add(t);
 	}
-	
+
 	public boolean hasTroop(Troop t) {
 		return _troops.contains(t);
 	}
-	
+
 	public int winPoints() {
 		return _winZoneTurns;
 	}
-	
+
 	private void updatePlayerVisibility() {
 		_visibility = new boolean[dimX][dimY];
-		
+
 		for (Troop troop : _troops) {
 			List<Position> positions = troop.visiblePositions();
 			for (Position pos : positions) {
-				if(pos.isValid()) 
-				{
+				if (pos.isValid()) {
 					_visibility[pos.getX()][pos.getY()] = true;
 				}
 			}
 		}
 	}
-	
+
 	private void updatePlayerDangerTiles() {
 		_danger = new boolean[dimX][dimY];
-		
+
 		for (Troop troop : _troops) {
 			List<Position> positions = troop.dangerPositions();
 			for (Position pos : positions) {
@@ -103,9 +102,10 @@ public class Player implements DangerObject{
 			}
 		}
 	}
-	
+
 	public void update() {
-		//if no more checks are to be done it maybe would be a good idea to merge this two into one function
+		// if no more checks are to be done it maybe would be a good idea to merge this
+		// two into one function
 		updatePlayerVisibility();
 		updatePlayerDangerTiles();
 	}
@@ -117,22 +117,21 @@ public class Player implements DangerObject{
 		}
 		return _danger[pos.getX()][pos.getY()];
 	}
-	
+
 	public boolean getDanger(Position pos) {
 		return _dangerMediator.isInDanger(this, pos);
 	}
-	public  void startOfTurnDeadCheck() 
-	{
-		for(Troop t: _troops) 
-		{
-			if(getDanger(t.getPos())) 
-			{
+
+	public void startOfTurnDeadCheck() {
+		for (Troop t : _troops) {
+			if (getDanger(t.getPos())) {
 				t.onHit();
 			}
 		}
-		
+
 		updatePlayerVisibility();
 	}
+
 	@Override
 	public String getId() {
 		return _id;
@@ -156,14 +155,14 @@ public class Player implements DangerObject{
 	public void startTurn() {
 		_turn = true;
 		boolean inZone = false;
-		
+
 		for (Troop troop : _troops) {
 			if (Board.getInstance().isWinPosition(troop.getPos()) && troop.isAlive()) {
 				_winZoneTurns++; // each troop in the zone adds one to the count
 				inZone = true;
 			}
 		}
-		
+
 		if (!inZone) {
 			_winZoneTurns = 0;
 		}
@@ -181,24 +180,27 @@ public class Player implements DangerObject{
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return _id;
 	}
+
 	@Override
 	public boolean equals(Object player) {
 		return _id.equals(player.toString());
 	}
+
 	public boolean hasNoTroopsLeft() {
 		for (Troop troop : _troops) {
 			if (troop.isAlive()) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
+
 	public boolean isCPU() {
 		return _cpu != null;
 	}

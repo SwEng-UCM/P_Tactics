@@ -10,14 +10,18 @@ public class SelectTroopCommand extends Command {
 	private int _posY;
 
 	public SelectTroopCommand() {
-		super(Utils.CommandInfo.COMMAND_SELECT_NAME, Utils.CommandInfo.COMMAND_SELECT_SHORTCUT, Utils.CommandInfo.COMMAND_SELECT_DETAILS, Utils.CommandInfo.COMMAND_SELECT_HELP);
+		super(Utils.CommandInfo.COMMAND_SELECT_NAME, Utils.CommandInfo.COMMAND_SELECT_SHORTCUT,
+				Utils.CommandInfo.COMMAND_SELECT_DETAILS, Utils.CommandInfo.COMMAND_SELECT_HELP);
 	}
-	public SelectTroopCommand(int x, int y) //for GUI implementation
+
+	public SelectTroopCommand(int x, int y) // for GUI implementation
 	{
-		super(Utils.CommandInfo.COMMAND_SELECT_NAME, Utils.CommandInfo.COMMAND_SELECT_SHORTCUT, Utils.CommandInfo.COMMAND_SELECT_DETAILS, Utils.CommandInfo.COMMAND_SELECT_HELP);
-		this._posX=x;
-		this._posY=y;
+		super(Utils.CommandInfo.COMMAND_SELECT_NAME, Utils.CommandInfo.COMMAND_SELECT_SHORTCUT,
+				Utils.CommandInfo.COMMAND_SELECT_DETAILS, Utils.CommandInfo.COMMAND_SELECT_HELP);
+		this._posX = x;
+		this._posY = y;
 	}
+
 	@Override
 	public void execute(ControllerInterface CI) {
 		try {

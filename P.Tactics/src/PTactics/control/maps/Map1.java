@@ -45,7 +45,7 @@ public class Map1 implements Map {
 		walls.add(new Position(16, 4));
 		walls.add(new Position(17, 4));
 		walls.add(new Position(18, 4));
-		
+
 		walls.add(new Position(9, 9));
 		walls.add(new Position(10, 9));
 		walls.add(new Position(6, 8));
@@ -71,38 +71,36 @@ public class Map1 implements Map {
 		walls.add(new Position(17, 5));
 		walls.add(new Position(18, 5));
 
-		
 		return walls;
-
 
 	}
 
 	@Override
 	public List<Troop> listTroops(Player player) {
-		List<Troop> troops = new ArrayList<Troop>(); 
+		List<Troop> troops = new ArrayList<Troop>();
 
 		if (player.getId().equals("1")) {
-		    troops.add(new SniperTroop(new Position(0, 9), player, Direction.RIGHT));
-		    troops.add(new SmokerTroop(new Position(1, 9), player, Direction.RIGHT));
-		    troops.add(new LightTroop(new Position(0, 8), player, Direction.RIGHT));
+			troops.add(new SniperTroop(new Position(0, 9), player, Direction.RIGHT));
+			troops.add(new SmokerTroop(new Position(1, 9), player, Direction.RIGHT));
+			troops.add(new LightTroop(new Position(0, 8), player, Direction.RIGHT));
 		}
-		
+
 		else if (player.getId().equals("2")) {
-		    troops.add(new SniperTroop(new Position(19, 0), player, Direction.LEFT));
-		    troops.add(new SmokerTroop(new Position(18, 0), player, Direction.LEFT));
-		    troops.add(new LightTroop(new Position(19, 1), player, Direction.LEFT));
+			troops.add(new SniperTroop(new Position(19, 0), player, Direction.LEFT));
+			troops.add(new SmokerTroop(new Position(18, 0), player, Direction.LEFT));
+			troops.add(new LightTroop(new Position(19, 1), player, Direction.LEFT));
 		}
-		
+
 		else if (player.getId().equals("3")) {
-		    troops.add(new SniperTroop(new Position(0, 0), player, Direction.RIGHT));
-		    troops.add(new SmokerTroop(new Position(1, 0), player, Direction.RIGHT));
-		    troops.add(new LightTroop(new Position(0, 1), player, Direction.RIGHT));
+			troops.add(new SniperTroop(new Position(0, 0), player, Direction.RIGHT));
+			troops.add(new SmokerTroop(new Position(1, 0), player, Direction.RIGHT));
+			troops.add(new LightTroop(new Position(0, 1), player, Direction.RIGHT));
 		}
-		
+
 		else if (player.getId().equals("4")) {
-		    troops.add(new SniperTroop(new Position(19, 9), player, Direction.LEFT));
-		    troops.add(new SmokerTroop(new Position(18, 9), player, Direction.LEFT));
-		    troops.add(new LightTroop(new Position(19, 8), player, Direction.LEFT));
+			troops.add(new SniperTroop(new Position(19, 9), player, Direction.LEFT));
+			troops.add(new SmokerTroop(new Position(18, 9), player, Direction.LEFT));
+			troops.add(new LightTroop(new Position(19, 8), player, Direction.LEFT));
 		}
 
 		return troops;
@@ -114,14 +112,14 @@ public class Map1 implements Map {
 	}
 
 	@Override
-	public int getWidth() {	
+	public int getWidth() {
 		return _game_width;
 	}
 
 	@Override
 	public List<Position> listWinPositions() {
 		List<Position> winPos = new ArrayList<Position>();
-		
+
 		winPos.add(new Position(9, 4));
 		winPos.add(new Position(9, 5));
 		winPos.add(new Position(10, 4));

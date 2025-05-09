@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
-import PTactics.model.game.Game;
 import PTactics.model.game.Player;
 import PTactics.utils.Direction;
 import PTactics.utils.Position;
@@ -22,10 +21,11 @@ public class SniperTroop extends Troop {
 	private int _droneHeight;
 	private List<Integer> _abilityTime;
 	private List<List<Position>> _droneArea;
-	
+
 	public SniperTroop(Position pos, Player p) {
 		super(pos, p);
-		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());;
+		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
+		;
 		_moveRange = 3;
 		_shootRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		_abilityTime = new ArrayList<>();
@@ -33,17 +33,18 @@ public class SniperTroop extends Troop {
 		for (int i = 0; i < _abilityUses; i++) {
 			_abilityTime.add(3);
 		}
-        _movesLeft = _moveRange;
-        _droneSide = 1;
-        _droneHeight = 1;
-        _droneArea = new ArrayList<>();
+		_movesLeft = _moveRange;
+		_droneSide = 1;
+		_droneHeight = 1;
+		_droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 		System.out.println(MapSelector.getLength());
 	}
-	
+
 	public SniperTroop(Position pos, Player p, Direction dir) {
 		super(pos, p, dir);
-		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());;
+		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
+		;
 		_moveRange = 3;
 		_shootRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		_abilityTime = new ArrayList<>();
@@ -51,17 +52,18 @@ public class SniperTroop extends Troop {
 		for (int i = 0; i < _abilityUses; i++) {
 			_abilityTime.add(3);
 		}
-        _movesLeft = _moveRange;
-        _droneSide = 1;
-        _droneHeight = 1;
-        _droneArea = new ArrayList<>();
+		_movesLeft = _moveRange;
+		_droneSide = 1;
+		_droneHeight = 1;
+		_droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 		System.out.println(MapSelector.getLength());
 	}
-	
+
 	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
 		super(pos, p, dir);
-		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());;
+		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
+		;
 		_moveRange = 3;
 		_shootRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		_abilityTime = new ArrayList<>();
@@ -69,12 +71,12 @@ public class SniperTroop extends Troop {
 		for (int i = 0; i < _abilityUses; i++) {
 			_abilityTime.add(3);
 		}
-        _movesLeft = _moveRange;
-        _droneSide = 1;
-        _droneHeight = 1;
-        _droneArea = new ArrayList<>();
+		_movesLeft = _moveRange;
+		_droneSide = 1;
+		_droneHeight = 1;
+		_droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-		List<Position> drone = new ArrayList<Position>(); 
+		List<Position> drone = new ArrayList<Position>();
 		for (int i = 0; i < area.size(); i++) {
 			if (i != 0 && i % (_droneSide * _droneHeight) == 0) {
 				_droneArea.add(drone);
@@ -85,7 +87,7 @@ public class SniperTroop extends Troop {
 		this._abilityActive = true;
 		System.out.println(MapSelector.getLength());
 	}
-	
+
 	@Override
 	public List<Position> visiblePositions() {
 		List<Position> visiblePositions = new ArrayList<>();
@@ -93,38 +95,37 @@ public class SniperTroop extends Troop {
 			return visiblePositions;
 		}
 		visiblePositions.add(getPos());
-		
+
 		if (isAbility()) {
-			for (List<Position> drone: _droneArea) {
-				visiblePositions.addAll(drone);							
+			for (List<Position> drone : _droneArea) {
+				visiblePositions.addAll(drone);
 			}
 		}
-		
+
 		Position pos = new Position(getPos().getX(), getPos().getY());
-		
-		
+
 		for (int i = 0; i < _visionRange; i++) {
 			pos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 			if (!pos.isValid() || !Board.getInstance().isSeeThrough(pos)) {
 				if (!Board.getInstance().isSolid(pos)) {
 					visiblePositions.add(pos);
 				}
-				break;					
+				break;
 			}
 			visiblePositions.add(pos);
 		}
-		
-		return visiblePositions;	
+
+		return visiblePositions;
 	}
-	
+
 	@Override
 	public List<Position> dangerPositions() {
 		List<Position> dangerPositions = new ArrayList<>();
-		
+
 		if (!_aiming) {
 			return dangerPositions;
 		}
-		
+
 		Position visPos = new Position(pos.getX() + _dir.getX(), pos.getY() + _dir.getY());
 		for (int i = 0; i < _shootRange; i++) {
 			if (visPos.isValid() && Board.getInstance().isSeeThrough(visPos)) {
@@ -135,8 +136,8 @@ public class SniperTroop extends Troop {
 				break;
 			}
 		}
-		
-		return dangerPositions;	
+
+		return dangerPositions;
 	}
 
 	@Override
@@ -147,39 +148,39 @@ public class SniperTroop extends Troop {
 				_abilityTime.set(i, _abilityTime.get(i) - 1);
 			}
 		}
-		
+
 		while (!_abilityTime.isEmpty() && _abilityTime.getFirst() == 0) {
 			deactivateAbility();
 		}
 	}
-	
+
 	@Override
 	public void activateAbility(Position pos) {
 		_abilityActive = true;
 		_abilityUses--;
-		
+
 		List<Position> drone = new ArrayList<>();
 		for (int i = -_droneSide; i <= _droneSide; i++) {
 			for (int j = -_droneHeight; j <= _droneHeight; j++) {
 				Position areaPos = new Position(pos.getX() + i, pos.getY() + j);
 				if (areaPos.isValid()) {
-					drone.add(new Position(pos.getX() + i, pos.getY() + j));					
+					drone.add(new Position(pos.getX() + i, pos.getY() + j));
 				}
-			}				
+			}
 		}
-		
+
 		_droneArea.add(drone);
 	}
-	
+
 	@Override
 	public void deactivateAbility() {
 		if (_droneArea.size() == 1) {
-			_abilityActive = false;			
-		}	
+			_abilityActive = false;
+		}
 		_droneArea.removeFirst();
 		_abilityTime.removeFirst();
 	}
-	
+
 	@Override
 	public void undoAbility(Position _abilityPos) {
 		super.undoAbility(_abilityPos);
@@ -187,62 +188,56 @@ public class SniperTroop extends Troop {
 		_abilityTime.removeLast();
 		_abilityTime.addLast(3);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "F" + super.toString();
 	}
-	
+
 	@Override
 	public ImageIcon toIcon() {
 		if (_player.isMyTurn()) {
-			if(_dir == Direction.UP) {
+			if (_dir == Direction.UP) {
 				return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
-			}
-			else if(_dir == Direction.DOWN) {
+			} else if (_dir == Direction.DOWN) {
 				return Icons.TroopIcons.SniperIcons.TROOP_FACING_DOWN;
-			}
-			else if(_dir == Direction.LEFT) {
+			} else if (_dir == Direction.LEFT) {
 				return Icons.TroopIcons.SniperIcons.TROOP_FACING_LEFT;
-			}
-			else if(_dir == Direction.RIGHT) {
+			} else if (_dir == Direction.RIGHT) {
 				return Icons.TroopIcons.SniperIcons.TROOP_FACING_RIGHT;
 			}
 		} else {
-			if(_dir == Direction.UP) {
+			if (_dir == Direction.UP) {
 				return Icons.TroopIcons.SniperIcons.ENEMY_TROOP_FACING_UP;
-			}
-			else if(_dir == Direction.DOWN) {
+			} else if (_dir == Direction.DOWN) {
 				return Icons.TroopIcons.SniperIcons.ENEMY_TROOP_FACING_DOWN;
-			}
-			else if(_dir == Direction.LEFT) {
+			} else if (_dir == Direction.LEFT) {
 				return Icons.TroopIcons.SniperIcons.ENEMY_TROOP_FACING_LEFT;
-			}
-			else if(_dir == Direction.RIGHT) {
+			} else if (_dir == Direction.RIGHT) {
 				return Icons.TroopIcons.SniperIcons.ENEMY_TROOP_FACING_RIGHT;
 			}
 		}
-		
+
 		return Icons.TroopIcons.SniperIcons.TROOP_FACING_UP;
 	}
-	
+
 	@Override
 	public JSONObject report() {
 		JSONObject troopReport = super.report();
-		
-		if(!_droneArea.isEmpty()) {
+
+		if (!_droneArea.isEmpty()) {
 			JSONArray droneArea = new JSONArray();
-			for(List<Position> drone: _droneArea) {
-				for(Position p : drone) {
+			for (List<Position> drone : _droneArea) {
+				for (Position p : drone) {
 					JSONObject jo = new JSONObject();
 					jo.put("PositionX", p.getX());
 					jo.put("PositionY", p.getY());
 					droneArea.put(jo);
-				}				
+				}
 			}
 			troopReport.put("DroneArea", droneArea);
 		}
-		
+
 		return troopReport;
 	}
 }

@@ -9,42 +9,45 @@ import PTactics.utils.Utils;
 
 public class AimCommand extends ReportCommand {
 	private Direction _dirToAim;
+
 	public AimCommand() {
-		super(Utils.CommandInfo.COMMAND_AIM_NAME, Utils.CommandInfo.COMMAND_AIM_SHORTCUT, Utils.CommandInfo.COMMAND_AIM_DETAILS, Utils.CommandInfo.COMMAND_AIM_HELP);
+		super(Utils.CommandInfo.COMMAND_AIM_NAME, Utils.CommandInfo.COMMAND_AIM_SHORTCUT,
+				Utils.CommandInfo.COMMAND_AIM_DETAILS, Utils.CommandInfo.COMMAND_AIM_HELP);
 	}
+
 	public AimCommand(Direction dir) {
-		super(Utils.CommandInfo.COMMAND_AIM_NAME, Utils.CommandInfo.COMMAND_AIM_SHORTCUT, Utils.CommandInfo.COMMAND_AIM_DETAILS, Utils.CommandInfo.COMMAND_AIM_HELP);
+		super(Utils.CommandInfo.COMMAND_AIM_NAME, Utils.CommandInfo.COMMAND_AIM_SHORTCUT,
+				Utils.CommandInfo.COMMAND_AIM_DETAILS, Utils.CommandInfo.COMMAND_AIM_HELP);
 		_dirToAim = dir;
 	}
 
 	@Override
 	public void execute(ControllerInterface CI) {
-		if(CI.isTroopSelected()) {
+		if (CI.isTroopSelected()) {
 			super.execute(CI);
 			CI.takeAim(_dirToAim);
 			CI.updatePlayers();
-		}
-		else {
+		} else {
 			System.out.println(Utils.MsgErrors.UNSELECTED_TROOP);
 		}
 	}
 
 	@Override
 	public Command parse(String[] sa) {
-		//Example: aim left // a left
-				if(sa.length == 2  && matchCommand(sa[0])) 
-				{
-					try {
-						_dirToAim = Direction.toDir(sa[1].toUpperCase());
-						if(_dirToAim == Direction.NONE) throw new DataFormatException();
-					} catch(DataFormatException n) {
-						return null;
-					}
-					return this;
-				}
-				else return null;
+		// Example: aim left // a left
+		if (sa.length == 2 && matchCommand(sa[0])) {
+			try {
+				_dirToAim = Direction.toDir(sa[1].toUpperCase());
+				if (_dirToAim == Direction.NONE)
+					throw new DataFormatException();
+			} catch (DataFormatException n) {
+				return null;
+			}
+			return this;
+		} else
+			return null;
 	}
-	
+
 	@Override
 	protected Snapshot getSnap(ControllerInterface CI) {
 		return new AimSnapshot(CI);
@@ -56,7 +59,7 @@ public class AimCommand extends ReportCommand {
 		private Direction _finalDir;
 		private Troop _troopUsed;
 		private ControllerInterface _ctrl;
-		
+
 		private AimSnapshot(ControllerInterface CI) {
 			_ctrl = CI;
 			_commandId = getName();
@@ -64,7 +67,7 @@ public class AimCommand extends ReportCommand {
 			_finalDir = _dirToAim;
 			_troopUsed = CI.getCurrentTroop();
 		}
-		
+
 		@Override
 		public void restore() {
 			_troopUsed.takeAim(_initialDir);
@@ -74,12 +77,11 @@ public class AimCommand extends ReportCommand {
 		@Override
 		public void executeAgain() {
 			_ctrl.selectTroop(_troopUsed);
-			String[] s = {_commandId, _finalDir.toString() };
+			String[] s = { _commandId, _finalDir.toString() };
 			Command c = CommandGenerator.parse(s);
 			c.execute(_ctrl);
 //			_ctrl.updatePlayers();
 		}
-		
+
 	}
 }
-

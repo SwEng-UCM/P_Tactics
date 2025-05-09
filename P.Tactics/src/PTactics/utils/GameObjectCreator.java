@@ -10,21 +10,18 @@ import PTactics.control.ControllerInterface;
 import PTactics.model.gameObjects.GameObject;
 
 public class GameObjectCreator {
-	private static List<Factory> _factories = Arrays.asList(
-		       new TroopFactory(),
-		       new ObjectsFactory()
-		    );;
-	
+	private static List<Factory> _factories = Arrays.asList(new TroopFactory(), new ObjectsFactory());;
+
 	public static GameObject createGameObject(JSONObject jo, ControllerInterface CI) {
 		GameObject p = null;
-		
-		for(Factory f : _factories) {
+
+		for (Factory f : _factories) {
 			p = f.createGameObject(jo, CI);
-			if(!Objects.isNull(p)) {
+			if (!Objects.isNull(p)) {
 				return p;
 			}
 		}
-		
+
 		return p;
 	}
 }

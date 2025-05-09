@@ -10,7 +10,6 @@ import javax.swing.SwingUtilities;
 
 import org.json.JSONObject;
 
-import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
@@ -57,7 +56,7 @@ public class Game {
 		Board.getInstance().update();
 		inicializePlayers();
 	}
-	
+
 	private void InicializeTurns() {
 		_players.get(0).startTurn();
 	}
@@ -99,34 +98,33 @@ public class Game {
 		_players.get(_currPlayer).clearKills();
 		_players.get(_currPlayer).update();
 		update();
-		
+
 		do {
 			_currPlayer++;
 			if (_currPlayer >= _players.size()) {
 				_currPlayer = 0;
 			}
 		} while (_players.get(_currPlayer).hasNoTroopsLeft());
-		
+
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();
 		updateOnNextTurn();
-		if (!ctrl.isFinish())  {
+		if (!ctrl.isFinish()) {
 			SwingUtilities.invokeLater(() -> _players.get(_currPlayer).ComputeTurn());
 		}
 	}
-	
 
 	public boolean isLastPlayerStanding() {
-		for (Player player: _players) {
-			if (!player.equals(getPlayer())) {	
-				for (Troop troop: player.getTroops()) {
+		for (Player player : _players) {
+			if (!player.equals(getPlayer())) {
+				for (Troop troop : player.getTroops()) {
 					if (troop.isAlive()) {
 						return false;
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -267,38 +265,39 @@ public class Game {
 		return "*";
 	}
 
-	//ACTUAL GOOD posToIcon//
-    public Icon positionToIcon(Position p) {
-        boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+	// ACTUAL GOOD posToIcon//
+	public Icon positionToIcon(Position p) {
+		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
 
-        //Wall
-        if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
-                && !Board.getInstance().getGameObject(p).isSeeThrough()) {
-            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-            		Position.tileSize, 4));
-        }
+		// Wall
+		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
+				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+					Position.tileSize, 4));
+		}
 
-        //Troop dead
-        if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-            return Icons.TroopIcons.DEAD;
-        }
+		// Troop dead
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			return Icons.TroopIcons.DEAD;
+		}
 
-        //If visible
-        if (visible) {
-            //Anything visible
-            if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
-                return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-                		Position.tileSize, 4));
-            }
+		// If visible
+		if (visible) {
+			// Anything visible
+			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+						Position.tileSize, 4));
+			}
 
-            //Just floor
-            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-            		Position.tileSize, 4));
-        }
+			// Just floor
+			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+					Position.tileSize, 4));
+		}
 
-        //Return fog
-        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
-    }
+		// Return fog
+		return new ImageIcon(
+				Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
+	}
 
 	// Observers
 	public void addObserver(GameObserver o) {

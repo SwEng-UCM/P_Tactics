@@ -10,9 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
-import PTactics.model.game.Game;
 import PTactics.utils.Position;
 
 public class GameWindow {
@@ -27,11 +25,12 @@ public class GameWindow {
 	public GameWindow(ControllerInterface ctrl, JFrame frame) {
 		this._ctrl = ctrl;
 		this.frame = frame;
-		
+
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.frame.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent e) {}
+			public void windowClosing(java.awt.event.WindowEvent e) {
+			}
 		});
 
 		initialize();
@@ -44,34 +43,34 @@ public class GameWindow {
 	private void initialize() {
 		BackgroundPanel background = new BackgroundPanel(Icons.otherIcons.BG_BUILDING2.getImage());
 		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
-		
+
 		_gameInfo = new GameInfoPanel(_ctrl, this);
 		_control = new ControlPanel(_ctrl);
-		_gameBoard = new GameBoardPanel(
-				PTactics.utils.Position._gameLength, 
-				PTactics.utils.Position._gameWidth, _ctrl, _control);
+		_gameBoard = new GameBoardPanel(PTactics.utils.Position._gameLength, PTactics.utils.Position._gameWidth, _ctrl,
+				_control);
 		// board is smaller
-		Dimension boardSize = new Dimension(Position._gameWidth * Position.tileSize, Position._gameLength * Position.tileSize);
+		Dimension boardSize = new Dimension(Position._gameWidth * Position.tileSize,
+				Position._gameLength * Position.tileSize);
 		_gameBoard.setMaximumSize(boardSize);
 		_gameBoard.setMinimumSize(boardSize);
-		
+
 		_gameInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		_gameBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
 		_control.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		background.add(Box.createRigidArea(new Dimension(0, 10)));
 		background.add(_gameInfo);
 		background.add(Box.createRigidArea(new Dimension(0, 10)));
 		background.add(_gameBoard);
 		background.add(Box.createRigidArea(new Dimension(0, 10)));
 		background.add(_control);
-		
+
 		frame.getContentPane().removeAll();
 		frame.setContentPane(background);
 		frame.revalidate();
 		frame.repaint();
 
-		_ctrl.update();	
+		_ctrl.update();
 	}
 
 	public void showWinMessage(String player) {

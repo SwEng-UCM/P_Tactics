@@ -34,35 +34,36 @@ public abstract class GameObject {
 	public boolean isSolid() {
 		return solid;
 	}
-	
+
 	public abstract boolean isAlive();
 
 	public boolean isSeeThrough() {
 		return seeThrough;
 	}
-	
+
 	public Boolean isWalkable() {
 		return this.walkable;
 	}
-	
+
 	public void enable() {
 		alive = true;
 	}
-	
+
 	public void disable() {
 		alive = false;
 	}
-	
+
 	public void setPosition(Position setter) {
 		Board.getInstance().setPosition(this.pos, setter, this);
 		pos = setter;
 	}
-	
+
 	public abstract String toString();
 
 	public abstract void onHit();
 
-	public void startMove(Position pos) {};
+	public void startMove(Position pos) {
+	};
 
 	public abstract void update();
 
