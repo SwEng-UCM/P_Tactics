@@ -143,7 +143,7 @@ public class GameBoardPanel extends JPanel implements GameObserver {
 
 					@Override
 					public void keyReleased(KeyEvent e) {
-						System.out.print(e.getKeyChar());
+						
 					}
 
 				});

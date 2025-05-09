@@ -38,7 +38,6 @@ public class SniperTroop extends Troop {
 		_droneHeight = 1;
 		_droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-		System.out.println(MapSelector.getLength());
 	}
 
 	public SniperTroop(Position pos, Player p, Direction dir) {
@@ -57,7 +56,6 @@ public class SniperTroop extends Troop {
 		_droneHeight = 1;
 		_droneArea = new ArrayList<>();
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-		System.out.println(MapSelector.getLength());
 	}
 
 	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
@@ -85,7 +83,6 @@ public class SniperTroop extends Troop {
 			drone.add(area.get(i));
 		}
 		this._abilityActive = true;
-		System.out.println(MapSelector.getLength());
 	}
 
 	@Override
