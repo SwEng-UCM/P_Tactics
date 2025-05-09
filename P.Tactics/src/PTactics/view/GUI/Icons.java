@@ -1,79 +1,109 @@
 package PTactics.view.GUI;
 
 import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.net.URL;
 
 public interface Icons {
+    
+    // Helper method to safely load icons with error handling
+    private static ImageIcon loadIcon(String path) {
+        try {
+            URL resource = Icons.class.getResource(path);
+            if (resource == null) {
+                System.err.println("[ERROR] Missing icon resource: " + path);
+                return createErrorIcon(32, 32); // Default size for error icon
+            }
+            return new ImageIcon(resource);
+        } catch (Exception e) {
+            System.err.println("[ERROR] Failed to load icon: " + path);
+            e.printStackTrace();
+            return createErrorIcon(32, 32);
+        }
+    }
+    
+    // Creates a visible error placeholder icon
+    private static ImageIcon createErrorIcon(int width, int height) {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = img.createGraphics();
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, width, height);
+        g.setColor(Color.BLACK);
+        g.drawString("ERR", 5, height/2 + 5);
+        g.dispose();
+        return new ImageIcon(img);
+    }
 
-	public static interface TroopIcons {
-		public final ImageIcon TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_up.png"));
-		public final ImageIcon TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_left.png"));
-		public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_right.png"));
-		public final ImageIcon TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_down.png"));
-		public final ImageIcon DEAD = new ImageIcon(Icons.class.getResource("/Icons/Dead.png"));
+    public static interface TroopIcons {
+        ImageIcon TROOP_FACING_UP = loadIcon("/Icons/LightTroop_up.png");
+        ImageIcon TROOP_FACING_LEFT = loadIcon("/Icons/LightTroop_left.png");
+        ImageIcon TROOP_FACING_RIGHT = loadIcon("/Icons/LightTroop_right.png");
+        ImageIcon TROOP_FACING_DOWN = loadIcon("/Icons/LightTroop_down.png");
+        ImageIcon DEAD = loadIcon("/Icons/Dead.png");
 
-		public static interface SniperIcons {
-			public final ImageIcon TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/sniper_down.png"));
-			public final ImageIcon TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/sniper_up.png"));
-			public final ImageIcon TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/sniper_left.png"));
-			public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/sniper_right.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/sniper_up_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/sniper_down_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/sniper_left_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/sniper_right_enemy.png"));
-		}
+        public static interface SniperIcons {
+            ImageIcon TROOP_FACING_DOWN = loadIcon("/Icons/sniper_down.png");
+            ImageIcon TROOP_FACING_UP = loadIcon("/Icons/sniper_up.png");
+            ImageIcon TROOP_FACING_LEFT = loadIcon("/Icons/sniper_left.png");
+            ImageIcon TROOP_FACING_RIGHT = loadIcon("/Icons/sniper_right.png");
+            ImageIcon ENEMY_TROOP_FACING_UP = loadIcon("/Icons/sniper_up_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_DOWN = loadIcon("/Icons/sniper_down_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_LEFT = loadIcon("/Icons/sniper_left_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_RIGHT = loadIcon("/Icons/sniper_right_enemy.png");
+        }
 
-		public static interface SmokerIcons {
-			public final ImageIcon TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/Smoker_up.png"));
-			public final ImageIcon TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/Smoker_down.png"));
-			public final ImageIcon TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/Smoker_left.png"));
-			public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/Smoker_right.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/smoker_up_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/smoker_down_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/smoker_left_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/smoker_right_enemy.png"));
-		}
+        public static interface SmokerIcons {
+            ImageIcon TROOP_FACING_UP = loadIcon("/Icons/Smoker_up.png");
+            ImageIcon TROOP_FACING_DOWN = loadIcon("/Icons/Smoker_down.png");
+            ImageIcon TROOP_FACING_LEFT = loadIcon("/Icons/Smoker_left.png");
+            ImageIcon TROOP_FACING_RIGHT = loadIcon("/Icons/Smoker_right.png");
+            ImageIcon ENEMY_TROOP_FACING_UP = loadIcon("/Icons/smoker_up_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_DOWN = loadIcon("/Icons/smoker_down_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_LEFT = loadIcon("/Icons/smoker_left_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_RIGHT = loadIcon("/Icons/smoker_right_enemy.png");
+        }
 
-		public static interface LightTroopIcons {
-			public final ImageIcon TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_up.png"));
-			public final ImageIcon TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_down.png"));
-			public final ImageIcon TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_left.png"));
-			public final ImageIcon TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_right.png"));
-			public final ImageIcon TROOP_FACING_UP_DASH = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_up_dash.png"));
-			public final ImageIcon TROOP_FACING_DOWN_DASH = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_down_dash.png"));
-			public final ImageIcon TROOP_FACING_LEFT_DASH = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_left_dash.png"));
-			public final ImageIcon TROOP_FACING_RIGHT_DASH = new ImageIcon(Icons.class.getResource("/Icons/LightTroop_right_dash.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_UP = new ImageIcon(Icons.class.getResource("/Icons/lightTroop_up_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_DOWN = new ImageIcon(Icons.class.getResource("/Icons/lightTroop_down_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_LEFT = new ImageIcon(Icons.class.getResource("/Icons/lightTroop_left_enemy.png"));
-			public final ImageIcon ENEMY_TROOP_FACING_RIGHT = new ImageIcon(Icons.class.getResource("/Icons/lightTroop_right_enemy.png"));
-		}
-	}
+        public static interface LightTroopIcons {
+            ImageIcon TROOP_FACING_UP = loadIcon("/Icons/LightTroop_up.png");
+            ImageIcon TROOP_FACING_DOWN = loadIcon("/Icons/LightTroop_down.png");
+            ImageIcon TROOP_FACING_LEFT = loadIcon("/Icons/LightTroop_left.png");
+            ImageIcon TROOP_FACING_RIGHT = loadIcon("/Icons/LightTroop_right.png");
+            ImageIcon TROOP_FACING_UP_DASH = loadIcon("/Icons/LightTroop_up_dash.png");
+            ImageIcon TROOP_FACING_DOWN_DASH = loadIcon("/Icons/LightTroop_down_dash.png");
+            ImageIcon TROOP_FACING_LEFT_DASH = loadIcon("/Icons/LightTroop_left_dash.png");
+            ImageIcon TROOP_FACING_RIGHT_DASH = loadIcon("/Icons/LightTroop_right_dash.png");
+            ImageIcon ENEMY_TROOP_FACING_UP = loadIcon("/Icons/lightTroop_up_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_DOWN = loadIcon("/Icons/lightTroop_down_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_LEFT = loadIcon("/Icons/lightTroop_left_enemy.png");
+            ImageIcon ENEMY_TROOP_FACING_RIGHT = loadIcon("/Icons/lightTroop_right_enemy.png");
+        }
+    }
 
-	public static interface otherIcons {
-		public final ImageIcon START = new ImageIcon(Icons.class.getResource("/Icons/Holdfire.png"));
-		public final ImageIcon WALL = new ImageIcon(Icons.class.getResource("/Icons/inprogressWall.png"));
-		public final ImageIcon FOG = new ImageIcon(Icons.class.getResource("/Icons/FoggedFloor.png"));
-		public final ImageIcon FLOOR = new ImageIcon(Icons.class.getResource("/Icons/inprogressFloor.png"));
-		public final ImageIcon SMOKE = new ImageIcon(Icons.class.getResource("/Icons/SmokedFloor.png"));
-
-		public final ImageIcon LABELBACKGROUND = new ImageIcon(Icons.class.getResource("/Icons/InfoPanelLabel_bg.png"));
-		public final ImageIcon LABELBACKGROUND_DARK = new ImageIcon(Icons.class.getResource("/Icons/InfoPanelLabel_darkBg.png"));
-		public final ImageIcon LABEL_BG = new ImageIcon(Icons.class.getResource("/Icons/brickButton.png"));
-		public final ImageIcon TEXTAREABACKGROUND = new ImageIcon(Icons.class.getResource("/Icons/TextArea_bg.png"));
-		public final ImageIcon TEXTAREABACKGROUND_DARK = new ImageIcon(Icons.class.getResource("/Icons/TextArea_darkBg.png"));
-		public final ImageIcon BACKGROUND = new ImageIcon(Icons.class.getResource("/Icons/wallpaper.png"));
-		public final ImageIcon BACKGROUND2 = new ImageIcon(Icons.class.getResource("/Icons/backgroundImage2.png"));
-		public final ImageIcon BACKGROUND_HORIZONTAL = new ImageIcon(Icons.class.getResource("/Icons/backgroundRect.png"));
-		public final ImageIcon BACKGROUND_HORIZONTAL2 = new ImageIcon(Icons.class.getResource("/Icons/backgroundRect2.png"));
-		public final ImageIcon GAMEBACKGROUND = new ImageIcon(Icons.class.getResource("/Icons/gameBackground.png"));
-		public final ImageIcon GAMEBACKGROUND2 = new ImageIcon(Icons.class.getResource("/Icons/gameBackground2.png"));
-		public final ImageIcon BG_BUILDING = new ImageIcon(Icons.class.getResource("/Icons/bgInsideBuilding.png"));
-		public final ImageIcon BG_BUILDING2 = new ImageIcon(Icons.class.getResource("/Icons/bgInsideBuilding2.png"));
-
-		public final ImageIcon HOLDFIRE_ICON = new ImageIcon(Icons.class.getResource("/Icons/holdFire_icon.png"));
-		public final ImageIcon HOLDFIRE_ICON2 = new ImageIcon(Icons.class.getResource("/Icons/holdFire_icon2.png"));
-		public final ImageIcon HOLDFIRE_ICON3 = new ImageIcon(Icons.class.getResource("/Icons/holdFire_icon3.png"));
-		public final ImageIcon HOLDFIRE_ICON4 = new ImageIcon(Icons.class.getResource("/Icons/holdFire_icon4.png"));
-		public final ImageIcon HOLDFIRE_ICON5 = new ImageIcon(Icons.class.getResource("/Icons/holdFire_icon5.png"));
-	}
+    public static interface otherIcons {
+        ImageIcon START = loadIcon("/Icons/Holdfire.png");
+        ImageIcon WALL = loadIcon("/Icons/inprogressWall.png");
+        ImageIcon FOG = loadIcon("/Icons/FoggedFloor.png");
+        ImageIcon FLOOR = loadIcon("/Icons/inprogressFloor.png");
+        ImageIcon SMOKE = loadIcon("/Icons/SmokedFloor.png");
+        ImageIcon LABELBACKGROUND = loadIcon("/Icons/InfoPanelLabel_bg.png");
+        ImageIcon LABELBACKGROUND_DARK = loadIcon("/Icons/InfoPanelLabel_darkBg.png");
+        ImageIcon LABEL_BG = loadIcon("/Icons/brickButton.png");
+        ImageIcon TEXTAREABACKGROUND = loadIcon("/Icons/TextArea_bg.png");
+        ImageIcon TEXTAREABACKGROUND_DARK = loadIcon("/Icons/TextArea_darkBg.png");
+        ImageIcon BACKGROUND = loadIcon("/Icons/wallpaper.png");
+        ImageIcon BACKGROUND2 = loadIcon("/Icons/backgroundImage2.png");
+        ImageIcon BACKGROUND_HORIZONTAL = loadIcon("/Icons/backgroundRect.png");
+        ImageIcon BACKGROUND_HORIZONTAL2 = loadIcon("/Icons/backgroundRect2.png");
+        ImageIcon GAMEBACKGROUND = loadIcon("/Icons/gameBackground.png");
+        ImageIcon GAMEBACKGROUND2 = loadIcon("/Icons/gameBackground2.png");
+        ImageIcon BG_BUILDING = loadIcon("/Icons/bgInsideBuilding.png");
+        ImageIcon BG_BUILDING2 = loadIcon("/Icons/bgInsideBuilding2.png");
+        ImageIcon HOLDFIRE_ICON = loadIcon("/Icons/holdFire_icon.png");
+        ImageIcon HOLDFIRE_ICON2 = loadIcon("/Icons/holdFire_icon2.png");
+        ImageIcon HOLDFIRE_ICON3 = loadIcon("/Icons/holdFire_icon3.png");
+        ImageIcon HOLDFIRE_ICON4 = loadIcon("/Icons/holdFire_icon4.png");
+        ImageIcon HOLDFIRE_ICON5 = loadIcon("/Icons/holdFire_icon5.png");
+    }
 }
