@@ -66,39 +66,39 @@ public class TutorialWindow extends JDialog {
 		contentPanel.add(createSection("Moving troops:",
 				"You can move a selected troop by pressing 'm' on the keyboard or by clicking on the button in the screen.",
 				"Each troop can move a limited amount of tiles per turn and the path they'd take will appear on the screen.",
-				"Icons/move_icon.png"));
+				"/Icons/move_icon.png"));
 
 		// aim command
 		contentPanel.add(createSection("Aiming with troops:",
 				"you can aim with a troop by pressing 'a' on the keyboard or by clicking on the button in the screen.",
 				"Troops can aim up, down, left and right and each type has a different range in which they will be lethal.",
-				"Icons/aim_icon.png"));
+				"/Icons/aim_icon.png"));
 
 		// ability command
 		contentPanel.add(createSection("Using abilities with troops:",
 				"you can use an ability with a troop by pressing 'b' on the keyboard or by clicking on the button in the screen.",
 				"Each troop has its own unique ability, all with limited uses. Make sure to use them to the best of your ability.",
-				"Icons/ability_icon.png"));
+				"/Icons/ability_icon.png"));
 
 		// endTurn command
 		contentPanel.add(createSection("Ending Turn:",
 				"Once you have done everything you needed to do in your turn is time to let your rivals play. To do that just",
-				"press the button on the screen.", "Icons/endTurn_icon.png"));
+				"press the button on the screen.", "/Icons/endTurn_icon.png"));
 
 		contentPanel.add(Box.createVerticalStrut(35));
 		contentPanel.add(createHeaderLabel("TROOPS & ABILITIES"));
 
 		contentPanel.add(createTroopInfo("LightTroop (dash):",
 				"This high speed troop can become invulnerable with a swift dash in combat. Ideal for untangling difficult situations.",
-				"Icons/LightTroop_down.png"));
+				"/Icons/LightTroop_down.png"));
 
 		contentPanel.add(createTroopInfo("Sniper (drone):",
 				"Not only can they use their absolute range sniper to decimate the enemy from afar but they control the board with their drones.",
-				"Icons/sniper_down.png"));
+				"/Icons/sniper_down.png"));
 
 		contentPanel.add(createTroopInfo("Smoker (smoke):",
 				"Do you want to move safely and unspotted? create a diversion? just annoy the rivals? if so, the smokes are the perfect tool.",
-				"Icons/Smoker_down.png"));
+				"/Icons/Smoker_down.png"));
 
 		JScrollPane scrollPane = new JScrollPane(contentPanel);
 		scrollPane.setBorder(null);
