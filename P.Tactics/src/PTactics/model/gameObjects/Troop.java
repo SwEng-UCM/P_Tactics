@@ -77,11 +77,11 @@ public abstract class Troop extends GameObject {
 		private List<Position> _currentMove;
 
 		// Values for calculation
-		List<Position> bestSol;
-		List<Position> curSol;
-		Set<Position> marks;
-		int bestSolSteps;
-		int curSolSteps;
+		private List<Position> bestSol;
+		private List<Position> curSol;
+		private Set<Position> marks;
+		private int bestSolSteps;
+		private int curSolSteps;
 		
 		public Movement() {
 			bestSol = new ArrayList<Position>();

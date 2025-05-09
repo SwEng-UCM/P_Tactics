@@ -38,36 +38,43 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		_observers = new ArrayList<>();
 	}
 	
+	@Override
 	public JSONObject report() {
-		return this.getGame().report();
+		return _game.report();
 	}
 	
+	@Override
 	public void setPlayerNum(int playerNum) {
 		this._numPlayers = playerNum;
 	}
 
+	@Override
 	public void setPlayerNames(List<String> names) {
 		_playerNames = names;
 	}
 	
+	@Override
 	public void setMap(int i) { 
 		MapSelector.mapSelected = i + 1;
 	}
 	
+	@Override
 	public void createGame() {
 		_game = new Game(this);
 	}
 	
+	@Override
 	public List<String> getPlayerNames(){
 		return _playerNames;
 	}
 	
+	@Override
 	public String getCurrentPlayerName() {
 		int idxPlayer = _game.getNumPlayer() - 1;
 		return _playerNames.get(idxPlayer);
-		
 	}
 	
+	@Override
 	public void setUpPlayerVsCPU(int levelCPU) {
 		boolean playersSetUp = false;
 
@@ -118,10 +125,12 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	
 	// In principle, we do like player 0 turn --> check if player 1 has alive
 	// troops...
+	@Override
 	public boolean isFinish() {
 		return (_game.getPlayer().winPoints() >=  Board.getInstance().pointsToWin()) || _game.isLastPlayerStanding();
 	}
 
+	@Override
 	public void setupPlayers() {
 		boolean playersSetUp = false;
 
@@ -145,6 +154,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		_endTurn = true;
 	}
 
+	@Override
 	public void nextTurn() {
 		_game.nextTurn();
 	}
@@ -153,7 +163,8 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public void update() {
 		this._game.update();
 	}
-
+	
+	@Override
 	public void updatePlayers() {
 		this._game.updatePlayers();
 	}
@@ -168,13 +179,17 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		return Board.getInstance().pointsToWin() - _game.getPlayer().winPoints();
 	}
 	
+	@Override
 	public boolean cpuIsPlaying() {
 		return _game.cpuIsPlaying();
 	}
 
+	@Override
 	public void addObserver(GameObserver o) {
 		_observers.add(o);
 	}
+	
+	@Override
 	public void removeObserver(GameObserver o) {
 		_observers.remove(o);
 	}
@@ -189,32 +204,34 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		_game.selectTroop(t);
 	}
 
+	@Override
 	public boolean isTroopSelected() {
 		return _game.isTroopSelected();
 	}
 
+	@Override
 	public boolean canMove(Position pos) {
 		return _game.canMove(pos);
 	}
 
+	@Override
 	public void moveTroop(Position pos) throws IllegalArgumentException {
 		_game.moveTroop(pos);
 	}
 
+	@Override
 	public void troopAbility(Position pos) throws Exception {
 		_game.troopAbility(pos);
 	}
 
+	@Override
 	public void takeAim(Direction _dirToAim) {
 		_game.takeAim(_dirToAim);
 	}
 
+	@Override
 	public Boolean isTroop(Position pos) {
 		return this._game.isTroop(pos);
-	}
-
-	public Game getGame() {
-		return this._game;
 	}
 
 	public Troop getCurrentTroop() {

@@ -12,7 +12,7 @@ import PTactics.utils.Direction;
 import PTactics.utils.Position;
 
 public class Map2 implements Map {
-	public static int SERIAL_ID = 2;
+	public static final int SERIAL_ID = 2;
 	private int _game_width = 10;
 	private int _game_lenght = 10;
 	
