@@ -165,6 +165,10 @@ public class GameInfoPanel extends JPanel implements GameObserver {
 						 * Command command = CommandGenerator.parse(cmdArgs); command.execute(_ctrl);
 						 */
 						_ctrl.executeCommand(cmdArgs);
+						gw.GetGameWindow().setVisible(false);
+						gw.removeObservers();
+						gw.GetGameWindow().dispose();
+						new MainWindow(_ctrl);
 					}
 				}
 			});

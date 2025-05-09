@@ -25,7 +25,6 @@ public class SaveCommand extends Command {
 		}
 
 		History.getInstance(CI).save();
-		System.exit(0);
 	}
 
 	@Override
