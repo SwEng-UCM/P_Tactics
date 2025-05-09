@@ -233,10 +233,13 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public Boolean isTroop(Position pos) {
 		return this._game.isTroop(pos);
 	}
-
+	
+	@Override
 	public Troop getCurrentTroop() {
 		return _game.getCurrentTroop();
 	}
+	
+	@Override
 	public boolean dangerTile(Position pos) {
 		return _game.dangerTile(pos);
 	}
@@ -245,7 +248,8 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 	public List<Position> getPath() {
 		return _game.getPath();
 	}
-
+	
+	@Override
 	public List<Position> hoverPath(Position pos) {
 		return _game.hoverPath(pos);
 	}
@@ -257,7 +261,7 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		_loadPlayers(gameState);
 		_loadBoard(gameState);
 	}
-
+	
 	private void _loadPlayers(JSONObject gameState) {
 		boolean playersSetUp = false;
 		_game.set(gameState);
@@ -285,66 +289,93 @@ public abstract class Controller implements ControllerInterface,Observable<GameO
 		this._numPlayers = gameState.getInt("Players");
 		_endTurn = false;
 	}
+	
+	@Override
 	public void updateOnPlayersUpdate() {
 		for (GameObserver o : _observers) {
 			o.onPlayersUpdate(_game);
 		}
 	}
+	
+	@Override
 	public void updateOnBoardUpdate() {
 		for (GameObserver o : _observers) {
 			o.onBoardUpdate(_game);
 		}
 	}
+	
+	@Override
 	public void updateOnTroopAction() {
 		for (GameObserver o : _observers) {
 			o.onTroopAction(_game);
 		}
 	}
+	
+	@Override
 	public void updateOnTroopSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopSelection(_game);
 		}	
 	}
+	
+	@Override
 	public void updateOnNextTurn() {
 		for (GameObserver o : _observers) {
 			o.onNextTurn(_game);
 		}	
 	}
+	
+	@Override
 	public void updateOnTroopUnSelection() {
 		for (GameObserver o : _observers) {
 			o.onTroopUnSelection(_game);
 		}	
 	}
+	
+	@Override
 	public void executeCommand(String[] args) {
 		Command command = CommandGenerator.parse(args);
 		command.execute(this);
 	}
 	
+	@Override
 	public Player getPlayer() {
 		return _game.getPlayer();
 	}
-
+	
+	@Override
 	public Player getPlayer(int idx) {
 		return _game.getPlayer(idx);
 	}
+	
+	@Override
 	public TroopInfo getCurrentTroopInfo(){
 		return getCurrentTroop() != null? new TroopInfo(_game.getCurrentTroop().getId(),_game.getCurrentTroop().getPos(),_game.getCurrentTroop().getMovesLeft(), _game.getCurrentTroop().abilityUsesLeft()): null;
 	}
+	
+	@Override
 	public void onDeadTroopSelected() {
 		_game.onDeadTroopSelected();
 	}
+	
+	@Override
 	public List<Position> getEnemyTroops(){
 		return _game.getEnemyTroops(); 
 	}
+	
+	@Override
 	public boolean isOnline() {
 		return false;
 	}
+	
+	@Override
 	public boolean isMyTurn() {
 		return true;
 	}
-	public void logPlayers() {
-		
-	}
+	
+	@Override
+	public void logPlayers() {}
+	
 	@Override
 	public boolean isWinPosition(Position pos) {
 		return Board.getInstance().isWinPosition(pos);
