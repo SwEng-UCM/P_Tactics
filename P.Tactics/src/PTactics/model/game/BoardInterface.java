@@ -48,4 +48,8 @@ public interface BoardInterface {
 
 	public boolean isWinPosition(Position _pos);
 
+	public List<Position> winZone();
+
+	public void setWinZone(List<Position> posToWin);
+
 }

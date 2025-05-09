@@ -8,6 +8,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import PTactics.control.ControllerInterface;
@@ -347,6 +348,14 @@ public class Game {
 	// Report
 	public JSONObject report() {
 		JSONObject report = new JSONObject();
+		JSONArray winZone = new JSONArray();
+		for(Position p : Board.getInstance().winZone()) {
+			JSONObject jo = new JSONObject();
+			jo.put("PositionX", p.getX());
+			jo.put("PositionY", p.getY());
+			winZone.put(jo);
+		}
+		report.put("WinningZone", winZone);
 		report.put("Players", _players.size());
 		report.put("BoardLenght", _boardLength);
 		report.put("BoardWidth", _boardWidth);

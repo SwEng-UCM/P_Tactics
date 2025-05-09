@@ -58,7 +58,7 @@ public class SniperTroop extends Troop {
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
 	}
 
-	public SniperTroop(Position pos, Player p, Direction dir, List<Position> area) {
+	public SniperTroop(Position pos, Player p, Direction dir, List<List<Position>> area) {
 		super(pos, p, dir);
 		_visionRange = Math.max(MapSelector.getLength(), MapSelector.getWidth());
 		;
@@ -72,16 +72,8 @@ public class SniperTroop extends Troop {
 		_movesLeft = _moveRange;
 		_droneSide = 1;
 		_droneHeight = 1;
-		_droneArea = new ArrayList<>();
+		_droneArea = new ArrayList<>(area);
 		_id = Utils.TroopUtils.SNIPER_TROOP_ID;
-		List<Position> drone = new ArrayList<Position>();
-		for (int i = 0; i < area.size(); i++) {
-			if (i != 0 && i % (_droneSide * _droneHeight) == 0) {
-				_droneArea.add(drone);
-				drone.clear();
-			}
-			drone.add(area.get(i));
-		}
 		this._abilityActive = true;
 	}
 
@@ -225,12 +217,14 @@ public class SniperTroop extends Troop {
 		if (!_droneArea.isEmpty()) {
 			JSONArray droneArea = new JSONArray();
 			for (List<Position> drone : _droneArea) {
+				JSONArray revealPos = new JSONArray();
 				for (Position p : drone) {
 					JSONObject jo = new JSONObject();
 					jo.put("PositionX", p.getX());
 					jo.put("PositionY", p.getY());
-					droneArea.put(jo);
+					revealPos.put(jo);
 				}
+				droneArea.put(revealPos);
 			}
 			troopReport.put("DroneArea", droneArea);
 		}

@@ -46,9 +46,15 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	}
 
 	// GETTERS //
-
+	
+	@Override
 	public int pointsToWin() {
 		return _POINTSTOWIN;
+	}
+	
+	@Override
+	public List<Position> winZone(){
+		return _winZone;
 	}
 
 	@Override
@@ -95,7 +101,12 @@ public class Board extends ConcurrentHashMap<Position, GameObject> implements Bo
 	}
 
 	// SETTERS AND ADDERS //
-
+	
+	@Override
+	public void setWinZone(List<Position> posToWin) {
+		_winZone = new ArrayList<Position>(posToWin);
+	}
+	
 	@Override
 	public void addObj(Position p, GameObject o) {
 		if (Objects.isNull(o))

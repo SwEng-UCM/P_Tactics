@@ -272,6 +272,14 @@ public abstract class Controller implements ControllerInterface, Observable<Game
 	}
 
 	private void _loadBoard(JSONObject gameState) {
+		List<Position> posToWin = new ArrayList<Position>();
+		for (int i1 = 0; i1 < gameState.getJSONArray("WinningZone").length(); i1++) {
+			JSONObject j = (JSONObject) gameState.getJSONArray("WinningZone").get(i1);
+			posToWin.add(new Position(j.getInt("PositionX"), j.getInt("PositionY")));
+		}
+		
+		Board.getInstance().setWinZone(posToWin);
+		
 		for (int i1 = 0; i1 < gameState.getJSONArray("Board").length(); i1++) {
 			JSONObject jo = (JSONObject) gameState.getJSONArray("Board").get(i1);
 			Board.getInstance().addObj(new Position(jo.getInt("PositionX"), jo.getInt("PositionY")),
