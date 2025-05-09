@@ -8,9 +8,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.gameObjects.GameObject;
@@ -41,6 +41,11 @@ public class Game {
 		this.ctrl = ctrl;
 	}
 
+	public Game(JSONObject gameState, ControllerInterface ctrl) {
+		this.ctrl = ctrl;
+		set(gameState);
+	}
+
 	// Game State Setup
 	public void set(JSONObject gameState) {
 		Position._gameLength = gameState.getInt("BoardLenght");
@@ -57,7 +62,7 @@ public class Game {
 		Board.getInstance().update();
 		inicializePlayers();
 	}
-	
+
 	private void InicializeTurns() {
 		_players.get(0).startTurn();
 	}
@@ -99,34 +104,33 @@ public class Game {
 		_players.get(_currPlayer).clearKills();
 		_players.get(_currPlayer).update();
 		update();
-		
+
 		do {
 			_currPlayer++;
 			if (_currPlayer >= _players.size()) {
 				_currPlayer = 0;
 			}
 		} while (_players.get(_currPlayer).hasNoTroopsLeft());
-		
+
 		_players.get(_currPlayer).startOfTurnDeadCheck();
 		_players.get(_currPlayer).startTurn();
 		updateOnNextTurn();
-		if (!ctrl.isFinish())  {
+		if (!ctrl.isFinish()) {
 			SwingUtilities.invokeLater(() -> _players.get(_currPlayer).ComputeTurn());
 		}
 	}
-	
 
 	public boolean isLastPlayerStanding() {
-		for (Player player: _players) {
-			if (!player.equals(getPlayer())) {	
-				for (Troop troop: player.getTroops()) {
+		for (Player player : _players) {
+			if (!player.equals(getPlayer())) {
+				for (Troop troop : player.getTroops()) {
 					if (troop.isAlive()) {
 						return false;
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -219,8 +223,8 @@ public class Game {
 		return _players.get(_currPlayer).isInDanger(pos);
 	}
 
-	public List<Position> getPath(Position pos) {
-		return _currTroop == null ? null : _currTroop.getCurrentPath(pos);
+	public List<Position> getPath() {
+		return _currTroop == null ? null : _currTroop.getCurrentPath();
 	}
 
 	public List<Position> hoverPath(Position pos) {
@@ -267,38 +271,39 @@ public class Game {
 		return "*";
 	}
 
-	//ACTUAL GOOD posToIcon//
-    public Icon positionToIcon(Position p) {
-        boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
+	// ACTUAL GOOD posToIcon//
+	public Icon positionToIcon(Position p) {
+		boolean visible = _players.get(_currPlayer).isVisible(p.getX(), p.getY());
 
-        //Wall
-        if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
-                && !Board.getInstance().getGameObject(p).isSeeThrough()) {
-            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-            		Position.tileSize, 4));
-        }
+		// Wall
+		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
+				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+					Position.tileSize, 4));
+		}
 
-        //Troop dead
-        if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-            return Icons.TroopIcons.DEAD;
-        }
+		// Troop dead
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			return Icons.TroopIcons.DEAD;
+		}
 
-        //If visible
-        if (visible) {
-            //Anything visible
-            if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
-                return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-                		Position.tileSize, 4));
-            }
+		// If visible
+		if (visible) {
+			// Anything visible
+			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+						Position.tileSize, 4));
+			}
 
-            //Just floor
-            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-            		Position.tileSize, 4));
-        }
+			// Just floor
+			return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+					Position.tileSize, 4));
+		}
 
-        //Return fog
-        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
-    }
+		// Return fog
+		return new ImageIcon(
+				Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4));
+	}
 
 	// Observers
 	public void addObserver(GameObserver o) {
@@ -343,7 +348,34 @@ public class Game {
 	// Report
 	public JSONObject report() {
 		JSONObject report = new JSONObject();
+		
+		JSONArray winZone = new JSONArray();
+		for(Position p : Board.getInstance().winZone()) {
+			JSONObject jo = new JSONObject();
+			jo.put("PositionX", p.getX());
+			jo.put("PositionY", p.getY());
+			winZone.put(jo);
+		}
+		
+		JSONArray winPoints = new JSONArray();
+		for(Player p : _players) {
+			winPoints.put(p.winPoints());
+		}
+		
+		JSONArray isCpu = new JSONArray();
+		for(Player p : _players) {
+			if(p.isCPU()) {
+				isCpu.put(p.getCpuDifficulty());
+			}
+			else {
+				isCpu.put("");
+			}
+		}
+		
+		report.put("WinningZone", winZone);
 		report.put("Players", _players.size());
+		report.put("PlayerPoints", winPoints);
+		report.put("CPU", isCpu);
 		report.put("BoardLenght", _boardLength);
 		report.put("BoardWidth", _boardWidth);
 		report.put("Turn", this.getNumPlayer() - 1);

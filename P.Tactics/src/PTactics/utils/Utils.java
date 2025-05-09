@@ -2,7 +2,7 @@ package PTactics.utils;
 
 //Dedicated to store constants in our program such as messages, icons, etc..
 public interface Utils {
-	    
+
 	// Dedicated to troops
 	public static interface TroopUtils {
 		public final String TROOP_FACING_UP = "▲";
@@ -11,10 +11,10 @@ public interface Utils {
 		public final String TROOP_FACING_RIGHT = "▶";
 		public final String TROOP_ICON = "▲";
 		public final String TROOP_DEAD = "💀";
-		
-		public final String  LIGHT_TROOP_ID = "light";
-		public final String  SMOKER_TROOP_ID = "smoker";
-		public final String  SNIPER_TROOP_ID = "sniper";
+
+		public final String LIGHT_TROOP_ID = "light";
+		public final String SMOKER_TROOP_ID = "smoker";
+		public final String SNIPER_TROOP_ID = "sniper";
 	}
 
 	// Dedicated to walls
@@ -104,6 +104,7 @@ public interface Utils {
 		public static final String COMMAND_LOAD_DETAILS = "[l]oad";
 		public static final String COMMAND_LOAD_HELP = "loads the game from a selected file";
 	}
+
 	public static interface Network {
 		public static final String END_TURN = "endTurn";
 		public static final String NEXT_TURN = "nextTurn";

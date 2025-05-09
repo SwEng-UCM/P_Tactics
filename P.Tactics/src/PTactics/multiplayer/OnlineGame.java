@@ -1,19 +1,14 @@
-package P.Tactics.Multiplayer;
+package PTactics.multiplayer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.json.JSONObject;
-
-import PTactics.control.Controller;
 import PTactics.control.ControllerInterface;
 import PTactics.control.maps.MapSelector;
 import PTactics.model.game.Board;
-import PTactics.model.game.Player;
 import PTactics.model.gameObjects.GameObject;
 import PTactics.model.gameObjects.Troop;
 import PTactics.utils.Direction;
@@ -25,6 +20,7 @@ import PTactics.view.GUI.Icons;
 public class OnlineGame {
 	public static int _boardLength; // This is the first value (y)
 	public static int _boardWidth; // This is the second value (x)
+	@SuppressWarnings("unused")
 	private int _currPlayer;
 	private Troop _currTroop;
 
@@ -40,13 +36,12 @@ public class OnlineGame {
 		this.ctrl = ctrl;
 	}
 
-
 //	public void inicialize() { // total update, only called on the setup
 //		InicializeTurns();
 //		Board.getInstance().update();
 //		inicializePlayers();
 //	}
-	
+
 //	private void InicializeTurns() {
 //		_players.get(0).startTurn();
 //	}
@@ -85,8 +80,6 @@ public class OnlineGame {
 		_currTroop = null;
 
 	}
-	
-
 
 	// Board Management
 	public void updateBoard() {
@@ -173,48 +166,50 @@ public class OnlineGame {
 		return ctrl.getPlayer().isInDanger(pos);
 	}
 
-	public List<Position> getPath(Position pos) {
-		return _currTroop == null ? null : _currTroop.getCurrentPath(pos);
+	public List<Position> getPath() {
+		return _currTroop == null ? null : _currTroop.getCurrentPath();
 	}
 
 	public List<Position> hoverPath(Position pos) {
 		return _currTroop == null ? null : _currTroop.hoverPath(pos);
 	}
 
-
 	// Board Display
 
 	public Icon positionToIcon(Position p) {
-        boolean visible = ctrl.getPlayer().isVisible(p.getX(), p.getY());
+		boolean visible = ctrl.getPlayer().isVisible(p.getX(), p.getY());
 
-        //Wall
-        if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
-                && !Board.getInstance().getGameObject(p).isSeeThrough()) {
-            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-            		Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
-        }
+		// Wall
+		if (Board.getInstance().getGameObject(p) != null && Board.getInstance().getGameObject(p).isSolid()
+				&& !Board.getInstance().getGameObject(p).isSeeThrough()) {
+			return new ImageIcon(
+					Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4),
+					Board.getInstance().toIcon(p).toString());
+		}
 
-        //Troop dead
-        if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
-            return Icons.TroopIcons.DEAD;
-        }
+		// Troop dead
+		if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isAlive()) {
+			return Icons.TroopIcons.DEAD;
+		}
 
-        //If visible
-        if (visible) {
-            //Anything visible
-            if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
-                return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-                		Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
-            }
+		// If visible
+		if (visible) {
+			// Anything visible
+			if (Board.getInstance().getGameObject(p) != null && !Board.getInstance().getGameObject(p).isSeeThrough()) {
+				return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
+						Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
+			}
 
-            //Just floor
-            return new ImageIcon(Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize,
-            		Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
-        }
+			// Just floor
+			return new ImageIcon(
+					Board.getInstance().toIcon(p).getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4),
+					Board.getInstance().toIcon(p).toString());
+		}
 
-        //Return fog
-        return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4), Board.getInstance().toIcon(p).toString());
-    }
+		// Return fog
+		return new ImageIcon(Icons.otherIcons.FOG.getImage().getScaledInstance(Position.tileSize, Position.tileSize, 4),
+				Icons.otherIcons.FOG.toString());
+	}
 
 	// Observers
 	public void addObserver(GameObserver o) {

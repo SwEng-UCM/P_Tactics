@@ -1,7 +1,6 @@
 package PTactics.control;
 
 import java.util.InputMismatchException;
-import java.util.List;
 
 import javax.swing.Icon;
 

@@ -10,35 +10,35 @@ import java.io.InputStream;
 public class History {
 	private ControllerInterface _ctrl;
 	private static History _record;
-	
-	//Public attribute, filepath should be checked before assigning it here.
+
+	// Public attribute, filepath should be checked before assigning it here.
 	private File _outFile;
 	private File _inFile;
-	
-	private History (ControllerInterface _cntr) {
+
+	private History(ControllerInterface _cntr) {
 		_inFile = new File("examples/JSONtest.json");
 		_outFile = new File("examples/JSONtest.json");
 		_ctrl = _cntr;
 	}
-	
+
 	public static History getInstance(ControllerInterface CI) {
-		if(_record == null) {
+		if (_record == null) {
 			_record = new History(CI);
 		}
-		
+
 		return _record;
 	}
-	
+
 	public void save() {
 		try {
-            FileWriter myWriter = new FileWriter(_outFile);
-            myWriter.write(_ctrl.report().toString());
-            myWriter.close();
-        } catch (IOException e) {
-        	System.out.println("Error writing to file: " + e.getMessage());
-        }
+			FileWriter myWriter = new FileWriter(_outFile);
+			myWriter.write(_ctrl.report().toString());
+			myWriter.close();
+		} catch (IOException e) {
+			System.out.println("Error writing to file: " + e.getMessage());
+		}
 	}
-	
+
 	public void load() {
 		if (_inFile != null) {
 			try {
@@ -49,11 +49,11 @@ public class History {
 			}
 		}
 	}
-	
+
 	public void setOutFile(String directory, String name) {
 		_outFile = new File(directory, name);
 	}
-	
+
 	public void setInFile(String path) {
 		_inFile = new File(path);
 	}

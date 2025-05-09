@@ -4,9 +4,10 @@ import PTactics.control.ControllerInterface;
 import PTactics.utils.Utils;
 
 public class ExitCommand extends Command {
-	
+
 	public ExitCommand() {
-		super(Utils.CommandInfo.COMMAND_EXIT_NAME, Utils.CommandInfo.COMMAND_EXIT_SHORTCUT, Utils.CommandInfo.COMMAND_EXIT_DETAILS, Utils.CommandInfo.COMMAND_EXIT_HELP);
+		super(Utils.CommandInfo.COMMAND_EXIT_NAME, Utils.CommandInfo.COMMAND_EXIT_SHORTCUT,
+				Utils.CommandInfo.COMMAND_EXIT_DETAILS, Utils.CommandInfo.COMMAND_EXIT_HELP);
 	}
 
 	@Override
@@ -16,11 +17,10 @@ public class ExitCommand extends Command {
 
 	@Override
 	public Command parse(String[] sa) {
-		if(sa.length == 1  && matchCommand(sa[0])) 
-		{
+		if (sa.length == 1 && matchCommand(sa[0])) {
 			return this;
-		}
-		else return null;
+		} else
+			return null;
 	}
 
 }

@@ -6,23 +6,24 @@ import PTactics.utils.Position;
 import PTactics.utils.Utils;
 import PTactics.view.GUI.Icons;
 
-public class Wall extends GameObject  {
+public class Wall extends GameObject {
 
 	public Wall(Position pos) {
 		super(pos);
-		this.solid=true;
-		this.seeThrough=false;
+		this.solid = true;
+		this.seeThrough = false;
 		this._id = Utils.WallUtils.WALL;
 	}
 
 	@Override
-	public void update() {}
-	
+	public void update() {
+	}
+
 	@Override
 	public ImageIcon toIcon() {
 		return Icons.otherIcons.WALL;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Utils.WallUtils.WALL_ICON;
@@ -34,8 +35,10 @@ public class Wall extends GameObject  {
 	}
 
 	@Override
-	public void onHit() {}
+	public void onHit() {
+	}
 
 	@Override
-	public void nextTurn() {}
+	public void nextTurn() {
+	}
 }

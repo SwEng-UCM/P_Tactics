@@ -20,6 +20,7 @@ public class TroopFactory implements Factory {
 	private Position pos = null;
 	private Direction dir = null;
 	private boolean aim;
+	private int movesLeft = 0;
 
 	private boolean getData(JSONObject j, ControllerInterface CI) {
 		if (!j.has("Player")) {
@@ -30,6 +31,7 @@ public class TroopFactory implements Factory {
 			dir = Direction.toDir((String) j.get("Direction"));
 			pos = new Position(j.getInt("PositionX"), j.getInt("PositionY"));
 			aim = j.getBoolean("Aim");
+			movesLeft = j.getInt("MoveLeft");
 			return true;
 		}
 	}
@@ -39,10 +41,9 @@ public class TroopFactory implements Factory {
 		Troop t = null;
 		if (getData(j, CI)) {
 			if (type.equals(Utils.TroopUtils.LIGHT_TROOP_ID)) {
-				if(j.has("iFrames")) {
+				if (j.has("iFrames")) {
 					t = new LightTroop(pos, p, dir, j.getInt("iFrames"));
-				}
-				else {
+				} else {
 					t = new LightTroop(pos, p, dir);
 				}
 
@@ -51,21 +52,27 @@ public class TroopFactory implements Factory {
 				t = new SmokerTroop(pos, p, dir);
 			}
 			if (type.equals(Utils.TroopUtils.SNIPER_TROOP_ID)) {
-				if(j.has("DroneArea")) {
-					List<Position> drone = new ArrayList<>();
+				if (j.has("DroneArea")) {
+					List<List<Position>> droneArea = new ArrayList<>();
 					for (int i1 = 0; i1 < j.getJSONArray("DroneArea").length(); i1++) {
-						JSONObject jo = (JSONObject) j.getJSONArray("DroneArea").get(i1);
-						drone.add(new Position(jo.getInt("PositionX"), jo.getInt("PositionY")));
+						List<Position> drone = new ArrayList<>();
+						for (int i2 = 0; i2 < j.getJSONArray("DroneArea").getJSONArray(i1).length(); i2++) {
+							JSONObject jo = (JSONObject) j.getJSONArray("DroneArea").getJSONArray(i1).getJSONObject(i2);
+							drone.add(new Position(jo.getInt("PositionX"), jo.getInt("PositionY")));
+						}
+						droneArea.add(drone);
 					}
-					t = new SniperTroop(pos, p ,dir, drone);
-				}
-				else {
+					t = new SniperTroop(pos, p, dir, droneArea);
+				} else {
 					t = new SniperTroop(pos, p, dir);
 				}
 			}
+			
 			if (aim)
 				t.takeAim(dir);
 			
+			t.setMovesLeft(movesLeft);
+
 			return t;
 		}
 		return null;

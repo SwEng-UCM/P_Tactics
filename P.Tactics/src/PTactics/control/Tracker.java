@@ -11,62 +11,66 @@ public class Tracker implements GameObserver {
 //	private Stack<Snapshot> _allActions;	In case we want to have the entire game stored
 	private Stack<Snapshot> _actionGame;
 	private Stack<Snapshot> _redoStack;
-	
-	private Tracker(ControllerInterface CI) {	
+
+	private Tracker(ControllerInterface CI) {
 		CI.addObserver(this);
 		_actionGame = new Stack<>();
 //		_allActions = new Stack<>();
 		_redoStack = new Stack<>();
 	}
-	
+
 	public static Tracker getTracker(ControllerInterface CI) {
-		if(trakerInstance == null) {
+		if (trakerInstance == null) {
 			trakerInstance = new Tracker(CI);
 		}
-		
+
 		return trakerInstance;
 	}
-	
+
 	public void saveAction(Snapshot snap) {
 //		_allActions.add(Snap);
 		_actionGame.add(snap);
 	}
-	
-	//Use this pop when undoing
+
+	// Use this pop when undoing
 	public Snapshot popUndo() {
-		if(!_actionGame.isEmpty()) {
+		if (!_actionGame.isEmpty()) {
 			_redoStack.add(_actionGame.peek());
 			return _actionGame.pop();
 		}
-		
+
 		return null;
 	}
-	
-	//Use this pop when redoing
+
+	// Use this pop when redoing
 	public Snapshot popRedo() {
-		if(!_redoStack.isEmpty()) {
+		if (!_redoStack.isEmpty()) {
 //			_actionGame.add(_redoStack.peek());
 			return _redoStack.pop();
 		}
-		
+
 		return null;
 	}
-	
+
 	public void pop() {
 		_actionGame.pop();
 	}
 
 	@Override
-	public void onPlayersUpdate(Game game) {}
+	public void onPlayersUpdate(Game game) {
+	}
 
 	@Override
-	public void onBoardUpdate(Game game) {}
+	public void onBoardUpdate(Game game) {
+	}
 
 	@Override
-	public void onTroopAction(Game game) {}
+	public void onTroopAction(Game game) {
+	}
 
 	@Override
-	public void onTroopSelection(Game game) {}
+	public void onTroopSelection(Game game) {
+	}
 
 	@Override
 	public void onNextTurn(Game game) {
@@ -74,5 +78,6 @@ public class Tracker implements GameObserver {
 	}
 
 	@Override
-	public void onTroopUnSelection(Game game) {}
+	public void onTroopUnSelection(Game game) {
+	}
 }
